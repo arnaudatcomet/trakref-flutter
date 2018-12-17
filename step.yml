@@ -44,7 +44,7 @@ host_os_tags:
 type_tags:
   - build
 
-is_requires_admin_user: true
+is_requires_admin_user: false
 is_always_run: false
 is_skippable: false
 run_if: ""
@@ -64,17 +64,27 @@ toolkit:
 
 
 inputs:
-  - example_step_input: Default Value - you can leave this empty if you want to
+  - version: 0.3.1-beta
     opts:
-      title: "Example Step Input"
-      summary: Summary. No more than 2-3 sentences.
-      description: |
-        Description of this input.
-
-        Can be Markdown formatted text.
+      title: "Flutter version"
+      summary: Flutter version including channel. Without `v` prefix. E.g. `0.2.8-alpha` or `0.3.0-dev`.
       is_expand: true
       is_required: true
-      value_options: []
+
+  - working_dir: $BITRISE_SOURCE_DIR
+    opts:
+      title: "Root directory of Flutter project"
+      summary: The root directory of your Flutter project, where your `pubspec.yaml` file is located.
+      is_expand: true
+      is_required: true
+
+  - commands: build
+    opts:
+      title: "Flutter commands to be executed"
+      summary: |
+        `|` separated Flutter commands to be executed in order. E.g. `build`, `test` or `install`.
+      is_expand: true
+      is_required: true
 
 outputs:
   - EXAMPLE_STEP_OUTPUT:
