@@ -64,7 +64,7 @@ toolkit:
 
 
 inputs:
-  - version: 0.3.1-beta
+  - version: 1.0.0
     opts:
       title: "Flutter version"
       summary: Flutter version including channel. Without `v` prefix. E.g. `0.2.8-alpha` or `0.3.0-dev`.
