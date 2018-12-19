@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:trakref_app/screens/login_screen.dart';
+import 'package:trakref_app/bloc/bloc_provider.dart';
+import 'package:trakref_app/bloc/login_bloc.dart';
+import 'package:trakref_app/screens/page_login_bloc.dart';
 
 final routes = {
-  '/login': (BuildContext context) => new LoginScreen(),
-  '/': (BuildContext context) => new LoginScreen()
+  '/login': (BuildContext context) => BlocProvider(bloc: LoginBloc(), child: PageLoginBloc()),
+  '/': (BuildContext context) => BlocProvider(bloc: LoginBloc(), child: PageLoginBloc())
 };
