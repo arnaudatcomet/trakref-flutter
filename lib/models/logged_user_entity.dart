@@ -8,19 +8,20 @@ class LoggedUser {
   LoggedUser(this.user, this.token);
 
   factory LoggedUser.fromJson(Map<String, dynamic> parsedJson) {
-    print(parsedJson);
-    return LoggedUser(parsedJson['user'], parsedJson['token']);
+    User user = User.fromJson(parsedJson['user']);
+    Token token = Token.fromJson(parsedJson['token']);
+    return LoggedUser(user, token);
   }
 
   LoggedUser.empty() {
-    User user = null;
-    Token token = null;
+    this.user = User(0, "", "", "", "", "", "", "", 0, "");
+    this.token = Token("", 0);
   }
 
   @override
   String toString() {
     // TODO: implement toString
-    return "user : $user.toString(), token : $token.toString()";
+    return "LoggedUser : ${user.toString()}, token : ${token.toString()}";
   }
 }
 
@@ -36,17 +37,31 @@ class User {
   int preferredLeakDetectionMethodID = 0;
   String preferredLeakDetectionMethod = "";
 
+  User.empty() {
+    this.instanceID = 0;
+    this.username = "";
+    this.fullName = "";
+    this.phone = "";
+    this.email = "";
+    this.certificationType = "";
+    this.certificateNumber = "";
+    this.company = "";
+    this.preferredLeakDetectionMethodID = 0;
+    this.preferredLeakDetectionMethod = "";
+  }
+
   factory User.fromJson(Map<String, dynamic> parsedJson) {
-    int instanceID = parsedJson['InstanceID'];
-    String username = parsedJson['Username'];
-    String fullName = parsedJson['FullName'];
-    String phone = parsedJson['Phone'];
-    String email = parsedJson['Email'];
-    String certificationType = parsedJson['CertificationType'];
-    String certificateNumber = parsedJson['CertificateNumber'];
-    String company = parsedJson['Company'];
-    int preferredLeakDetectionMethodID = parsedJson['PreferredLeakDetectionMethodID'];
-    String preferredLeakDetectionMethod = parsedJson['PreferredLeakDetectionMethod'];
+    int instanceID = parsedJson['InstanceID'] as int ?? 0;
+    String username = parsedJson['Username'] as String ?? "";
+    String fullName = parsedJson['FullName'] as String ?? "";
+    String phone = parsedJson['Phone'] ?? "";
+    String email = parsedJson['Email'] ?? "";
+    String certificationType = parsedJson['CertificationType'] ?? "";
+    String certificateNumber = parsedJson['CertificateNumber'] ?? "";
+    String company = parsedJson['Company'] ?? "";
+    int preferredLeakDetectionMethodID = parsedJson['PreferredLeakDetectionMethodID'] as int ?? 0;
+    String preferredLeakDetectionMethod = parsedJson['PreferredLeakDetectionMethod'] ?? "";
+
     return User(
         instanceID,
         username,
@@ -68,7 +83,7 @@ class User {
   String toString() {
     // TODO: implement toString
     String instanceID = this.instanceID.toString();
-    return "User {instanceID: $instanceID, username: $this.username}";
+    return "User {instanceID: $instanceID, username: $username}";
   }
 }
 
@@ -82,6 +97,11 @@ class Token {
     return Token(token, userID);
   }
 
+  Token.empty() {
+     this.token = "";
+     this.userID = 0;
+  }
+
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
     map['Token'] = token;
@@ -93,6 +113,6 @@ class Token {
 
   @override
   String toString() {
-    return "Token {token: $this.token, userID: $this.userID}";
+    return "Token {token: $token, userID: $userID}";
   }
 }

@@ -12,15 +12,26 @@ class LoginService {
     print('basicAuth $basicAuth');
     return http.get(loginURL, headers: {"API-Key": "$apiKey", "authorization":"$basicAuth"}
     ).then((http.Response response) {
-      print('response $response');
+      print('this is the login response $response');
       final String res = response.body;
       final int statusCode = response.statusCode;
-      if (statusCode < 200 || statusCode > 400) {
-        throw new Exception("Error while fetching datas");
+      print("statusCode : $statusCode");
+      if (statusCode == 401) {
+        return throw ("Error : request not authorized (username / password not matching)");
       }
-      return _decoder.convert(res);
-    }).catchError((Exception error) {
-      print('Exception $error');
+      else if (statusCode < 200 || statusCode > 400) {
+        print("Error while fetching datas");
+        return throw ("Error while fetching datas");
+      }
+      // In case username and password don't match
+      try {
+        print('Try to convert $res');
+        return _decoder.convert(res);
+      }
+      catch(e) {
+        print("Error username and password don't match");
+        throw new Exception("Error username and password don't match");
+      }
     });
   }
 }

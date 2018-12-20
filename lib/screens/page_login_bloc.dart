@@ -98,9 +98,6 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                               if (_formKey.currentState.validate()) {
                                 _formKey.currentState.save();
 
-                                print('password : ${_data.password}');
-                                print('username : ${_data.username}');
-
                                 String username = _data.username;
                                 String password = _data.password;
 
@@ -108,8 +105,6 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                 attemptedUser.username = username;
                                 attemptedUser.password = password;
 
-//                                loginBloc.setUsernameLogin.add(username);
-//                                loginBloc.setPasswordLogin.add(password);
                                 loginBloc.submitLogin.add(attemptedUser);
                               }
                             },
@@ -118,6 +113,17 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                             ),
                           ),
                         )
+                    ),
+                    new StreamBuilder(
+                        initialData: LoggedUser.empty(),
+                        stream: loginBloc.resultLogin,
+                        builder: (BuildContext context, AsyncSnapshot<LoggedUser> snapshot) {
+                          print("data > ${snapshot.data.toString()}");
+                          if (snapshot.hasError) {
+                            return new Text("${snapshot.error.toString()}", style: TextStyle(color: Colors.red, fontSize: 12, fontStyle: FontStyle.italic));
+                          }
+                          return Text("");
+                        }
                     ),
                     new Container(
                       margin: EdgeInsets.only(top: 16),
