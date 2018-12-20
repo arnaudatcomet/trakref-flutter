@@ -13,6 +13,10 @@ class LoginBloc implements BlocBase {
   Sink<LoggedUser> get submitLogin => _submitLoginController.sink;
   Stream<LoggedUser> get resultLogin => _submitLoginController.stream;
 
+  // Stream to handle pushing to a new screen if the login was successful
+  StreamController<LoggedUser> _goingNextScreenController = StreamController<LoggedUser>.broadcast();
+  Stream<LoggedUser> get nextScreen => _goingNextScreenController.stream;
+
   LoginBloc() {
     _submitLoginController.stream.listen(_onSubmitLogin);
   }
