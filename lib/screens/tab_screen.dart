@@ -11,7 +11,7 @@ class _TabScreensState extends State<TabScreens> {
     return  new MaterialApp(
         color: Colors.yellow,
         home: DefaultTabController(
-            length: 3,
+            length: 4,
             child: new Scaffold(
               bottomNavigationBar:  TabBar(
                   labelColor: Colors.black,
@@ -21,10 +21,13 @@ class _TabScreensState extends State<TabScreens> {
                         icon: new Icon(Icons.home)
                     ),
                     new Tab(
-                        icon: new Icon(Icons.rss_feed)
+                        icon: new Icon(Icons.search)
                     ),
                     new Tab(
-                        icon: new Icon(Icons.assessment)
+                        icon: new Icon(Icons.add_box)
+                    ),
+                    new Tab(
+                        icon: new Icon(Icons.settings)
                     )
                   ]
               ),
@@ -38,6 +41,9 @@ class _TabScreensState extends State<TabScreens> {
                 ),
                 new Container(
                     color: Colors.red
+                ),
+                new Container(
+                    color: Colors.green
                 )
               ]
               ),
