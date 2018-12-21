@@ -43,10 +43,6 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
 
   @override
   Widget build(BuildContext context) {
-
-    TextEditingController passwordController = new TextEditingController();
-    TextEditingController usernameController = new TextEditingController();
-
       return Scaffold(
           body: new Container(
               padding: new EdgeInsets.all(20.0),
