@@ -1,8 +1,9 @@
 import 'dart:async';
+import 'package:codable/codable.dart';
 import 'package:trakref_app/models/logged_user_entity.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
-import 'package:trakref_app/models/logged_user_entity.dart';
+import 'package:trakref_app/constants.dart';
 
 class LoginBloc implements BlocBase {
   LoggedUser _user = LoggedUser.empty();
@@ -26,6 +27,18 @@ class LoginBloc implements BlocBase {
     print('logged password ${user.password}');
     String username = user.username;
     String password = user.password;
+
+    /*
+    ApiService().get(accountsURL).then((accountsJSON) {
+      for (var i = 0; i < accountsJSON.length; i++) {
+        final Map<String, dynamic> accountJSON = Map<String, dynamic>.from(accountsJSON[i]);
+        final archive = KeyedArchive.unarchive(accountJSON);
+        Account account = Account();
+        account.decode(archive);
+        print('ApiService<Account> account ${account.name} ${account.accountType} ${account.instanceID}');
+      }
+    });
+    */
 
     _loginService.login(username, password).then((result){
         LoggedUser user = LoggedUser.fromJson(result);

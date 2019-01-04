@@ -4,11 +4,6 @@ import 'package:trakref_app/bloc/login_bloc.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/logged_user_entity.dart';
 
-enum AuthStatus {
-  NOT_SIGNED_IN,
-  SIGNED_IN,
-}
-
 class PageLoginBloc extends StatefulWidget {
   @override
   _PageLoginBlocState createState() => _PageLoginBlocState();
@@ -22,7 +17,6 @@ class _LoginData {
 class _PageLoginBlocState extends State<PageLoginBloc> {
   final _formKey = GlobalKey<FormState>();
   _LoginData _data = new _LoginData();
-  AuthStatus authStatus = AuthStatus.NOT_SIGNED_IN;
   LoginBloc loginBloc;
 
   @override
@@ -32,12 +26,6 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
 
     this.loginBloc.nextScreen.listen((LoggedUser user) {
       Navigator.of(context).pushNamed('/home');
-    });
-  }
-
-  void _signedIn() {
-    setState(() {
-      authStatus = AuthStatus.SIGNED_IN;
     });
   }
 
