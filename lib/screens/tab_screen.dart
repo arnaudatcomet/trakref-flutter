@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/screens/page_dashboard_bloc.dart';
+import 'package:trakref_app/screens/page_search_bloc.dart';
 
 class TabScreens extends StatefulWidget {
   @override
@@ -8,9 +10,7 @@ class TabScreens extends StatefulWidget {
 class _TabScreensState extends State<TabScreens> {
   @override
   Widget build(BuildContext context) {
-    return  new MaterialApp(
-        color: Colors.yellow,
-        home: DefaultTabController(
+    return DefaultTabController(
             length: 4,
             child: new Scaffold(
               bottomNavigationBar:  TabBar(
@@ -33,22 +33,17 @@ class _TabScreensState extends State<TabScreens> {
               ),
               body: TabBarView(children:
               [
-                new Container(
-                    color: Colors.yellow
-                ),
-                new Container(
-                    color: Colors.blue
-                ),
+                PageDashboardBloc(),
+                PageSearchBloc(),
                 new Container(
                     color: Colors.red
                 ),
                 new Container(
-                    color: Colors.green
+                    color: Colors.blue
                 )
               ]
               ),
             )
-        )
-    );
+        );
   }
 }

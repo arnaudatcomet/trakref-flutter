@@ -14,6 +14,7 @@ class AppColors {
   static final gray = Color.fromRGBO(51, 51, 51, 1);
   static final lightGray = Color.fromRGBO(107, 114, 125, 1);
   static final blueTurquoise = Color.fromRGBO(48, 125, 140, 1);
+  static final lightGreen = Color.fromRGBO(140, 220, 84, 1);
 }
 
 class MyApp extends StatelessWidget {
@@ -47,10 +48,45 @@ ThemeData buildTheme() {
       valueIndicatorTextStyle: TextStyle(),
     ),
     textTheme: TextTheme().copyWith(
-        subhead: TextStyle(
+      title: TextStyle(
+          color: AppColors.gray,
+          fontWeight: FontWeight.bold,
+          fontSize: 30,
+          fontFamily: "SF Pro Text Regular"
+      ),
+      subhead: TextStyle(
           color: AppColors.gray,
           decorationColor: AppColors.lightGray,
           fontFamily: "SF Pro Text Regular"
-        )),
+        ),
+      // This is used for the cells
+      display1: TextStyle(
+          color: AppColors.blueTurquoise,
+          fontSize: 14,
+          fontFamily: "SF Pro Text Regular"
+      ),
+      display2: TextStyle(
+          color: AppColors.gray,
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          fontFamily: "SF Pro Text Regular"
+      ),
+      display3: TextStyle(
+          color: AppColors.gray,
+          fontSize: 12,
+          fontFamily: "SF Pro Text Regular"
+      ),
+      display4: TextStyle(
+          color: AppColors.gray,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          fontFamily: "SF Pro Text Regular"
+      ),
+      body1: TextStyle(
+          color: AppColors.gray,
+          fontSize: 15,
+          fontFamily: "SF Pro Text Regular"
+      )
+    ),
   );
 }
