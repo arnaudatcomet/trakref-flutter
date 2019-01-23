@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/screens/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/page_search_bloc.dart';
+import 'package:trakref_app/screens/page_settings_screen.dart';
 
 class TabScreens extends StatefulWidget {
   @override
@@ -35,12 +37,8 @@ class _TabScreensState extends State<TabScreens> {
               [
                 PageDashboardBloc(),
                 PageSearchBloc(),
-                new Container(
-                    color: Colors.red
-                ),
-                new Container(
-                    color: Colors.blue
-                )
+                PageAccountsBloc(),
+                PageSettingsScreens()
               ]
               ),
             )

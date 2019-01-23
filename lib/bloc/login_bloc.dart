@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'package:codable/codable.dart';
 import 'package:trakref_app/models/logged_user_entity.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
-import 'package:trakref_app/constants.dart';
 
 class LoginBloc implements BlocBase {
   LoggedUser _user = LoggedUser.empty();

@@ -49,8 +49,13 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                   ),
                 ),
                 // Need to replace with the camera picture
-                Icon(Icons.ac_unit,
-                size: 40, color: Colors.black87)
+                new Container(
+                  child: new Image.asset("assets/images/barcode-icon.png",
+                      height: 30,
+                      alignment: Alignment.centerLeft,
+                      fit: BoxFit.fitHeight),
+                  margin: new EdgeInsets.only(left:10, right: 10),
+                ),
               ],
             ),
             SizedBox(
@@ -73,6 +78,8 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                         onChanged: (bool value) {
                         _assignedtoMe = value;
                         },
+                        activeThumbImage: AssetImage("assets/images/toggle-on.png"),
+                        inactiveThumbImage: AssetImage("assets/images/toggle-off.png"),
                       )
                     ],
                   )

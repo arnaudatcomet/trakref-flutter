@@ -3,6 +3,7 @@ import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/bloc/login_bloc.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/logged_user_entity.dart';
+import 'package:trakref_app/widget/loading_widget.dart';
 
 class PageLoginBloc extends StatefulWidget {
   @override
@@ -47,12 +48,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                           margin: new EdgeInsets.only(top: 103, bottom: 30),
                         ),
                         new Container(
-                          child: new Text("Welcome back.", style: TextStyle().copyWith(
-                              color: AppColors.gray,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "SFProTextRegular"
-                          )
+                          child: new Text("Welcome back.", style: Theme.of(context).textTheme.title
                           ),
                         ),
                         new Container(
@@ -98,9 +94,21 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                             child: ButtonTheme(
                               height: 52.0,
                               child: new RaisedButton(
+                                key: Key('SubmitButton'),
                                 color: AppColors.blueTurquoise,
-                                child: new Text("Login", style: TextStyle(color: Colors.white, fontSize: 16)),
-                                onPressed: () {;
+                                child: StreamBuilder(
+                                    initialData: LoggedUser.empty(),
+                                    stream: this.loginBloc.resultLogin,
+                                    builder: (BuildContext context, AsyncSnapshot<LoggedUser> snapshot) {
+                                      print("Loading > ${snapshot.data.toString()}");
+
+                                      return (snapshot.connectionState != ConnectionState.waiting) ? Center(
+                                        child: CircularProgressIndicator(strokeWidth: 1
+                                        ),
+                                      ) : Text("Login", style: TextStyle(color: Colors.white, fontSize: 16));
+                                    }
+                                ),
+                                onPressed: () {
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
 
@@ -128,6 +136,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                               if (snapshot.hasError) {
                                 return new Text("${snapshot.error.toString()}", style: TextStyle(color: Colors.red, fontSize: 12, fontStyle: FontStyle.italic));
                               }
+
                               return Text("");
                             }
                         ),
