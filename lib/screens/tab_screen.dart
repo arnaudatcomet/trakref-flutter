@@ -3,6 +3,7 @@ import 'package:trakref_app/screens/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/page_search_bloc.dart';
 import 'package:trakref_app/screens/page_settings_screen.dart';
+import 'package:trakref_app/screens/page_topics_bloc.dart';
 
 class TabScreens extends StatefulWidget {
   @override
@@ -37,7 +38,7 @@ class _TabScreensState extends State<TabScreens> {
               [
                 PageDashboardBloc(),
                 PageSearchBloc(),
-                PageAccountsBloc(),
+                PageTopicsBloc(),
                 PageSettingsScreens()
               ]
               ),

@@ -1,0 +1,54 @@
+PODS:
+  - Flutter (1.0.0)
+  - image_picker (0.0.1):
+    - Flutter
+  - url_launcher (0.0.1):
+    - Flutter
+  - ZDCChat (1.4.0):
+    - ZDCChat/API (= 1.4.0)
+    - ZDCChat/Localization (= 1.4.0)
+    - ZDCChat/UI (= 1.4.0)
+  - ZDCChat/API (1.4.0)
+  - ZDCChat/Localization (1.4.0)
+  - ZDCChat/UI (1.4.0):
+    - ZDCChat/API
+  - ZendeskSDK (2.3.0):
+    - ZendeskSDK/Providers (= 2.3.0)
+    - ZendeskSDK/UI (= 2.3.0)
+  - ZendeskSDK/Core (2.3.0)
+  - ZendeskSDK/Providers (2.3.0):
+    - ZendeskSDK/Core
+  - ZendeskSDK/UI (2.3.0):
+    - ZendeskSDK/Core
+    - ZendeskSDK/Providers
+
+DEPENDENCIES:
+  - Flutter (from `.symlinks/flutter/ios`)
+  - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+  - ZDCChat
+  - ZendeskSDK (~> 2.3.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - ZDCChat
+    - ZendeskSDK
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+  image_picker:
+    :path: ".symlinks/plugins/image_picker/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  image_picker: ee00aab0487cedc80a304085219503cc6d0f2e22
+  url_launcher: 92b89c1029a0373879933c21642958c874539095
+  ZDCChat: 1def9764647bb81cf71aebd9df38aa4024c52d12
+  ZendeskSDK: af6509ad7968d367f95b2645713802712152f879
+
+PODFILE CHECKSUM: 43427c492f8f5e7adf0d598a657264bb29582df7
+
+COCOAPODS: 1.5.3

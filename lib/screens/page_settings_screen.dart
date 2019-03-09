@@ -1,10 +1,22 @@
 import 'dart:io';
-
+import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/widget/loading_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart' show CalendarCarousel;
+import 'package:url_launcher/url_launcher.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+
+_launchURL() async {
+  const url = 'https://flutter.io';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class PageSettingsScreens extends StatefulWidget {
   @override
@@ -20,11 +32,29 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
   DateTime _currentDate;
   File _image;
 
+  static const platform = const MethodChannel('flutter.native/zendesk');
+  String _responseFromNativeCode = 'Waiting for Response...';
+
   // Get an image from picker
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
+    });
+  }
+
+  // Call iOS native
+  Future<void> responseFromNativeCode() async {
+    String response = "";
+    try {
+      final String result = await platform.invokeMethod('showZDChat');
+      response = result;
+    } on PlatformException catch (e) {
+      response = "Failed to Invoke: '${e.message}'.";
+    }
+
+    setState(() {
+      _responseFromNativeCode = response;
     });
   }
 
@@ -83,9 +113,12 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
                     child: Padding(
                       padding: EdgeInsets.all(10),
                       child: MaterialButton(
+//                        onPressed: responseFromNativeCode,
+//                        onPressed: _launchURL,
+                        onPressed: _launchURL,
                         height: 60,
                         color: AppColors.blueTurquoise,
-                        child: Text('SUBMIT',
+                        child: Text(_responseFromNativeCode,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,

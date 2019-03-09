@@ -8,14 +8,20 @@ import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/page_login_bloc.dart';
 import 'package:trakref_app/screens/page_search_bloc.dart';
 import 'package:trakref_app/screens/page_settings_screen.dart';
+import 'package:trakref_app/screens/page_topics_bloc.dart';
 import 'package:trakref_app/screens/tab_screen.dart';
 
 final routes = {
 //  '/': (BuildContext context) => BlocProvider(bloc: LoginBloc(), child: PageLoginBloc()),
   '/': (BuildContext context) => TabScreens(),
-//  '/': (BuildContext context) => PageSettingsScreens(),
+//  '/': (BuildContext context) => WebViewScaffold(
+//    url: "http://www.flutter.io",
+//    appBar: AppBar(
+//      title: Text('This is a webview'),
+//    ),
+//  ),
   '/dashboard': (BuildContext context) => BlocProvider(bloc: DashboardBloc(), child: PageDashboardBloc()),
   '/home': (BuildContext context) => TabScreens(),
   '/search': (BuildContext context) => BlocProvider(bloc: SearchBloc(), child: PageSearchBloc()),
-  '/selectAccount': (BuildContext context) => PageAccountsBloc()
+  '/selectAccount': (BuildContext context) => PageTopicsBloc()
 };
