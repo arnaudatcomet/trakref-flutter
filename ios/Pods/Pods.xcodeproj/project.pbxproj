@@ -7,73 +7,135 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		70D10D8EA12F47BB67312713EA9126BD /* ImagePickerPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98150AB7767789B1B090FA32BE6BF78E /* ImagePickerPlugin.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		863E9F20BF16DF70536F29D917906AD9 /* image_picker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AC075E59D7FE7DCA1BE7CC23AD519DCB /* image_picker-dummy.m */; };
-		90089D3733AA6166A1DCF718F6F6770C /* url_launcher-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0993FEA04E017B3EDC475A71FDFE83DF /* url_launcher-dummy.m */; };
-		92313BA6AB44DCF8E183A9AB62713FBB /* Pods-Runner-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B60CF26286EF63F83C5DE2E9EED167 /* Pods-Runner-dummy.m */; };
-		BAEB1FA23C55BAF0079694AEB42D14A9 /* UrlLauncherPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 309D8DFB5B9DF51B798D29BAECD338ED /* UrlLauncherPlugin.m */; };
-		DAFCEBAFD567ACF4982FD77E2D8B5206 /* ImagePickerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6A920DC80CE80AB13D7AA8B0D438A4 /* ImagePickerPlugin.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		F2F66F0EB59D715EA5E336192A65D977 /* UrlLauncherPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E6D7D5D8303AC6F30F9837D11CCF06 /* UrlLauncherPlugin.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		25CDFA5B77BC9070F0D0A372005BA4AB /* BarcodeScanPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = B52321B277B4A0497EACA93119B45236 /* BarcodeScanPlugin.m */; };
+		426D1ED473D60E7C06B309E40C5CCEEC /* BarcodeScannerViewControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2967768AC8B2EE969B007E7A750032DC /* BarcodeScannerViewControllerDelegate.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		63EB11523E4208343F62A52CE0799F56 /* UrlLauncherPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCBC53C05E2E01B63AE377E8B78755E /* UrlLauncherPlugin.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		70D10D8EA12F47BB67312713EA9126BD /* ImagePickerPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = A4052C0BCCFC6AE3D941E99DFA8EB3F5 /* ImagePickerPlugin.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		725399DAAF463F81C6389AF868C69118 /* BarcodeScannerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 902D08AC4EBA8A0961C0D5F4FB9B3958 /* BarcodeScannerViewController.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		863E9F20BF16DF70536F29D917906AD9 /* image_picker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE4A9BDB3EC8BDA582ABA85773FA8A2 /* image_picker-dummy.m */; };
+		9B0D038CA62D2879E410329A89F992AE /* MTBBarcodeScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F9E468AE06AA6BB710B946C7D3D341 /* MTBBarcodeScanner.m */; };
+		9EF39625715BFB64A810EA0E6A761A7F /* url_launcher-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA4F8F9B28554A42DC04D77E166D584 /* url_launcher-dummy.m */; };
+		ABB33F7FB5E87E77EFEA35606F6C12A2 /* Pods-Runner-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B60CF26286EF63F83C5DE2E9EED167 /* Pods-Runner-dummy.m */; };
+		B0A9140764398A4C138C5D07F8FDA9C4 /* MTBBarcodeScanner-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1945472F9510D77B0F1FB5A7905D8D0E /* MTBBarcodeScanner-dummy.m */; };
+		B18C5280E460CE3AC904B2551771F0F9 /* ScannerOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = EECDDCEE215EDB0DF9527E3BA36DC632 /* ScannerOverlay.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		CAA6B4347648BD4A2926148EFBB250C9 /* ScannerOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE390898D710F7F6C99203B79797ED2 /* ScannerOverlay.m */; };
+		CC983AB1F8C317FC997ED954A96B1D14 /* barcode_scan-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FEA2549912F3E13CD8CAF13F311BC4 /* barcode_scan-dummy.m */; };
+		D287BEF9695B45C94122446E226EC4A5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5079A92F210300AE9E18D9CBA801DF7 /* AVFoundation.framework */; };
+		D812CAB8FB4C0131D4668EE0C28AE0EC /* BarcodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB4DA496DC6B301EF2F6ED5FF9208D5 /* BarcodeScannerViewController.m */; };
+		D858E96B92EEB0C20ED14C8359416E73 /* BarcodeScanPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = AD7863508ABDC9E654EC434FA686C8C8 /* BarcodeScanPlugin.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		DAFCEBAFD567ACF4982FD77E2D8B5206 /* ImagePickerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC388844AFB51446EAA8CA75771F192 /* ImagePickerPlugin.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		DDD3AA7F1AAC2B87786AB2223D0D84CA /* MTBBarcodeScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = CAD9556026BDD94329D35D2531193790 /* MTBBarcodeScanner.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		E1F2411E91C7F4EB3075710F474D41DD /* UrlLauncherPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF67921F6B206DFFFA45F4018C0FFC1 /* UrlLauncherPlugin.m */; };
+		E886AA098B84CBE3B00919A333753B2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B32193462E3D1E44752F72008361CCBF /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6DDA77301F19967698242773A47E6BFF /* PBXContainerItemProxy */ = {
+		5C41A1B82E629465141D50FD3F68E226 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = CCBA82C565978790B4637C4B977919FA;
 			remoteInfo = image_picker;
 		};
-		80350D852AC696B368A26F424F760570 /* PBXContainerItemProxy */ = {
+		81677AFC8189E589BD3D6C98D38D4C85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 552DFC6D51BACE95A1916F9F626389C9;
+			remoteGlobalIDString = FFCCC452E3186583F1DF83D89E37361F;
+			remoteInfo = barcode_scan;
+		};
+		A1A4E45DB7FFE1270BA922A5BDF7AA6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BB82892F3A4DD01192D0D658FE977584;
+			remoteInfo = MTBBarcodeScanner;
+		};
+		DDEFFE9BD825B214F6D5319541F05CC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BB82892F3A4DD01192D0D658FE977584;
+			remoteInfo = MTBBarcodeScanner;
+		};
+		F352F493FFD88333D7EED3B50A4A42FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 305BA654EE903084708199CDAD3400FD;
 			remoteInfo = url_launcher;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		033B72AA72462D57C9CA5DE59B9D1D49 /* ZendeskProviderSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZendeskProviderSDK.framework; path = ZendeskSDK/4.2.1/ZendeskProviderSDK.framework; sourceTree = "<group>"; };
-		059DC5A9DB73A38EC4CDB6AFAED18AE2 /* url_launcher.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = url_launcher.podspec; path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.1/ios/url_launcher.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		0993FEA04E017B3EDC475A71FDFE83DF /* url_launcher-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "url_launcher-dummy.m"; sourceTree = "<group>"; };
-		0D8FE1569862241EBD6135A3579D3D84 /* ZendeskCoreSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZendeskCoreSDK.framework; path = ZendeskSDK/4.2.1/ZendeskCoreSDK.framework; sourceTree = "<group>"; };
+		03FEA2549912F3E13CD8CAF13F311BC4 /* barcode_scan-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "barcode_scan-dummy.m"; sourceTree = "<group>"; };
+		0B6E1285E2DE6C3190D6A86A87037FFF /* liburl_launcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = liburl_launcher.a; path = liburl_launcher.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BB4DA496DC6B301EF2F6ED5FF9208D5 /* BarcodeScannerViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BarcodeScannerViewController.m; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/barcode_scan-1.0.0/ios/Classes/BarcodeScannerViewController.m"; sourceTree = "<group>"; };
+		0BC388844AFB51446EAA8CA75771F192 /* ImagePickerPlugin.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ImagePickerPlugin.m; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.12/ios/Classes/ImagePickerPlugin.m"; sourceTree = "<group>"; };
+		1945472F9510D77B0F1FB5A7905D8D0E /* MTBBarcodeScanner-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MTBBarcodeScanner-dummy.m"; sourceTree = "<group>"; };
 		1C7C65E102E43A24EA92186F1D1E5DE7 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
+		1CE4A9BDB3EC8BDA582ABA85773FA8A2 /* image_picker-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "image_picker-dummy.m"; sourceTree = "<group>"; };
 		1F5F2858E6EE7F4E5E6C883CE01C7156 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
-		288F40A987A12E3D5FD826D5B80E351C /* libimage_picker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libimage_picker.a; path = libimage_picker.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2A005ABA8816C4990290DC966BD979E4 /* image_picker.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = image_picker.xcconfig; sourceTree = "<group>"; };
-		2A96DC258ADACBF5B77715F4F9F5C9EA /* image_picker-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "image_picker-prefix.pch"; sourceTree = "<group>"; };
-		309D8DFB5B9DF51B798D29BAECD338ED /* UrlLauncherPlugin.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = UrlLauncherPlugin.m; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.1/ios/Classes/UrlLauncherPlugin.m"; sourceTree = "<group>"; };
-		3EABD11730D9B2F114A31BAFEFAF87D1 /* libPods-Runner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-Runner.a"; path = "libPods-Runner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D9F5C5F8EB70275A6B3FCD46CFD439F /* ZDCChat.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = ZDCChat.bundle; sourceTree = "<group>"; };
-		63C24BA5BD2AE32A1D66B98A1B133EAB /* url_launcher-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "url_launcher-prefix.pch"; sourceTree = "<group>"; };
-		6F0FD434FEB51523EEDB7CDA6BD429A0 /* Flutter.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Flutter.podspec; path = ../../../../../../../../dev/flutter/bin/cache/artifacts/engine/ios/Flutter.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		27EBDE4F33BDD9E47255CE04C56F08B0 /* libbarcode_scan.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libbarcode_scan.a; path = libbarcode_scan.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2967768AC8B2EE969B007E7A750032DC /* BarcodeScannerViewControllerDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BarcodeScannerViewControllerDelegate.h; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/barcode_scan-1.0.0/ios/Classes/BarcodeScannerViewControllerDelegate.h"; sourceTree = "<group>"; };
+		2A8315FE5137D09340A03390E7C08233 /* ZendeskProviderSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZendeskProviderSDK.framework; path = ZendeskSDK/4.2.1/ZendeskProviderSDK.framework; sourceTree = "<group>"; };
+		3476DA971B0CDAFD5A7A756BA4A29915 /* Flutter.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Flutter.podspec; path = ../../../../../../../../dev/flutter/bin/cache/artifacts/engine/ios/Flutter.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		35F9E468AE06AA6BB710B946C7D3D341 /* MTBBarcodeScanner.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTBBarcodeScanner.m; path = Classes/ios/Scanners/MTBBarcodeScanner.m; sourceTree = "<group>"; };
+		36CC208B939EA15E7A34D28275C88E80 /* ZendeskCoreSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZendeskCoreSDK.framework; path = ZendeskSDK/4.2.1/ZendeskCoreSDK.framework; sourceTree = "<group>"; };
+		3F409072ADDEB620AB0C9FC05F198A97 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.1/LICENSE"; sourceTree = "<group>"; };
+		40E2FFA2FC7299CDBC1E71C870FADC65 /* ZendeskSDKStrings.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = ZendeskSDKStrings.bundle; path = ZendeskSDK/4.2.1/ZendeskSDKStrings.bundle; sourceTree = "<group>"; };
+		4304054D43CA90803D193593F155B52E /* image_picker.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = image_picker.xcconfig; sourceTree = "<group>"; };
+		4EE390898D710F7F6C99203B79797ED2 /* ScannerOverlay.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ScannerOverlay.m; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/barcode_scan-1.0.0/ios/Classes/ScannerOverlay.m"; sourceTree = "<group>"; };
+		516E29AE87B20FE15A21356D3A5E745B /* libimage_picker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libimage_picker.a; path = libimage_picker.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		51E8A358361DC63344D168FCD8C14DB2 /* image_picker.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = image_picker.podspec; path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.12/ios/image_picker.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		56BFFD91BF2F629DB1ED372EA417E3B3 /* ZDCChat.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = ZDCChat.bundle; sourceTree = "<group>"; };
+		5AF67921F6B206DFFFA45F4018C0FFC1 /* UrlLauncherPlugin.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = UrlLauncherPlugin.m; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.1/ios/Classes/UrlLauncherPlugin.m"; sourceTree = "<group>"; };
+		6C1613F7FC39A10E042484AD98DD34E0 /* libMTBBarcodeScanner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libMTBBarcodeScanner.a; path = libMTBBarcodeScanner.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F2AA892BD48B94183AB66CB75376497 /* image_picker-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "image_picker-prefix.pch"; sourceTree = "<group>"; };
 		75B60CF26286EF63F83C5DE2E9EED167 /* Pods-Runner-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Runner-dummy.m"; sourceTree = "<group>"; };
-		7946BBDCBF993ABD04B648DAA37D22DA /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.12/LICENSE"; sourceTree = "<group>"; };
-		83B0BF0A55A3AB7A8CCFDAFE2E1E08C4 /* ZDCChatStrings.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = ZDCChatStrings.bundle; sourceTree = "<group>"; };
-		87E6D7D5D8303AC6F30F9837D11CCF06 /* UrlLauncherPlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UrlLauncherPlugin.h; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.1/ios/Classes/UrlLauncherPlugin.h"; sourceTree = "<group>"; };
-		9255EE5A71A9C718CACD7C419D8EB9BB /* ZendeskSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZendeskSDK.framework; path = ZendeskSDK/4.2.1/ZendeskSDK.framework; sourceTree = "<group>"; };
-		9355EEDE98686DDDB9ED108CF2073D53 /* ZDCChatAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZDCChatAPI.framework; sourceTree = "<group>"; };
+		7A0D683D7DD6AE5DF0DE7C4EA60D8664 /* ZDCChatAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZDCChatAPI.framework; sourceTree = "<group>"; };
+		8BE313AE1B52CF5DFBB6910ED33DE6C7 /* Flutter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Flutter.framework; path = ../../../../../../../../dev/flutter/bin/cache/artifacts/engine/ios/Flutter.framework; sourceTree = "<group>"; };
+		8E3533481293FD1E8A07623F209BC3EB /* ZDCChatStrings.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = ZDCChatStrings.bundle; sourceTree = "<group>"; };
+		902D08AC4EBA8A0961C0D5F4FB9B3958 /* BarcodeScannerViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BarcodeScannerViewController.h; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/barcode_scan-1.0.0/ios/Classes/BarcodeScannerViewController.h"; sourceTree = "<group>"; };
+		90999AB2EB3738620A132CBD05381A37 /* ZendeskSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZendeskSDK.framework; path = ZendeskSDK/4.2.1/ZendeskSDK.framework; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		98150AB7767789B1B090FA32BE6BF78E /* ImagePickerPlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ImagePickerPlugin.h; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.12/ios/Classes/ImagePickerPlugin.h"; sourceTree = "<group>"; };
+		990A15BE9E6164693B806C23243EE821 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/barcode_scan-1.0.0/LICENSE"; sourceTree = "<group>"; };
+		9C408AE23089B2751A55D596976463C8 /* MTBBarcodeScanner.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MTBBarcodeScanner.xcconfig; sourceTree = "<group>"; };
+		9EA4F8F9B28554A42DC04D77E166D584 /* url_launcher-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "url_launcher-dummy.m"; sourceTree = "<group>"; };
+		9FCBC53C05E2E01B63AE377E8B78755E /* UrlLauncherPlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UrlLauncherPlugin.h; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.1/ios/Classes/UrlLauncherPlugin.h"; sourceTree = "<group>"; };
+		A4052C0BCCFC6AE3D941E99DFA8EB3F5 /* ImagePickerPlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ImagePickerPlugin.h; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.12/ios/Classes/ImagePickerPlugin.h"; sourceTree = "<group>"; };
 		A70E574A02F07BC1DD47213B588DD295 /* Pods-Runner-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Runner-resources.sh"; sourceTree = "<group>"; };
-		A912816B49DB849BC3EF3DA79C881B89 /* Flutter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Flutter.framework; path = ../../../../../../../../dev/flutter/bin/cache/artifacts/engine/ios/Flutter.framework; sourceTree = "<group>"; };
+		A76D264DA7FBD48F7AC63CD7B7069F7A /* libPods-Runner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-Runner.a"; path = "libPods-Runner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A83469007C4C89FC810FAD081143BB22 /* url_launcher.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = url_launcher.podspec; path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.1/ios/url_launcher.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AAB1427B3571BBBD81A519E9C8541E2E /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
-		AC075E59D7FE7DCA1BE7CC23AD519DCB /* image_picker-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "image_picker-dummy.m"; sourceTree = "<group>"; };
-		AD276B5C5329692BCEC7A1E7EC0D7DE4 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.1/LICENSE"; sourceTree = "<group>"; };
-		B4EC13763ADA94EEAA0C03DCBA777D11 /* url_launcher.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = url_launcher.xcconfig; sourceTree = "<group>"; };
-		C4B1CD6D88D2BF214188D3F6D39C69B9 /* image_picker.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = image_picker.podspec; path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.12/ios/image_picker.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		AD7863508ABDC9E654EC434FA686C8C8 /* BarcodeScanPlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BarcodeScanPlugin.h; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/barcode_scan-1.0.0/ios/Classes/BarcodeScanPlugin.h"; sourceTree = "<group>"; };
+		AFEA418F65C8D35058CB709F6017DC54 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.12/LICENSE"; sourceTree = "<group>"; };
+		B32193462E3D1E44752F72008361CCBF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		B48D2A9E6F89C00C31A033F1AE87D5B6 /* barcode_scan.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = barcode_scan.podspec; path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/barcode_scan-1.0.0/ios/barcode_scan.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		B5079A92F210300AE9E18D9CBA801DF7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		B52321B277B4A0497EACA93119B45236 /* BarcodeScanPlugin.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BarcodeScanPlugin.m; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/barcode_scan-1.0.0/ios/Classes/BarcodeScanPlugin.m"; sourceTree = "<group>"; };
+		B604FB8AE19ED342FE178914DC06A5B1 /* url_launcher.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = url_launcher.xcconfig; sourceTree = "<group>"; };
+		B6C0D3966470162B3936C6494AE60C35 /* url_launcher-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "url_launcher-prefix.pch"; sourceTree = "<group>"; };
+		B7D9B3132F57D8B6D082DB2C16492513 /* barcode_scan-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "barcode_scan-prefix.pch"; sourceTree = "<group>"; };
+		B98C540168B7D513362C95E1DBA2655E /* barcode_scan.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = barcode_scan.xcconfig; sourceTree = "<group>"; };
 		C6756962C25E13C28B6F2127EB7DCD36 /* Pods-Runner-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Runner-acknowledgements.plist"; sourceTree = "<group>"; };
+		CAD9556026BDD94329D35D2531193790 /* MTBBarcodeScanner.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTBBarcodeScanner.h; path = Classes/ios/Scanners/MTBBarcodeScanner.h; sourceTree = "<group>"; };
 		CC36E3CB4533D767DF84ED9223B01719 /* Pods-Runner-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Runner-frameworks.sh"; sourceTree = "<group>"; };
-		CE6A920DC80CE80AB13D7AA8B0D438A4 /* ImagePickerPlugin.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ImagePickerPlugin.m; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.12/ios/Classes/ImagePickerPlugin.m"; sourceTree = "<group>"; };
-		D29F81728CA41BBF98A3F6BECB9EE68E /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../../../../../../../../dev/flutter/bin/cache/artifacts/engine/ios/LICENSE; sourceTree = "<group>"; };
-		D4A6B2DF7B9EBA59FC460E617EEC6306 /* ZendeskSDKStrings.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = ZendeskSDKStrings.bundle; path = ZendeskSDK/4.2.1/ZendeskSDKStrings.bundle; sourceTree = "<group>"; };
+		D535D706F866AD3A6200D802005926D8 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../../../../../../../../dev/flutter/bin/cache/artifacts/engine/ios/LICENSE; sourceTree = "<group>"; };
+		DC5D8B7EDB40311500A1C5307BCA19A5 /* MTBBarcodeScanner-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MTBBarcodeScanner-prefix.pch"; sourceTree = "<group>"; };
 		E667A0449AAC7F0FC5805BDE435B9B03 /* Pods-Runner-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Runner-acknowledgements.markdown"; sourceTree = "<group>"; };
-		FCCC091E4EB843F9E21C8053E5866A3D /* liburl_launcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = liburl_launcher.a; path = liburl_launcher.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF091CE0C89CDEF9A57D21EB9646E0F2 /* ZDCChat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZDCChat.framework; sourceTree = "<group>"; };
+		EECDDCEE215EDB0DF9527E3BA36DC632 /* ScannerOverlay.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ScannerOverlay.h; path = "../../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/barcode_scan-1.0.0/ios/Classes/ScannerOverlay.h"; sourceTree = "<group>"; };
+		F005434D5812EEEAD17D60DDA9FD0396 /* ZDCChat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZDCChat.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0FA994EE9A0A737024C6D13D79F50B55 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		48FC91790958A932427B127D8CB8CA3A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -81,73 +143,152 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		725DB4B3BAD63ED6B1C896FD00851D7C /* Frameworks */ = {
+		91193974CF5DA5F80C7AB1B1B9A4E2A6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BFF72422DC43F9F4C0DA307A847408C5 /* Frameworks */ = {
+		9FA5AB78EE26E70661330E175D13DBA4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C378CC738559F5D3C8A3667316110CFB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D287BEF9695B45C94122446E226EC4A5 /* AVFoundation.framework in Frameworks */,
+				E886AA098B84CBE3B00919A333753B2A /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0018A4C80E98700BC1F7561382A6380E /* bitbucket */ = {
+		003A8B2B44324ECD803A045939C68C74 /* flutter-trakref */ = {
 			isa = PBXGroup;
 			children = (
-				D98E61C730C5A751A874E87F7D915DBF /* flutter-trakref */,
+				B83D215002182F4A9E5810D4AC8DB416 /* trakref-flutter */,
 			);
-			name = bitbucket;
-			path = bitbucket;
+			name = "flutter-trakref";
+			path = "flutter-trakref";
 			sourceTree = "<group>";
 		};
-		001F1B97D4ECCFD481D9336939522F09 /* Products */ = {
+		004B0BA4A59A85DCD2DD5181A052F6CA /* API */ = {
 			isa = PBXGroup;
 			children = (
-				288F40A987A12E3D5FD826D5B80E351C /* libimage_picker.a */,
-				3EABD11730D9B2F114A31BAFEFAF87D1 /* libPods-Runner.a */,
-				FCCC091E4EB843F9E21C8053E5866A3D /* liburl_launcher.a */,
+				3A3F16639DD2A324DCC8AA277F97662D /* Frameworks */,
 			);
-			name = Products;
+			name = API;
 			sourceTree = "<group>";
 		};
-		0230CBF0499E22845CEAC6DC1C64E760 /* Resources */ = {
+		0420D4F6B8F6BAE62CCC1772BE25241D /* .. */ = {
 			isa = PBXGroup;
 			children = (
-				5D9F5C5F8EB70275A6B3FCD46CFD439F /* ZDCChat.bundle */,
+				FA51038118CB7437381382C18FC502D4 /* .. */,
 			);
-			name = Resources;
+			name = ..;
+			path = ..;
 			sourceTree = "<group>";
 		};
-		08B4BA110722545150E4E59FBC6859F8 /* ios */ = {
+		043763F9FDD642123A57E12BB95D0A9E /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				FC5F19DA0DD838BB627E32AD950E9E19 /* .symlinks */,
+				9FCBC53C05E2E01B63AE377E8B78755E /* UrlLauncherPlugin.h */,
+				5AF67921F6B206DFFFA45F4018C0FFC1 /* UrlLauncherPlugin.m */,
+			);
+			name = Classes;
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		05A45BAE65844B0722FF4965C46F40F9 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				B4B68605BE0C50E5E723D31102BA8478 /* Classes */,
 			);
 			name = ios;
 			path = ios;
 			sourceTree = "<group>";
 		};
-		0CC4FA34C1D61E8A32E798D00D5105D1 /* UI */ = {
+		068B4F75D411522DED1FF842312D0159 /* .. */ = {
 			isa = PBXGroup;
 			children = (
-				43C3F86E3C04BA5618E5E2152F38643D /* Frameworks */,
-				9439B2C585634BF2EB2B07D64BFC136F /* Resources */,
+				393044F1A292040BC17AA383A36B3984 /* freelance */,
 			);
-			name = UI;
+			name = ..;
+			path = ..;
 			sourceTree = "<group>";
 		};
-		0F8D2E47FE03D3B91B51069F7C273AF4 /* Frameworks */ = {
+		06E3789C74CBB7D7C9AD90A56C27C8BF /* Pod */ = {
 			isa = PBXGroup;
 			children = (
+				3476DA971B0CDAFD5A7A756BA4A29915 /* Flutter.podspec */,
+				D535D706F866AD3A6200D802005926D8 /* LICENSE */,
 			);
-			name = Frameworks;
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		0A7EFCB77AD0B560DFBDA587C26A470D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FD597071CC3C7F47B2E6994DE985E7A4 /* MTBBarcodeScanner */,
+				DA9F64E5A27D6D0B7196B2416FFD1058 /* ZDCChat */,
+				0EC53EE10FD1CEDA84E1B81115BC953A /* ZendeskSDK */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		0AE521880DBCADB1520345B2B62A635E /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				F0BFBEE8FF43F75C40C5C834122DEDAD /* .. */,
+			);
+			name = ..;
+			path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.12/ios";
+			sourceTree = "<group>";
+		};
+		0C5D4C6ACE4129278A342CC70BA98EC3 /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				41CDA3E9D34BBB29CDB5D591AFD9851C /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		0EC53EE10FD1CEDA84E1B81115BC953A /* ZendeskSDK */ = {
+			isa = PBXGroup;
+			children = (
+				800FAA4ADC8F4635D11496AA0A4CB211 /* Core */,
+				72E256AFCB5222B55FC8C9BD11F032D5 /* Providers */,
+				5A48C52F743288C03342283E38266242 /* UI */,
+			);
+			name = ZendeskSDK;
+			path = ZendeskSDK;
+			sourceTree = "<group>";
+		};
+		13E5AF66BEF91EC62794AE5785A4B462 /* flutter-trakref */ = {
+			isa = PBXGroup;
+			children = (
+				C75D89A251F1F0F2C3E17C4A55DC513A /* trakref-flutter */,
+			);
+			name = "flutter-trakref";
+			path = "flutter-trakref";
+			sourceTree = "<group>";
+		};
+		19DFA82C7903660F4133FF94BD23EB19 /* url_launcher */ = {
+			isa = PBXGroup;
+			children = (
+				724228EAEF35BBFF101721BDA0A20CBA /* .. */,
+				D67B6781D81E0F72D11FCE5ECC4AC5F5 /* Pod */,
+				D13BADC3B7D6BD8DE8EE4E5C9E9BBD28 /* Support Files */,
+			);
+			name = url_launcher;
+			path = ../.symlinks/plugins/url_launcher/ios;
 			sourceTree = "<group>";
 		};
 		1A3BC54721BAA16B749DAA153DA8F5A5 /* Targets Support Files */ = {
@@ -158,467 +299,640 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		1FC87E50811C7DD4370EAD2B4CF20373 /* Resources */ = {
+		1CC2DEA8A883EDA3511E54F5E9D42C7B /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				83B0BF0A55A3AB7A8CCFDAFE2E1E08C4 /* ZDCChatStrings.bundle */,
+				B5079A92F210300AE9E18D9CBA801DF7 /* AVFoundation.framework */,
+				B32193462E3D1E44752F72008361CCBF /* QuartzCore.framework */,
 			);
-			name = Resources;
+			name = iOS;
 			sourceTree = "<group>";
 		};
-		20211C9A63977CEE9021F2F2F693CC32 /* .. */ = {
+		1D4719A620969E419CE4DB91F9C73135 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B60F5A18996E037CAB1CF79C98CA43F9 /* .. */,
+				F005434D5812EEEAD17D60DDA9FD0396 /* ZDCChat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1ED7833A34118B08B3D571737FD1C25E /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				43F29F1E1936252B1298E043FB5CE437 /* .. */,
+			);
+			name = ..;
+			path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/barcode_scan-1.0.0/ios";
+			sourceTree = "<group>";
+		};
+		2918E132FDFD210A80A4F35BA03E0B7B /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				93CD8B1F7C6DD41A749D1945F42394DA /* barcode_scan */,
+				4044880ABC9E5C5E2345E0655DD6B569 /* Flutter */,
+				D8E72FEF06A59506EA251378841F8509 /* image_picker */,
+				19DFA82C7903660F4133FF94BD23EB19 /* url_launcher */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		2BFFC510D6B07508E1BDB7060E78D043 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A8315FE5137D09340A03390E7C08233 /* ZendeskProviderSDK.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2CBE27E5FD545698959E3888DE4BB278 /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				A3615C9225214A40C5786C1860F1408D /* .. */,
 			);
 			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
-		2138BDF1A992042DDC55932F16EC5689 /* .. */ = {
+		2E390F16216C3E768AFC861DA893D284 /* .. */ = {
 			isa = PBXGroup;
 			children = (
-				DCB5030DEB4BA16BC59C43C19FEC6E8B /* .. */,
+				0C5D4C6ACE4129278A342CC70BA98EC3 /* .. */,
 			);
 			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
-		26004E3800A856EB88F68E1459C8C406 /* .. */ = {
+		393044F1A292040BC17AA383A36B3984 /* freelance */ = {
 			isa = PBXGroup;
 			children = (
-				D691BAB6BDDD5A9C9A936935A89BE16B /* .. */,
-			);
-			name = ..;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		26500190A9F8AD802C4BA7E72347A6BE /* .. */ = {
-			isa = PBXGroup;
-			children = (
-				69493CFC8AE1E3192DC8DD7FD77B6A56 /* .. */,
-			);
-			name = ..;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		2AA0E62E0C1EB62B4C852BD3CECF9522 /* trakref-flutter */ = {
-			isa = PBXGroup;
-			children = (
-				2D2011BD3998F59F7CC60022210FF10D /* ios */,
-			);
-			name = "trakref-flutter";
-			path = "trakref-flutter";
-			sourceTree = "<group>";
-		};
-		2D2011BD3998F59F7CC60022210FF10D /* ios */ = {
-			isa = PBXGroup;
-			children = (
-				407C6330688F637EAB43F7370C25677D /* .symlinks */,
-			);
-			name = ios;
-			path = ios;
-			sourceTree = "<group>";
-		};
-		2E27F3BC02CB59EFBBCD657A6E65F36E /* url_launcher */ = {
-			isa = PBXGroup;
-			children = (
-				9975C5E6B9F3F0C1A63EBF80EDE14BD1 /* .. */,
-				CED4C77BD6F59F53E7F9CCC5F27B5207 /* Pod */,
-				ED37C4E34CB790F535BFB4234706B7CB /* Support Files */,
-			);
-			name = url_launcher;
-			path = ../.symlinks/plugins/url_launcher/ios;
-			sourceTree = "<group>";
-		};
-		334A4716F31233838B0B5BADB7819AB8 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				87E6D7D5D8303AC6F30F9837D11CCF06 /* UrlLauncherPlugin.h */,
-				309D8DFB5B9DF51B798D29BAECD338ED /* UrlLauncherPlugin.m */,
-			);
-			name = Classes;
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		3E3936F9F4E3EE4A5EC09378F470AC6F /* image_picker */ = {
-			isa = PBXGroup;
-			children = (
-				FA15F8D8858432402BA822B811DE10B0 /* .. */,
-				6B7D0E6A87C9312F6C22FCF30339C1D9 /* Pod */,
-				7F4681D7BADE2DCA71355713F701209E /* Support Files */,
-			);
-			name = image_picker;
-			path = ../.symlinks/plugins/image_picker/ios;
-			sourceTree = "<group>";
-		};
-		3E91D163AF9D93B5609F6D5869A66608 /* .. */ = {
-			isa = PBXGroup;
-			children = (
-				93EC25D358F1DC0C2728EE8347349B68 /* .. */,
-			);
-			name = ..;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		3EC772095EE9E9E859768E6085D9E128 /* freelance */ = {
-			isa = PBXGroup;
-			children = (
-				0018A4C80E98700BC1F7561382A6380E /* bitbucket */,
+				56CBBF4E2CA7B1387A78130584BB4E73 /* bitbucket */,
 			);
 			name = freelance;
 			path = freelance;
 			sourceTree = "<group>";
 		};
-		407C6330688F637EAB43F7370C25677D /* .symlinks */ = {
+		397759A354FF47BE923168C5E339D5AB /* .. */ = {
 			isa = PBXGroup;
 			children = (
-				D8296C312F84EC3E36644F3FA836F82A /* plugins */,
-			);
-			name = .symlinks;
-			path = .symlinks;
-			sourceTree = "<group>";
-		};
-		419A81165D9654FC03945349D0161A4C /* Localization */ = {
-			isa = PBXGroup;
-			children = (
-				1FC87E50811C7DD4370EAD2B4CF20373 /* Resources */,
-			);
-			name = Localization;
-			sourceTree = "<group>";
-		};
-		43C3F86E3C04BA5618E5E2152F38643D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9255EE5A71A9C718CACD7C419D8EB9BB /* ZendeskSDK.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		502025E914244D277F70E1CC0B9DC5A5 /* ios */ = {
-			isa = PBXGroup;
-			children = (
-				334A4716F31233838B0B5BADB7819AB8 /* Classes */,
-			);
-			name = ios;
-			path = ios;
-			sourceTree = "<group>";
-		};
-		53A8EB6D86940549C7AE0D8C0B64D7C3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9355EEDE98686DDDB9ED108CF2073D53 /* ZDCChatAPI.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		69493CFC8AE1E3192DC8DD7FD77B6A56 /* .. */ = {
-			isa = PBXGroup;
-			children = (
-				90F31FC5869A218EC3285A23ACADC4FF /* .. */,
+				716E0FF90102D9D0C59F4041344F0F80 /* .. */,
 			);
 			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
-		6AB409E768F6D8AE2D674970C46D4597 /* Core */ = {
+		39BE5768212C964674032801A925E6F0 /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				A4182A8930D8DC8E8DCC834EA2516121 /* Frameworks */,
+				DBF8E17C2E1E9C459A5C56CECA0C1656 /* .symlinks */,
 			);
-			name = Core;
+			name = ios;
+			path = ios;
 			sourceTree = "<group>";
 		};
-		6B7D0E6A87C9312F6C22FCF30339C1D9 /* Pod */ = {
+		39E3015F6DCED90BCBCBE930EDD3A2CE /* .. */ = {
 			isa = PBXGroup;
 			children = (
-				C4B1CD6D88D2BF214188D3F6D39C69B9 /* image_picker.podspec */,
-				7946BBDCBF993ABD04B648DAA37D22DA /* LICENSE */,
+				6729A84B6337792FF82A23F710090902 /* freelance */,
 			);
-			name = Pod;
+			name = ..;
+			path = ..;
 			sourceTree = "<group>";
 		};
-		6CFC75A94A6C7DB591431CD80B1A1E23 /* Classes */ = {
+		3A3F16639DD2A324DCC8AA277F97662D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				98150AB7767789B1B090FA32BE6BF78E /* ImagePickerPlugin.h */,
-				CE6A920DC80CE80AB13D7AA8B0D438A4 /* ImagePickerPlugin.m */,
+				7A0D683D7DD6AE5DF0DE7C4EA60D8664 /* ZDCChatAPI.framework */,
 			);
-			name = Classes;
-			path = Classes;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		73EFD5458F98C847563263AF0758B9C0 /* UI */ = {
+		3FCE070F02A4C260B3F236020DEF1374 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				E7B3AF97EA7460A784A4A90686F3B2A4 /* Frameworks */,
-				0230CBF0499E22845CEAC6DC1C64E760 /* Resources */,
+				9C408AE23089B2751A55D596976463C8 /* MTBBarcodeScanner.xcconfig */,
+				1945472F9510D77B0F1FB5A7905D8D0E /* MTBBarcodeScanner-dummy.m */,
+				DC5D8B7EDB40311500A1C5307BCA19A5 /* MTBBarcodeScanner-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/MTBBarcodeScanner";
+			sourceTree = "<group>";
+		};
+		4044880ABC9E5C5E2345E0655DD6B569 /* Flutter */ = {
+			isa = PBXGroup;
+			children = (
+				76F4691FC507D414FC5E26B7B0E2E51E /* Frameworks */,
+				06E3789C74CBB7D7C9AD90A56C27C8BF /* Pod */,
+			);
+			name = Flutter;
+			path = ../.symlinks/flutter/ios;
+			sourceTree = "<group>";
+		};
+		41CDA3E9D34BBB29CDB5D591AFD9851C /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				39E3015F6DCED90BCBCBE930EDD3A2CE /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1CC2DEA8A883EDA3511E54F5E9D42C7B /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		43F29F1E1936252B1298E043FB5CE437 /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				779A8F969C5EAD04423CF8BAE86ED6E9 /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		4841D985CF5694B2A6B7AA75D1970225 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				043763F9FDD642123A57E12BB95D0A9E /* Classes */,
+			);
+			name = ios;
+			path = ios;
+			sourceTree = "<group>";
+		};
+		4E390389E34D546D78EE63B1F289F733 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				56BFFD91BF2F629DB1ED372EA417E3B3 /* ZDCChat.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		4F8DBCD42E827AC2602ECB78F53C768A /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				2CBE27E5FD545698959E3888DE4BB278 /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		56CBBF4E2CA7B1387A78130584BB4E73 /* bitbucket */ = {
+			isa = PBXGroup;
+			children = (
+				7032EE0E25D240B55433BE554D777FC7 /* flutter-trakref */,
+			);
+			name = bitbucket;
+			path = bitbucket;
+			sourceTree = "<group>";
+		};
+		5A48C52F743288C03342283E38266242 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				ACD158BAFF96E7EC2AB66F7ECF968888 /* Frameworks */,
+				A2A04A348D78716A835CBD950EB5321E /* Resources */,
 			);
 			name = UI;
+			sourceTree = "<group>";
+		};
+		635B89DAD252FB045985118AABD73EAA /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				B98C540168B7D513362C95E1DBA2655E /* barcode_scan.xcconfig */,
+				03FEA2549912F3E13CD8CAF13F311BC4 /* barcode_scan-dummy.m */,
+				B7D9B3132F57D8B6D082DB2C16492513 /* barcode_scan-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../../../../Pods/Target Support Files/barcode_scan";
+			sourceTree = "<group>";
+		};
+		63D7F80C6FCEE3D3BC161563B3D222B8 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				86FECCF4AC7EA22DA3C4A3E575B7250D /* image_picker */,
+			);
+			name = plugins;
+			path = plugins;
+			sourceTree = "<group>";
+		};
+		6729A84B6337792FF82A23F710090902 /* freelance */ = {
+			isa = PBXGroup;
+			children = (
+				CB0AA61B1DC5CCB781B455AEAFAFD5A0 /* bitbucket */,
+			);
+			name = freelance;
+			path = freelance;
+			sourceTree = "<group>";
+		};
+		69448DD79416388BC314C765467749C9 /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				9A3DE901758C7330CB4F56E2853D6176 /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		6A10481BA518FEB33C26BDA5C1A74E4D /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				4F8DBCD42E827AC2602ECB78F53C768A /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		6E5F58C500E8D6E9F7514FB2324F48BD /* bitbucket */ = {
+			isa = PBXGroup;
+			children = (
+				13E5AF66BEF91EC62794AE5785A4B462 /* flutter-trakref */,
+			);
+			name = bitbucket;
+			path = bitbucket;
+			sourceTree = "<group>";
+		};
+		6EF33EA0B01C13A1D7ADB074516FB84A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1D4719A620969E419CE4DB91F9C73135 /* Frameworks */,
+				4E390389E34D546D78EE63B1F289F733 /* Resources */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		6F9ABE26B6E95627B7E0AF167DF028BF /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				068B4F75D411522DED1FF842312D0159 /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		7032EE0E25D240B55433BE554D777FC7 /* flutter-trakref */ = {
+			isa = PBXGroup;
+			children = (
+				DD86B3FF87949B3611B4FE1A6AA7C13D /* trakref-flutter */,
+			);
+			name = "flutter-trakref";
+			path = "flutter-trakref";
+			sourceTree = "<group>";
+		};
+		716E0FF90102D9D0C59F4041344F0F80 /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				821F73955930688A1F7803A8F71E6AED /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		724228EAEF35BBFF101721BDA0A20CBA /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				6A10481BA518FEB33C26BDA5C1A74E4D /* .. */,
+			);
+			name = ..;
+			path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.1/ios";
+			sourceTree = "<group>";
+		};
+		72E256AFCB5222B55FC8C9BD11F032D5 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				2BFFC510D6B07508E1BDB7060E78D043 /* Frameworks */,
+			);
+			name = Providers;
+			sourceTree = "<group>";
+		};
+		76F4691FC507D414FC5E26B7B0E2E51E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8BE313AE1B52CF5DFBB6910ED33DE6C7 /* Flutter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		779A8F969C5EAD04423CF8BAE86ED6E9 /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				0420D4F6B8F6BAE62CCC1772BE25241D /* .. */,
+			);
+			name = ..;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				B40C5D29F05C089202228F40FC0C2E0B /* Development Pods */,
-				0F8D2E47FE03D3B91B51069F7C273AF4 /* Frameworks */,
-				BF829F77F2DDE79AAD867AAAD668837C /* Pods */,
-				001F1B97D4ECCFD481D9336939522F09 /* Products */,
+				2918E132FDFD210A80A4F35BA03E0B7B /* Development Pods */,
+				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
+				0A7EFCB77AD0B560DFBDA587C26A470D /* Pods */,
+				C955E2511D59C6CEB7475CF8205567A0 /* Products */,
 				1A3BC54721BAA16B749DAA153DA8F5A5 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		7F4681D7BADE2DCA71355713F701209E /* Support Files */ = {
+		800FAA4ADC8F4635D11496AA0A4CB211 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				2A005ABA8816C4990290DC966BD979E4 /* image_picker.xcconfig */,
-				AC075E59D7FE7DCA1BE7CC23AD519DCB /* image_picker-dummy.m */,
-				2A96DC258ADACBF5B77715F4F9F5C9EA /* image_picker-prefix.pch */,
+				A7311B9860E3FC7B73A9E64A4EBAD11A /* Frameworks */,
 			);
-			name = "Support Files";
-			path = "../../../../Pods/Target Support Files/image_picker";
+			name = Core;
 			sourceTree = "<group>";
 		};
-		81C5F408C30A64813E410C1451280C00 /* .. */ = {
+		821F73955930688A1F7803A8F71E6AED /* .. */ = {
 			isa = PBXGroup;
 			children = (
-				3E91D163AF9D93B5609F6D5869A66608 /* .. */,
+				B1647ED01EBC11359467B944549DE179 /* freelance */,
 			);
 			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
-		8BDEC24760515E85646544E7710B2933 /* Providers */ = {
+		823CEA41550038611BD24736E025A1CC /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8D8B96D7B1CAF993298197E180895734 /* Frameworks */,
+				A4052C0BCCFC6AE3D941E99DFA8EB3F5 /* ImagePickerPlugin.h */,
+				0BC388844AFB51446EAA8CA75771F192 /* ImagePickerPlugin.m */,
 			);
-			name = Providers;
+			name = Classes;
+			path = Classes;
 			sourceTree = "<group>";
 		};
-		8D8B96D7B1CAF993298197E180895734 /* Frameworks */ = {
+		8329D5E7BA9E25B308D7AC207742BC4D /* barcode_scan */ = {
 			isa = PBXGroup;
 			children = (
-				033B72AA72462D57C9CA5DE59B9D1D49 /* ZendeskProviderSDK.framework */,
+				05A45BAE65844B0722FF4965C46F40F9 /* ios */,
 			);
-			name = Frameworks;
+			name = barcode_scan;
+			path = barcode_scan;
 			sourceTree = "<group>";
 		};
-		8DD739FCB4F137E6D2750F8147ED36ED /* freelance */ = {
+		86FECCF4AC7EA22DA3C4A3E575B7250D /* image_picker */ = {
 			isa = PBXGroup;
 			children = (
-				A6233E62C5CC765486CFC9641EE79046 /* bitbucket */,
+				8D09C637A112F4E5B51874C6129A2A26 /* ios */,
 			);
-			name = freelance;
-			path = freelance;
+			name = image_picker;
+			path = image_picker;
 			sourceTree = "<group>";
 		};
-		90F31FC5869A218EC3285A23ACADC4FF /* .. */ = {
+		8972562C62FE04D70C2C509469784718 /* .. */ = {
 			isa = PBXGroup;
 			children = (
-				C329AC2F80AC54BAD89DC52F66EFC028 /* .. */,
-			);
-			name = ..;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		93EC25D358F1DC0C2728EE8347349B68 /* .. */ = {
-			isa = PBXGroup;
-			children = (
-				26500190A9F8AD802C4BA7E72347A6BE /* .. */,
+				6F9ABE26B6E95627B7E0AF167DF028BF /* .. */,
 			);
 			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
-		9439B2C585634BF2EB2B07D64BFC136F /* Resources */ = {
+		8C91A4BC241975A55712D1B367CA3DFE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D4A6B2DF7B9EBA59FC460E617EEC6306 /* ZendeskSDKStrings.bundle */,
+				8E3533481293FD1E8A07623F209BC3EB /* ZDCChatStrings.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		9975C5E6B9F3F0C1A63EBF80EDE14BD1 /* .. */ = {
+		8D09C637A112F4E5B51874C6129A2A26 /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				B98B38E7F51F4F5BF10C1C65D9036242 /* .. */,
-			);
-			name = ..;
-			path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.1/ios";
-			sourceTree = "<group>";
-		};
-		A4182A8930D8DC8E8DCC834EA2516121 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				0D8FE1569862241EBD6135A3579D3D84 /* ZendeskCoreSDK.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		A6233E62C5CC765486CFC9641EE79046 /* bitbucket */ = {
-			isa = PBXGroup;
-			children = (
-				B9EDC15F1879C143ADE78D3CC3EC7B3C /* flutter-trakref */,
-			);
-			name = bitbucket;
-			path = bitbucket;
-			sourceTree = "<group>";
-		};
-		AD8672FE82D905FBA17B2B616C030ACB /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				6F0FD434FEB51523EEDB7CDA6BD429A0 /* Flutter.podspec */,
-				D29F81728CA41BBF98A3F6BECB9EE68E /* LICENSE */,
-			);
-			name = Pod;
-			sourceTree = "<group>";
-		};
-		AF7CCE956E2064A6DD20A4654C43788A /* Flutter */ = {
-			isa = PBXGroup;
-			children = (
-				CCB36B95AC44DFC18E4E651500A59FF5 /* Frameworks */,
-				AD8672FE82D905FBA17B2B616C030ACB /* Pod */,
-			);
-			name = Flutter;
-			path = ../.symlinks/flutter/ios;
-			sourceTree = "<group>";
-		};
-		B40C5D29F05C089202228F40FC0C2E0B /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				AF7CCE956E2064A6DD20A4654C43788A /* Flutter */,
-				3E3936F9F4E3EE4A5EC09378F470AC6F /* image_picker */,
-				2E27F3BC02CB59EFBBCD657A6E65F36E /* url_launcher */,
-			);
-			name = "Development Pods";
-			sourceTree = "<group>";
-		};
-		B4314D682A3C30135939CE4949A66DCE /* url_launcher */ = {
-			isa = PBXGroup;
-			children = (
-				502025E914244D277F70E1CC0B9DC5A5 /* ios */,
-			);
-			name = url_launcher;
-			path = url_launcher;
-			sourceTree = "<group>";
-		};
-		B60F5A18996E037CAB1CF79C98CA43F9 /* .. */ = {
-			isa = PBXGroup;
-			children = (
-				26004E3800A856EB88F68E1459C8C406 /* .. */,
-			);
-			name = ..;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		B98B38E7F51F4F5BF10C1C65D9036242 /* .. */ = {
-			isa = PBXGroup;
-			children = (
-				2138BDF1A992042DDC55932F16EC5689 /* .. */,
-			);
-			name = ..;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		B9EDC15F1879C143ADE78D3CC3EC7B3C /* flutter-trakref */ = {
-			isa = PBXGroup;
-			children = (
-				F31B7E1332B2EDE21F20B7C879D130A6 /* trakref-flutter */,
-			);
-			name = "flutter-trakref";
-			path = "flutter-trakref";
-			sourceTree = "<group>";
-		};
-		BA7109F53FDE5AC9F655DD1A7847B6A1 /* ios */ = {
-			isa = PBXGroup;
-			children = (
-				6CFC75A94A6C7DB591431CD80B1A1E23 /* Classes */,
+				823CEA41550038611BD24736E025A1CC /* Classes */,
 			);
 			name = ios;
 			path = ios;
 			sourceTree = "<group>";
 		};
-		BF829F77F2DDE79AAD867AAAD668837C /* Pods */ = {
+		93CD8B1F7C6DD41A749D1945F42394DA /* barcode_scan */ = {
 			isa = PBXGroup;
 			children = (
-				CD28C038BC10499C5AA0A0A96CACB4DB /* ZDCChat */,
-				F118EB12D561594B0D0328264DF4BB34 /* ZendeskSDK */,
+				1ED7833A34118B08B3D571737FD1C25E /* .. */,
+				D1A2A2A4FFFFB59484045B158AD71A3F /* Pod */,
+				635B89DAD252FB045985118AABD73EAA /* Support Files */,
 			);
-			name = Pods;
+			name = barcode_scan;
+			path = ../.symlinks/plugins/barcode_scan/ios;
 			sourceTree = "<group>";
 		};
-		C329AC2F80AC54BAD89DC52F66EFC028 /* .. */ = {
+		9780CA21232EA21D302B2829E01F9BB5 /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				3EC772095EE9E9E859768E6085D9E128 /* freelance */,
+				B0FCAAFE3232116CC627A7524D084B0A /* .symlinks */,
+			);
+			name = ios;
+			path = ios;
+			sourceTree = "<group>";
+		};
+		9A3DE901758C7330CB4F56E2853D6176 /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				2E390F16216C3E768AFC861DA893D284 /* .. */,
 			);
 			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
-		C70E3F2DA73B8C8EC634148D89662A8A /* API */ = {
+		A2A04A348D78716A835CBD950EB5321E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				53A8EB6D86940549C7AE0D8C0B64D7C3 /* Frameworks */,
+				40E2FFA2FC7299CDBC1E71C870FADC65 /* ZendeskSDKStrings.bundle */,
 			);
-			name = API;
+			name = Resources;
 			sourceTree = "<group>";
 		};
-		CCB36B95AC44DFC18E4E651500A59FF5 /* Frameworks */ = {
+		A3615C9225214A40C5786C1860F1408D /* .. */ = {
 			isa = PBXGroup;
 			children = (
-				A912816B49DB849BC3EF3DA79C881B89 /* Flutter.framework */,
+				397759A354FF47BE923168C5E339D5AB /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		A7311B9860E3FC7B73A9E64A4EBAD11A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				36CC208B939EA15E7A34D28275C88E80 /* ZendeskCoreSDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CD28C038BC10499C5AA0A0A96CACB4DB /* ZDCChat */ = {
+		ACD158BAFF96E7EC2AB66F7ECF968888 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C70E3F2DA73B8C8EC634148D89662A8A /* API */,
-				419A81165D9654FC03945349D0161A4C /* Localization */,
-				73EFD5458F98C847563263AF0758B9C0 /* UI */,
+				90999AB2EB3738620A132CBD05381A37 /* ZendeskSDK.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B0FCAAFE3232116CC627A7524D084B0A /* .symlinks */ = {
+			isa = PBXGroup;
+			children = (
+				63D7F80C6FCEE3D3BC161563B3D222B8 /* plugins */,
+			);
+			name = .symlinks;
+			path = .symlinks;
+			sourceTree = "<group>";
+		};
+		B1647ED01EBC11359467B944549DE179 /* freelance */ = {
+			isa = PBXGroup;
+			children = (
+				6E5F58C500E8D6E9F7514FB2324F48BD /* bitbucket */,
+			);
+			name = freelance;
+			path = freelance;
+			sourceTree = "<group>";
+		};
+		B4B68605BE0C50E5E723D31102BA8478 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				902D08AC4EBA8A0961C0D5F4FB9B3958 /* BarcodeScannerViewController.h */,
+				0BB4DA496DC6B301EF2F6ED5FF9208D5 /* BarcodeScannerViewController.m */,
+				2967768AC8B2EE969B007E7A750032DC /* BarcodeScannerViewControllerDelegate.h */,
+				AD7863508ABDC9E654EC434FA686C8C8 /* BarcodeScanPlugin.h */,
+				B52321B277B4A0497EACA93119B45236 /* BarcodeScanPlugin.m */,
+				EECDDCEE215EDB0DF9527E3BA36DC632 /* ScannerOverlay.h */,
+				4EE390898D710F7F6C99203B79797ED2 /* ScannerOverlay.m */,
+			);
+			name = Classes;
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		B83D215002182F4A9E5810D4AC8DB416 /* trakref-flutter */ = {
+			isa = PBXGroup;
+			children = (
+				9780CA21232EA21D302B2829E01F9BB5 /* ios */,
+			);
+			name = "trakref-flutter";
+			path = "trakref-flutter";
+			sourceTree = "<group>";
+		};
+		BA43550371A1F6EA4AD13FB286D5E8A5 /* .symlinks */ = {
+			isa = PBXGroup;
+			children = (
+				EB59CF64201FC543B96B6CF35C77D60B /* plugins */,
+			);
+			name = .symlinks;
+			path = .symlinks;
+			sourceTree = "<group>";
+		};
+		C744A1E086ECBCA1F88CA24DE2DF3EC7 /* url_launcher */ = {
+			isa = PBXGroup;
+			children = (
+				4841D985CF5694B2A6B7AA75D1970225 /* ios */,
+			);
+			name = url_launcher;
+			path = url_launcher;
+			sourceTree = "<group>";
+		};
+		C75D89A251F1F0F2C3E17C4A55DC513A /* trakref-flutter */ = {
+			isa = PBXGroup;
+			children = (
+				E30F144ED49F61D1F8ED7B94D4977E9F /* ios */,
+			);
+			name = "trakref-flutter";
+			path = "trakref-flutter";
+			sourceTree = "<group>";
+		};
+		C8DBBE9742ED6F56F5B4C901ABA2A2B9 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				51E8A358361DC63344D168FCD8C14DB2 /* image_picker.podspec */,
+				AFEA418F65C8D35058CB709F6017DC54 /* LICENSE */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		C955E2511D59C6CEB7475CF8205567A0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				27EBDE4F33BDD9E47255CE04C56F08B0 /* libbarcode_scan.a */,
+				516E29AE87B20FE15A21356D3A5E745B /* libimage_picker.a */,
+				6C1613F7FC39A10E042484AD98DD34E0 /* libMTBBarcodeScanner.a */,
+				A76D264DA7FBD48F7AC63CD7B7069F7A /* libPods-Runner.a */,
+				0B6E1285E2DE6C3190D6A86A87037FFF /* liburl_launcher.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CB0AA61B1DC5CCB781B455AEAFAFD5A0 /* bitbucket */ = {
+			isa = PBXGroup;
+			children = (
+				003A8B2B44324ECD803A045939C68C74 /* flutter-trakref */,
+			);
+			name = bitbucket;
+			path = bitbucket;
+			sourceTree = "<group>";
+		};
+		D13BADC3B7D6BD8DE8EE4E5C9E9BBD28 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				B604FB8AE19ED342FE178914DC06A5B1 /* url_launcher.xcconfig */,
+				9EA4F8F9B28554A42DC04D77E166D584 /* url_launcher-dummy.m */,
+				B6C0D3966470162B3936C6494AE60C35 /* url_launcher-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../../../../Pods/Target Support Files/url_launcher";
+			sourceTree = "<group>";
+		};
+		D1A2A2A4FFFFB59484045B158AD71A3F /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				B48D2A9E6F89C00C31A033F1AE87D5B6 /* barcode_scan.podspec */,
+				990A15BE9E6164693B806C23243EE821 /* LICENSE */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		D1BE80EB931C6FCCFD5F8F7F75C64C5C /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				8C91A4BC241975A55712D1B367CA3DFE /* Resources */,
+			);
+			name = Localization;
+			sourceTree = "<group>";
+		};
+		D67B6781D81E0F72D11FCE5ECC4AC5F5 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				3F409072ADDEB620AB0C9FC05F198A97 /* LICENSE */,
+				A83469007C4C89FC810FAD081143BB22 /* url_launcher.podspec */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		D8E72FEF06A59506EA251378841F8509 /* image_picker */ = {
+			isa = PBXGroup;
+			children = (
+				0AE521880DBCADB1520345B2B62A635E /* .. */,
+				C8DBBE9742ED6F56F5B4C901ABA2A2B9 /* Pod */,
+				DF26CEA9C43C7ABDAF59D4994BE4D65A /* Support Files */,
+			);
+			name = image_picker;
+			path = ../.symlinks/plugins/image_picker/ios;
+			sourceTree = "<group>";
+		};
+		DA9F64E5A27D6D0B7196B2416FFD1058 /* ZDCChat */ = {
+			isa = PBXGroup;
+			children = (
+				004B0BA4A59A85DCD2DD5181A052F6CA /* API */,
+				D1BE80EB931C6FCCFD5F8F7F75C64C5C /* Localization */,
+				6EF33EA0B01C13A1D7ADB074516FB84A /* UI */,
 			);
 			name = ZDCChat;
 			path = ZDCChat;
 			sourceTree = "<group>";
 		};
-		CED4C77BD6F59F53E7F9CCC5F27B5207 /* Pod */ = {
+		DBF8E17C2E1E9C459A5C56CECA0C1656 /* .symlinks */ = {
 			isa = PBXGroup;
 			children = (
-				AD276B5C5329692BCEC7A1E7EC0D7DE4 /* LICENSE */,
-				059DC5A9DB73A38EC4CDB6AFAED18AE2 /* url_launcher.podspec */,
+				FE84792D66941419A827833BE4465422 /* plugins */,
 			);
-			name = Pod;
-			sourceTree = "<group>";
-		};
-		D691BAB6BDDD5A9C9A936935A89BE16B /* .. */ = {
-			isa = PBXGroup;
-			children = (
-				8DD739FCB4F137E6D2750F8147ED36ED /* freelance */,
-			);
-			name = ..;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		D8296C312F84EC3E36644F3FA836F82A /* plugins */ = {
-			isa = PBXGroup;
-			children = (
-				EB0B6FB5F3C7F3554624CB5A9742A832 /* image_picker */,
-			);
-			name = plugins;
-			path = plugins;
-			sourceTree = "<group>";
-		};
-		D98E61C730C5A751A874E87F7D915DBF /* flutter-trakref */ = {
-			isa = PBXGroup;
-			children = (
-				2AA0E62E0C1EB62B4C852BD3CECF9522 /* trakref-flutter */,
-			);
-			name = "flutter-trakref";
-			path = "flutter-trakref";
+			name = .symlinks;
+			path = .symlinks;
 			sourceTree = "<group>";
 		};
 		DBFC4DA8C0848023BA19CC7B8E603E54 /* Pods-Runner */ = {
@@ -637,98 +951,101 @@
 			path = "Target Support Files/Pods-Runner";
 			sourceTree = "<group>";
 		};
-		DCB5030DEB4BA16BC59C43C19FEC6E8B /* .. */ = {
+		DD86B3FF87949B3611B4FE1A6AA7C13D /* trakref-flutter */ = {
 			isa = PBXGroup;
 			children = (
-				20211C9A63977CEE9021F2F2F693CC32 /* .. */,
-			);
-			name = ..;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		E7B3AF97EA7460A784A4A90686F3B2A4 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FF091CE0C89CDEF9A57D21EB9646E0F2 /* ZDCChat.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EB0B6FB5F3C7F3554624CB5A9742A832 /* image_picker */ = {
-			isa = PBXGroup;
-			children = (
-				BA7109F53FDE5AC9F655DD1A7847B6A1 /* ios */,
-			);
-			name = image_picker;
-			path = image_picker;
-			sourceTree = "<group>";
-		};
-		ED37C4E34CB790F535BFB4234706B7CB /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				B4EC13763ADA94EEAA0C03DCBA777D11 /* url_launcher.xcconfig */,
-				0993FEA04E017B3EDC475A71FDFE83DF /* url_launcher-dummy.m */,
-				63C24BA5BD2AE32A1D66B98A1B133EAB /* url_launcher-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../../../../Pods/Target Support Files/url_launcher";
-			sourceTree = "<group>";
-		};
-		F118EB12D561594B0D0328264DF4BB34 /* ZendeskSDK */ = {
-			isa = PBXGroup;
-			children = (
-				6AB409E768F6D8AE2D674970C46D4597 /* Core */,
-				8BDEC24760515E85646544E7710B2933 /* Providers */,
-				0CC4FA34C1D61E8A32E798D00D5105D1 /* UI */,
-			);
-			name = ZendeskSDK;
-			path = ZendeskSDK;
-			sourceTree = "<group>";
-		};
-		F212DDF4E9B5F3797958FA6B6764ADF2 /* plugins */ = {
-			isa = PBXGroup;
-			children = (
-				B4314D682A3C30135939CE4949A66DCE /* url_launcher */,
-			);
-			name = plugins;
-			path = plugins;
-			sourceTree = "<group>";
-		};
-		F31B7E1332B2EDE21F20B7C879D130A6 /* trakref-flutter */ = {
-			isa = PBXGroup;
-			children = (
-				08B4BA110722545150E4E59FBC6859F8 /* ios */,
+				39BE5768212C964674032801A925E6F0 /* ios */,
 			);
 			name = "trakref-flutter";
 			path = "trakref-flutter";
 			sourceTree = "<group>";
 		};
-		FA15F8D8858432402BA822B811DE10B0 /* .. */ = {
+		DF26CEA9C43C7ABDAF59D4994BE4D65A /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				81C5F408C30A64813E410C1451280C00 /* .. */,
+				4304054D43CA90803D193593F155B52E /* image_picker.xcconfig */,
+				1CE4A9BDB3EC8BDA582ABA85773FA8A2 /* image_picker-dummy.m */,
+				6F2AA892BD48B94183AB66CB75376497 /* image_picker-prefix.pch */,
 			);
-			name = ..;
-			path = "../../../../../../../../../dev/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.12/ios";
+			name = "Support Files";
+			path = "../../../../Pods/Target Support Files/image_picker";
 			sourceTree = "<group>";
 		};
-		FC5F19DA0DD838BB627E32AD950E9E19 /* .symlinks */ = {
+		E30F144ED49F61D1F8ED7B94D4977E9F /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				F212DDF4E9B5F3797958FA6B6764ADF2 /* plugins */,
+				BA43550371A1F6EA4AD13FB286D5E8A5 /* .symlinks */,
 			);
-			name = .symlinks;
-			path = .symlinks;
+			name = ios;
+			path = ios;
+			sourceTree = "<group>";
+		};
+		EB59CF64201FC543B96B6CF35C77D60B /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				C744A1E086ECBCA1F88CA24DE2DF3EC7 /* url_launcher */,
+			);
+			name = plugins;
+			path = plugins;
+			sourceTree = "<group>";
+		};
+		F0BFBEE8FF43F75C40C5C834122DEDAD /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				69448DD79416388BC314C765467749C9 /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		FA51038118CB7437381382C18FC502D4 /* .. */ = {
+			isa = PBXGroup;
+			children = (
+				8972562C62FE04D70C2C509469784718 /* .. */,
+			);
+			name = ..;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		FD597071CC3C7F47B2E6994DE985E7A4 /* MTBBarcodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+				CAD9556026BDD94329D35D2531193790 /* MTBBarcodeScanner.h */,
+				35F9E468AE06AA6BB710B946C7D3D341 /* MTBBarcodeScanner.m */,
+				3FCE070F02A4C260B3F236020DEF1374 /* Support Files */,
+			);
+			name = MTBBarcodeScanner;
+			path = MTBBarcodeScanner;
+			sourceTree = "<group>";
+		};
+		FE84792D66941419A827833BE4465422 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				8329D5E7BA9E25B308D7AC207742BC4D /* barcode_scan */,
+			);
+			name = plugins;
+			path = plugins;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		402EF71451AD3AB6D6CE27A0ECE7EDC2 /* Headers */ = {
+		156272B81F6120FF6443CFAD025DB747 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2F66F0EB59D715EA5E336192A65D977 /* UrlLauncherPlugin.h in Headers */,
+				725399DAAF463F81C6389AF868C69118 /* BarcodeScannerViewController.h in Headers */,
+				426D1ED473D60E7C06B309E40C5CCEEC /* BarcodeScannerViewControllerDelegate.h in Headers */,
+				D858E96B92EEB0C20ED14C8359416E73 /* BarcodeScanPlugin.h in Headers */,
+				B18C5280E460CE3AC904B2551771F0F9 /* ScannerOverlay.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F611DECC986A7783BD87E41B000ADB7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63EB11523E4208343F62A52CE0799F56 /* UrlLauncherPlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,16 +1057,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A99A752AD332D5B59566F44FFDA6FCEE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDD3AA7F1AAC2B87786AB2223D0D84CA /* MTBBarcodeScanner.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		552DFC6D51BACE95A1916F9F626389C9 /* url_launcher */ = {
+		305BA654EE903084708199CDAD3400FD /* url_launcher */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9D4C18F151CACD713FCE714A874B7AAC /* Build configuration list for PBXNativeTarget "url_launcher" */;
+			buildConfigurationList = 8B18E0218E3D2D2F2488FEC5CBAF903D /* Build configuration list for PBXNativeTarget "url_launcher" */;
 			buildPhases = (
-				FDAC22EE21164F78E7B59916FD3D93B5 /* Sources */,
-				725DB4B3BAD63ED6B1C896FD00851D7C /* Frameworks */,
-				402EF71451AD3AB6D6CE27A0ECE7EDC2 /* Headers */,
+				3BDCDA15321C131F3E467C19DA9D2509 /* Sources */,
+				91193974CF5DA5F80C7AB1B1B9A4E2A6 /* Frameworks */,
+				1F611DECC986A7783BD87E41B000ADB7 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -757,7 +1082,44 @@
 			);
 			name = url_launcher;
 			productName = url_launcher;
-			productReference = FCCC091E4EB843F9E21C8053E5866A3D /* liburl_launcher.a */;
+			productReference = 0B6E1285E2DE6C3190D6A86A87037FFF /* liburl_launcher.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		515776CE8183AC864D20569FA5CD8F36 /* Pods-Runner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 330B1EE649BE6C13F088586F61078FE6 /* Build configuration list for PBXNativeTarget "Pods-Runner" */;
+			buildPhases = (
+				5DD56D966E9F287950E9EBB15665B666 /* Sources */,
+				0FA994EE9A0A737024C6D13D79F50B55 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9D2DB7B6087C9D0D0E453A5D5B0E2980 /* PBXTargetDependency */,
+				F4F92FDDD516FEFBA82B66821815A279 /* PBXTargetDependency */,
+				5AA391E28BDBB93C26F570D83A8B494D /* PBXTargetDependency */,
+				A0BC5225B830EBE05C912A2A8D75B939 /* PBXTargetDependency */,
+			);
+			name = "Pods-Runner";
+			productName = "Pods-Runner";
+			productReference = A76D264DA7FBD48F7AC63CD7B7069F7A /* libPods-Runner.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		BB82892F3A4DD01192D0D658FE977584 /* MTBBarcodeScanner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 74A0BACADE1336C406AB9A0EA13C7C3E /* Build configuration list for PBXNativeTarget "MTBBarcodeScanner" */;
+			buildPhases = (
+				62BF215E429BE7E45183FBAB0B9FFE3E /* Sources */,
+				C378CC738559F5D3C8A3667316110CFB /* Frameworks */,
+				A99A752AD332D5B59566F44FFDA6FCEE /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MTBBarcodeScanner;
+			productName = MTBBarcodeScanner;
+			productReference = 6C1613F7FC39A10E042484AD98DD34E0 /* libMTBBarcodeScanner.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		CCBA82C565978790B4637C4B977919FA /* image_picker */ = {
@@ -774,25 +1136,25 @@
 			);
 			name = image_picker;
 			productName = image_picker;
-			productReference = 288F40A987A12E3D5FD826D5B80E351C /* libimage_picker.a */;
+			productReference = 516E29AE87B20FE15A21356D3A5E745B /* libimage_picker.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		D3829A6E694D2DA2EE67C53CB6BE19BA /* Pods-Runner */ = {
+		FFCCC452E3186583F1DF83D89E37361F /* barcode_scan */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9B428554BB9922BD2D680F8A2D4819F6 /* Build configuration list for PBXNativeTarget "Pods-Runner" */;
+			buildConfigurationList = 5BECE63FE5FE511634DD4647BCDE7FBE /* Build configuration list for PBXNativeTarget "barcode_scan" */;
 			buildPhases = (
-				80FBD82C2A3312F7F2716A1F0F287764 /* Sources */,
-				BFF72422DC43F9F4C0DA307A847408C5 /* Frameworks */,
+				996B291247569B26724BDB33CC4BE1F8 /* Sources */,
+				9FA5AB78EE26E70661330E175D13DBA4 /* Frameworks */,
+				156272B81F6120FF6443CFAD025DB747 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C0EE5B6AD186EF5BB200C2B14DFA18CB /* PBXTargetDependency */,
-				934E83BC57EAC03F405A8CE4B4EB30B6 /* PBXTargetDependency */,
+				54C6F91CB521B7347729DCDAF36A24EF /* PBXTargetDependency */,
 			);
-			name = "Pods-Runner";
-			productName = "Pods-Runner";
-			productReference = 3EABD11730D9B2F114A31BAFEFAF87D1 /* libPods-Runner.a */;
+			name = barcode_scan;
+			productName = barcode_scan;
+			productReference = 27EBDE4F33BDD9E47255CE04C56F08B0 /* libbarcode_scan.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -812,23 +1174,54 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 001F1B97D4ECCFD481D9336939522F09 /* Products */;
+			productRefGroup = C955E2511D59C6CEB7475CF8205567A0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				FFCCC452E3186583F1DF83D89E37361F /* barcode_scan */,
 				CCBA82C565978790B4637C4B977919FA /* image_picker */,
-				D3829A6E694D2DA2EE67C53CB6BE19BA /* Pods-Runner */,
-				552DFC6D51BACE95A1916F9F626389C9 /* url_launcher */,
+				BB82892F3A4DD01192D0D658FE977584 /* MTBBarcodeScanner */,
+				515776CE8183AC864D20569FA5CD8F36 /* Pods-Runner */,
+				305BA654EE903084708199CDAD3400FD /* url_launcher */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		80FBD82C2A3312F7F2716A1F0F287764 /* Sources */ = {
+		3BDCDA15321C131F3E467C19DA9D2509 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92313BA6AB44DCF8E183A9AB62713FBB /* Pods-Runner-dummy.m in Sources */,
+				9EF39625715BFB64A810EA0E6A761A7F /* url_launcher-dummy.m in Sources */,
+				E1F2411E91C7F4EB3075710F474D41DD /* UrlLauncherPlugin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5DD56D966E9F287950E9EBB15665B666 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABB33F7FB5E87E77EFEA35606F6C12A2 /* Pods-Runner-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		62BF215E429BE7E45183FBAB0B9FFE3E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0A9140764398A4C138C5D07F8FDA9C4 /* MTBBarcodeScanner-dummy.m in Sources */,
+				9B0D038CA62D2879E410329A89F992AE /* MTBBarcodeScanner.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		996B291247569B26724BDB33CC4BE1F8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC983AB1F8C317FC997ED954A96B1D14 /* barcode_scan-dummy.m in Sources */,
+				D812CAB8FB4C0131D4668EE0C28AE0EC /* BarcodeScannerViewController.m in Sources */,
+				25CDFA5B77BC9070F0D0A372005BA4AB /* BarcodeScanPlugin.m in Sources */,
+				CAA6B4347648BD4A2926148EFBB250C9 /* ScannerOverlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -841,33 +1234,164 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FDAC22EE21164F78E7B59916FD3D93B5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				90089D3733AA6166A1DCF718F6F6770C /* url_launcher-dummy.m in Sources */,
-				BAEB1FA23C55BAF0079694AEB42D14A9 /* UrlLauncherPlugin.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		934E83BC57EAC03F405A8CE4B4EB30B6 /* PBXTargetDependency */ = {
+		54C6F91CB521B7347729DCDAF36A24EF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = url_launcher;
-			target = 552DFC6D51BACE95A1916F9F626389C9 /* url_launcher */;
-			targetProxy = 80350D852AC696B368A26F424F760570 /* PBXContainerItemProxy */;
+			name = MTBBarcodeScanner;
+			target = BB82892F3A4DD01192D0D658FE977584 /* MTBBarcodeScanner */;
+			targetProxy = DDEFFE9BD825B214F6D5319541F05CC5 /* PBXContainerItemProxy */;
 		};
-		C0EE5B6AD186EF5BB200C2B14DFA18CB /* PBXTargetDependency */ = {
+		5AA391E28BDBB93C26F570D83A8B494D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = image_picker;
 			target = CCBA82C565978790B4637C4B977919FA /* image_picker */;
-			targetProxy = 6DDA77301F19967698242773A47E6BFF /* PBXContainerItemProxy */;
+			targetProxy = 5C41A1B82E629465141D50FD3F68E226 /* PBXContainerItemProxy */;
+		};
+		9D2DB7B6087C9D0D0E453A5D5B0E2980 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MTBBarcodeScanner;
+			target = BB82892F3A4DD01192D0D658FE977584 /* MTBBarcodeScanner */;
+			targetProxy = A1A4E45DB7FFE1270BA922A5BDF7AA6A /* PBXContainerItemProxy */;
+		};
+		A0BC5225B830EBE05C912A2A8D75B939 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = url_launcher;
+			target = 305BA654EE903084708199CDAD3400FD /* url_launcher */;
+			targetProxy = F352F493FFD88333D7EED3B50A4A42FB /* PBXContainerItemProxy */;
+		};
+		F4F92FDDD516FEFBA82B66821815A279 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = barcode_scan;
+			target = FFCCC452E3186583F1DF83D89E37361F /* barcode_scan */;
+			targetProxy = 81677AFC8189E589BD3D6C98D38D4C85 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0AEC344E1CF0B74F2A5D3AFC98CCF337 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C408AE23089B2751A55D596976463C8 /* MTBBarcodeScanner.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				ENABLE_BITCODE = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/MTBBarcodeScanner/MTBBarcodeScanner-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = MTBBarcodeScanner;
+				PRODUCT_NAME = MTBBarcodeScanner;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		27C5E19B2C514F45DCC5395EA47C8BAD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B604FB8AE19ED342FE178914DC06A5B1 /* url_launcher.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				ENABLE_BITCODE = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/url_launcher/url_launcher-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = url_launcher;
+				PRODUCT_NAME = url_launcher;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2A872877CB4C08C86BA1615231B079EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AAB1427B3571BBBD81A519E9C8541E2E /* Pods-Runner.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				ENABLE_BITCODE = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2B91B250694E2215EF270367398841C0 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C408AE23089B2751A55D596976463C8 /* MTBBarcodeScanner.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				ENABLE_BITCODE = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/MTBBarcodeScanner/MTBBarcodeScanner-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = MTBBarcodeScanner;
+				PRODUCT_NAME = MTBBarcodeScanner;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Profile;
+		};
+		4A9D335135BE0725245B89ABAA901597 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C408AE23089B2751A55D596976463C8 /* MTBBarcodeScanner.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				ENABLE_BITCODE = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/MTBBarcodeScanner/MTBBarcodeScanner-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = MTBBarcodeScanner;
+				PRODUCT_NAME = MTBBarcodeScanner;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		4ECD9AFF75C3F141348FB9069E557F02 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1047,56 +1571,59 @@
 			};
 			name = Release;
 		};
-		9F66A7D0DBAE58F51E6FF317774EE52C /* Profile */ = {
+		5E9294D7A9CD42C08E67AE96105F9E93 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F5F2858E6EE7F4E5E6C883CE01C7156 /* Pods-Runner.profile.xcconfig */;
+			baseConfigurationReference = B98C540168B7D513362C95E1DBA2655E /* barcode_scan.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				ENABLE_BITCODE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
+				GCC_PREFIX_HEADER = "Target Support Files/barcode_scan/barcode_scan-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = barcode_scan;
+				PRODUCT_NAME = barcode_scan;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Profile;
 		};
-		AD7503CAB298C4CBECFDAA50AA804E02 /* Debug */ = {
+		7E399703801D6D64885C6F74A321B5F8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1C7C65E102E43A24EA92186F1D1E5DE7 /* Pods-Runner.debug.xcconfig */;
+			baseConfigurationReference = B604FB8AE19ED342FE178914DC06A5B1 /* url_launcher.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				ENABLE_BITCODE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
+				GCC_PREFIX_HEADER = "Target Support Files/url_launcher/url_launcher-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = url_launcher;
+				PRODUCT_NAME = url_launcher;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
-		B62A862A1B3D599936FAEDB928E82774 /* Profile */ = {
+		ACFC7C16BAC9D06ACDE16AF814383D56 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4EC13763ADA94EEAA0C03DCBA777D11 /* url_launcher.xcconfig */;
+			baseConfigurationReference = B604FB8AE19ED342FE178914DC06A5B1 /* url_launcher.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1121,7 +1648,7 @@
 		};
 		C0671F3C9477C59740277659BE534244 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2A005ABA8816C4990290DC966BD979E4 /* image_picker.xcconfig */;
+			baseConfigurationReference = 4304054D43CA90803D193593F155B52E /* image_picker.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1144,9 +1671,33 @@
 			};
 			name = Debug;
 		};
+		C077BD72AAA55162066860D699D486DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B98C540168B7D513362C95E1DBA2655E /* barcode_scan.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				ENABLE_BITCODE = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/barcode_scan/barcode_scan-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = barcode_scan;
+				PRODUCT_NAME = barcode_scan;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		C3960F5929EF08012507502E90B3C80D /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2A005ABA8816C4990290DC966BD979E4 /* image_picker.xcconfig */;
+			baseConfigurationReference = 4304054D43CA90803D193593F155B52E /* image_picker.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1170,9 +1721,34 @@
 			};
 			name = Profile;
 		};
-		C568D1235F59BDA2A6DE936BF90B77F8 /* Release */ = {
+		CA12EC94C67B9EC871E3E2409880CAB5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AAB1427B3571BBBD81A519E9C8541E2E /* Pods-Runner.release.xcconfig */;
+			baseConfigurationReference = B98C540168B7D513362C95E1DBA2655E /* barcode_scan.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				ENABLE_BITCODE = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/barcode_scan/barcode_scan-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = barcode_scan;
+				PRODUCT_NAME = barcode_scan;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D34CE181BACF5E7091DAE85ACCEB2625 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1C7C65E102E43A24EA92186F1D1E5DE7 /* Pods-Runner.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1190,62 +1766,12 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		D6AD59B4F328F874286D39062D830282 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4EC13763ADA94EEAA0C03DCBA777D11 /* url_launcher.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				ENABLE_BITCODE = NO;
-				GCC_PREFIX_HEADER = "Target Support Files/url_launcher/url_launcher-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = url_launcher;
-				PRODUCT_NAME = url_launcher;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		D964160312FA147E7A2453EC31EDE2FF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4EC13763ADA94EEAA0C03DCBA777D11 /* url_launcher.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				ENABLE_BITCODE = NO;
-				GCC_PREFIX_HEADER = "Target Support Files/url_launcher/url_launcher-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = url_launcher;
-				PRODUCT_NAME = url_launcher;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		DE48580EAC1CFC1B03A17335D6794050 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2A005ABA8816C4990290DC966BD979E4 /* image_picker.xcconfig */;
+			baseConfigurationReference = 4304054D43CA90803D193593F155B52E /* image_picker.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1268,6 +1794,30 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
+		};
+		DEC60F02264FB07CB258408504B731D8 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F5F2858E6EE7F4E5E6C883CE01C7156 /* Pods-Runner.profile.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				ENABLE_BITCODE = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Profile;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1292,22 +1842,42 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9B428554BB9922BD2D680F8A2D4819F6 /* Build configuration list for PBXNativeTarget "Pods-Runner" */ = {
+		330B1EE649BE6C13F088586F61078FE6 /* Build configuration list for PBXNativeTarget "Pods-Runner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AD7503CAB298C4CBECFDAA50AA804E02 /* Debug */,
-				9F66A7D0DBAE58F51E6FF317774EE52C /* Profile */,
-				C568D1235F59BDA2A6DE936BF90B77F8 /* Release */,
+				D34CE181BACF5E7091DAE85ACCEB2625 /* Debug */,
+				DEC60F02264FB07CB258408504B731D8 /* Profile */,
+				2A872877CB4C08C86BA1615231B079EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9D4C18F151CACD713FCE714A874B7AAC /* Build configuration list for PBXNativeTarget "url_launcher" */ = {
+		5BECE63FE5FE511634DD4647BCDE7FBE /* Build configuration list for PBXNativeTarget "barcode_scan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D6AD59B4F328F874286D39062D830282 /* Debug */,
-				B62A862A1B3D599936FAEDB928E82774 /* Profile */,
-				D964160312FA147E7A2453EC31EDE2FF /* Release */,
+				C077BD72AAA55162066860D699D486DB /* Debug */,
+				5E9294D7A9CD42C08E67AE96105F9E93 /* Profile */,
+				CA12EC94C67B9EC871E3E2409880CAB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		74A0BACADE1336C406AB9A0EA13C7C3E /* Build configuration list for PBXNativeTarget "MTBBarcodeScanner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A9D335135BE0725245B89ABAA901597 /* Debug */,
+				2B91B250694E2215EF270367398841C0 /* Profile */,
+				0AEC344E1CF0B74F2A5D3AFC98CCF337 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B18E0218E3D2D2F2488FEC5CBAF903D /* Build configuration list for PBXNativeTarget "url_launcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27C5E19B2C514F45DCC5395EA47C8BAD /* Debug */,
+				ACFC7C16BAC9D06ACDE16AF814383D56 /* Profile */,
+				7E399703801D6D64885C6F74A321B5F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

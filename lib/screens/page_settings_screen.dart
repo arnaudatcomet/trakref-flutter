@@ -9,6 +9,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart' show C
 import 'package:url_launcher/url_launcher.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
+
 _launchURL() async {
   const url = 'https://flutter.io';
   if (await canLaunch(url)) {
@@ -27,6 +28,7 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
   final GlobalKey<FormFieldState<String>> _passwordFieldKey = GlobalKey<FormFieldState<String>>();
   final GlobalKey<FormFieldState<String>> _textFieldKey1 = GlobalKey<FormFieldState<String>>();
   final GlobalKey<FormFieldState<String>> _textFieldKey2 = GlobalKey<FormFieldState<String>>();
+  String barcode = "";
   bool _assignedtoMe = false;
 
   DateTime _currentDate;
@@ -34,6 +36,27 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
 
   static const platform = const MethodChannel('flutter.native/zendesk');
   String _responseFromNativeCode = 'Waiting for Response...';
+
+  // Scan a barcode with the camera
+  Future scan() async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      setState(() => this.barcode = barcode);
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        setState(() {
+          this.barcode = 'The user did not grant the camera permission!';
+        });
+      } else {
+        setState(() => this.barcode = 'Unknown error: $e');
+      }
+    } on FormatException{
+      setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+      setState(() => this.barcode = 'Unknown error: $e');
+    }
+  }
+
 
   // Get an image from picker
   Future getImage() async {
@@ -115,10 +138,11 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
                       child: MaterialButton(
 //                        onPressed: responseFromNativeCode,
 //                        onPressed: _launchURL,
-                        onPressed: _launchURL,
+                        onPressed: scan,
                         height: 60,
                         color: AppColors.blueTurquoise,
-                        child: Text(_responseFromNativeCode,
+//                        child: Text(_responseFromNativeCode,
+    child: Text("Scan",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
