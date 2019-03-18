@@ -24,3 +24,26 @@ class AppOutlineButton extends StatelessWidget {
       );
   }
 }
+
+class AppButton extends StatelessWidget {
+  String keyButton = "";
+  String textButton= "";
+
+  AppButton(this.keyButton, this.textButton);
+
+  @override
+  Widget build(BuildContext context) {
+    return ButtonTheme(
+      height: 52.0,
+      child: new RaisedButton(
+        key: Key(keyButton),
+        color: AppColors.blueTurquoise,
+        child: Text(textButton, style: TextStyle(color: Colors.white, fontSize: 16)),
+        onPressed: () {},
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(4),
+        ),
+      ),
+    );
+  }
+}
