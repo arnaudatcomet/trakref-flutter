@@ -90,32 +90,33 @@ class _AppButtonState extends State<AppButton> {
   }
 }
 
+class AppTextField extends StatefulWidget {
+  Key keyTextField;
+  String labeled = "This is a textfield example";
+  VoidCallback onEditingComplete;
+  ValueChanged<String> onSubmitted;
 
-/*
-class AppButton extends StatelessWidget {
-//  String keyButton = "";
-//  String textButton= "";
-  @required
-  VoidCallback onPressed;
-
-  AppButton({this.onPressed});
-
-//  AppButton({this.keyButton, this.textButton, this.onPressed}):super(key: Key(keyButton));
+  AppTextField({
+    this.keyTextField, this.labeled, this.onEditingComplete, this.onSubmitted});
 
   @override
+  _AppTextFieldState createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
+  @override
   Widget build(BuildContext context) {
-    return ButtonTheme(
-      height: 52.0,
-      child: new RaisedButton(
-        key: Key(keyButton),
-        color: AppColors.blueTurquoise,
-        child: Text(this.textButton, style: TextStyle(color: Colors.white, fontSize: 16)),
-        onPressed: () {},
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(4),
+    return Container(
+      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+      child: TextField(
+        key: widget.keyTextField,
+        onEditingComplete: widget.onEditingComplete,
+        onSubmitted: widget.onSubmitted,
+        decoration: InputDecoration(
+            labelText: widget.labeled ?? "",
+            border: const UnderlineInputBorder()
         ),
       ),
     );
   }
 }
-*/
