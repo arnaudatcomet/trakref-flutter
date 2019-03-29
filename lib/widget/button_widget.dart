@@ -90,14 +90,15 @@ class _AppButtonState extends State<AppButton> {
   }
 }
 
+// Generic textfield for forms
 class AppTextField extends StatefulWidget {
   Key keyTextField;
   String labeled = "This is a textfield example";
   VoidCallback onEditingComplete;
   ValueChanged<String> onSubmitted;
-
+  TextInputType keyboardType;
   AppTextField({
-    this.keyTextField, this.labeled, this.onEditingComplete, this.onSubmitted});
+    this.keyTextField, this.keyboardType, this.labeled, this.onEditingComplete, this.onSubmitted});
 
   @override
   _AppTextFieldState createState() => _AppTextFieldState();
@@ -107,14 +108,48 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
       child: TextField(
+        keyboardType: widget.keyboardType,
         key: widget.keyTextField,
         onEditingComplete: widget.onEditingComplete,
         onSubmitted: widget.onSubmitted,
         decoration: InputDecoration(
             labelText: widget.labeled ?? "",
             border: const UnderlineInputBorder()
+        ),
+      ),
+    );
+  }
+}
+
+// Image picker for textfield
+class ImagePickerTextField extends StatefulWidget {
+  VoidCallback onPressed;
+  String labeled = "This is an imagepicker example";
+  Key keyImagePickerTextField;
+  ValueChanged<String> onSubmitted;
+
+  ImagePickerTextField({this.onPressed, this.labeled,
+    this.keyImagePickerTextField, this.onSubmitted});
+
+  @override
+  _ImagePickerTextFieldState createState() => _ImagePickerTextFieldState();
+}
+
+class _ImagePickerTextFieldState extends State<ImagePickerTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+      child: TextField(
+        decoration: InputDecoration(
+            labelText: widget.labeled,
+            border: const UnderlineInputBorder(),
+            suffixIcon: new IconButton(icon: Image.asset('assets/images/barcode-icon.png',
+                colorBlendMode: BlendMode.color,
+                color: AppColors.blueTurquoise,
+                height: 22),
+                onPressed: widget.onPressed)
         ),
       ),
     );
