@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:trakref_app/constants.dart';
@@ -50,17 +52,24 @@ class ApiService {
   Future<dynamic> get(String url) async {
     String apiKey = 'eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0=';
     final headers = {"Content-Type": "application/json", "Userid":"$_userID", "Api-Key":"$apiKey", "Authentication-Token":"$_token", "Instance-Id":"$_instanceID"};
-    print('Arnaud::headers : $headers');
     return http.get(url, headers: headers).then((http.Response response) {
       final res = response.body;
-      print('res : $res');
       List resJson = _decoder.convert(res);
-      print('resJson : $resJson');
       return resJson;
+    });
+  }
+
+  Future<dynamic> getStandard(String url) async {
+    String apiKey = 'eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0=';
+    final headers = {"Content-Type": "application/json", "Userid":"$_userID", "Api-Key":"$apiKey", "Authentication-Token":"$_token", "Instance-Id":"$_instanceID"};
+    return http.get(url, headers: headers).then((http.Response response) {
+      final res = response.body;
+      return res;
     });
   }
 }
 
+// Service to login user
 class LoginService {
   LoginService();
 
@@ -94,3 +103,4 @@ class LoginService {
     });
   }
 }
+
