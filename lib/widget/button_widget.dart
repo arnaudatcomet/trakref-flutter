@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:trakref_app/main.dart';
 
 class AppOutlineButton extends StatelessWidget {
@@ -150,6 +151,67 @@ class _ImagePickerTextFieldState extends State<ImagePickerTextField> {
                 color: AppColors.blueTurquoise,
                 height: 22),
                 onPressed: widget.onPressed)
+        ),
+      ),
+    );
+  }
+}
+
+
+// Image picker for textfield
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
+
+class DatePickerTextField extends StatefulWidget {
+  VoidCallback onPressed;
+  String labeled = "";
+  String helper = "";
+  Key keyDatePickerTextField;
+  ValueChanged<String> onSubmitted;
+
+  DatePickerTextField({this.onPressed, this.labeled, this.helper,
+    this.keyDatePickerTextField, this.onSubmitted});
+
+  @override
+  _DatePickerTextFieldState createState() => _DatePickerTextFieldState();
+}
+
+class _DatePickerTextFieldState extends State<DatePickerTextField> {
+  DateTime _date;
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2016), lastDate: DateTime(2020));
+    setState(() {
+      _date = picked;
+      String formattedDate = DateFormat('yyyy-MM-dd').format(_date);
+      print("Date picked is $formattedDate");
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+      child: TextField(
+        enableInteractiveSelection: false,
+        focusNode: AlwaysDisabledFocusNode(),
+        onTap: () {
+
+        },
+        decoration: InputDecoration(
+            helperText: widget.helper,
+            labelText: (_date == null) ? "" : DateFormat('yyyy-MM-dd').format(_date),
+            border: const UnderlineInputBorder(),
+            suffixIcon: new IconButton(icon: Image.asset('assets/images/calendar.png',
+//                colorBlendMode: BlendMode.color,
+                color: AppColors.blueTurquoise,
+                height: 22),
+                onPressed: () {
+                  _selectDate(context);
+                  widget.onPressed;
+                })
         ),
       ),
     );

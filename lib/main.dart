@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/routes.dart';
 
 void main() => runApp(MyApp());
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Login',
       theme: buildTheme(),
       routes: routes,

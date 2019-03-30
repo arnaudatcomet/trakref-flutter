@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/repository/get_service.dart';
+import 'package:trakref_app/screens/page_account_detail_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
+import 'package:trakref_app/widget/dropdown_widget.dart';
 
 class PageAccountsBloc extends StatefulWidget {
   @override
@@ -14,29 +16,6 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
 
   // Properties
   List<ListItem> items = [
-    /*
-    AccountItem('10 Safeway Chicago Internal Provider'),
-    AccountItem('20 North Refrigeration Inc.'),
-    AccountItem('5-Star Refrigeration'),
-    AccountItem('728 Source Refrigeration & HVAC Inc'),
-    AccountItem('A M Refrigeration'),
-    AccountItem('A Superior Service'),
-    AccountItem('AAA - NY/NJ'),
-    AccountItem('10 Safeway Chicago Internal Provider'),
-    AccountItem('20 North Refrigeration Inc.'),
-    AccountItem('5-Star Refrigeration'),
-    AccountItem('728 Source Refrigeration & HVAC Inc'),
-    AccountItem('A M Refrigeration'),
-    AccountItem('A Superior Service'),
-    AccountItem('AAA - NY/NJ'),
-    AccountItem('10 Safeway Chicago Internal Provider'),
-    AccountItem('20 North Refrigeration Inc.'),
-    AccountItem('5-Star Refrigeration'),
-    AccountItem('728 Source Refrigeration & HVAC Inc'),
-    AccountItem('A M Refrigeration'),
-    AccountItem('A Superior Service'),
-    AccountItem('AAA - NY/NJ')
-    */
   ];
 
   ListTile makeAccountTile(AccountItem item) => ListTile(
@@ -49,6 +28,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
   @override
   void initState() {
     service.loadAccounts();
+    _onLoaded = false;
     service.onLoaded = () {
       setState(() {
         _onLoaded = true;
@@ -67,7 +47,9 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: new Icon(Icons.close, color: AppColors.gray),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
         actions: <Widget>[
           IconButton(
@@ -76,7 +58,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
           ),
         ]
       ),
-      body: Container(
+      body: (_onLoaded == false) ? FormBuild.buildLoader() : Container(
         width: double.infinity,
         color: Colors.white,
         child: ListView.builder(
@@ -97,8 +79,21 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
               else {
                 final item = items[index-1];
                 if (item is AccountItem) {
-                  return new Container(
-                    child: this.makeAccountTile(item),
+                  return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            Account acc = service.accounts[index-1];
+                            return PageAccountDetailBloc(
+                              accountName: acc.name
+                            );
+                          }
+                        )
+                      );
+                    },
+                    child: Container(
+                      child: this.makeAccountTile(item),
+                    ),
                   );
                 }
               }

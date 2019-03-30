@@ -140,15 +140,19 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                               return Text("");
                             }
                         ),
-                        new Container(
-                          margin: EdgeInsets.only(top: 16),
-                          alignment: Alignment.center,
-                          child: new InkWell(
-                              onTap: () => print("Forgot password"),
-                              child: new Text("Forgot Password ?",
-                                  style: TextStyle(color: AppColors.gray)
-                              )
-                          ),
+                        Row(
+                          children: <Widget>[
+                            new Container(
+                              margin: EdgeInsets.only(top: 16),
+                              alignment: Alignment.center,
+                              child: new InkWell(
+                                  onTap: () => print("Forgot password"),
+                                  child: new Text("Cancel",
+                                      style: TextStyle(color: AppColors.gray)
+                                  )
+                              ),
+                            )
+                          ],
                         )
                       ],
                     )

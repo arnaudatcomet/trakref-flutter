@@ -33,7 +33,16 @@ class DropdownFormField<T> extends FormField<T> {
                   isExpanded: true,
                   value: field.value,
                   isDense: true,
-                  onChanged: field.didChange,
+                  onChanged: (T value) {
+
+//                    void didChange(T value) {
+//                      setState(() {
+//                        _value = value;
+//                      });
+//                      Form.of(context)?._fieldDidChange();
+//                    }
+                  },
+//                  onChanged: field.didChange,
                   items: items.toList(),
                 ),
               ),
@@ -45,6 +54,14 @@ class DropdownFormField<T> extends FormField<T> {
 }
 
 class FormBuild {
+  // Convenient Loader
+  static Widget buildLoader() {
+    return Center(
+      child: new CircularProgressIndicator(
+          backgroundColor: Colors.red
+      ),
+    );
+  }
   // To add a textfield quickly
   static Widget buildTextField({String label, Key key, TextInputType inputType}) {
     return Expanded(
@@ -60,7 +77,15 @@ class FormBuild {
     );
   }
 
-  static Widget buildDropdown<T>(List<T> source, String label) {
+  static Widget buildDatePicker({String label, String helper, Key key, VoidCallback onPressed, DateTime startDate, DateTime endDate}) {
+    return Expanded(
+      flex: 1,
+      child: DatePickerTextField(labeled: label, helper: helper, onPressed: onPressed, keyDatePickerTextField: key),
+    );
+  }
+
+  static Widget buildDropdown<T>(List<T> source, String label,
+  {FormFieldSetter<T> onSaved}) {
     if (source == null) {
       print("Buid dropdown for '$label' is empty!");
       return Expanded(

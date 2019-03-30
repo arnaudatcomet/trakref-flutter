@@ -27,72 +27,6 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
   // Need to check what it is in the dropdown API
   List<Dropdown> temperatureClass;
 
-  // To add a textfield quickly
-  Widget _buildTextField({String label, Key key, TextInputType inputType}) {
-    return Expanded(
-      flex: 1,
-      child: AppTextField(labeled: label, keyTextField: key, keyboardType: inputType),
-    );
-  }
-
-  Widget _buildImagePicker({String label, Key key, VoidCallback onPressed}) {
-    return Expanded(
-      flex: 1,
-      child: ImagePickerTextField(labeled: label, onPressed: onPressed, keyImagePickerTextField: key,),
-    );
-  }
-
-  // To build dropdown widget
-  Widget _buildDropdown<T>(List<T> source, String label) {
-    if (source == null) {
-      print("Buid dropdown for '$label' is empty!");
-      return Expanded(
-        flex: 1,
-        child: Container(
-          color: Colors.yellow,
-        ),
-      );
-    }
-    int count = source.length;
-    print("Buid dropdown for '$label' with count '$count'");
-    if (source.length == 0) {
-      return Expanded(
-        flex: 1,
-        child: Container(
-          color: Colors.red,
-        ),
-      );
-    }
-    if (source is List<Dropdown>) {
-      return Expanded(
-        flex: 1,
-        child: DropdownFormField<String>(
-          decoration: InputDecoration(labelText: label),
-          items: source.map((i) {
-            if (i is Dropdown) {
-              Dropdown dropdown = i;
-              String name = dropdown.name;
-              return DropdownMenuItem<String>(
-                value: name,
-                child: Text('$name'),
-              );
-            }
-            return DropdownMenuItem<String>(
-              value: "",
-              child: Text(""),
-            );
-          }).toList(),
-        ),
-      );
-    }
-
-    // Do nothing
-    return Expanded(
-      flex: 1,
-      child: Container(),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -105,17 +39,10 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
         materialType = service.dropdowns.materialTypes;
         coolingApplianceStatuses = service.dropdowns.coolingApplianceStatuses;
         assetSubtypes = service.dropdowns.assetSubtypes;
+        temperatureClass = service.dropdowns.temperatureClasses;
+
         // This is hardcoded
         locations = [Dropdown(name: "0713", id: 1654321)];
-        // This has been updated and added to dropdowns API Endpoint
-        temperatureClass = [Dropdown(name: "Low", id: 1),
-        Dropdown(name: "Medium", id: 2),
-        Dropdown(name: "High", id: 3)];
-
-        // This has been updated and added to dropdowns API Endpoint
-//        materialType = [Dropdown(name: "Low", id: 1),
-//        Dropdown(name: "Medium", id: 2),
-//        Dropdown(name: "High", id: 3)];
       });
     };
 
@@ -123,45 +50,23 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: ListView(
-          children: <Widget>[
-            (_isDropdownsLoaded == true) ? Row(
-//              spacing: 8.0, // gap between adjacent chips
-//              runSpacing: 4.0, // gap between lines
-//              direction: Axis.horizontal,
-              children: <Widget>[
-                FormBuild.buildDropdown(materialType, "Material Type"),
-                SizedBox(
-                  width: 20,
-                ),
-                FormBuild.buildDropdown(materialType, "Material Type 2")
-              ],
-            )
-                : Container()
-
-          ],
-    )
-    );/* (_isDropdownsLoaded == false) ? Center(
-      child: new CircularProgressIndicator(
-          backgroundColor: Colors.red
-      ),
-    ): Scaffold(
+    return (_isDropdownsLoaded == false) ? FormBuild.buildLoader() : Scaffold(
       appBar: AppBar(
         actions: <Widget>[
           FlatButton(
             onPressed: () {
-
             },
             child: Text("Save", style: TextStyle(
              color: AppColors.blueTurquoise
             )),
           )
         ],
-        leading: Icon(
+        leading: IconButton(icon: Icon(
           Icons.close,
           color: Colors.black87,
-        ),
+        ), onPressed: (){
+          Navigator.of(context).pop();
+        }),
         elevation: 0.0,
         backgroundColor: Colors.white.withOpacity(0.0),
       ),
@@ -170,18 +75,6 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             children: <Widget>[
-              Wrap(
-                spacing: 8.0, // gap between adjacent chips
-                runSpacing: 4.0, // gap between lines
-                direction: Axis.horizontal,
-                children: <Widget>[
-                  FormBuild.buildDropdown(materialType, "Material Type"),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  FormBuild.buildDropdown(materialType, "Material Type 2")
-                ],
-              ),
               Row(
                 children: <Widget>[
                   Expanded(
@@ -206,13 +99,9 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
               ),
               Row(
                   children: <Widget>[
-                    FormBuild.buildDropdown(coolingApplianceStatuses, "Appliance Status")
+                    FormBuild.buildDropdown(coolingApplianceStatuses, "Appliance Status"),
+                    FormBuild.buildDropdown(assetSubtypes, "Appliance Type")
                   ]
-              ),
-              Row(
-                children: <Widget>[
-                  FormBuild.buildDropdown(assetSubtypes, "Appliance Type")
-                ],
               ),
               Row(
                 children: <Widget>[
@@ -253,7 +142,7 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
                         onPressed: () {
                           print("FlatButton pressed");
                         },
-                        child: Text('Add Photos',
+                        child: Text('ADD PHOTO(S)',
                             style: TextStyle(
                                 color: AppColors.blueTurquoise
                             )),
@@ -272,6 +161,5 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
           )
       )
     );
-    */
   }
 }

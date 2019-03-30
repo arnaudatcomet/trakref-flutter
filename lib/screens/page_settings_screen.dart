@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:trakref_app/widget/loading_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart' show CalendarCarousel;
@@ -67,19 +68,19 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
   }
 
   // Call iOS native
-  Future<void> responseFromNativeCode() async {
-    String response = "";
-    try {
-      final String result = await platform.invokeMethod('showZDChat');
-      response = result;
-    } on PlatformException catch (e) {
-      response = "Failed to Invoke: '${e.message}'.";
-    }
-
-    setState(() {
-      _responseFromNativeCode = response;
-    });
-  }
+//  Future<void> responseFromNativeCode() async {
+//    String response = "";
+//    try {
+//      final String result = await platform.invokeMethod('showZDChat');
+//      response = result;
+//    } on PlatformException catch (e) {
+//      response = "Failed to Invoke: '${e.message}'.";
+//    }
+//
+//    setState(() {
+//      _responseFromNativeCode = response;
+//    });
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,9 +137,12 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
                     child: Padding(
                       padding: EdgeInsets.all(10),
                       child: MaterialButton(
+                        onPressed: () {
+                          print("FlatButton pressed");
+                        },
 //                        onPressed: responseFromNativeCode,
 //                        onPressed: _launchURL,
-                        onPressed: scan,
+//                        onPressed: scan,
                         height: 60,
                         color: AppColors.blueTurquoise,
 //                        child: Text(_responseFromNativeCode,
@@ -329,41 +333,3 @@ class _PasswordFieldState extends State<PasswordField> {
   }
 }
 
-// Dropdowns
-class DropdownFormField<T> extends FormField<T> {
-  DropdownFormField({
-    Key key,
-    InputDecoration decoration,
-    T initialValue,
-    List<DropdownMenuItem<T>> items,
-    bool autovalidate = false,
-    FormFieldSetter<T> onSaved,
-    FormFieldValidator<T> validator,
-  }) : super(
-    key: key,
-    onSaved: onSaved,
-    validator: validator,
-    autovalidate: autovalidate,
-    initialValue: items.contains(initialValue) ? initialValue : null,
-    builder: (FormFieldState<T> field) {
-      final InputDecoration effectiveDecoration = (decoration ?? const InputDecoration())
-          .applyDefaults(Theme.of(field.context).inputDecorationTheme);
-
-      return Container(
-        child: InputDecorator(
-          decoration:
-          effectiveDecoration.copyWith(errorText: field.hasError ? field.errorText : null, fillColor: Colors.white),
-          isEmpty: field.value == '' || field.value == null,
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<T>(
-              value: field.value,
-              isDense: true,
-              onChanged: field.didChange,
-              items: items.toList(),
-            ),
-          ),
-        )
-      );
-    },
-  );
-}

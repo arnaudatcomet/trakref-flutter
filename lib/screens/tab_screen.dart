@@ -9,6 +9,7 @@ import 'package:trakref_app/screens/page_search_bloc.dart';
 import 'package:trakref_app/screens/page_asset_add_bloc.dart';
 import 'package:trakref_app/screens/page_settings_screen.dart';
 import 'package:trakref_app/screens/page_support_ticket_bloc.dart';
+import 'package:trakref_app/screens/page_test_link_bloc.dart';
 import 'package:trakref_app/screens/page_topics_bloc.dart';
 
 class TabScreens extends StatefulWidget {
@@ -47,6 +48,7 @@ class _TabScreensState extends State<TabScreens> {
 // For testing purposes
 //                PageTopicsBloc(),
                 PageAssetAddBloc(),
+                PageTestLinkBloc()
 //                PageAccountsBloc(),
 //                MyHomePage()
 //                PageSettingsScreens()

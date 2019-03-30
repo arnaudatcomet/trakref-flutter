@@ -4,9 +4,11 @@ import 'package:trakref_app/bloc/dashboard_bloc.dart';
 import 'package:trakref_app/bloc/login_bloc.dart';
 import 'package:trakref_app/bloc/search_bloc.dart';
 import 'package:trakref_app/screens/page_accounts_bloc.dart';
+import 'package:trakref_app/screens/page_asset_add_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/page_login_bloc.dart';
 import 'package:trakref_app/screens/page_search_bloc.dart';
+import 'package:trakref_app/screens/page_service_event_add_bloc.dart';
 import 'package:trakref_app/screens/page_settings_screen.dart';
 import 'package:trakref_app/screens/page_topics_bloc.dart';
 import 'package:trakref_app/screens/tab_screen.dart';
@@ -23,5 +25,8 @@ final routes = {
   '/dashboard': (BuildContext context) => BlocProvider(bloc: DashboardBloc(), child: PageDashboardBloc()),
   '/home': (BuildContext context) => TabScreens(),
   '/search': (BuildContext context) => BlocProvider(bloc: SearchBloc(), child: PageSearchBloc()),
-  '/selectAccount': (BuildContext context) => PageTopicsBloc()
+  '/topics': (BuildContext context) => PageTopicsBloc(),
+  '/accounts': (BuildContext context) => PageAccountsBloc(),
+  '/assets': (BuildContext context) => PageAssetAddBloc(),
+  '/leaks': (BuildContext context) => PageServiceEventAddBloc()
 };

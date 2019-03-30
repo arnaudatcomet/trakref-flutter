@@ -23,6 +23,7 @@ class Dropdowns{
   final List<Dropdown> causeOfLeaks;
   final List<Dropdown> accountStatuses;
   final List<Dropdown> industryTypes;
+  final List<Dropdown> temperatureClasses;
 
   Dropdowns({
     this.serviceActions,
@@ -41,7 +42,8 @@ class Dropdowns{
     this.leakLocations,
     this.causeOfLeaks,
     this.accountStatuses,
-    this.industryTypes
+    this.industryTypes,
+    this.temperatureClasses
   });
 
   factory Dropdowns.fromJson(Map<String, dynamic> parsedJson){
@@ -62,6 +64,7 @@ class Dropdowns{
     var causeOfLeaksList = parsedJson['causeOfLeaks'] as List;
     var accountStatusesList = parsedJson['accountStatuses'] as List;
     var industryTypesList = parsedJson['industryTypes'] as List;
+    var temperatureClassesList = parsedJson['temperatureClasses'] as List;
 
     return Dropdowns(
       serviceActions: serviceActionsList.map((i) => Dropdown.fromJson(i)).toList(),
@@ -81,6 +84,7 @@ class Dropdowns{
       causeOfLeaks: causeOfLeaksList.map((i) => Dropdown.fromJson(i)).toList(),
       accountStatuses: accountStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
       industryTypes: industryTypesList.map((i) => Dropdown.fromJson(i)).toList(),
+      temperatureClasses: temperatureClassesList.map((i) => Dropdown.fromJson(i)).toList(),
     );
   }
 }
