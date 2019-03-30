@@ -94,18 +94,18 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
               Row(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    FormBuild.buildDropdown(materialType, "Type"),
+                    FormBuild.buildDropdown(source: materialType, label: "Type")
                   ]
               ),
               Row(
                   children: <Widget>[
-                    FormBuild.buildDropdown(coolingApplianceStatuses, "Appliance Status"),
-                    FormBuild.buildDropdown(assetSubtypes, "Appliance Type")
+                    FormBuild.buildDropdown(source: coolingApplianceStatuses, label: "Appliance Status"),
+                    FormBuild.buildDropdown(source: assetSubtypes, label: "Appliance Type")
                   ]
               ),
               Row(
                 children: <Widget>[
-                  FormBuild.buildDropdown(locations, "Locations"),
+                  FormBuild.buildDropdown(source: locations, label: "Locations")
                 ],
               ),
               Row(
@@ -116,7 +116,7 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
               ),
               Row(
                 children: <Widget>[
-                  FormBuild.buildDropdown(materialType, "Material Type"),
+                  FormBuild.buildDropdown(source: materialType, label: "Material Type")
                 ],
               ),
               Row(
@@ -126,7 +126,7 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
               ),
               Row(
                 children: <Widget>[
-                  FormBuild.buildDropdown(temperatureClass, "Temperature Class"),
+                  FormBuild.buildDropdown(source: temperatureClass, label: "Temperature Class")
                 ],
               ),
               Row(

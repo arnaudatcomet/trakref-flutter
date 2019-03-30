@@ -105,22 +105,28 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
             ),
             Row(
                 children: <Widget>[
-                  FormBuild.buildDropdown(widget.assets, "Equipment Worked On *")
+                  FormBuild.buildDropdown(source: widget.assets,
+                      label: "Equipment Worked On *", onChangedValue: (value) {
+                      print("Selected > Equipment Worked On * : $value");
+                      })
                 ]
             ),
             Row(
                 children: <Widget>[
-                  FormBuild.buildDropdown(widget.serviceType, "Type Of Service *")
+                  FormBuild.buildDropdown(source: widget.serviceType,
+                      label: "Type Of Service *")
                 ]
             ),
             Row(
                 children: <Widget>[
-                  FormBuild.buildDropdown(widget.leakDetectionMethod, "Leak Detection Method Used *")
-                ]
+                  FormBuild.buildDropdown(source: widget.leakDetectionMethod,
+                      label: "Leak Detection Method Used *")
+                  ]
             ),
             Row(
                 children: <Widget>[
-                  FormBuild.buildDropdown(widget.wasLeakFound, "Was Leak Found? *")
+                  FormBuild.buildDropdown(source: widget.wasLeakFound,
+                      label:  "Was Leak Found? *")
                 ]
             ),
             Row(

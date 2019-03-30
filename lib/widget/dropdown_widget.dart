@@ -12,6 +12,7 @@ class DropdownFormField<T> extends FormField<T> {
     bool autovalidate = false,
     FormFieldSetter<T> onSaved,
     FormFieldValidator<T> validator,
+    FormFieldSetter<T> onChanged,
   }) : super(
     key: key,
     onSaved: onSaved,
@@ -33,7 +34,10 @@ class DropdownFormField<T> extends FormField<T> {
                   isExpanded: true,
                   value: field.value,
                   isDense: true,
-                  onChanged: field.didChange,
+                  onChanged: (value) {
+                    field.didChange(value);
+                    onChanged(value);
+                  },
                   items: items.toList(),
                 ),
               ),
@@ -75,8 +79,28 @@ class FormBuild {
     );
   }
 
-  static Widget buildDropdown<T>(List<T> source, String label,
-  {FormFieldSetter<T> onSaved}) {
+  static Widget buildDropdown<T>({List<T> source, String label,
+  FormFieldSetter onChangedValue}) {
+    DropdownFormField<String> dropdowns = DropdownFormField<String>(
+//      onChanged: onChangedValue,
+      onChanged: onChangedValue,
+      decoration: InputDecoration(labelText: label),
+      items: source.map((i) {
+        if (i is Dropdown) {
+          Dropdown dropdown = i;
+          String name = dropdown.name;
+          return DropdownMenuItem<String>(
+              value: name,
+              child: Text('$name')
+          );
+        }
+        return DropdownMenuItem<String>(
+          value: "",
+          child: Text(""),
+        );
+      }).toList(),
+    );
+
     if (source == null) {
       print("Buid dropdown for '$label' is empty!");
       return Expanded(
@@ -99,23 +123,7 @@ class FormBuild {
     if (source is List<Dropdown>) {
       return Expanded(
         flex: 1,
-        child: DropdownFormField<String>(
-          decoration: InputDecoration(labelText: label),
-          items: source.map((i) {
-            if (i is Dropdown) {
-              Dropdown dropdown = i;
-              String name = dropdown.name;
-              return DropdownMenuItem<String>(
-                value: name,
-                  child: Text('$name')
-              );
-            }
-            return DropdownMenuItem<String>(
-              value: "",
-              child: Text(""),
-            );
-          }).toList(),
-        ),
+        child: dropdowns,
       );
     }
 
