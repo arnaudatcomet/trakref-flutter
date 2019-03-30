@@ -33,16 +33,7 @@ class DropdownFormField<T> extends FormField<T> {
                   isExpanded: true,
                   value: field.value,
                   isDense: true,
-                  onChanged: (T value) {
-
-//                    void didChange(T value) {
-//                      setState(() {
-//                        _value = value;
-//                      });
-//                      Form.of(context)?._fieldDidChange();
-//                    }
-                  },
-//                  onChanged: field.didChange,
+                  onChanged: field.didChange,
                   items: items.toList(),
                 ),
               ),
