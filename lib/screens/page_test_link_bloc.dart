@@ -11,6 +11,7 @@ class _PageTestLinkBlocState extends State<PageTestLinkBloc> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
+        color: Colors.white,
         child: ListView(
           children: <Widget>[
             Row(

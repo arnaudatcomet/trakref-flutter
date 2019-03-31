@@ -5,6 +5,31 @@ import 'package:async/async.dart';
 
 enum ServiceType { LeakInspection, ServiceAndLeakRepair, Shutdown, None }
 
+class LeakInspectionForm extends StatelessWidget {
+  List<Dropdown> locationLeakFound;
+  List<Dropdown> causeOfLeaks;
+  DateTime followUpDate = DateTime.now();
+  double estimatedLeak;
+
+  LeakInspectionForm({this.locationLeakFound, this.causeOfLeaks,
+    this.followUpDate, this.estimatedLeak});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        children: <Widget>[
+          FormBuild.buildDropdown(source: this.locationLeakFound,
+              label: "Where was leak found? *"),
+          FormBuild.buildDropdown(source: this.causeOfLeaks,
+              label: "Cause of leak *"),
+              FormBuild.buildTextField(label: "Estimated leak amount"),
+          FormBuild.buildDatePicker(label: "Follow Up Date*")
+        ]
+    );
+  }
+}
+
+
 class PageServiceEventAddBloc extends StatefulWidget {
   // Example dropdowns
   List<Dropdown> assets = [
@@ -22,6 +47,29 @@ class PageServiceEventAddBloc extends StatefulWidget {
     Dropdown(name: 'Shutdown', id: 5)
   ];
 
+  //Leaks location
+  List<Dropdown> locationLeakFound = [
+    Dropdown(name: 'Compressor', id: 2),
+    Dropdown(name: 'Condenser', id: 3),
+    Dropdown(name: 'Discharge Line', id: 5),
+    Dropdown(name: 'Evaporator', id: 6),
+    Dropdown(name: 'Heat Recovery', id: 7),
+    Dropdown(name: 'Liquid Line', id: 8),
+    Dropdown(name: 'Other', id: 9)
+  ];
+
+  // Cause of Leaks
+  List<Dropdown> causeOfLeaks = [
+    Dropdown(name: 'ALDS', id: 2),
+    Dropdown(name: 'Abuse', id: 3),
+    Dropdown(name: 'Catastrophe', id: 5),
+    Dropdown(name: 'Corrosion', id: 6),
+    Dropdown(name: 'Joint failure', id: 7),
+    Dropdown(name: 'Mechanical failure ', id: 8),
+    Dropdown(name: 'Normal water', id: 9)
+  ];
+
+  // Leak detection methods
   List<Dropdown> leakDetectionMethod = [
     Dropdown(name: 'ALD', id: 2),
     Dropdown(name: 'Alternative', id: 3),
@@ -48,16 +96,20 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
   DateTime _date = DateTime.now();
   ServiceType typeOfService = ServiceType.None;
 
+  // UI Control variables
+  bool _wasLeakFound = false;
+
   @override
   void initState() {
     super.initState();
-    service.loadDropdowns();
-    _isDropdownsLoaded = false;
-    service.onLoaded = () {
-      setState(() {
-        _isDropdownsLoaded = true;
-      });
-    };
+//    service.loadDropdowns();
+//    _isDropdownsLoaded = false;
+//    service.onLoaded = () {
+//      setState(() {
+//        _isDropdownsLoaded = true;
+//      });
+//    };
+    _isDropdownsLoaded = true;
   }
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -69,14 +121,16 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
     });
   }
 
-  void _selectTypeOfService(BuildContext context) {
-    setState(() {
-//      _date = picked;
-    });
-  }
-
-  Widget _buildLeakInspection(bool leakFound) {
-
+  Widget _buildLeakInspection(bool leakFound, ServiceType type) {
+    print("===> leakFound ? $leakFound,  type ? $type");
+    // Show leak inspection
+    if (leakFound == true) {
+      if (type == ServiceType.LeakInspection) {
+        print("===> buildLeakInspection");
+        return LeakInspectionForm(causeOfLeaks: widget.causeOfLeaks,
+            locationLeakFound: widget.locationLeakFound);
+      }
+    }
     return Container();
   }
 
@@ -111,13 +165,13 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
             Row(
                 children: <Widget>[
                   FormBuild.buildDropdown(source: widget.assets,
-                      label: "Equipment Worked On *")
+                      label: "Equipment worked on *")
                 ]
             ),
             Row(
                 children: <Widget>[
                   FormBuild.buildDropdown(source: widget.serviceType,
-                      label: "Type Of Service *", onChangedValue: (value) {
+                      label: "Type of service *", onChangedValue: (value) {
                         print("Selected > Type Of Service : $value");
                       })
                 ]
@@ -125,13 +179,22 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
             Row(
                 children: <Widget>[
                   FormBuild.buildDropdown(source: widget.leakDetectionMethod,
-                      label: "Leak Detection Method Used *")
+                      label: "Leak detection method*")
                   ]
             ),
             Row(
                 children: <Widget>[
                   FormBuild.buildDropdown(source: widget.wasLeakFound,
-                      label:  "Was Leak Found? *")
+                      label:  "Was leak found? *", onChangedValue: (value) {
+                        setState(() {
+                          if (value == "true") {
+                            _wasLeakFound = true;
+                          }
+                          else {
+                            _wasLeakFound = false;
+                          }
+                        });
+                      })
                 ]
             ),
             Row(
@@ -140,6 +203,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                   FormBuild.buildDatePicker(key: Key("ServiceDateKey"), helper: "Service Date *"),
                 ]
             ),
+            _buildLeakInspection(_wasLeakFound, this.typeOfService)
           ],
         )
       ),
