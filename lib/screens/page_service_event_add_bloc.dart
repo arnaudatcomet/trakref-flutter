@@ -1,37 +1,27 @@
 import "package:flutter/material.dart";
+import 'package:trakref_app/main.dart';
 import 'package:trakref_app/repository/get_service.dart';
+import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:async/async.dart';
 
 enum ServiceType { LeakInspection, ServiceAndLeakRepair, Shutdown, None }
 
-class LeakInspectionForm extends StatelessWidget {
-  List<Dropdown> locationLeakFound;
-  List<Dropdown> causeOfLeaks;
-  DateTime followUpDate = DateTime.now();
-  double estimatedLeak;
-
-  LeakInspectionForm({this.locationLeakFound, this.causeOfLeaks,
-    this.followUpDate, this.estimatedLeak});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-        children: <Widget>[
-          FormBuild.buildDropdown(source: this.locationLeakFound,
-              label: "Where was leak found? *"),
-          FormBuild.buildDropdown(source: this.causeOfLeaks,
-              label: "Cause of leak *"),
-              FormBuild.buildTextField(label: "Estimated leak amount"),
-          FormBuild.buildDatePicker(label: "Follow Up Date*")
-        ]
-    );
-  }
-}
-
-
 class PageServiceEventAddBloc extends StatefulWidget {
   // Example dropdowns
+
+  List<Dropdown> serviceType = [
+    Dropdown(name: 'Leak Inspection', id: 2),
+    Dropdown(name: 'Service and Leak Repair', id: 3),
+    Dropdown(name: 'Shutdown', id: 5)
+  ];
+
+  List<Dropdown> wasLeakFound = [
+    Dropdown(name: 'Yes', id: 1),
+    Dropdown(name: 'No', id: 0)
+  ];
+  /*
+  // For testing purposes
   List<Dropdown> assets = [
     Dropdown(name: 'Electricity Meter 1', id: 1000018),
     Dropdown(name: '528 RDD Multi Temp', id: 1000022),
@@ -41,11 +31,6 @@ class PageServiceEventAddBloc extends StatefulWidget {
     Dropdown(name: 'MR718', id: 1000055)
   ];
 
-  List<Dropdown> serviceType = [
-    Dropdown(name: 'Leak Inspection', id: 2),
-    Dropdown(name: 'Service and Leak Repair', id: 3),
-    Dropdown(name: 'Shutdown', id: 5)
-  ];
 
   //Leaks location
   List<Dropdown> locationLeakFound = [
@@ -77,9 +62,48 @@ class PageServiceEventAddBloc extends StatefulWidget {
     Dropdown(name: 'Dye Inject', id: 6)
   ];
 
-  List<Dropdown> wasLeakFound = [
-    Dropdown(name: 'Yes', id: 1),
-    Dropdown(name: 'No', id: 0)
+  // Service Actions
+  List<Dropdown> serviceActions = [
+    Dropdown(name: 'Audit/Inspect', id: 2),
+    Dropdown(name: 'Bypass', id: 3),
+    Dropdown(name: 'Calibrate/Adjust', id: 5),
+    Dropdown(name: 'New cap/seal', id: 6)
+  ];
+
+  // Leak repair status
+  List<Dropdown> leakRepairStatus = [
+    Dropdown(name: 'LeakRepaired', id: 2),
+    Dropdown(name: 'NoRepair', id: 3),
+    Dropdown(name: 'RepairAttempted', id: 5)
+  ];
+
+  // Post shutdown status
+  List<Dropdown> shutdownStatus = [
+    Dropdown(name: 'Mothball', id: 2),
+    Dropdown(name: 'Pending Install', id: 3),
+    Dropdown(name: 'Shutdown', id: 4),
+  ];
+  */
+
+  List<Dropdown> assets = [
+    Dropdown(name: 'Electricity Meter 1', id: 1000018),
+    Dropdown(name: '528 RDD Multi Temp', id: 1000022),
+    Dropdown(name: 'Virgin R-408a lbs. 1000 457474', id: 1000026),
+    Dropdown(name: 'Virgin R-404A lbs. 100 234567', id: 1000027),
+    Dropdown(name: 'Virgin R-449A lbs. 115 12312211', id: 1000038),
+    Dropdown(name: 'MR718', id: 1000055)
+  ];
+
+  List<LeakLocationDropdown> locationLeakFound;
+  List<Dropdown> categoryLocationLeakFound;
+  List<Dropdown> causeOfLeaks;
+  List<Dropdown> leakDetectionMethod;
+  List<Dropdown> serviceActions;
+  List<Dropdown> leakRepairStatus;
+  List<Dropdown> shutdownStatus = [
+    Dropdown(name: 'Shutdown', id: 6),
+    Dropdown(name: 'Mothball', id: 2),
+    Dropdown(name: 'Pending Install', id: 12),
   ];
 
   @override
@@ -98,37 +122,249 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
 
   // UI Control variables
   bool _wasLeakFound = false;
+  bool _wasVerificationLeakFound = false;
 
   @override
   void initState() {
     super.initState();
-//    service.loadDropdowns();
-//    _isDropdownsLoaded = false;
-//    service.onLoaded = () {
-//      setState(() {
-//        _isDropdownsLoaded = true;
-//      });
-//    };
-    _isDropdownsLoaded = true;
+    service.loadDropdowns();
+    _isDropdownsLoaded = false;
+    service.onLoaded = () {
+      setState(() {
+        widget.locationLeakFound = service.dropdowns.leakLocations;
+        widget.causeOfLeaks = service.dropdowns.causeOfLeaks;
+        widget.leakDetectionMethod = service.dropdowns.leakDetectionMethods;
+        widget.serviceActions = service.dropdowns.serviceActions;
+        widget.leakRepairStatus = service.dropdowns.leakRepairStatuses;
+        _isDropdownsLoaded = true;
+      });
+    };
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
-    // DateTime _date = DateTime.now();
-    final DateTime picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2016), lastDate: DateTime(2020));
-    setState(() {
-      print("Date picked is $picked");
-      _date = picked;
-    });
+
+  // Build Vacuum dept dynamically
+  List<Dropdown> _buildDropdownInt(int from, int length)
+  {
+    List<Dropdown> intList = List<Dropdown>();
+    for(var i = from; i <= (from + length); i++){
+      intList.add(Dropdown(name: '$i', id: i));
+    }
+    return intList;
   }
 
-  Widget _buildLeakInspection(bool leakFound, ServiceType type) {
-    print("===> leakFound ? $leakFound,  type ? $type");
+  String _getServiceTypeRaw(ServiceType type) {
+    if (type == ServiceType.LeakInspection) {
+      return "Leak Inspection";
+    }
+    else if (type == ServiceType.ServiceAndLeakRepair) {
+      return "Service Repair";
+    }
+    else if (type == ServiceType.Shutdown) {
+      return "Shutdown";
+    }
+    return "";
+  }
+
+  Widget _buildTitle(ServiceType type) {
+    print("===> buildTitle for $type");
+    if (type == ServiceType.None) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              flex: 1,
+              child: Text("Add Service Event",
+                style: Theme.of(context).textTheme.title,
+              )
+          )
+        ],
+      );
+    }
+    else {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              flex: 2,
+              child: Text("Add Service Event",
+                style: Theme.of(context).textTheme.title,
+              )
+          ),
+          Expanded(
+            flex:1,
+            child: Chip(
+              backgroundColor: AppColors.blueTurquoise,
+              label: Text('${_getServiceTypeRaw(type)} ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                      color: Colors.white
+                  )
+              ),
+            ),
+          )
+        ],
+      );
+    }
+  }
+
+  Widget _buildVerificationChip() {
+    return Chip(
+      backgroundColor: AppColors.lightGreen,
+      label: Text('Verification',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white
+          )
+      ),
+    );
+  }
+
+  Widget _buildInspection(bool leakFound, ServiceType type, {bool verificationLeakFound}) {
+    print("===> leakFound ? $leakFound, verification ? $verificationLeakFound, type ? $type");
     // Show leak inspection
     if (leakFound == true) {
       if (type == ServiceType.LeakInspection) {
         print("===> buildLeakInspection");
-        return LeakInspectionForm(causeOfLeaks: widget.causeOfLeaks,
-            locationLeakFound: widget.locationLeakFound);
+        return Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.locationLeakFound, label: "Where was leak found? *")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.causeOfLeaks, label: "Cause of leak *")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                FormBuild.buildTextField(label: "Estimate leak amount")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                FormBuild.buildDatePicker(key: Key("FollowUpDateKey"), helper: "Follow up date *")
+              ],
+            )
+          ],
+        );
+      }
+      else if (type == ServiceType.ServiceAndLeakRepair) {
+        print("===> ServiceAndLeakRepair");
+        return Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.locationLeakFound, label: "Leak location *")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                // Need to change that
+                FormBuild.buildDropdown(source: widget.locationLeakFound, label: "Leak category *")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                // Need to change that
+                FormBuild.buildDropdown(source: widget.causeOfLeaks, label: "Cause of leak *")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                // Need to change that
+                FormBuild.buildTextField(label: "Estimated leak amount")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                // Need to change that
+                FormBuild.buildDropdown(source: widget.serviceActions, label: "Service action *")
+              ],
+            ),
+            // URGENT: Need to add material gas
+            Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.leakRepairStatus, label: "Leak repair status *")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                FormBuild.buildDatePicker(label: "Verification date *")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.leakDetectionMethod,
+                    label: "Verification leak method *"
+                )
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.wasLeakFound,
+                    label: "Was leak found during follow up inspection *",
+                    onChangedValue: (value) {
+                      if (value is Dropdown) {
+                        setState(() {
+                          if (value.name == "Yes") {
+                            _wasVerificationLeakFound = true;
+                          }
+                          else {
+                            _wasVerificationLeakFound = false;
+                          }
+                        });
+                      }
+                    })
+              ],
+            ),
+            // Note : maybe a better way to do the UI below
+            (_wasVerificationLeakFound) ? Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.causeOfLeaks, label: "Leak cause *"),
+                _buildVerificationChip()
+              ],
+            ): Container(),
+            (_wasVerificationLeakFound) ? Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.locationLeakFound, label: "Leak location *"),
+                _buildVerificationChip()
+              ],
+            ): Container(),
+            (_wasVerificationLeakFound) ? Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.locationLeakFound, label: "Leak category *"),
+                _buildVerificationChip()
+              ],
+            ): Container()
+          ],
+        );
+      }
+      else if (type == ServiceType.Shutdown) {
+        print("===> buildShutdown");
+        return Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.wasLeakFound, label: "Was vacuum pulled? *")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: _buildDropdownInt(0, 31), label: "Depth of vacuum *")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.serviceActions, label: "Service action *")
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                FormBuild.buildDropdown(source: widget.shutdownStatus, label: "Post shutdown status *")
+              ],
+            )
+          ],
+        );
       }
     }
     return Container();
@@ -152,16 +388,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
           shrinkWrap: true,
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                    flex: 1,
-                    child: Text("Add Service Event",
-                      style: Theme.of(context).textTheme.title,
-                    )
-                )
-              ],
-            ),
+            _buildTitle(this.typeOfService),
             Row(
                 children: <Widget>[
                   FormBuild.buildDropdown(source: widget.assets,
@@ -172,7 +399,29 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                 children: <Widget>[
                   FormBuild.buildDropdown(source: widget.serviceType,
                       label: "Type of service *", onChangedValue: (value) {
-                        print("Selected > Type Of Service : $value");
+                    setState(() {
+                      print("Selected > Type Of Service : $value");
+                      if (value is Dropdown) {
+                        switch (value.id) {
+                          case 2: {
+                            this.typeOfService = ServiceType.LeakInspection;
+                          }
+                          break;
+                          case 3: {
+                            this.typeOfService = ServiceType.ServiceAndLeakRepair;
+                          }
+                          break;
+                          case 5: {
+                            this.typeOfService = ServiceType.Shutdown;
+                          }
+                          break;
+                          default: {
+                            this.typeOfService = ServiceType.None;
+                          }
+                          break;
+                        }
+                      }
+                    });
                       })
                 ]
             ),
@@ -185,15 +434,18 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
             Row(
                 children: <Widget>[
                   FormBuild.buildDropdown(source: widget.wasLeakFound,
-                      label:  "Was leak found? *", onChangedValue: (value) {
+                      label:  "Was leak found? *", onChangedValue: (dropdown) {
                         setState(() {
-                          if (value == "true") {
-                            _wasLeakFound = true;
-                          }
-                          else {
-                            _wasLeakFound = false;
-                          }
-                        });
+                            if (dropdown is Dropdown) {
+                              print("Was leak found selected > ${dropdown.name}");
+                              if (dropdown.name == "Yes"){
+                                _wasLeakFound = true;
+                              }
+                              else {
+                                _wasLeakFound = false;
+                              }
+                            }
+                          });
                       })
                 ]
             ),
@@ -203,7 +455,30 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                   FormBuild.buildDatePicker(key: Key("ServiceDateKey"), helper: "Service Date *"),
                 ]
             ),
-            _buildLeakInspection(_wasLeakFound, this.typeOfService)
+            //  === PART === Second part of the form
+            _buildInspection(_wasLeakFound, this.typeOfService, verificationLeakFound: _wasVerificationLeakFound),
+            //  === PART === Submit
+            // This is for giving some space for the bottom button 'SUBMIT'
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: AppButton(
+                    keyButton: Key('SubmitButton'),
+                    titleButton: "SUBMIT",
+                    onPressed: () {
+                      print("This was pressed by Arnaud");
+                    },
+                  ),
+                )
+              ],
+            )
           ],
         )
       ),

@@ -81,26 +81,7 @@ class FormBuild {
 
   static Widget buildDropdown<T>({List<T> source, String label,
   FormFieldSetter onChangedValue}) {
-    DropdownFormField<String> dropdowns = DropdownFormField<String>(
-//      onChanged: onChangedValue,
-      onChanged: onChangedValue,
-      decoration: InputDecoration(labelText: label),
-      items: source.map((i) {
-        if (i is Dropdown) {
-          Dropdown dropdown = i;
-          String name = dropdown.name;
-          return DropdownMenuItem<String>(
-              value: name,
-              child: Text('$name')
-          );
-        }
-        return DropdownMenuItem<String>(
-          value: "",
-          child: Text(""),
-        );
-      }).toList(),
-    );
-
+    print("Start building dropdown for '$label'");
     if (source == null) {
       print("Buid dropdown for '$label' is empty!");
       return Expanded(
@@ -123,7 +104,35 @@ class FormBuild {
     if (source is List<Dropdown>) {
       return Expanded(
         flex: 1,
-        child: dropdowns,
+        child: DropdownFormField<T>(
+          onChanged: onChangedValue,
+          decoration: InputDecoration(labelText: label),
+          items: source.map((i) {
+            // Dropdown
+            if (i is Dropdown) {
+              Dropdown dropdown = i;
+              String name = dropdown.name;
+              return DropdownMenuItem<T>(
+                  value: i,
+                  child: Text('$name')
+              );
+            }
+            // or LeakLocationDropdown
+            if (i is LeakLocationDropdown) {
+              LeakLocationDropdown dropdown = i;
+              String name = dropdown.name;
+              return DropdownMenuItem<T>(
+                  value: i,
+                  child: Text('$name')
+              );
+            }
+
+            return DropdownMenuItem<T>(
+              value: i,
+              child: Text(""),
+            );
+          }).toList(),
+        ),
       );
     }
 
