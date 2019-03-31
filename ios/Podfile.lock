@@ -1,12 +1,6 @@
 PODS:
-  - barcode_scan (0.0.1):
-    - Flutter
-    - MTBBarcodeScanner
   - Flutter (1.0.0)
   - image_picker (0.0.1):
-    - Flutter
-  - MTBBarcodeScanner (5.0.6)
-  - url_launcher (0.0.1):
     - Flutter
   - ZDCChat (1.4.0):
     - ZDCChat/API (= 1.4.0)
@@ -27,35 +21,25 @@ PODS:
     - ZendeskSDK/Providers
 
 DEPENDENCIES:
-  - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
-  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - ZDCChat
   - ZendeskSDK (~> 2.3.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - MTBBarcodeScanner
     - ZDCChat
     - ZendeskSDK
 
 EXTERNAL SOURCES:
-  barcode_scan:
-    :path: ".symlinks/plugins/barcode_scan/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
-  url_launcher:
-    :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
-  barcode_scan: 8288e70cb430072003bce2c794a1431e7adbcb4d
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
   image_picker: ee00aab0487cedc80a304085219503cc6d0f2e22
-  MTBBarcodeScanner: bb0bb62e18b57f8a571a482248adc20722b70a91
-  url_launcher: 92b89c1029a0373879933c21642958c874539095
   ZDCChat: 1def9764647bb81cf71aebd9df38aa4024c52d12
   ZendeskSDK: af6509ad7968d367f95b2645713802712152f879
 

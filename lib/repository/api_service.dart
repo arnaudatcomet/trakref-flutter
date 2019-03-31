@@ -3,36 +3,36 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:trakref_app/constants.dart';
-import 'package:codable/codable.dart';
+//import 'package:codable/codable.dart';
 
-class Account extends Coding {
-  String name; // Name
-  int instanceID; // InstanceID
-  int accountTypeID; // AccountTypeID
-  String accountType; // AccountType
-  String statusName; // StatusName
-
-  @override
-  void decode(KeyedArchive object) {
-    // TODO: implement decode
-    super.decode(object);
-
-    name = object.decode('Name');
-    instanceID = object.decode('InstanceID');
-    accountTypeID = object.decode('AccountTypeID');
-    accountType = object.decode('AccountType');
-    statusName = object.decode('StatusName');
-  }
-
-  @override
-  void encode(KeyedArchive object) {
-    object.encode('Name', name);
-    object.encode('InstanceID', instanceID);
-    object.encode('AccountTypeID', accountTypeID);
-    object.encode('AccountType', accountType);
-    object.encode('StatusName', statusName);
-  }
-}
+//class Account extends Coding {
+//  String name; // Name
+//  int instanceID; // InstanceID
+//  int accountTypeID; // AccountTypeID
+//  String accountType; // AccountType
+//  String statusName; // StatusName
+//
+//  @override
+//  void decode(KeyedArchive object) {
+//    // TODO: implement decode
+//    super.decode(object);
+//
+//    name = object.decode('Name');
+//    instanceID = object.decode('InstanceID');
+//    accountTypeID = object.decode('AccountTypeID');
+//    accountType = object.decode('AccountType');
+//    statusName = object.decode('StatusName');
+//  }
+//
+//  @override
+//  void encode(KeyedArchive object) {
+//    object.encode('Name', name);
+//    object.encode('InstanceID', instanceID);
+//    object.encode('AccountTypeID', accountTypeID);
+//    object.encode('AccountType', accountType);
+//    object.encode('StatusName', statusName);
+//  }
+//}
 
 class ApiService {
   ApiService();

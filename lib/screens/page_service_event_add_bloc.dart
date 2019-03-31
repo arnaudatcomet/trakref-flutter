@@ -75,6 +75,11 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
     });
   }
 
+  Widget _buildLeakInspection(bool leakFound) {
+
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,15 +111,15 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
             Row(
                 children: <Widget>[
                   FormBuild.buildDropdown(source: widget.assets,
-                      label: "Equipment Worked On *", onChangedValue: (value) {
-                      print("Selected > Equipment Worked On * : $value");
-                      })
+                      label: "Equipment Worked On *")
                 ]
             ),
             Row(
                 children: <Widget>[
                   FormBuild.buildDropdown(source: widget.serviceType,
-                      label: "Type Of Service *")
+                      label: "Type Of Service *", onChangedValue: (value) {
+                        print("Selected > Type Of Service : $value");
+                      })
                 ]
             ),
             Row(
