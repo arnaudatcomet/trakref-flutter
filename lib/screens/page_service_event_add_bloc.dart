@@ -347,7 +347,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildDatePicker(label: "Verification date *")
+                FormBuild.buildDatePicker(key: Key("VerificationDateKey"), helper: "Verification date *")
               ],
             ),
             Row(
@@ -464,108 +464,149 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
           Navigator.of(context).pop();
         })
       ),
-      body: SafeArea(
-        child: (_isDropdownsLoaded == false) ? FormBuild.buildLoader() : ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          children: <Widget>[
-            _buildTitle(this.typeOfService),
-            Row(
-                children: <Widget>[
-                  FormBuild.buildDropdown(source: widget.assets,
-                      label: "Equipment worked on *")
-                ]
-            ),
-            Row(
-                children: <Widget>[
-                  FormBuild.buildDropdown(source: widget.serviceType,
-                      label: "Type of service *", onChangedValue: (value) {
-                    setState(() {
-                      print("Selected > Type Of Service : $value");
-                      if (value is Dropdown) {
-
-                        widget._filteredInitialLocationLeakFound = null;
-                        widget._filteredVerificationLocationLeakFound = null;
-
-                        switch (value.id) {
-                          case 2: {
-                            this.typeOfService = ServiceType.LeakInspection;
-                          }
-                          break;
-                          case 3: {
-                            this.typeOfService = ServiceType.ServiceAndLeakRepair;
-                          }
-                          break;
-                          case 5: {
-                            this.typeOfService = ServiceType.Shutdown;
-                          }
-                          break;
-                          default: {
-                            this.typeOfService = ServiceType.None;
-                          }
-                          break;
-                        }
-                      }
-                    });
-                      })
-                ]
-            ),
-            Row(
-                children: <Widget>[
-                  FormBuild.buildDropdown(source: widget.leakDetectionMethod,
-                      label: "Leak detection method*")
-                  ]
-            ),
-            Row(
-                children: <Widget>[
-                  FormBuild.buildDropdown(source: widget.wasLeakFound,
-                      label:  "Was leak found? *", onChangedValue: (dropdown) {
-                        setState(() {
-                            if (dropdown is Dropdown) {
-                              print("Was leak found selected > ${dropdown.name}");
-                              if (dropdown.name == "Yes"){
-                                _wasLeakFound = true;
-                              }
-                              else {
-                                _wasLeakFound = false;
-                              }
-                            }
-                          });
-                      })
-                ]
-            ),
-            Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  FormBuild.buildDatePicker(key: Key("ServiceDateKey"), helper: "Service Date *"),
-                ]
-            ),
-            //  === PART === Second part of the form
-            _buildInspection(_wasLeakFound, this.typeOfService, verificationLeakFound: _wasVerificationLeakFound),
-            //  === PART === Submit
-            // This is for giving some space for the bottom button 'SUBMIT'
-            Row(
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: SafeArea(
+            child: (_isDropdownsLoaded == false) ? FormBuild.buildLoader() : ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               children: <Widget>[
-                SizedBox(
-                  height: 20,
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: AppButton(
-                    keyButton: Key('SubmitButton'),
-                    titleButton: "SUBMIT",
-                    onPressed: () {
-                      print("This was pressed by Arnaud");
-                    },
-                  ),
+                _buildTitle(this.typeOfService),
+                Row(
+                    children: <Widget>[
+                      FormBuild.buildDropdown(source: widget.assets,
+                          label: "Equipment worked on *")
+                    ]
+                ),
+                Row(
+                    children: <Widget>[
+                      FormBuild.buildDropdown(source: widget.serviceType,
+                          label: "Type of service *", onChangedValue: (value) {
+                            setState(() {
+                              print("Selected > Type Of Service : $value");
+                              if (value is Dropdown) {
+
+                                widget._filteredInitialLocationLeakFound = null;
+                                widget._filteredVerificationLocationLeakFound = null;
+
+                                switch (value.id) {
+                                  case 2: {
+                                    this.typeOfService = ServiceType.LeakInspection;
+                                  }
+                                  break;
+                                  case 3: {
+                                    this.typeOfService = ServiceType.ServiceAndLeakRepair;
+                                  }
+                                  break;
+                                  case 5: {
+                                    this.typeOfService = ServiceType.Shutdown;
+                                  }
+                                  break;
+                                  default: {
+                                    this.typeOfService = ServiceType.None;
+                                  }
+                                  break;
+                                }
+                              }
+                            });
+                          })
+                    ]
+                ),
+                Row(
+                    children: <Widget>[
+                      FormBuild.buildDropdown(source: widget.leakDetectionMethod,
+                          label: "Leak detection method*")
+                    ]
+                ),
+                Row(
+                    children: <Widget>[
+                      FormBuild.buildDropdown(source: widget.wasLeakFound,
+                          label:  "Was leak found? *", onChangedValue: (dropdown) {
+                            setState(() {
+                              if (dropdown is Dropdown) {
+                                print("Was leak found selected > ${dropdown.name}");
+                                if (dropdown.name == "Yes"){
+                                  _wasLeakFound = true;
+                                }
+                                else {
+                                  _wasLeakFound = false;
+                                }
+                              }
+                            });
+                          })
+                    ]
+                ),
+                Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      FormBuild.buildDatePicker(key: Key("ServiceDateKey"), helper: "Service Date *"),
+                    ]
+                ),
+                //  === PART === Second part of the form
+                _buildInspection(_wasLeakFound, this.typeOfService, verificationLeakFound: _wasVerificationLeakFound),
+                //  === PART === Submit
+                // This is for giving some space for the bottom button 'SUBMIT'
+                /*
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: TextField(
+                          maxLength: 50,
+                          maxLines: 5,
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            border: InputBorder.none,
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                borderSide: BorderSide(color: Colors.blue)),
+                            filled: true,
+                            contentPadding:
+                            EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
+                          ),
+//                      decoration: InputDecoration(
+//                        helperText: "Enter your observation"
+//                      ),
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 18
+                          )
+                      ),
+                    )
+                  ],
+                ),*/
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: AppButton(
+                        keyButton: Key('SubmitButton'),
+                        titleButton: "SUBMIT",
+                        onPressed: () {
+                          print("This was pressed by Arnaud");
+                        },
+                      ),
+                    )
+                  ],
                 )
               ],
             )
-          ],
-        )
+        ),
       ),
     );
   }
