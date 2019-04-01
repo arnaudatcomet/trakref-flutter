@@ -80,9 +80,7 @@ class FormBuild {
 
   static Widget buildDropdown<T>({List<T> source, String label,
   FormFieldSetter onChangedValue}) {
-    print("Start building dropdown for '$label'");
     if (source == null) {
-      print("Buid dropdown for '$label' is empty!");
       return Expanded(
         flex: 1,
         child: Container(
@@ -91,7 +89,6 @@ class FormBuild {
       );
     }
     int count = source.length;
-    print("Buid dropdown for '$label' with count '$count'");
     if (source.length < 1) {
       return Expanded(
         flex: 1,

@@ -94,8 +94,10 @@ class PageServiceEventAddBloc extends StatefulWidget {
     Dropdown(name: 'MR718', id: 1000055)
   ];
 
-  List<LeakLocationDropdown> locationLeakFound;
-  List<Dropdown> _filteredLocationLeakFound;
+  List<LeakLocationDropdown> initialLocationLeakFound;
+  List<LeakLocationDropdown> verificationLocationLeakFound;
+  List<Dropdown> _filteredInitialLocationLeakFound;
+  List<Dropdown> _filteredVerificationLocationLeakFound;
   List<Dropdown> categoriesLeakFound;
   List<Dropdown> categoryLocationLeakFound;
   List<Dropdown> causeOfLeaks;
@@ -133,7 +135,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
     _isDropdownsLoaded = false;
     service.onLoaded = () {
       setState(() {
-        widget.locationLeakFound = service.dropdowns.leakLocations;
+        widget.initialLocationLeakFound = service.dropdowns.leakLocations;
+        widget.verificationLocationLeakFound = service.dropdowns.leakLocations;
         widget.categoriesLeakFound = service.dropdowns.leakLocationCategories;
         widget.causeOfLeaks = service.dropdowns.causeOfLeaks;
         widget.leakDetectionMethod = service.dropdowns.leakDetectionMethods;
@@ -232,9 +235,37 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
           children: <Widget>[
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: widget.locationLeakFound, label: "Where was leak found? *")
+                FormBuild.buildDropdown(source: widget.categoriesLeakFound, label: "Leak category *",
+                    onChangedValue: (value) {
+                      setState(() {
+                        widget._filteredInitialLocationLeakFound = null;
+                      });
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        if (value is Dropdown) {
+                          // Get the filtered leak location category
+                          List<LeakLocationDropdown> selectedLeakLocationList = widget.initialLocationLeakFound.where((i) => i.categoryID == value.id).toList();
+                          List<Dropdown> categoryLeaksLocation = selectedLeakLocationList.map((i) => Dropdown(id: i.id, name: i.name)).toList();
+                          setState(() {
+                            if (categoryLeaksLocation.length == 0) {
+                              widget._filteredInitialLocationLeakFound = null;
+                            }
+                            else {
+                              widget._filteredInitialLocationLeakFound = categoryLeaksLocation;
+                            }
+                          });
+                        }
+                      });
+                    })
               ],
             ),
+            (widget._filteredInitialLocationLeakFound != null) ? Row(
+              children: <Widget>[
+                // Need to change that
+                FormBuild.buildDropdown(source: widget._filteredInitialLocationLeakFound,
+                  label: "Leak location *",
+                )
+              ],
+            ) : Container(),
             Row(
               children: <Widget>[
                 FormBuild.buildDropdown(source: widget.causeOfLeaks, label: "Cause of leak *")
@@ -259,15 +290,37 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
           children: <Widget>[
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: widget.locationLeakFound, label: "Leak location *")
+                FormBuild.buildDropdown(source: widget.categoriesLeakFound, label: "Leak category *",
+                    onChangedValue: (value) {
+                      setState(() {
+                        widget._filteredInitialLocationLeakFound = null;
+                      });
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        if (value is Dropdown) {
+                          // Get the filtered leak location category
+                          List<LeakLocationDropdown> selectedLeakLocationList = widget.initialLocationLeakFound.where((i) => i.categoryID == value.id).toList();
+                          List<Dropdown> categoryLeaksLocation = selectedLeakLocationList.map((i) => Dropdown(id: i.id, name: i.name)).toList();
+                          setState(() {
+                            if (categoryLeaksLocation.length == 0) {
+                              widget._filteredInitialLocationLeakFound = null;
+                            }
+                            else {
+                              widget._filteredInitialLocationLeakFound = categoryLeaksLocation;
+                            }
+                          });
+                        }
+                      });
+                    })
               ],
             ),
-            Row(
+            (widget._filteredInitialLocationLeakFound != null) ? Row(
               children: <Widget>[
                 // Need to change that
-                FormBuild.buildDropdown(source: widget.locationLeakFound, label: "Leak category *")
+                FormBuild.buildDropdown(source: widget._filteredInitialLocationLeakFound,
+                    label: "Leak location *",
+                    )
               ],
-            ),
+            ) : Container(),
             Row(
               children: <Widget>[
                 // Need to change that
@@ -311,7 +364,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                     onChangedValue: (value) {
                       if (value is Dropdown) {
                         setState(() {
-                          widget._filteredLocationLeakFound = null;
+                          widget._filteredVerificationLocationLeakFound = null;
                           if (value.name == "Yes") {
                             _wasVerificationLeakFound = true;
                           }
@@ -336,19 +389,19 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                   label: "Leak category *",
                   onChangedValue: (value) {
                     setState(() {
-                      widget._filteredLocationLeakFound = null;
+                      widget._filteredVerificationLocationLeakFound = null;
                     });
                     Future.delayed(const Duration(milliseconds: 500), () {
                       if (value is Dropdown) {
                         // Get the filtered leak location category
-                        List<LeakLocationDropdown> selectedLeakLocationList = widget.locationLeakFound.where((i) => i.categoryID == value.id).toList();
+                        List<LeakLocationDropdown> selectedLeakLocationList = widget.verificationLocationLeakFound.where((i) => i.categoryID == value.id).toList();
                         List<Dropdown> categoryLeaksLocation = selectedLeakLocationList.map((i) => Dropdown(id: i.id, name: i.name)).toList();
                         setState(() {
                           if (categoryLeaksLocation.length == 0) {
-                            widget._filteredLocationLeakFound = null;
+                            widget._filteredVerificationLocationLeakFound = null;
                           }
                           else {
-                            widget._filteredLocationLeakFound = categoryLeaksLocation;
+                            widget._filteredVerificationLocationLeakFound = categoryLeaksLocation;
                           }
                         });
                       }
@@ -358,9 +411,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                 _buildVerificationChip()
               ],
             ): Container(),
-              (_wasVerificationLeakFound && widget._filteredLocationLeakFound != null) ? Row(
+              (_wasVerificationLeakFound && widget._filteredVerificationLocationLeakFound != null) ? Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: widget._filteredLocationLeakFound, label: "Leak location *"),
+                FormBuild.buildDropdown(source: widget._filteredVerificationLocationLeakFound, label: "Leak location *"),
                 _buildVerificationChip()
               ],
             ): Container()
@@ -430,6 +483,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                     setState(() {
                       print("Selected > Type Of Service : $value");
                       if (value is Dropdown) {
+
+                        widget._filteredInitialLocationLeakFound = null;
+                        widget._filteredVerificationLocationLeakFound = null;
+
                         switch (value.id) {
                           case 2: {
                             this.typeOfService = ServiceType.LeakInspection;
