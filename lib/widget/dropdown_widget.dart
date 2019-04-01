@@ -22,7 +22,6 @@ class DropdownFormField<T> extends FormField<T> {
     builder: (FormFieldState<T> field) {
       final InputDecoration effectiveDecoration = (decoration ?? const InputDecoration())
           .applyDefaults(Theme.of(field.context).inputDecorationTheme);
-
       return Container(
           child: InputDecorator(
             decoration:
@@ -38,7 +37,7 @@ class DropdownFormField<T> extends FormField<T> {
                     field.didChange(value);
                     onChanged(value);
                   },
-                  items: items.toList(),
+                  items: (items == null) ? [] : items.toList(),
                 ),
               ),
             ),
@@ -93,7 +92,7 @@ class FormBuild {
     }
     int count = source.length;
     print("Buid dropdown for '$label' with count '$count'");
-    if (source.length == 0) {
+    if (source.length < 1) {
       return Expanded(
         flex: 1,
         child: Container(
@@ -101,45 +100,19 @@ class FormBuild {
         ),
       );
     }
-    if (source is List<Dropdown>) {
+
       return Expanded(
         flex: 1,
         child: DropdownFormField<T>(
           onChanged: onChangedValue,
           decoration: InputDecoration(labelText: label),
           items: source.map((i) {
-            // Dropdown
-            if (i is Dropdown) {
-              Dropdown dropdown = i;
-              String name = dropdown.name;
-              return DropdownMenuItem<T>(
-                  value: i,
-                  child: Text('$name')
-              );
-            }
-            // or LeakLocationDropdown
-            if (i is LeakLocationDropdown) {
-              LeakLocationDropdown dropdown = i;
-              String name = dropdown.name;
-              return DropdownMenuItem<T>(
-                  value: i,
-                  child: Text('$name')
-              );
-            }
-
             return DropdownMenuItem<T>(
               value: i,
-              child: Text(""),
+              child: Text("$i"),
             );
           }).toList(),
         ),
       );
-    }
-
-    // Do nothing
-    return Expanded(
-      flex: 1,
-      child: Container(),
-    );
   }
 }

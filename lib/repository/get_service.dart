@@ -101,6 +101,9 @@ class Dropdown{
       name: parsedJson['Name']
     );
   }
+
+  @override
+  String toString() => '${this.name}';
 }
 
 class AssetTypesDropdown{

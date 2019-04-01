@@ -26,7 +26,6 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
   List<Dropdown> locations;
   // Need to check what it is in the dropdown API
   List<Dropdown> temperatureClass;
-
   @override
   void initState() {
     super.initState();
