@@ -119,6 +119,9 @@ class AssetTypesDropdown{
         isCylinder: parsedJson['IsCylinder']
     );
   }
+
+  @override
+  String toString() => '${this.name}';
 }
 
 class LeakLocationDropdown{
@@ -137,6 +140,9 @@ class LeakLocationDropdown{
       categoryID: parsedJson['CategoryID']
     );
   }
+
+  @override
+  String toString() => '${this.name}';
 }
 
 class DropdownService {
