@@ -279,7 +279,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildTextField(label: "Estimate leak amount")
+                FormBuild.buildTextField(label: "Estimate leak amount", inputType: TextInputType.number)
               ],
             ),
             Row(
