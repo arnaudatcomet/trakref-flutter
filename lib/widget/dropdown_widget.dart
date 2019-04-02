@@ -22,7 +22,8 @@ class DropdownFormField<T> extends FormField<T> {
     builder: (FormFieldState<T> field) {
       final InputDecoration effectiveDecoration = (decoration ?? const InputDecoration())
           .applyDefaults(Theme.of(field.context).inputDecorationTheme);
-      return Container(
+      // value == null || items.where((DropdownMenuItem<T> item) => item.value == value).length == 1
+          return Container(
           child: InputDecorator(
             decoration:
             effectiveDecoration.copyWith(errorText: field.hasError ? field.errorText : null, fillColor: Colors.white),
@@ -34,8 +35,10 @@ class DropdownFormField<T> extends FormField<T> {
                   value: field.value,
                   isDense: true,
                   onChanged: (value) {
-                    field.didChange(value);
-                    onChanged(value);
+                    if (value != null) {
+                      field.didChange(value);
+                      onChanged(value);
+                    }
                   },
                   items: (items == null) ? [] : items.toList(),
                 ),
@@ -57,10 +60,10 @@ class FormBuild {
     );
   }
   // To add a textfield quickly
-  static Widget buildTextField({String label, Key key, TextInputType inputType}) {
+  static Widget buildTextField({String label, Key key, TextInputType inputType, ValueChanged<String> onSubmitted}) {
     return Expanded(
       flex: 1,
-      child: AppTextField(labeled: label, keyTextField: key, keyboardType: inputType),
+      child: AppTextField(labeled: label, keyTextField: key, keyboardType: inputType, onSubmitted: onSubmitted,),
     );
   }
 
@@ -79,7 +82,7 @@ class FormBuild {
   }
 
   static Widget buildDropdown<T>({List<T> source, String label,
-  FormFieldSetter onChangedValue}) {
+  FormFieldSetter onChangedValue, Key key}) {
     if (source == null) {
       return Expanded(
         flex: 1,
@@ -101,6 +104,7 @@ class FormBuild {
       return Expanded(
         flex: 1,
         child: DropdownFormField<T>(
+          key: key,
           onChanged: onChangedValue,
           decoration: InputDecoration(labelText: label),
           items: source.map((i) {
