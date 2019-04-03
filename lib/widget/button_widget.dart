@@ -165,14 +165,14 @@ class AlwaysDisabledFocusNode extends FocusNode {
 }
 
 class DatePickerTextField extends StatefulWidget {
-  VoidCallback onPressed;
+  final ValueChanged<DateTime> onPressed;
   String labeled = "";
   String helper = "";
   Key keyDatePickerTextField;
   ValueChanged<String> onSubmitted;
 
   DatePickerTextField({this.onPressed, this.labeled, this.helper,
-    this.keyDatePickerTextField, this.onSubmitted});
+    this.keyDatePickerTextField});
 
   @override
   _DatePickerTextFieldState createState() => _DatePickerTextFieldState();
@@ -185,8 +185,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
     final DateTime picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2016), lastDate: DateTime(2020));
     setState(() {
       _date = picked;
-      String formattedDate = DateFormat('yyyy-MM-dd').format(_date);
-      print("Date picked is $formattedDate");
+      widget.onPressed(_date);
     });
   }
 
@@ -197,6 +196,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
       child: TextField(
         enableInteractiveSelection: false,
         focusNode: AlwaysDisabledFocusNode(),
+        onSubmitted: widget.onSubmitted,
         onTap: () {
 
         },
@@ -210,7 +210,6 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
                 height: 22),
                 onPressed: () {
                   _selectDate(context);
-                  widget.onPressed;
                 })
         ),
       ),

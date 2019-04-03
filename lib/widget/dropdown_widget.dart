@@ -88,19 +88,21 @@ class FormBuild {
   }
 
   static Widget buildDatePicker(
-      {String label, String helper, Key key, VoidCallback onPressed, DateTime startDate, DateTime endDate}) {
+      {String label, String helper, Key key,void Function(String) onSaved, ValueChanged<DateTime> onPressed, DateTime startDate, DateTime endDate}) {
+
     return Expanded(
       flex: 1,
       child: DatePickerTextField(labeled: label,
           helper: helper,
           onPressed: onPressed,
-          keyDatePickerTextField: key),
+          keyDatePickerTextField: key,
+      ),
     );
   }
 
   static Widget buildDropdown<T>({List<T> source, String label,
     FormFieldSetter onChangedValue, Key key, FormFieldValidator<
-        T> onValidator, @required bool isRequired}) {
+        T> onValidator, FormFieldSetter<T> onSaved, @required bool isRequired}) {
     if (source == null) {
       return Expanded(
         flex: 1,
@@ -131,6 +133,7 @@ class FormBuild {
             }
           } */,
         onChanged: onChangedValue,
+        onSaved: onSaved,
         decoration: InputDecoration(labelText: (isRequired) ? "$label *" : label),
         items: source.map((i) {
           return DropdownMenuItem<T>(

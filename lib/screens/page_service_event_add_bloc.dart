@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:intl/intl.dart';
+import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/widget/button_widget.dart';
@@ -63,6 +65,20 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   // UI Control variables
   bool _wasLeakFound = false;
   bool _wasVerificationLeakFound = false;
+
+  // Form values
+  Dropdown _pickedEquipmentWorkedOn = null;
+  Dropdown _pickedTypeOfService = null;
+  Dropdown _pickedLeakDetectionMethod = null;
+  Dropdown _pickedWasLeakFound = null;
+  DateTime _pickedServiceDate = null;
+  Dropdown _pickedInitialLeakCategory = null;
+  Dropdown _pickedInitialLeakLocation = null;
+  Dropdown _pickedVerificationLeakCategory = null;
+  Dropdown _pickedVerificationLeakLocation = null;
+  Dropdown _pickedEstimatedLeakAmount = null;
+  DateTime _pickedFollowUpDate = null;
+  String _pickedObservationNotes = null;
 
   @override
   void initState() {
@@ -164,8 +180,11 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     isRequired: true,
                     source: this.categoriesLeakFound,
-                    key: Key("LeakInspectionKey"),
-                    label: "Leak category",
+                    key: Key(kInitialLeakCategoryKey),
+                    label: kInitialLeakCategory,
+                    onSaved: (value) {
+                      _pickedInitialLeakCategory = value;
+                    },
                     onChangedValue: (value) {
                       setState(() {
                         this._filteredInitialLocationLeakFound = null;
@@ -200,9 +219,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     children: <Widget>[
                       // Need to change that
                       FormBuild.buildDropdown(
+                        key: Key(kInitialLeakLocationKey),
                         isRequired: true,
                         source: this._filteredInitialLocationLeakFound,
-                        label: "Leak location",
+                        label: kInitialLeakLocation,
                       )
                     ],
                   )
@@ -212,21 +232,28 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     isRequired: true,
                     source: this.causeOfLeaks,
-                    key: Key("CauseOfLeakKey"),
-                    label: "Cause of leak")
+                    key: Key(kCauseOfLeakKey),
+                    label: kCauseOfLeak)
               ],
             ),
             Row(
               children: <Widget>[
                 FormBuild.buildTextField(
-                    label: "Estimate leak amount",
+                    key: Key(kEstimatedLeakAmountKey),
+                    label: kEstimatedLeakAmount,
                     inputType: TextInputType.number)
               ],
             ),
             Row(
               children: <Widget>[
                 FormBuild.buildDatePicker(
-                    key: Key("FollowUpDateKey"), helper: "Follow up date")
+                    key: Key(kFollowUpDateKey),
+                    helper: kFollowUpDate,
+                    onPressed: (value) => print("$kFollowUpDateKey > onPressed is $value"),
+                    onSaved: (value) {
+                      print("$kFollowUpDateKey > $value");
+                    }
+                )
               ],
             )
           ],
@@ -240,8 +267,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     isRequired: true,
                     source: this.categoriesLeakFound,
-                    key: Key("LeakCategoryKey"),
-                    label: "Leak category",
+                    key: Key(kInitialLeakCategoryKey),
+                    label: kInitialLeakCategory,
                     onChangedValue: (value) {
                       setState(() {
                         this._filteredInitialLocationLeakFound = null;
@@ -276,10 +303,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     children: <Widget>[
                       // Need to change that
                       FormBuild.buildDropdown(
-                        isRequired: true,
-                        source: this._filteredInitialLocationLeakFound,
-                        label: "Leak location",
-                      )
+                          isRequired: true,
+                          source: this._filteredInitialLocationLeakFound,
+                          label: kInitialLeakLocation,
+                          key: Key(kInitialLeakLocationKey))
                     ],
                   )
                 : Container(),
@@ -289,15 +316,16 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     isRequired: true,
                     source: this.causeOfLeaks,
-                    key: Key("CauseOfLeakKey"),
-                    label: "Cause of leak")
+                    key: Key(kCauseOfLeakKey),
+                    label: kCauseOfLeak)
               ],
             ),
             Row(
               children: <Widget>[
                 // Need to change that
                 FormBuild.buildTextField(
-                    label: "Estimated leak amount",
+                    key: Key(kEstimatedLeakAmountKey),
+                    label: kEstimatedLeakAmount,
                     inputType: TextInputType.number)
               ],
             ),
@@ -307,8 +335,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     source: this.serviceActions,
                     isRequired: true,
-                    key: Key("ServiceActionKey"),
-                    label: "Service action")
+                    key: Key(kServiceActionKey),
+                    label: kServiceAction)
               ],
             ),
             // URGENT: Need to add material gas
@@ -317,15 +345,14 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     source: this.leakRepairStatus,
                     isRequired: true,
-                    key: Key("LeakRepairStatusKey"),
-                    label: "Leak repair status")
+                    key: Key(kLeakRepairStatusKey),
+                    label: kLeakRepairStatus)
               ],
             ),
             Row(
               children: <Widget>[
                 FormBuild.buildDatePicker(
-                    key: Key("VerificationDateKey"),
-                    helper: "Verification date")
+                    key: Key(kVerificationDateKey), helper: kVerificationDate)
               ],
             ),
             Row(
@@ -333,17 +360,17 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     source: this.leakDetectionMethod,
                     isRequired: true,
-                    key: Key("VerificationLeakMethodKey"),
-                    label: "Verification leak method")
+                    key: Key(kVerificationLeakMethodKey),
+                    label: kVerificationLeakMethod)
               ],
             ),
             Row(
               children: <Widget>[
                 FormBuild.buildDropdown(
                     source: this.wasLeakFound,
-                    key: Key("WasLeakFoundVerificationKey"),
+                    key: Key(kVerificationWasLeakFoundKey),
                     isRequired: true,
-                    label: "Was leak found during follow up inspection",
+                    label: kVerificationWasLeakFound,
                     onChangedValue: (value) {
                       if (value is Dropdown) {
                         setState(() {
@@ -365,8 +392,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                       FormBuild.buildDropdown(
                           source: this.causeOfLeaks,
                           isRequired: true,
-                          key: Key("CauseOfLeakKey"),
-                          label: "Leak cause"),
+                          key: Key(kVerificationLeakCauseKey),
+                          label: kVerificationLeakCause),
                       _buildVerificationChip()
                     ],
                   )
@@ -377,8 +404,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                       FormBuild.buildDropdown(
                           source: this.categoriesLeakFound,
                           isRequired: true,
-                          key: Key("LeakCategoryKey"),
-                          label: "Leak category",
+                          key: Key(kVerificationLeakCategoryKey),
+                          label: kVerificationLeakCategory,
                           onChangedValue: (value) {
                             setState(() {
                               this._filteredVerificationLocationLeakFound = [];
@@ -420,8 +447,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                       FormBuild.buildDropdown(
                           isRequired: true,
                           source: this._filteredVerificationLocationLeakFound,
-                          key: Key("LeakLocationKey"),
-                          label: "Leak location"),
+                          key: Key(kVerificationLeakLocationKey),
+                          label: kVerificationLeakLocation),
                       _buildVerificationChip()
                     ],
                   )
@@ -437,8 +464,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     isRequired: true,
                     source: this.wasLeakFound,
-                    key: Key("WasVacuumPulledKey"),
-                    label: "Was vacuum pulled?")
+                    key: Key(kWasVacuumPulledKey),
+                    label: kWasVacuumPulled)
               ],
             ),
             Row(
@@ -446,8 +473,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     isRequired: true,
                     source: _buildDropdownInt(0, 31),
-                    key: Key("DepthOfVacuumKey"),
-                    label: "Depth of vacuum")
+                    key: Key(kDepthOfVacuumKey),
+                    label: kDepthOfVacuum)
               ],
             ),
             Row(
@@ -455,8 +482,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     isRequired: true,
                     source: this.serviceActions,
-                    key: Key("ServiceActionKey"),
-                    label: "Service action")
+                    key: Key(kServiceActionKey),
+                    label: kServiceAction)
               ],
             ),
             Row(
@@ -464,8 +491,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                 FormBuild.buildDropdown(
                     isRequired: true,
                     source: this.shutdownStatus,
-                    key: Key("PostShutdownStatusKey"),
-                    label: "Post shutdown status")
+                    key: Key(kPostShutdownStatusKey),
+                    label: kPostShutdownStatus)
               ],
             )
           ],
@@ -507,19 +534,26 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                           FormBuild.buildDropdown(
                               source: this.assets,
                               isRequired: true,
+                              onSaved: (value) {
+                                _pickedEquipmentWorkedOn = value;
+                              },
                               onValidator: (value) {
                                 if (value == null) {
                                   return 'Required';
                                 }
                               },
-                              label: "Equipment worked on")
+                              label: kEquipmentWorkedOn,
+                              key: Key(kEquipmentWorkedOnKey))
                         ]),
                         Row(children: <Widget>[
                           FormBuild.buildDropdown(
                               source: this.serviceType,
                               isRequired: true,
-                              key: Key("TypeOfServiceKey"),
-                              label: "Type of service",
+                              key: Key(kTypeOfServiceKey),
+                              label: kTypeOfService,
+                              onSaved: (value) {
+                                _pickedTypeOfService = value;
+                              },
                               onChangedValue: (value) {
                                 setState(() {
                                   print("Selected > Type Of Service : $value");
@@ -559,17 +593,23 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         ]),
                         Row(children: <Widget>[
                           FormBuild.buildDropdown(
+                              onSaved: (value) {
+                                _pickedLeakDetectionMethod = value;
+                              },
                               isRequired: true,
                               source: this.leakDetectionMethod,
-                              key: Key("LeakDetectionMethodKey"),
-                              label: "Leak detection method")
+                              key: Key(kLeakDetectionMethodKey),
+                              label: kLeakDetectionMethod),
                         ]),
                         Row(children: <Widget>[
                           FormBuild.buildDropdown(
+                              onSaved: (value) {
+                                _pickedWasLeakFound = value;
+                              },
                               isRequired: true,
                               source: this.wasLeakFound,
-                              key: Key("WasLeakFoundKey"),
-                              label: "Was leak found?",
+                              key: Key(kWasLeakFoundKey),
+                              label: kWasLeakFound,
                               onChangedValue: (dropdown) {
                                 setState(() {
                                   if (dropdown is Dropdown) {
@@ -586,8 +626,12 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         ]),
                         Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
                           FormBuild.buildDatePicker(
-                              key: Key("ServiceDateKey"),
-                              helper: "Service Date"),
+                              onPressed: (value) {
+                                print("$kServiceDateKey buildDatePicker > onPressed is $value");
+                                _pickedServiceDate = value;
+                              },
+                              key: Key(kServiceDateKey),
+                              helper: kServiceDate),
                         ]),
                         //  === PART === Second part of the form
                         _buildInspection(_wasLeakFound, this.typeOfService,
@@ -606,9 +650,11 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                             Expanded(
                               flex: 1,
                               child: TextField(
+                                  key: Key(kObservationNotesKey),
                                   maxLength: 50,
                                   maxLines: 5,
                                   decoration: InputDecoration(
+                                    helperText: kObservationNotes,
                                     fillColor: Colors.white,
                                     border: InputBorder.none,
                                     focusedBorder: OutlineInputBorder(
@@ -639,13 +685,29 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                           children: <Widget>[
                             Expanded(
                               child: AppButton(
-                                keyButton: Key('SubmitButton'),
-                                titleButton: "SUBMIT",
+                                keyButton: Key(kSubmitButtonKey),
+                                titleButton: kSubmitButton,
                                 onPressed: () {
                                   print("This was pressed by Arnaud");
                                   if (_formKey.currentState.validate()) {
                                     print("> validate");
                                     _formKey.currentState.save();
+
+                                    if (typeOfService == ServiceType.LeakInspection) {
+                                      String equipmentWorkedOn = _pickedEquipmentWorkedOn.name;
+                                      String typeOfService = _pickedTypeOfService.name;
+                                      String leakDetectionMethod = _pickedLeakDetectionMethod.name;
+                                      String wasLeakFound = _pickedWasLeakFound.name;
+                                      String serviceDate = DateFormat('yyyy-MM-dd').format(_pickedServiceDate);
+                                      String notes = _pickedObservationNotes;
+
+                                      print("equipmentWorkedOn $equipmentWorkedOn");
+                                      print("typeOfService $typeOfService");
+                                      print("leakDetectionMethod $leakDetectionMethod");
+                                      print("wasLeakFound $wasLeakFound");
+                                      print("serviceDate $serviceDate");
+                                      print("notes $notes");
+                                    }
                                   }
                                 },
                               ),
