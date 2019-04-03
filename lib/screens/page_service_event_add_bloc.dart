@@ -649,7 +649,17 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                           children: <Widget>[
                             Expanded(
                               flex: 1,
-                              child: TextField(
+                              child: TextFormField(
+                                 onSaved: (value) {
+                                   print("$kObservationNotesKey > onSaved");
+                                 },
+                                  validator: (value) {
+                                    if (value.isEmpty) return "Observation is required";
+//                                    if (value.length < 50) return "Observation must be over 50 characters";
+                                  },
+                                  onFieldSubmitted: (value) {
+                                    print("$kObservationNotesKey > onFieldSubmitted");
+                                  },
                                   key: Key(kObservationNotesKey),
                                   maxLength: 50,
                                   maxLines: 5,
@@ -666,9 +676,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                     contentPadding: EdgeInsets.only(
                                         bottom: 10.0, left: 10.0, right: 10.0),
                                   ),
-//                      decoration: InputDecoration(
-//                        helperText: "Enter your observation"
-//                      ),
                                   style: TextStyle(
                                       color: Colors.grey, fontSize: 18)),
                             )
@@ -698,7 +705,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                       String typeOfService = _pickedTypeOfService.name;
                                       String leakDetectionMethod = _pickedLeakDetectionMethod.name;
                                       String wasLeakFound = _pickedWasLeakFound.name;
-                                      String serviceDate = DateFormat('yyyy-MM-dd').format(_pickedServiceDate);
+                                      String serviceDate = null;
+                                      if (_pickedServiceDate != null ) {
+                                        serviceDate = DateFormat('yyyy-MM-dd').format(_pickedServiceDate);
+                                      }
                                       String notes = _pickedObservationNotes;
 
                                       print("equipmentWorkedOn $equipmentWorkedOn");
