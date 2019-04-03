@@ -8,80 +8,14 @@ import 'package:async/async.dart';
 enum ServiceType { LeakInspection, ServiceAndLeakRepair, Shutdown, None }
 
 class PageServiceEventAddBloc extends StatefulWidget {
-  // Example dropdowns
-
-  /*
-  // For testing purposes
-  List<Dropdown> assets = [
-    Dropdown(name: 'Electricity Meter 1', id: 1000018),
-    Dropdown(name: '528 RDD Multi Temp', id: 1000022),
-    Dropdown(name: 'Virgin R-408a lbs. 1000 457474', id: 1000026),
-    Dropdown(name: 'Virgin R-404A lbs. 100 234567', id: 1000027),
-    Dropdown(name: 'Virgin R-449A lbs. 115 12312211', id: 1000038),
-    Dropdown(name: 'MR718', id: 1000055)
-  ];
-
-
-  //Leaks location
-  List<Dropdown> locationLeakFound = [
-    Dropdown(name: 'Compressor', id: 2),
-    Dropdown(name: 'Condenser', id: 3),
-    Dropdown(name: 'Discharge Line', id: 5),
-    Dropdown(name: 'Evaporator', id: 6),
-    Dropdown(name: 'Heat Recovery', id: 7),
-    Dropdown(name: 'Liquid Line', id: 8),
-    Dropdown(name: 'Other', id: 9)
-  ];
-
-  // Cause of Leaks
-  List<Dropdown> causeOfLeaks = [
-    Dropdown(name: 'ALDS', id: 2),
-    Dropdown(name: 'Abuse', id: 3),
-    Dropdown(name: 'Catastrophe', id: 5),
-    Dropdown(name: 'Corrosion', id: 6),
-    Dropdown(name: 'Joint failure', id: 7),
-    Dropdown(name: 'Mechanical failure ', id: 8),
-    Dropdown(name: 'Normal water', id: 9)
-  ];
-
-  // Leak detection methods
-  List<Dropdown> leakDetectionMethod = [
-    Dropdown(name: 'ALD', id: 2),
-    Dropdown(name: 'Alternative', id: 3),
-    Dropdown(name: 'Bubble Test', id: 5),
-    Dropdown(name: 'Dye Inject', id: 6)
-  ];
-
-  // Service Actions
-  List<Dropdown> serviceActions = [
-    Dropdown(name: 'Audit/Inspect', id: 2),
-    Dropdown(name: 'Bypass', id: 3),
-    Dropdown(name: 'Calibrate/Adjust', id: 5),
-    Dropdown(name: 'New cap/seal', id: 6)
-  ];
-
-  // Leak repair status
-  List<Dropdown> leakRepairStatus = [
-    Dropdown(name: 'LeakRepaired', id: 2),
-    Dropdown(name: 'NoRepair', id: 3),
-    Dropdown(name: 'RepairAttempted', id: 5)
-  ];
-
-  // Post shutdown status
-  List<Dropdown> shutdownStatus = [
-    Dropdown(name: 'Mothball', id: 2),
-    Dropdown(name: 'Pending Install', id: 3),
-    Dropdown(name: 'Shutdown', id: 4),
-  ];
-  */
-
-
   @override
-  _PageServiceEventAddBlocState createState() => _PageServiceEventAddBlocState();
-
+  _PageServiceEventAddBlocState createState() =>
+      _PageServiceEventAddBlocState();
 }
 
-class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  List<Dropdown> locations;
+class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
+  List<Dropdown> locations;
+
   // Need to check what it is in the dropdown API
 // List<Dropdown> temperatureClass;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
@@ -151,12 +85,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
     };
   }
 
-
   // Build Vacuum dept dynamically
-  List<Dropdown> _buildDropdownInt(int from, int length)
-  {
+  List<Dropdown> _buildDropdownInt(int from, int length) {
     List<Dropdown> intList = List<Dropdown>();
-    for(var i = from; i <= (from + length); i++){
+    for (var i = from; i <= (from + length); i++) {
       intList.add(Dropdown(name: '$i', id: i));
     }
     return intList;
@@ -165,11 +97,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
   String _getServiceTypeRaw(ServiceType type) {
     if (type == ServiceType.LeakInspection) {
       return "Leak Inspection";
-    }
-    else if (type == ServiceType.ServiceAndLeakRepair) {
+    } else if (type == ServiceType.ServiceAndLeakRepair) {
       return "Service Repair";
-    }
-    else if (type == ServiceType.Shutdown) {
+    } else if (type == ServiceType.Shutdown) {
       return "Shutdown";
     }
     return "";
@@ -182,32 +112,28 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
         children: <Widget>[
           Expanded(
               flex: 1,
-              child: Text("Add Service Event",
+              child: Text(
+                "Add Service Event",
                 style: Theme.of(context).textTheme.title,
-              )
-          )
+              ))
         ],
       );
-    }
-    else {
+    } else {
       return Row(
         children: <Widget>[
           Expanded(
               flex: 2,
-              child: Text("Add Service Event",
+              child: Text(
+                "Add Service Event",
                 style: Theme.of(context).textTheme.title,
-              )
-          ),
+              )),
           Expanded(
-            flex:1,
+            flex: 1,
             child: Chip(
               backgroundColor: AppColors.blueTurquoise,
               label: Text('${_getServiceTypeRaw(type)} ',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                      color: Colors.white
-                  )
-              ),
+                      fontWeight: FontWeight.bold, color: Colors.white)),
             ),
           )
         ],
@@ -219,16 +145,14 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
     return Chip(
       backgroundColor: AppColors.lightGreen,
       label: Text('Verification',
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white
-          )
-      ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
     );
   }
 
-  Widget _buildInspection(bool leakFound, ServiceType type, {bool verificationLeakFound}) {
-    print("===> leakFound ? $leakFound, verification ? $verificationLeakFound, type ? $type");
+  Widget _buildInspection(bool leakFound, ServiceType type,
+      {bool verificationLeakFound}) {
+    print(
+        "===> leakFound ? $leakFound, verification ? $verificationLeakFound, type ? $type");
     // Show leak inspection
     if (leakFound == true) {
       if (type == ServiceType.LeakInspection) {
@@ -237,9 +161,11 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
           children: <Widget>[
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: this.categoriesLeakFound,
+                FormBuild.buildDropdown(
+                    isRequired: true,
+                    source: this.categoriesLeakFound,
                     key: Key("LeakInspectionKey"),
-                    label: "Leak category *",
+                    label: "Leak category",
                     onChangedValue: (value) {
                       setState(() {
                         this._filteredInitialLocationLeakFound = null;
@@ -247,14 +173,21 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                       Future.delayed(const Duration(milliseconds: 500), () {
                         if (value is Dropdown) {
                           // Get the filtered leak location category
-                          List<LeakLocationDropdown> selectedLeakLocationList = this.initialLocationLeakFound.where((i) => i.categoryID == value.id).toList();
-                          List<Dropdown> categoryLeaksLocation = selectedLeakLocationList.map((i) => Dropdown(id: i.id, name: i.name)).toList();
+                          List<LeakLocationDropdown> selectedLeakLocationList =
+                              this
+                                  .initialLocationLeakFound
+                                  .where((i) => i.categoryID == value.id)
+                                  .toList();
+                          List<Dropdown> categoryLeaksLocation =
+                              selectedLeakLocationList
+                                  .map((i) => Dropdown(id: i.id, name: i.name))
+                                  .toList();
                           setState(() {
                             if (categoryLeaksLocation.length == 0) {
                               this._filteredInitialLocationLeakFound = null;
-                            }
-                            else {
-                              this._filteredInitialLocationLeakFound = categoryLeaksLocation;
+                            } else {
+                              this._filteredInitialLocationLeakFound =
+                                  categoryLeaksLocation;
                             }
                           });
                         }
@@ -262,43 +195,53 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                     })
               ],
             ),
-            (this._filteredInitialLocationLeakFound != null) ? Row(
-              children: <Widget>[
-                // Need to change that
-                FormBuild.buildDropdown(source: this._filteredInitialLocationLeakFound,
-                  label: "Leak location *",
-                )
-              ],
-            ) : Container(),
+            (this._filteredInitialLocationLeakFound != null)
+                ? Row(
+                    children: <Widget>[
+                      // Need to change that
+                      FormBuild.buildDropdown(
+                        isRequired: true,
+                        source: this._filteredInitialLocationLeakFound,
+                        label: "Leak location",
+                      )
+                    ],
+                  )
+                : Container(),
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: this.causeOfLeaks,
+                FormBuild.buildDropdown(
+                    isRequired: true,
+                    source: this.causeOfLeaks,
                     key: Key("CauseOfLeakKey"),
-                    label: "Cause of leak *")
+                    label: "Cause of leak")
               ],
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildTextField(label: "Estimate leak amount", inputType: TextInputType.number)
+                FormBuild.buildTextField(
+                    label: "Estimate leak amount",
+                    inputType: TextInputType.number)
               ],
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildDatePicker(key: Key("FollowUpDateKey"), helper: "Follow up date *")
+                FormBuild.buildDatePicker(
+                    key: Key("FollowUpDateKey"), helper: "Follow up date")
               ],
             )
           ],
         );
-      }
-      else if (type == ServiceType.ServiceAndLeakRepair) {
+      } else if (type == ServiceType.ServiceAndLeakRepair) {
         print("===> ServiceAndLeakRepair");
         return Column(
           children: <Widget>[
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: this.categoriesLeakFound,
+                FormBuild.buildDropdown(
+                    isRequired: true,
+                    source: this.categoriesLeakFound,
                     key: Key("LeakCategoryKey"),
-                    label: "Leak category *",
+                    label: "Leak category",
                     onChangedValue: (value) {
                       setState(() {
                         this._filteredInitialLocationLeakFound = null;
@@ -306,14 +249,21 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                       Future.delayed(const Duration(milliseconds: 500), () {
                         if (value is Dropdown) {
                           // Get the filtered leak location category
-                          List<LeakLocationDropdown> selectedLeakLocationList = this.initialLocationLeakFound.where((i) => i.categoryID == value.id).toList();
-                          List<Dropdown> categoryLeaksLocation = selectedLeakLocationList.map((i) => Dropdown(id: i.id, name: i.name)).toList();
+                          List<LeakLocationDropdown> selectedLeakLocationList =
+                              this
+                                  .initialLocationLeakFound
+                                  .where((i) => i.categoryID == value.id)
+                                  .toList();
+                          List<Dropdown> categoryLeaksLocation =
+                              selectedLeakLocationList
+                                  .map((i) => Dropdown(id: i.id, name: i.name))
+                                  .toList();
                           setState(() {
                             if (categoryLeaksLocation.length == 0) {
                               this._filteredInitialLocationLeakFound = null;
-                            }
-                            else {
-                              this._filteredInitialLocationLeakFound = categoryLeaksLocation;
+                            } else {
+                              this._filteredInitialLocationLeakFound =
+                                  categoryLeaksLocation;
                             }
                           });
                         }
@@ -321,70 +271,86 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
                     })
               ],
             ),
-            (this._filteredInitialLocationLeakFound != null) ? Row(
-              children: <Widget>[
-                // Need to change that
-                FormBuild.buildDropdown(source: this._filteredInitialLocationLeakFound,
-                    label: "Leak location *",
-                    )
-              ],
-            ) : Container(),
+            (this._filteredInitialLocationLeakFound != null)
+                ? Row(
+                    children: <Widget>[
+                      // Need to change that
+                      FormBuild.buildDropdown(
+                        isRequired: true,
+                        source: this._filteredInitialLocationLeakFound,
+                        label: "Leak location",
+                      )
+                    ],
+                  )
+                : Container(),
             Row(
               children: <Widget>[
                 // Need to change that
-                FormBuild.buildDropdown(source: this.causeOfLeaks,
+                FormBuild.buildDropdown(
+                    isRequired: true,
+                    source: this.causeOfLeaks,
                     key: Key("CauseOfLeakKey"),
-                    label: "Cause of leak *")
+                    label: "Cause of leak")
               ],
             ),
             Row(
               children: <Widget>[
                 // Need to change that
-                FormBuild.buildTextField(label: "Estimated leak amount", inputType: TextInputType.number)
+                FormBuild.buildTextField(
+                    label: "Estimated leak amount",
+                    inputType: TextInputType.number)
               ],
             ),
             Row(
               children: <Widget>[
                 // Need to change that
-                FormBuild.buildDropdown(source: this.serviceActions,
+                FormBuild.buildDropdown(
+                    source: this.serviceActions,
+                    isRequired: true,
                     key: Key("ServiceActionKey"),
-                    label: "Service action *")
+                    label: "Service action")
               ],
             ),
             // URGENT: Need to add material gas
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: this.leakRepairStatus,
+                FormBuild.buildDropdown(
+                    source: this.leakRepairStatus,
+                    isRequired: true,
                     key: Key("LeakRepairStatusKey"),
-                    label: "Leak repair status *")
+                    label: "Leak repair status")
               ],
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildDatePicker(key: Key("VerificationDateKey"), helper: "Verification date *")
+                FormBuild.buildDatePicker(
+                    key: Key("VerificationDateKey"),
+                    helper: "Verification date")
               ],
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: this.leakDetectionMethod,
+                FormBuild.buildDropdown(
+                    source: this.leakDetectionMethod,
+                    isRequired: true,
                     key: Key("VerificationLeakMethodKey"),
-                    label: "Verification leak method *"
-                )
+                    label: "Verification leak method")
               ],
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: this.wasLeakFound,
+                FormBuild.buildDropdown(
+                    source: this.wasLeakFound,
                     key: Key("WasLeakFoundVerificationKey"),
-                    label: "Was leak found during follow up inspection *",
+                    isRequired: true,
+                    label: "Was leak found during follow up inspection",
                     onChangedValue: (value) {
                       if (value is Dropdown) {
                         setState(() {
                           this._filteredVerificationLocationLeakFound = [];
                           if (value.name == "Yes") {
                             _wasVerificationLeakFound = true;
-                          }
-                          else {
+                          } else {
                             _wasVerificationLeakFound = false;
                           }
                         });
@@ -393,84 +359,113 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
               ],
             ),
             // Note : maybe a better way to do the UI below
-            (_wasVerificationLeakFound) ? Row(
-              children: <Widget>[
-                FormBuild.buildDropdown(source: this.causeOfLeaks,
-                    key: Key("CauseOfLeakKey"),
-                    label: "Leak cause *"),
-                _buildVerificationChip()
-              ],
-            ): Container(),
-            (_wasVerificationLeakFound) ? Row(
-              children: <Widget>[
-                FormBuild.buildDropdown(source: this.categoriesLeakFound,
-                  key: Key("LeakCategoryKey"),
-                  label: "Leak category *",
-                  onChangedValue: (value) {
-                    setState(() {
-                      this._filteredVerificationLocationLeakFound = [];
-                    });
-                    Future.delayed(const Duration(milliseconds: 500), () {
-                      if (value is Dropdown) {
-                        // Get the filtered leak location category
-                        List<LeakLocationDropdown> selectedLeakLocationList = this.verificationLocationLeakFound.where((i) => i.categoryID == value.id).toList();
-                        List<Dropdown> categoryLeaksLocation = selectedLeakLocationList.map((i) => Dropdown(id: i.id, name: i.name)).toList();
-                        setState(() {
-                          if (categoryLeaksLocation.length == 0) {
-                            this._filteredVerificationLocationLeakFound = [];
-                          }
-                          else {
-                            this._filteredVerificationLocationLeakFound = categoryLeaksLocation;
-                          }
-                        });
-                      }
-                    });
-                  }
-                ),
-                _buildVerificationChip()
-              ],
-            ): Container(),
-              (_wasVerificationLeakFound && this._filteredVerificationLocationLeakFound != null) ? Row(
-              children: <Widget>[
-                FormBuild.buildDropdown(source: this._filteredVerificationLocationLeakFound,
-                    key: Key("LeakLocationKey"),
-                    label: "Leak location *"),
-                _buildVerificationChip()
-              ],
-            ): Container()
+            (_wasVerificationLeakFound)
+                ? Row(
+                    children: <Widget>[
+                      FormBuild.buildDropdown(
+                          source: this.causeOfLeaks,
+                          isRequired: true,
+                          key: Key("CauseOfLeakKey"),
+                          label: "Leak cause"),
+                      _buildVerificationChip()
+                    ],
+                  )
+                : Container(),
+            (_wasVerificationLeakFound)
+                ? Row(
+                    children: <Widget>[
+                      FormBuild.buildDropdown(
+                          source: this.categoriesLeakFound,
+                          isRequired: true,
+                          key: Key("LeakCategoryKey"),
+                          label: "Leak category",
+                          onChangedValue: (value) {
+                            setState(() {
+                              this._filteredVerificationLocationLeakFound = [];
+                            });
+                            Future.delayed(const Duration(milliseconds: 500),
+                                () {
+                              if (value is Dropdown) {
+                                // Get the filtered leak location category
+                                List<LeakLocationDropdown>
+                                    selectedLeakLocationList = this
+                                        .verificationLocationLeakFound
+                                        .where((i) => i.categoryID == value.id)
+                                        .toList();
+                                List<Dropdown> categoryLeaksLocation =
+                                    selectedLeakLocationList
+                                        .map((i) =>
+                                            Dropdown(id: i.id, name: i.name))
+                                        .toList();
+                                setState(() {
+                                  if (categoryLeaksLocation.length == 0) {
+                                    this._filteredVerificationLocationLeakFound =
+                                        [];
+                                  } else {
+                                    this._filteredVerificationLocationLeakFound =
+                                        categoryLeaksLocation;
+                                  }
+                                });
+                              }
+                            });
+                          }),
+                      _buildVerificationChip()
+                    ],
+                  )
+                : Container(),
+            (_wasVerificationLeakFound &&
+                    this._filteredVerificationLocationLeakFound != null)
+                ? Row(
+                    children: <Widget>[
+                      FormBuild.buildDropdown(
+                          isRequired: true,
+                          source: this._filteredVerificationLocationLeakFound,
+                          key: Key("LeakLocationKey"),
+                          label: "Leak location"),
+                      _buildVerificationChip()
+                    ],
+                  )
+                : Container()
           ],
         );
-      }
-      else if (type == ServiceType.Shutdown) {
+      } else if (type == ServiceType.Shutdown) {
         print("===> buildShutdown");
         return Column(
           children: <Widget>[
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: this.wasLeakFound,
+                FormBuild.buildDropdown(
+                    isRequired: true,
+                    source: this.wasLeakFound,
                     key: Key("WasVacuumPulledKey"),
-                    label: "Was vacuum pulled? *")
+                    label: "Was vacuum pulled?")
               ],
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: _buildDropdownInt(0, 31),
+                FormBuild.buildDropdown(
+                    isRequired: true,
+                    source: _buildDropdownInt(0, 31),
                     key: Key("DepthOfVacuumKey"),
-                    label: "Depth of vacuum *")
+                    label: "Depth of vacuum")
               ],
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: this.serviceActions,
+                FormBuild.buildDropdown(
+                    isRequired: true,
+                    source: this.serviceActions,
                     key: Key("ServiceActionKey"),
-                    label: "Service action *")
+                    label: "Service action")
               ],
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(source: this.shutdownStatus,
+                FormBuild.buildDropdown(
+                    isRequired: true,
+                    source: this.shutdownStatus,
                     key: Key("PostShutdownStatusKey"),
-                    label: "Post shutdown status *")
+                    label: "Post shutdown status")
               ],
             )
           ],
@@ -484,163 +479,182 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {  Li
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.white.withOpacity(0.0),
-        leading: IconButton(icon: Icon(
-          Icons.close,
-          color: Colors.black87,
-        ), onPressed: (){
-          Navigator.of(context).pop();
-        })
-      ),
+          elevation: 0.0,
+          backgroundColor: Colors.white.withOpacity(0.0),
+          leading: IconButton(
+              icon: Icon(
+                Icons.close,
+                color: Colors.black87,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              })),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: SafeArea(
-            child: (_isDropdownsLoaded == false) ? FormBuild.buildLoader() : ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              children: <Widget>[
-                _buildTitle(this.typeOfService),
-                Row(
-                    children: <Widget>[
-                      FormBuild.buildDropdown(source: this.assets,
-                        label: "Equipment worked on *"
-                      )
-                    ]
-                ),
-                Row(
-                    children: <Widget>[
-                      FormBuild.buildDropdown(source: this.serviceType,
-                          key: Key("TypeOfServiceKey"),
-                          label: "Type of service *",
-                          onChangedValue: (value) {
-                            setState(() {
-                              print("Selected > Type Of Service : $value");
-                              if (value is Dropdown) {
+            child: (_isDropdownsLoaded == false)
+                ? FormBuild.buildLoader()
+                : Form(
+                    key: _formKey,
+                    child: ListView(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      children: <Widget>[
+                        _buildTitle(this.typeOfService),
+                        Row(children: <Widget>[
+                          FormBuild.buildDropdown(
+                              source: this.assets,
+                              isRequired: true,
+                              onValidator: (value) {
+                                if (value == null) {
+                                  return 'Required';
+                                }
+                              },
+                              label: "Equipment worked on")
+                        ]),
+                        Row(children: <Widget>[
+                          FormBuild.buildDropdown(
+                              source: this.serviceType,
+                              isRequired: true,
+                              key: Key("TypeOfServiceKey"),
+                              label: "Type of service",
+                              onChangedValue: (value) {
+                                setState(() {
+                                  print("Selected > Type Of Service : $value");
+                                  if (value is Dropdown) {
+                                    this._filteredInitialLocationLeakFound = [];
+                                    this._filteredVerificationLocationLeakFound =
+                                        [];
 
-                                this._filteredInitialLocationLeakFound = [];
-                                this._filteredVerificationLocationLeakFound = [];
-
-                                switch (value.id) {
-                                  case 2: {
-                                    this.typeOfService = ServiceType.LeakInspection;
+                                    switch (value.id) {
+                                      case 2:
+                                        {
+                                          this.typeOfService =
+                                              ServiceType.LeakInspection;
+                                        }
+                                        break;
+                                      case 3:
+                                        {
+                                          this.typeOfService =
+                                              ServiceType.ServiceAndLeakRepair;
+                                        }
+                                        break;
+                                      case 5:
+                                        {
+                                          this.typeOfService =
+                                              ServiceType.Shutdown;
+                                        }
+                                        break;
+                                      default:
+                                        {
+                                          this.typeOfService = ServiceType.None;
+                                        }
+                                        break;
+                                    }
                                   }
-                                  break;
-                                  case 3: {
-                                    this.typeOfService = ServiceType.ServiceAndLeakRepair;
+                                });
+                              })
+                        ]),
+                        Row(children: <Widget>[
+                          FormBuild.buildDropdown(
+                              isRequired: true,
+                              source: this.leakDetectionMethod,
+                              key: Key("LeakDetectionMethodKey"),
+                              label: "Leak detection method")
+                        ]),
+                        Row(children: <Widget>[
+                          FormBuild.buildDropdown(
+                              isRequired: true,
+                              source: this.wasLeakFound,
+                              key: Key("WasLeakFoundKey"),
+                              label: "Was leak found?",
+                              onChangedValue: (dropdown) {
+                                setState(() {
+                                  if (dropdown is Dropdown) {
+                                    print(
+                                        "Was leak found selected > ${dropdown.name}");
+                                    if (dropdown.name == "Yes") {
+                                      _wasLeakFound = true;
+                                    } else {
+                                      _wasLeakFound = false;
+                                    }
                                   }
-                                  break;
-                                  case 5: {
-                                    this.typeOfService = ServiceType.Shutdown;
-                                  }
-                                  break;
-                                  default: {
-                                    this.typeOfService = ServiceType.None;
-                                  }
-                                  break;
-                                }
-                              }
-                            });
-                          }
-                          )
-                    ]
-                ),
-                Row(
-                    children: <Widget>[
-                      FormBuild.buildDropdown(source: this.leakDetectionMethod,
-                          key: Key("LeakDetectionMethodKey"),
-                          label: "Leak detection method*")
-                    ]
-                ),
-                Row(
-                    children: <Widget>[
-                      FormBuild.buildDropdown(source: this.wasLeakFound,
-                          key: Key("WasLeakFoundKey"),
-                          label:  "Was leak found? *", onChangedValue: (dropdown) {
-                            setState(() {
-                              if (dropdown is Dropdown) {
-                                print("Was leak found selected > ${dropdown.name}");
-                                if (dropdown.name == "Yes"){
-                                  _wasLeakFound = true;
-                                }
-                                else {
-                                  _wasLeakFound = false;
-                                }
-                              }
-                            });
-                          })
-                    ]
-                ),
-                Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      FormBuild.buildDatePicker(key: Key("ServiceDateKey"), helper: "Service Date *"),
-                    ]
-                ),
-                //  === PART === Second part of the form
-                _buildInspection(_wasLeakFound, this.typeOfService, verificationLeakFound: _wasVerificationLeakFound),
-                //  === PART === Submit
-                // This is for giving some space for the bottom button 'SUBMIT'
-                Row(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 20,
-                    )
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: TextField(
-                          maxLength: 50,
-                          maxLines: 5,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            border: InputBorder.none,
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                borderSide: BorderSide(color: Colors.blue)),
-                            filled: true,
-                            contentPadding:
-                            EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-                          ),
+                                });
+                              })
+                        ]),
+                        Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
+                          FormBuild.buildDatePicker(
+                              key: Key("ServiceDateKey"),
+                              helper: "Service Date"),
+                        ]),
+                        //  === PART === Second part of the form
+                        _buildInspection(_wasLeakFound, this.typeOfService,
+                            verificationLeakFound: _wasVerificationLeakFound),
+                        //  === PART === Submit
+                        // This is for giving some space for the bottom button 'SUBMIT'
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: TextField(
+                                  maxLength: 50,
+                                  maxLines: 5,
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    border: InputBorder.none,
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue)),
+                                    filled: true,
+                                    contentPadding: EdgeInsets.only(
+                                        bottom: 10.0, left: 10.0, right: 10.0),
+                                  ),
 //                      decoration: InputDecoration(
 //                        helperText: "Enter your observation"
 //                      ),
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 18
-                          )
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 20,
-                    )
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: AppButton(
-                        keyButton: Key('SubmitButton'),
-                        titleButton: "SUBMIT",
-                        onPressed: () {
-                          print("This was pressed by Arnaud");
-                        },
-                      ),
-                    )
-                  ],
-                )
-              ],
-            )
-        ),
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 18)),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: AppButton(
+                                keyButton: Key('SubmitButton'),
+                                titleButton: "SUBMIT",
+                                onPressed: () {
+                                  print("This was pressed by Arnaud");
+                                  if (_formKey.currentState.validate()) {
+                                    print("> validate");
+                                    _formKey.currentState.save();
+                                  }
+                                },
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  )),
       ),
     );
   }

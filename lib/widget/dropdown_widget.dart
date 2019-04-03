@@ -20,13 +20,18 @@ class DropdownFormField<T> extends FormField<T> {
     autovalidate: autovalidate,
     initialValue: items.contains(initialValue) ? initialValue : null,
     builder: (FormFieldState<T> field) {
-      final InputDecoration effectiveDecoration = (decoration ?? const InputDecoration())
-          .applyDefaults(Theme.of(field.context).inputDecorationTheme);
+      final InputDecoration effectiveDecoration = (decoration ??
+          const InputDecoration())
+          .applyDefaults(Theme
+          .of(field.context)
+          .inputDecorationTheme);
       // value == null || items.where((DropdownMenuItem<T> item) => item.value == value).length == 1
-          return Container(
+      return Container(
           child: InputDecorator(
             decoration:
-            effectiveDecoration.copyWith(errorText: field.hasError ? field.errorText : null, fillColor: Colors.white),
+            effectiveDecoration.copyWith(
+                errorText: field.hasError ? field.errorText : null,
+                fillColor: Colors.white),
             isEmpty: field.value == '' || field.value == null,
             child: Container(
               child: DropdownButtonHideUnderline(
@@ -59,30 +64,43 @@ class FormBuild {
       ),
     );
   }
+
   // To add a textfield quickly
-  static Widget buildTextField({String label, Key key, TextInputType inputType, ValueChanged<String> onSubmitted}) {
+  static Widget buildTextField(
+      {String label, Key key, TextInputType inputType, ValueChanged<
+          String> onSubmitted}) {
     return Expanded(
       flex: 1,
-      child: AppTextField(labeled: label, keyTextField: key, keyboardType: inputType, onSubmitted: onSubmitted,),
+      child: AppTextField(labeled: label,
+        keyTextField: key,
+        keyboardType: inputType,
+        onSubmitted: onSubmitted,),
     );
   }
 
-  static Widget buildImagePicker({String label, Key key, VoidCallback onPressed}) {
+  static Widget buildImagePicker(
+      {String label, Key key, VoidCallback onPressed}) {
     return Expanded(
       flex: 1,
-      child: ImagePickerTextField(labeled: label, onPressed: onPressed, keyImagePickerTextField: key,),
+      child: ImagePickerTextField(
+        labeled: label, onPressed: onPressed, keyImagePickerTextField: key,),
     );
   }
 
-  static Widget buildDatePicker({String label, String helper, Key key, VoidCallback onPressed, DateTime startDate, DateTime endDate}) {
+  static Widget buildDatePicker(
+      {String label, String helper, Key key, VoidCallback onPressed, DateTime startDate, DateTime endDate}) {
     return Expanded(
       flex: 1,
-      child: DatePickerTextField(labeled: label, helper: helper, onPressed: onPressed, keyDatePickerTextField: key),
+      child: DatePickerTextField(labeled: label,
+          helper: helper,
+          onPressed: onPressed,
+          keyDatePickerTextField: key),
     );
   }
 
   static Widget buildDropdown<T>({List<T> source, String label,
-  FormFieldSetter onChangedValue, Key key}) {
+    FormFieldSetter onChangedValue, Key key, FormFieldValidator<
+        T> onValidator, @required bool isRequired}) {
     if (source == null) {
       return Expanded(
         flex: 1,
@@ -101,19 +119,26 @@ class FormBuild {
       );
     }
 
-      return Expanded(
-        flex: 1,
-        child: DropdownFormField<T>(
-          key: key,
-          onChanged: onChangedValue,
-          decoration: InputDecoration(labelText: label),
-          items: source.map((i) {
-            return DropdownMenuItem<T>(
-              value: i,
-              child: Text("$i"),
-            );
-          }).toList(),
-        ),
-      );
+    return Expanded(
+      flex: 1,
+      child: DropdownFormField<T>(
+        key: key,
+        validator: (isRequired) ? (value) {
+          if (value == null) return "Required";
+        } : onValidator /*(value) {
+            if (value == null) {
+              return 'Required';
+            }
+          } */,
+        onChanged: onChangedValue,
+        decoration: InputDecoration(labelText: (isRequired) ? "$label *" : label),
+        items: source.map((i) {
+          return DropdownMenuItem<T>(
+            value: i,
+            child: Text("$i"),
+          );
+        }).toList(),
+      ),
+    );
   }
 }

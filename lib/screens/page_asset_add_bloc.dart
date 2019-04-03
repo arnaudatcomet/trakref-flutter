@@ -93,18 +93,18 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
               Row(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    FormBuild.buildDropdown(source: materialType, label: "Type")
+                    FormBuild.buildDropdown(source: materialType, label: "Type", isRequired: true)
                   ]
               ),
               Row(
                   children: <Widget>[
-                    FormBuild.buildDropdown(source: coolingApplianceStatuses, label: "Appliance Status"),
-                    FormBuild.buildDropdown(source: assetSubtypes, label: "Appliance Type")
+                    FormBuild.buildDropdown(source: coolingApplianceStatuses, label: "Appliance Status", isRequired: true),
+                    FormBuild.buildDropdown(source: assetSubtypes, label: "Appliance Type", isRequired: true)
                   ]
               ),
               Row(
                 children: <Widget>[
-                  FormBuild.buildDropdown(source: locations, label: "Locations")
+                  FormBuild.buildDropdown(source: locations, label: "Locations", isRequired: true)
                 ],
               ),
               Row(
@@ -115,7 +115,7 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
               ),
               Row(
                 children: <Widget>[
-                  FormBuild.buildDropdown(source: materialType, label: "Material Type")
+                  FormBuild.buildDropdown(source: materialType, label: "Material Type", isRequired: true)
                 ],
               ),
               Row(
@@ -125,7 +125,7 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
               ),
               Row(
                 children: <Widget>[
-                  FormBuild.buildDropdown(source: temperatureClass, label: "Temperature Class")
+                  FormBuild.buildDropdown(source: temperatureClass, label: "Temperature Class", isRequired: true)
                 ],
               ),
               Row(
