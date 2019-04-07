@@ -238,6 +238,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         },
                         key: Key(kInitialLeakLocationKey),
                         isRequired: true,
+                        onValidator: (value) {
+                          if (_pickedInitialLeakLocation == null) return "Required";
+                        },
                         source: this._filteredInitialLocationLeakFound,
                         label: kInitialLeakLocation,
                       )
@@ -580,9 +583,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                 _pickedEquipmentWorkedOn = value;
                               },
                               onValidator: (value) {
-                                if (value == null) {
-                                  return 'Required';
-                                }
+                                if (_pickedEquipmentWorkedOn == null) return "Required";
                               })
                         ]),
                         Row(children: <Widget>[
@@ -594,6 +595,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                               initialValue: _pickedTypeOfService,
                               onSaved: (value) {
                                 _pickedTypeOfService = value;
+                              },
+                              onValidator: (value) {
+                                if (_pickedTypeOfService == null)
+                                  return "Required";
                               },
                               onChangedValue: (value) {
                                 setState(() {
@@ -637,6 +642,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                               onSaved: (value) {
                                 _pickedLeakDetectionMethod = value;
                               },
+                              onValidator: (value) {
+                                if (_pickedLeakDetectionMethod == null)
+                                  return "Required";
+                              },
                               isRequired: true,
                               source: this.leakDetectionMethod,
                               key: Key(kLeakDetectionMethodKey),
@@ -646,6 +655,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                           FormBuild.buildDropdown(
                               onSaved: (value) {
                                 _pickedWasLeakFound = value;
+                              },
+                              onValidator: (value) {
+                                if (_pickedWasLeakFound == null)
+                                  return "Required";
                               },
                               isRequired: true,
                               source: this.wasLeakFound,
@@ -667,6 +680,11 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         ]),
                         Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
                           FormBuild.buildDatePicker(
+                              onValidated: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Required";
+                                }
+                              },
                               onPressed: (value) {
                                 print(
                                     "$kServiceDateKey buildDatePicker > onPressed is $value");
@@ -753,7 +771,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                           _pickedWasLeakFound.name;
                                       String serviceDate = null;
                                       if (_pickedServiceDate != null) {
-                                        serviceDate = DateFormat('yyyy-MM-dd')
+                                        serviceDate = DateFormat(kShortReadableDateFormat)
                                             .format(_pickedServiceDate);
                                       }
                                       String notes = _pickedObservationNotes;

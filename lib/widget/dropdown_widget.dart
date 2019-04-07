@@ -96,13 +96,15 @@ class FormBuild {
       {String label,
       String helper,
       Key key,
-      void Function(String) onSaved,
+      ValueChanged<String> onValidated,
+      ValueChanged<String> onSaved,
       ValueChanged<DateTime> onPressed,
       DateTime startDate,
       DateTime endDate}) {
     return Expanded(
       flex: 1,
       child: DatePickerTextField(
+        onValidated: onValidated,
         labeled: label,
         helper: helper,
         onPressed: onPressed,
@@ -165,11 +167,7 @@ class FormBuild {
 
     var dropdownFormField = DropdownFormField<T>(
         key: key,
-        validator: (isRequired)
-            ? (value) {
-                if (value == null) return "Required";
-              }
-            : onValidator,
+        validator: onValidator,
         autovalidate: autovalidate,
         onChanged: onChangedValue,
         initialValue: initialValue,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
 
 class AppOutlineButton extends StatelessWidget {
@@ -166,12 +167,13 @@ class AlwaysDisabledFocusNode extends FocusNode {
 
 class DatePickerTextField extends StatefulWidget {
   final ValueChanged<DateTime> onPressed;
+  final ValueChanged<String> onValidated;
   String labeled = "";
   String helper = "";
   Key keyDatePickerTextField;
   ValueChanged<String> onSubmitted;
 
-  DatePickerTextField({this.onPressed, this.labeled, this.helper,
+  DatePickerTextField({this.onPressed, this.onValidated, this.labeled, this.helper,
     this.keyDatePickerTextField});
 
   @override
@@ -193,16 +195,18 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-      child: TextField(
+      child: TextFormField(
         enableInteractiveSelection: false,
         focusNode: AlwaysDisabledFocusNode(),
-        onSubmitted: widget.onSubmitted,
-        onTap: () {
-
-        },
+        onFieldSubmitted: widget.onSubmitted,
+        validator: widget.onValidated,
+//        onSubmitted: widget.onSubmitted,
+//        onTap: () {
+//
+//        },
         decoration: InputDecoration(
             helperText: widget.helper,
-            labelText: (_date == null) ? "" : DateFormat('yyyy-MM-dd').format(_date),
+            labelText: (_date == null) ? "" : DateFormat(kShortReadableDateFormat).format(_date),
             border: const UnderlineInputBorder(),
             suffixIcon: new IconButton(icon: Image.asset('assets/images/calendar.png',
 //                colorBlendMode: BlendMode.color,
