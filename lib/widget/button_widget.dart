@@ -97,10 +97,11 @@ class AppTextField extends StatefulWidget {
   Key keyTextField;
   String labeled = "This is a textfield example";
   VoidCallback onEditingComplete;
+  ValueChanged<String> onValidated;
   ValueChanged<String> onSubmitted;
   TextInputType keyboardType;
   AppTextField({
-    this.keyTextField, this.keyboardType, this.labeled, this.onEditingComplete, this.onSubmitted});
+    this.keyTextField, this.onValidated, this.keyboardType, this.labeled, this.onEditingComplete, this.onSubmitted});
 
   @override
   _AppTextFieldState createState() => _AppTextFieldState();
@@ -110,11 +111,12 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: TextField(
+      child: TextFormField(
         keyboardType: widget.keyboardType,
         key: widget.keyTextField,
         onEditingComplete: widget.onEditingComplete,
-        onSubmitted: widget.onSubmitted,
+        validator: widget.onValidated,
+        onFieldSubmitted: widget.onSubmitted,
         decoration: InputDecoration(
             labelText: widget.labeled ?? "",
             border: const UnderlineInputBorder()

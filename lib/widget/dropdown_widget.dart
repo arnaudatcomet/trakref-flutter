@@ -64,14 +64,17 @@ class FormBuild {
   }
 
   // To add a textfield quickly
-  static Widget buildTextField(
-      {String label,
-      Key key,
-      TextInputType inputType,
-      ValueChanged<String> onSubmitted}) {
+  static Widget buildTextField({
+    String label,
+    Key key,
+    TextInputType inputType,
+    ValueChanged<String> onSubmitted,
+    ValueChanged<String> onValidated
+  }) {
     return Expanded(
       flex: 1,
       child: AppTextField(
+        onValidated: onValidated,
         labeled: label,
         keyTextField: key,
         keyboardType: inputType,

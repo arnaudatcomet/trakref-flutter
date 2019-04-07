@@ -262,6 +262,12 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
             Row(
               children: <Widget>[
                 FormBuild.buildTextField(
+                    onValidated: (value) {
+                      print("Textfield ${Key(kEstimatedLeakAmountKey)} is being validated with value '$value'");
+                      if (value.isEmpty || value == null) {
+                        return "Required";
+                      }
+                    },
                     onSubmitted: (value) {
                       print("TextField onSubmitted : $_pickedTest");
                       double estimatedLeakAmount = double.parse(value);
