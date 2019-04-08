@@ -5,7 +5,7 @@ import 'package:trakref_app/repository/api_service.dart';
 
 final BASE_URL = "https://api.trakref.com/v3.21";
 
-class Dropdowns{
+class Dropdowns {
   final List<Dropdown> serviceActions;
   final List<Dropdown> assetStatuses;
   final List<Dropdown> coolingApplianceStatuses;
@@ -25,31 +25,31 @@ class Dropdowns{
   final List<Dropdown> industryTypes;
   final List<Dropdown> temperatureClasses;
 
-  Dropdowns({
-    this.serviceActions,
-    this.assetStatuses,
-    this.coolingApplianceStatuses,
-    this.assetTypes,
-    this.assetSubtypes,
-    this.workItemStatuses,
-    this.workItemTypes,
-    this.leakDetectionMethods,
-    this.purposesForAddingGas,
-    this.materialTypes,
-    this.materialStatuses,
-    this.leakRepairStatuses,
-    this.leakLocationCategories,
-    this.leakLocations,
-    this.causeOfLeaks,
-    this.accountStatuses,
-    this.industryTypes,
-    this.temperatureClasses
-  });
+  Dropdowns(
+      {this.serviceActions,
+      this.assetStatuses,
+      this.coolingApplianceStatuses,
+      this.assetTypes,
+      this.assetSubtypes,
+      this.workItemStatuses,
+      this.workItemTypes,
+      this.leakDetectionMethods,
+      this.purposesForAddingGas,
+      this.materialTypes,
+      this.materialStatuses,
+      this.leakRepairStatuses,
+      this.leakLocationCategories,
+      this.leakLocations,
+      this.causeOfLeaks,
+      this.accountStatuses,
+      this.industryTypes,
+      this.temperatureClasses});
 
-  factory Dropdowns.fromJson(Map<String, dynamic> parsedJson){
+  factory Dropdowns.fromJson(Map<String, dynamic> parsedJson) {
     var serviceActionsList = parsedJson['serviceActions'] as List;
     var assetStatusesList = parsedJson['assetStatuses'] as List;
-    var coolingApplianceStatusesList = parsedJson['coolingApplianceStatuses'] as List;
+    var coolingApplianceStatusesList =
+        parsedJson['coolingApplianceStatuses'] as List;
     var assetTypesList = parsedJson['assetTypes'] as List;
     var assetSubtypesList = parsedJson['assetSubtypes'] as List;
     var workItemStatusesList = parsedJson['workItemStatuses'] as List;
@@ -59,7 +59,8 @@ class Dropdowns{
     var materialTypesList = parsedJson['materialTypes'] as List;
     var materialStatusesList = parsedJson['materialStatuses'] as List;
     var leakRepairStatusesList = parsedJson['leakRepairStatuses'] as List;
-    var leakLocationCategoriesList = parsedJson['leakLocationCategories'] as List;
+    var leakLocationCategoriesList =
+        parsedJson['leakLocationCategories'] as List;
     var leakLocationsList = parsedJson['leakLocations'] as List;
     var causeOfLeaksList = parsedJson['causeOfLeaks'] as List;
     var accountStatusesList = parsedJson['accountStatuses'] as List;
@@ -67,64 +68,85 @@ class Dropdowns{
     var temperatureClassesList = parsedJson['temperatureClasses'] as List;
 
     return Dropdowns(
-      serviceActions: serviceActionsList.map((i) => Dropdown.fromJson(i)).toList(),
-      assetStatuses: assetStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
-      coolingApplianceStatuses: coolingApplianceStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
-      assetTypes: assetTypesList.map((i) => AssetTypesDropdown.fromJson(i)).toList(),
-      assetSubtypes: assetSubtypesList.map((i) => Dropdown.fromJson(i)).toList(),
-      workItemStatuses: workItemStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
-      workItemTypes: workItemTypesList.map((i) => Dropdown.fromJson(i)).toList(),
-      leakDetectionMethods: leakDetectionMethodsList.map((i) => Dropdown.fromJson(i)).toList(),
-      purposesForAddingGas: purposesForAddingGasList.map((i) => Dropdown.fromJson(i)).toList(),
-      materialTypes: materialTypesList.map((i) => Dropdown.fromJson(i)).toList(),
-      materialStatuses: materialStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
-      leakRepairStatuses: leakRepairStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
-      leakLocationCategories: leakLocationCategoriesList.map((i) => Dropdown.fromJson(i)).toList(),
-      leakLocations: leakLocationsList.map((i) => LeakLocationDropdown.fromJson(i)).toList(),
+      serviceActions:
+          serviceActionsList.map((i) => Dropdown.fromJson(i)).toList(),
+      assetStatuses:
+          assetStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
+      coolingApplianceStatuses: coolingApplianceStatusesList
+          .map((i) => Dropdown.fromJson(i))
+          .toList(),
+      assetTypes:
+          assetTypesList.map((i) => AssetTypesDropdown.fromJson(i)).toList(),
+      assetSubtypes:
+          assetSubtypesList.map((i) => Dropdown.fromJson(i)).toList(),
+      workItemStatuses:
+          workItemStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
+      workItemTypes:
+          workItemTypesList.map((i) => Dropdown.fromJson(i)).toList(),
+      leakDetectionMethods:
+          leakDetectionMethodsList.map((i) => Dropdown.fromJson(i)).toList(),
+      purposesForAddingGas:
+          purposesForAddingGasList.map((i) => Dropdown.fromJson(i)).toList(),
+      materialTypes:
+          materialTypesList.map((i) => Dropdown.fromJson(i)).toList(),
+      materialStatuses:
+          materialStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
+      leakRepairStatuses:
+          leakRepairStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
+      leakLocationCategories:
+          leakLocationCategoriesList.map((i) => Dropdown.fromJson(i)).toList(),
+      leakLocations: leakLocationsList
+          .map((i) => LeakLocationDropdown.fromJson(i))
+          .toList(),
       causeOfLeaks: causeOfLeaksList.map((i) => Dropdown.fromJson(i)).toList(),
-      accountStatuses: accountStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
-      industryTypes: industryTypesList.map((i) => Dropdown.fromJson(i)).toList(),
-      temperatureClasses: temperatureClassesList.map((i) => Dropdown.fromJson(i)).toList(),
+      accountStatuses:
+          accountStatusesList.map((i) => Dropdown.fromJson(i)).toList(),
+      industryTypes:
+          industryTypesList.map((i) => Dropdown.fromJson(i)).toList(),
+      temperatureClasses:
+          temperatureClassesList.map((i) => Dropdown.fromJson(i)).toList(),
     );
   }
 }
 
-class Dropdown{
+class Dropdown {
   String name; // Name
   int id;
 
   Dropdown({this.name, this.id}); // Dropdown ID
 
-  factory Dropdown.fromJson(Map<String, dynamic> parsedJson){
-    return Dropdown(
-      id: parsedJson['ID'],
-      name: parsedJson['Name']
-    );
+  factory Dropdown.fromJson(Map<String, dynamic> parsedJson) {
+    return Dropdown(id: parsedJson['ID'], name: parsedJson['Name']);
   }
 
   @override
   String toString() => '${this.name}';
+
+  int get hashCode => id.hashCode;
+
+  @override
+  bool operator ==(Object other) => other is Dropdown && other.id == id;
 }
 
-class AssetTypesDropdown{
+class AssetTypesDropdown {
   String name; // Name
   int id;
   bool isCylinder;
+
   AssetTypesDropdown({this.name, this.id, this.isCylinder}); // Dropdown ID
 
-  factory AssetTypesDropdown.fromJson(Map<String, dynamic> parsedJson){
+  factory AssetTypesDropdown.fromJson(Map<String, dynamic> parsedJson) {
     return AssetTypesDropdown(
         id: parsedJson['ID'],
         name: parsedJson['Name'],
-        isCylinder: parsedJson['IsCylinder']
-    );
+        isCylinder: parsedJson['IsCylinder']);
   }
 
   @override
   String toString() => '${this.name}';
 }
 
-class LeakLocationDropdown{
+class LeakLocationDropdown {
   String name; // Name
   int id;
   String category; // Name
@@ -132,13 +154,12 @@ class LeakLocationDropdown{
 
   LeakLocationDropdown({this.name, this.id, this.category, this.categoryID});
 
-  factory LeakLocationDropdown.fromJson(Map<String, dynamic> parsedJson){
+  factory LeakLocationDropdown.fromJson(Map<String, dynamic> parsedJson) {
     return LeakLocationDropdown(
-      id: parsedJson['ID'],
-      name: parsedJson['Name'],
-      category: parsedJson['Category'],
-      categoryID: parsedJson['CategoryID']
-    );
+        id: parsedJson['ID'],
+        name: parsedJson['Name'],
+        category: parsedJson['Category'],
+        categoryID: parsedJson['CategoryID']);
   }
 
   @override
@@ -148,10 +169,12 @@ class LeakLocationDropdown{
 class DropdownService {
   final String dropdownsURL = "$BASE_URL/dropdowns";
   static final DropdownService _shared = new DropdownService._internal();
+
   factory DropdownService() {
 //    _shared.loadDropdowns();
     return _shared;
   }
+
   DropdownService._internal();
 
   Dropdowns dropdowns;
@@ -167,12 +190,12 @@ class DropdownService {
   }
 }
 
-
-class Accounts{
+class Accounts {
   final List<Account> accounts;
+
   Accounts({this.accounts});
 
-  factory Accounts.fromJson(Map<String, dynamic> parsedJson){
+  factory Accounts.fromJson(Map<String, dynamic> parsedJson) {
     var accountsList = parsedJson as List;
     print("accountsList $accountsList");
     return Accounts(
@@ -181,7 +204,7 @@ class Accounts{
   }
 }
 
-class Account{
+class Account {
   String name;
   int instanceID;
   int accountTypeID;
@@ -194,23 +217,24 @@ class Account{
     return parsed.map<Account>((json) => Account.fromJson(json)).toList();
   }
 
-  factory Account.fromJson(Map<String, dynamic> parsedJson){
+  factory Account.fromJson(Map<String, dynamic> parsedJson) {
     print("Account $parsedJson");
     return Account(
         name: parsedJson['Name'],
         instanceID: parsedJson['InstanceID'],
         accountTypeID: parsedJson['AccountTypeID'],
-        accountType: parsedJson['AccountType']
-    );
+        accountType: parsedJson['AccountType']);
   }
 }
 
 class AccountsService {
   final String accountsURL = "$BASE_URL/accounts";
   static final AccountsService _shared = new AccountsService._internal();
+
   factory AccountsService() {
     return _shared;
   }
+
   AccountsService._internal();
 
   List<Account> accounts;
@@ -225,4 +249,18 @@ class AccountsService {
     this.onLoaded();
     return accounts;
   }
+}
+
+class Language {
+  final String code;
+  final String name;
+
+  const Language(this.name, this.code);
+
+  int get hashCode => code.hashCode;
+
+  bool operator ==(Object other) => other is Language && other.code == code;
+
+  @override
+  String toString() => '${this.name}';
 }

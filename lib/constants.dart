@@ -37,7 +37,8 @@ const String kEstimatedLeakAmountKey = "EstimatedLeakAmountKey";
 const String kEstimatedLeakAmount = "Estimated leak amount";
 const String kFollowUpDateKey = "FollowUpDateKey";
 const String kFollowUpDate = "Follow up date";
-const String kServiceActionKey = "ServiceActionKey";
+const String kShutdownServiceActionKey = "ShutdownServiceActionKey";
+const String kServiceAndLeakRepairServiceActionKey = "ServiceAndLeakRepairServiceActionKey";
 const String kServiceAction = "Service action";
 const String kWasVacuumPulledKey = "WasVacuumPulledKey";
 const String kWasVacuumPulled = "Was vacuum pulled?";
@@ -51,3 +52,6 @@ const String kObservationNotesKey = "ObservationNotesKey";
 const String kObservationNotes = "Notes: ";
 const String kSubmitButtonKey = "SubmitButtonKey";
 const String kSubmitButton = "SUBMIT";
+
+// Constante for datetime
+const String kShortReadableDateFormat = "EEEE d MMMM, yyyy";
