@@ -2,6 +2,8 @@ import "package:flutter/material.dart";
 import 'package:intl/intl.dart';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/models/workorder.dart';
+import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
@@ -112,6 +114,83 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
         _isDropdownsLoaded = true;
       });
     };
+  }
+
+  // Submit Service Event - Leak Inspection
+  Future<bool> submitLeakInspection(bool leakFound) async {
+    // Retrieve the values
+    int equipmentWorkedOn =
+        _pickedEquipmentWorkedOn.id;
+    String typeOfService =
+        _pickedTypeOfService.name;
+    String leakDetectionMethod =
+        _pickedLeakDetectionMethod.name;
+    String wasLeakFound =
+        _pickedWasLeakFound.name;
+    String serviceDate = null;
+    if (_pickedServiceDate != null) {
+      serviceDate = DateFormat(kShortDateFormat)
+          .format(_pickedServiceDate);
+    }
+    String notes = _pickedObservationNotes;
+
+    // If we found a leak
+    List<LeakInspection> leakInspections = [];
+    if (leakFound == true) {
+      // Values from the forms
+      int leakCategory = _pickedInitialLeakCategory.id;
+      int leakLocation = _pickedInitialLeakLocation.id;
+      int causeLeak = _pickedCauseOfLeak.id;
+      int estimatedLeakAmount = _pickedEstimatedLeakAmount.toInt();
+      String followUpDateString;
+      if (_pickedFollowUpDate != null) {
+        followUpDateString = DateFormat(kShortDateFormat).format(_pickedFollowUpDate);
+        print("followUpDate $followUpDateString");
+      }
+
+      LeakInspection inspection = LeakInspection(
+        leakLocationCategoryID: leakCategory,
+        leakLocationID: leakLocation,
+        faultCauseTypeID: causeLeak,
+        estimatedLeakAmount: estimatedLeakAmount,
+        inspectionDate: followUpDateString
+      );
+
+      leakInspections = [inspection];
+    }
+
+    // Create the WorkOrder and Submit it
+    // For the sake of purpose we don't touch the Work Order part, only the service event part
+    WorkOrder workOrder = WorkOrder(
+        id: 1071647,
+        workOrderNumber: "790345789",
+        instanceID: 248,
+        locationID: 10721,
+        workOrderTypeID: 2,
+        workOrderStatusID: 1,
+        workItem: [
+          WorkItem(
+              wasLeakFound: leakFound,
+              assetID: equipmentWorkedOn,
+              workItemTypeID: 2, // It's invalid if WorkItem type != 3, 2 and 5
+              serviceDate: serviceDate,
+              workItemStatusID: 1,
+              // Repair
+              repairNotes: notes,
+              leakInspectionCount: (leakFound == false) ? 0 : 1,
+              leakInspection: (leakFound == false) ? [] : leakInspections
+          )
+        ]
+    );
+
+    setState(() {
+      _isDropdownsLoaded = false;
+    });
+    var response = await ApiService().postWorkOrder(workOrder, "https://api.trakref.com/v3.21/WorkOrders");
+
+    setState(() {
+      _isDropdownsLoaded = true;
+    });
   }
 
   // Build Vacuum dept dynamically
@@ -767,6 +846,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
 
                                     if (typeOfService ==
                                         ServiceType.LeakInspection) {
+                                      submitLeakInspection((_pickedWasLeakFound.id == 1));
+                                      /*
                                       String equipmentWorkedOn =
                                           _pickedEquipmentWorkedOn.name;
                                       String typeOfService =
@@ -816,6 +897,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                       print("wasLeakFound $wasLeakFound");
                                       print("serviceDate $serviceDate");
                                       print("notes $notes");
+                                      */
                                     } else if (typeOfService ==
                                         ServiceType.Shutdown) {}
                                   }

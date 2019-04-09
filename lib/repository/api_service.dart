@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:trakref_app/constants.dart';
+import 'package:trakref_app/models/workorder.dart';
+
 //import 'package:codable/codable.dart';
 
 //class Account extends Coding {
@@ -56,6 +58,73 @@ class ApiService {
       final res = response.body;
       List resJson = _decoder.convert(res);
       return resJson;
+    });
+  }
+
+
+  Future<dynamic> post<T>(T item, String url) async {
+    String apiKey = 'eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0=';
+    final headers = {
+      "Content-Type": "application/json",
+      "Userid": "$_userID",
+      "Api-Key": "$apiKey",
+      "Authentication-Token": "$_token",
+      "Instance-Id": "$_instanceID"
+    };
+
+    return await http.post(url, headers: headers).then((http.Response response){
+      final res = response.body;
+      print("post $url, result $res");
+    });
+  }
+
+  Future<dynamic> postWorkOrder(WorkOrder order, String url) async {
+    String apiKey = 'eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0=';
+    final headers = {
+      "Content-Type": "application/json",
+      "Userid": "$_userID",
+      "Api-Key": "$apiKey",
+      "Authentication-Token": "$_token",
+      "Instance-Id": "$_instanceID"
+    };
+
+    String jsonString = json.encode([order.toJson()]);
+
+    return await http.post(url, headers: headers, body: jsonString, encoding: utf8).then((http.Response response){
+      final res = response.body;
+      print("post $url, result $res");
+    });
+  }
+
+  Future<List> getResult<T>(String url) async {
+    String apiKey = 'eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0=';
+    final headers = {
+      "Content-Type": "application/json",
+      "Userid": "$_userID",
+      "Api-Key": "$apiKey",
+      "Authentication-Token": "$_token",
+      "Instance-Id": "$_instanceID"
+    };
+
+    return await http.get(url, headers: headers).then((http.Response response) {
+      final res = response.body;
+      List<dynamic> resultMap = jsonDecode(res);
+
+      // For checking type of generic type T
+      List<T> someList = new List<T>();
+      String type = someList.runtimeType.toString();
+      List<WorkOrder> workOrderList = new List<WorkOrder>();
+
+      // This is a type WorkOrder
+      if (type.toString() == workOrderList.runtimeType.toString()) {
+        List<WorkOrder> results = [];
+        for (Map<String, dynamic> result in resultMap) {
+          WorkOrder singleResult = WorkOrder.fromJson(result);
+          results.add(singleResult);
+        }
+        return results;
+      }
+      return [];
     });
   }
 

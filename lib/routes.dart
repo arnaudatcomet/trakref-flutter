@@ -10,12 +10,15 @@ import 'package:trakref_app/screens/page_login_bloc.dart';
 import 'package:trakref_app/screens/page_search_bloc.dart';
 import 'package:trakref_app/screens/page_service_event_add_bloc.dart';
 import 'package:trakref_app/screens/page_settings_screen.dart';
+import 'package:trakref_app/screens/page_test_link_bloc.dart';
 import 'package:trakref_app/screens/page_topics_bloc.dart';
 import 'package:trakref_app/screens/tab_screen.dart';
 
 final routes = {
 //  '/': (BuildContext context) => BlocProvider(bloc: LoginBloc(), child: PageLoginBloc()),
   '/': (BuildContext context) => TabScreens(),
+//      '/': (BuildContext context) => PageTestLinkBloc(),
+
 //  '/': (BuildContext context) => WebViewScaffold(
 //    url: "http://www.flutter.io",
 //    appBar: AppBar(

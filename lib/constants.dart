@@ -55,3 +55,4 @@ const String kSubmitButton = "SUBMIT";
 
 // Constante for datetime
 const String kShortReadableDateFormat = "EEEE d MMMM, yyyy";
+const String kShortDateFormat = "yyyy-MM-dd";
