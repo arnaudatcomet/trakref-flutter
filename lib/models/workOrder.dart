@@ -1,13 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'workorder.g.dart';
 
 @JsonSerializable()
 class WorkOrder {
-  @JsonKey(name: 'WorkOrderNumber')
+  @JsonKey(name: 'WorkOrderNumber', nullable: false)
   final String workOrderNumber;
 
-  @JsonKey(name: 'WorkOrderStatusID')
+  @JsonKey(name: 'WorkOrderStatusID', nullable: false)
   final int workOrderStatusID;
 
   @JsonKey(name: 'Address2')
@@ -25,7 +26,7 @@ class WorkOrder {
   @JsonKey(name: 'City')
   final String city;
 
-  @JsonKey(name: 'WorkOrderTypeID')
+  @JsonKey(name: 'WorkOrderTypeID', nullable: false)
   final int workOrderTypeID;
 
   @JsonKey(name: 'Location')
@@ -49,7 +50,7 @@ class WorkOrder {
   @JsonKey(name: 'Instance')
   final String instance;
 
-  @JsonKey(name: 'ID')
+  @JsonKey(name: 'ID', nullable: false)
   final int id;
 
   @JsonKey(name: 'ScheduleDate')
@@ -58,7 +59,7 @@ class WorkOrder {
   @JsonKey(name: 'DueDate')
   final String dueDate;
 
-  @JsonKey(name: 'LocationID')
+  @JsonKey(name: 'LocationID', nullable: false)
   final int locationID;
 
   @JsonKey(name: 'TroubleTicketPriorityID')
@@ -73,7 +74,7 @@ class WorkOrder {
   @JsonKey(name: 'WorkOrderStatusReason')
   final String workOrderStatusReason;
 
-  @JsonKey(name: 'InstanceID')
+  @JsonKey(name: 'InstanceID', nullable: false)
   final int instanceID;
 
   @JsonKey(nullable: true, name: 'WorkItem')
@@ -82,14 +83,14 @@ class WorkOrder {
   @JsonKey(name: 'RequestDetails')
   final String requestDetails;
 
-  WorkOrder({this.workOrderNumber, this.workOrderStatusID, this.address2,
+  WorkOrder({@required this.id, @required this.workOrderNumber, @required this.workOrderTypeID, @required this.workOrderStatusID, @required this.locationID, @required this.instanceID, this.address2,
     this.workOrderType, this.troubleTicketPriority,
-    this.workOrderStatusReasonID, this.city, this.workOrderTypeID,
+    this.workOrderStatusReasonID, this.city,
     this.location, this.workItemCount, this.state, this.workOrderStatus,
-    this.zipcode, this.countryCode, this.instance, this.id, this.scheduleDate,
-    this.dueDate, this.locationID, this.troubleTicketPriorityID,
+    this.zipcode, this.countryCode, this.instance, this.scheduleDate,
+    this.dueDate, this.troubleTicketPriorityID,
     this.address1, this.purchaseOrderNumber, this.workOrderStatusReason,
-    this.instanceID, this.requestDetails, List<WorkItem> workItem}): workItem = workItem ?? <WorkItem>[];
+    this.requestDetails, List<WorkItem> workItem}): workItem = workItem ?? <WorkItem>[];
 
   factory WorkOrder.fromJson(Map<String, dynamic> json) =>
       _$WorkOrderFromJson(json);
@@ -108,7 +109,7 @@ class WorkItem {
   @JsonKey(name: 'MaterialTypeID')
   final int materialTypeID;
 
-  @JsonKey(name: 'WorkItemTypeID')
+  @JsonKey(name: 'WorkItemTypeID', nullable: false)
   final int workItemTypeID;
 
   @JsonKey(name: 'WasLeakFound')
@@ -138,10 +139,10 @@ class WorkItem {
   @JsonKey(name: 'AssetLocationID')
   final int assetLocationID;
 
-  @JsonKey(name: 'AssetID')
+  @JsonKey(name: 'AssetID', nullable: false)
   final int assetID;
 
-  @JsonKey(name: 'WorkItemStatusID')
+  @JsonKey(name: 'WorkItemStatusID', nullable: false)
   final int workItemStatusID;
 
   @JsonKey(name: 'Asset')
@@ -177,7 +178,7 @@ class WorkItem {
   @JsonKey(name: 'PartsRequired')
   final String partsRequired;
 
-  @JsonKey(name: 'ServiceDate')
+  @JsonKey(name: 'ServiceDate', nullable: false)
   final String serviceDate;
 
   @JsonKey(name: 'Notes')
@@ -233,15 +234,15 @@ class WorkItem {
 
 
   WorkItem({this.chargeCapacitySourceTypeID, this.leakRepairDispositionType,
-    this.materialTypeID, this.workItemTypeID, this.wasLeakFound,
+    this.materialTypeID, @required this.workItemTypeID, this.wasLeakFound,
     this.workItemType, this.chargeCapacitySourceType, this.workItemStatus,
     this.netGasLbsAdded, this.gasLbsAdded,
     this.verificationLeakDetectionMethod, this.materialTransferCount,
-    this.assetLocationID, this.assetID, this.workItemStatusID, this.asset,
+    this.assetLocationID, @required this.assetID, @required this.workItemStatusID, this.asset,
     this.initialLeakDetectionMethod, this.verificationLeakDetectionMethodID,
     this.currentGasWeightLbs, this.finalCoolingApplianceStatusID,
     this.serviceActionID, this.serviceAction, this.assetLocation,
-    this.initialLeakDetectionMethodID, this.partsRequired, this.serviceDate, this.notes, this.wasProblemResolved,
+    this.initialLeakDetectionMethodID, this.partsRequired, @required this.serviceDate, this.notes, this.wasProblemResolved,
     this.repairNotes, this.repairTestResults, this.serviceTransferReasonID,
     this.dateOfFollowUpService, this.leakRepairDispositionTypeID,
     this.dateLeakFound, this.gasLbsRemoved, this.vacuumPSI,
@@ -339,7 +340,7 @@ class LeakInspection {
   @JsonKey(name: 'FaultCauseType')
   final String faultCauseType;
 
-  @JsonKey(name: 'WasLeakFound')
+  @JsonKey(name: 'WasLeakFound', nullable: false)
   final bool wasLeakFound;
 
   @JsonKey(name: 'FaultCauseTypeID')
@@ -363,15 +364,15 @@ class LeakInspection {
   @JsonKey(name: 'LeakLocationID')
   final int leakLocationID;
 
-  @JsonKey(name: 'LeakDetectionMethodID')
+  @JsonKey(name: 'LeakDetectionMethodID', nullable: false)
   final int leakDetectionMethodID;
 
   LeakInspection({this.leakDetectionMethod,
     this.coolingApplianceLeakInspectionID, this.leakInspectionType,
-    this.estimatedLeakAmount, this.faultCauseType, this.wasLeakFound,
+    this.estimatedLeakAmount, this.faultCauseType, @required this.wasLeakFound,
     this.faultCauseTypeID, this.leakLocationCategory, this.inspectionDate,
     this.leakLocation, this.leakLocationCategoryID, this.notes,
-    this.leakLocationID, this.leakDetectionMethodID});
+    this.leakLocationID, @required this.leakDetectionMethodID});
 
   factory LeakInspection.fromJson(Map<String, dynamic> json) =>
       _$LeakInspectionFromJson(json);

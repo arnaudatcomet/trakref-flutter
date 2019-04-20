@@ -2,9 +2,11 @@ import "package:flutter/material.dart";
 import 'package:intl/intl.dart';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
+import 'package:trakref_app/screens/page_material_gas_install_bloc.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:async/async.dart';
@@ -12,9 +14,13 @@ import 'package:async/async.dart';
 enum ServiceType { LeakInspection, ServiceAndLeakRepair, Shutdown, None }
 
 class PageServiceEventAddBloc extends StatefulWidget {
+  List<Asset> assets = [];
+
   @override
   _PageServiceEventAddBlocState createState() =>
       _PageServiceEventAddBlocState();
+
+  PageServiceEventAddBloc({this.assets});
 }
 
 class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
@@ -39,15 +45,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     Dropdown(name: 'No', id: 0)
   ];
 
-  List<Dropdown> assets = [
-    Dropdown(name: 'Electricity Meter 1', id: 1000018),
-    Dropdown(name: '528 RDD Multi Temp', id: 1000022),
-    Dropdown(name: 'Virgin R-408a lbs. 1000 457474', id: 1000026),
-    Dropdown(name: 'Virgin R-404A lbs. 100 234567', id: 1000027),
-    Dropdown(name: 'Virgin R-449A lbs. 115 12312211', id: 1000038),
-    Dropdown(name: 'MR718', id: 1000055)
-  ];
-
+  List<Dropdown> assetsDropdowns;
   List<LeakLocationDropdown> initialLocationLeakFound;
   List<LeakLocationDropdown> verificationLocationLeakFound;
   List<Dropdown> _filteredInitialLocationLeakFound;
@@ -69,6 +67,16 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   bool _wasLeakFound = false;
   bool _wasVerificationLeakFound = false;
 
+  // Current workOrder being constructed
+  WorkOrder order = WorkOrder(
+      id: 1071647,
+      workOrderNumber: "790345789",
+      instanceID: 248,
+      locationID: 10721,
+      workOrderTypeID: 2,
+      workOrderStatusID: 1
+  );
+
   // Form values
   Dropdown _pickedEquipmentWorkedOn = null;
   Dropdown _pickedTypeOfService = null;
@@ -81,6 +89,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   Dropdown _pickedInitialLeakLocation = null;
   Dropdown _pickedVerificationLeakCategory = null;
   Dropdown _pickedVerificationLeakLocation = null;
+  Dropdown _pickedWasVacuumPulled = null;
   Dropdown _pickedDepthOfVacuum = null;
   Dropdown _pickedServiceAction = null;
   Dropdown _pickedShutdownStatus = null;
@@ -112,12 +121,20 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
         this.serviceActions = service.dropdowns.serviceActions;
         this.leakRepairStatus = service.dropdowns.leakRepairStatuses;
         _isDropdownsLoaded = true;
+
+        // Map the list of assets to a dropdown sources
+        assetsDropdowns = (widget.assets ?? []).map((i) {
+          return Dropdown(
+            name: i.name,
+            id: i.assetID
+          );
+        }).toList();
       });
     };
   }
 
   // Submit Service Event - Leak Inspection
-  Future<bool> submitLeakInspection(bool leakFound) async {
+  Future<bool> submitLeakInspection(bool leakFound, GlobalKey<ScaffoldState> scaffoldKey) async {
     // Retrieve the values
     int equipmentWorkedOn =
         _pickedEquipmentWorkedOn.id;
@@ -186,11 +203,22 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     setState(() {
       _isDropdownsLoaded = false;
     });
-    var response = await ApiService().postWorkOrder(workOrder, "https://api.trakref.com/v3.21/WorkOrders");
+    await new Future.delayed(const Duration(seconds:2));
+//    var response = await ApiService().postWorkOrder(workOrder, "https://api.trakref.com/v3.21/WorkOrders");
+//    print("Response from POST Service event : $response");
 
     setState(() {
       _isDropdownsLoaded = true;
     });
+
+//    scaffoldKey.currentState.showSnackBar(
+//      SnackBar(content: Text("Your service event was added"))
+//    );
+
+//    await new Future.delayed(const Duration(seconds:2));
+//    Navigator.of(context).pop();
+//    Navigator.push(context, new MaterialPageRoute(builder: (__) => new SecondView()));
+
   }
 
   // Build Vacuum dept dynamically
@@ -275,9 +303,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     source: this.categoriesLeakFound,
                     key: Key(kInitialLeakCategoryKey),
                     label: kInitialLeakCategory,
-                    onSaved: (value) {
-                      _pickedInitialLeakCategory = value;
-                    },
                     onChangedValue: (value) {
                       setState(() {
                         this._filteredInitialLocationLeakFound = null;
@@ -312,7 +337,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     children: <Widget>[
                       // Need to change that
                       FormBuild.buildDropdown(
-                        onSaved: (value) {
+                        onChangedValue: (value) {
                           _pickedInitialLeakLocation = value;
                         },
                         key: Key(kInitialLeakLocationKey),
@@ -329,10 +354,12 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
             Row(
               children: <Widget>[
                 FormBuild.buildDropdown(
-                    onSaved: (value) {
+                    isRequired: true,
+                    onValidator: (value) {
+                    },
+                    onChangedValue: (value) {
                       _pickedCauseOfLeak = value;
                     },
-                    isRequired: true,
                     source: this.causeOfLeaks,
                     key: Key(kCauseOfLeakKey),
                     label: kCauseOfLeak)
@@ -369,7 +396,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
             )
           ],
         );
-      } else if (type == ServiceType.ServiceAndLeakRepair) {
+      }
+      else if (type == ServiceType.ServiceAndLeakRepair) {
         print("===> ServiceAndLeakRepair");
         return Column(
           key: Key("kbuildServiceAndLeakRepair"),
@@ -426,6 +454,17 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
               children: <Widget>[
                 // Need to change that
                 FormBuild.buildDropdown(
+                    onValidator: (value) {
+                      if (_pickedTypeOfService.id == 3 ||
+                          _pickedTypeOfService.id == 5) {
+                        if (_pickedCauseOfLeak.id == null) {
+                          return "Cause of Leak required since WasLeakFound was clicked for leak inspection service event";
+                        }
+                      }
+                    },
+                    onChangedValue: (value) {
+                      _pickedCauseOfLeak = value;
+                    },
                     isRequired: true,
                     source: this.causeOfLeaks,
                     key: Key(kCauseOfLeakKey),
@@ -575,8 +614,12 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
             Row(
               children: <Widget>[
                 FormBuild.buildDropdown(
-                    onSaved: (value) {
-                      _pickedWasLeakFound = value;
+                    onValidator: (value) {
+                      if (_pickedWasVacuumPulled == null)
+                        return "No value for WasProperVacuumPulled found for shutdown service event";
+                    },
+                    onChangedValue: (value) {
+                      _pickedWasVacuumPulled = value;
                     },
                     isRequired: true,
                     source: this.wasLeakFound,
@@ -587,10 +630,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
             Row(
               children: <Widget>[
                 FormBuild.buildDropdown(
-                    onSaved: (value) {
+                    onChangedValue: (value) {
                       _pickedDepthOfVacuum = value;
                     },
-                    isRequired: true,
+                    isRequired: false,
                     source: depthVacuumAmount,
                     key: Key(kDepthOfVacuumKey),
                     label: kDepthOfVacuum)
@@ -629,7 +672,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
 
   @override
   Widget build(BuildContext context) {
+    final key = new GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: key,
       appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.white.withOpacity(0.0),
@@ -660,7 +705,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                               label: kEquipmentWorkedOn,
                               key: Key(kEquipmentWorkedOnKey),
                               initialValue: _pickedEquipmentWorkedOn,
-                              source: this.assets,
+                              source:this.assetsDropdowns,
                               isRequired: true,
                               onChangedValue: (value) {
                                 print(
@@ -692,7 +737,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                     this._filteredInitialLocationLeakFound = [];
                                     this._filteredVerificationLocationLeakFound =
                                         [];
-
+                                    _pickedTypeOfService = value;
                                     switch (value.id) {
                                       case 2:
                                         {
@@ -729,7 +774,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                               },
                               onValidator: (value) {
                                 if (_pickedLeakDetectionMethod == null)
-                                  return "Required";
+                                  return "Invalid asset ID found for service event";
+                              },
+                              onChangedValue: (value) {
+                                _pickedLeakDetectionMethod = value;
                               },
                               isRequired: true,
                               source: this.leakDetectionMethod,
@@ -738,12 +786,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         ]),
                         Row(children: <Widget>[
                           FormBuild.buildDropdown(
-                              onSaved: (value) {
-                                _pickedWasLeakFound = value;
-                              },
                               onValidator: (value) {
-                                if (_pickedWasLeakFound == null)
-                                  return "Required";
+                                if (_wasLeakFound == null)
+                                  return "No Was Leak Found value found for service event";
                               },
                               isRequired: true,
                               source: this.wasLeakFound,
@@ -766,9 +811,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
                           FormBuild.buildDatePicker(
                               onValidated: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Required";
-                                }
+                                if (_pickedServiceDate == null) return "No service date found for service event";
+                                if (_pickedServiceDate.isAfter(DateTime.now())) return "Future service date found for service event";
                               },
                               onPressed: (value) {
                                 print(
@@ -799,9 +843,12 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                     _pickedObservationNotes = value;
                                   },
                                   validator: (value) {
-                                    if (value.isEmpty)
-                                      return "Observation is required";
-//                                    if (value.length < 50) return "Observation must be over 50 characters";
+                                    if (_pickedTypeOfService.id == 3 || _pickedTypeOfService.id == 5) {
+                                      if (value.isEmpty) return "No repair notes found for service event with asset ID";
+                                      if (_pickedServiceAction.id == 9 && value.length <= 30) {
+                                        return "Repair notes must be at least 30 characters if service action Other is selected for service event";
+                                      }
+                                    }
                                   },
                                   key: Key(kObservationNotesKey),
                                   maxLength: 50,
@@ -838,71 +885,48 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                 keyButton: Key(kSubmitButtonKey),
                                 titleButton: kSubmitButton,
                                 onPressed: () {
-                                  print("This was pressed by Arnaud");
-                                  if (_formKey.currentState.validate()) {
-                                    print("> validate");
-                                    _formKey.currentState.save();
-                                    print("> saved");
+                                  if (_pickedEquipmentWorkedOn?.id != null && _pickedEquipmentWorkedOn?.id > -1) {
+                                    print("_pickedEquipmentWorkedOn.id : ${_pickedEquipmentWorkedOn
+                                        .id}");
+                                    Asset selectedAsset = Asset(
+                                        assetID: (_pickedEquipmentWorkedOn is Dropdown) ? _pickedEquipmentWorkedOn.id : 0);
+                                    int pickedIndex = widget.assets.indexOf(
+                                        selectedAsset);
+                                    print("selectedAsset.id : ${widget.assets[pickedIndex]}");
 
-                                    if (typeOfService ==
-                                        ServiceType.LeakInspection) {
-                                      submitLeakInspection((_pickedWasLeakFound.id == 1));
-                                      /*
-                                      String equipmentWorkedOn =
-                                          _pickedEquipmentWorkedOn.name;
-                                      String typeOfService =
-                                          _pickedTypeOfService.name;
-                                      String leakDetectionMethod =
-                                          _pickedLeakDetectionMethod.name;
-                                      String wasLeakFound =
-                                          _pickedWasLeakFound.name;
-                                      String serviceDate = null;
-                                      if (_pickedServiceDate != null) {
-                                        serviceDate = DateFormat(kShortReadableDateFormat)
-                                            .format(_pickedServiceDate);
-                                      }
-                                      String notes = _pickedObservationNotes;
-
-                                      // If a leak was found
-                                      if (_pickedWasLeakFound.id == 1) {
-                                        String leakCategory =
-                                            _pickedInitialLeakCategory.name;
-                                        String leakLocation =
-                                            _pickedInitialLeakLocation.name;
-                                        String causeLeak =
-                                            _pickedCauseOfLeak.name;
-                                        String estimatedLeakAmount =
-                                            _pickedEstimatedLeakAmount
-                                                .toString();
-
-                                        print("leakCategory $leakCategory");
-                                        print("leakLocation $leakLocation");
-                                        print("causeLeak $causeLeak");
-                                        print(
-                                            "estimatedLeakAmount $estimatedLeakAmount");
-
-                                        if (_pickedFollowUpDate != null) {
-                                          String followUpDateString =
-                                              DateFormat('yyyy-MM-dd')
-                                                  .format(_pickedFollowUpDate);
-                                          print(
-                                              "followUpDate $followUpDateString");
-                                        }
-                                      }
-                                      print(
-                                          "equipmentWorkedOn $equipmentWorkedOn");
-                                      print("typeOfService $typeOfService");
-                                      print(
-                                          "leakDetectionMethod $leakDetectionMethod");
-                                      print("wasLeakFound $wasLeakFound");
-                                      print("serviceDate $serviceDate");
-                                      print("notes $notes");
-                                      */
-                                    } else if (typeOfService ==
-                                        ServiceType.Shutdown) {}
+//                                    Navigator.of(context).push(
+//                                        new SlideRightRoute(
+//                                            widget: PageMaterialGasInstallBloc(
+//                                              installType: MaterialGasInstallType.Recovery,
+//                                              currentAssetWorkedOn: widget
+//                                                  .assets[pickedIndex],
+//                                              assets: widget.assets,
+//                                            )
+//                                        )
+//                                    );
                                   }
+
+//                                  print("Submit Button was pressed by Arnaud");
+//                                  if (_formKey.currentState.validate()) {
+//                                    print("> validate");
+//                                    _formKey.currentState.save();
+//                                    print("> saved");
+//
+//                                    if (typeOfService ==
+//                                        ServiceType.LeakInspection) {
+//                                      submitLeakInspection(_wasLeakFound, key);
+//                                    } else if (typeOfService ==
+//                                        ServiceType.Shutdown) {}
+//                                  }
                                 },
                               ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 20,
                             )
                           ],
                         )

@@ -8,14 +8,17 @@ part of 'workorder.dart';
 
 WorkOrder _$WorkOrderFromJson(Map<String, dynamic> json) {
   return WorkOrder(
+      id: json['ID'] as int,
       workOrderNumber: json['WorkOrderNumber'] as String,
+      workOrderTypeID: json['WorkOrderTypeID'] as int,
       workOrderStatusID: json['WorkOrderStatusID'] as int,
+      locationID: json['LocationID'] as int,
+      instanceID: json['InstanceID'] as int,
       address2: json['Address2'] as String,
       workOrderType: json['WorkOrderType'] as String,
       troubleTicketPriority: json['TroubleTicketPriority'] as String,
       workOrderStatusReasonID: json['WorkOrderStatusReasonID'] as int,
       city: json['City'] as String,
-      workOrderTypeID: json['WorkOrderTypeID'] as int,
       location: json['Location'] as String,
       workItemCount: json['WorkItemCount'] as int,
       state: json['State'] as String,
@@ -23,15 +26,12 @@ WorkOrder _$WorkOrderFromJson(Map<String, dynamic> json) {
       zipcode: json['Zipcode'] as String,
       countryCode: json['CountryCode'] as String,
       instance: json['Instance'] as String,
-      id: json['ID'] as int,
       scheduleDate: json['ScheduleDate'] as String,
       dueDate: json['DueDate'] as String,
-      locationID: json['LocationID'] as int,
       troubleTicketPriorityID: json['TroubleTicketPriorityID'] as int,
       address1: json['Address1'] as String,
       purchaseOrderNumber: json['PurchaseOrderNumber'] as String,
       workOrderStatusReason: json['WorkOrderStatusReason'] as String,
-      instanceID: json['InstanceID'] as int,
       requestDetails: json['RequestDetails'] as String,
       workItem: (json['WorkItem'] as List)
           ?.map((e) =>
@@ -140,7 +140,7 @@ Map<String, dynamic> _$WorkItemToJson(WorkItem instance) {
       'ChargeCapacitySourceTypeID', instance.chargeCapacitySourceTypeID);
   writeNotNull('LeakRepairDispositionType', instance.leakRepairDispositionType);
   writeNotNull('MaterialTypeID', instance.materialTypeID);
-  writeNotNull('WorkItemTypeID', instance.workItemTypeID);
+  val['WorkItemTypeID'] = instance.workItemTypeID;
   writeNotNull('WasLeakFound', instance.wasLeakFound);
   writeNotNull('WorkItemType', instance.workItemType);
   writeNotNull('ChargeCapacitySourceType', instance.chargeCapacitySourceType);
@@ -151,8 +151,8 @@ Map<String, dynamic> _$WorkItemToJson(WorkItem instance) {
       instance.verificationLeakDetectionMethod);
   writeNotNull('MaterialTransferCount', instance.materialTransferCount);
   writeNotNull('AssetLocationID', instance.assetLocationID);
-  writeNotNull('AssetID', instance.assetID);
-  writeNotNull('WorkItemStatusID', instance.workItemStatusID);
+  val['AssetID'] = instance.assetID;
+  val['WorkItemStatusID'] = instance.workItemStatusID;
   writeNotNull('Asset', instance.asset);
   writeNotNull(
       'InitialLeakDetectionMethod', instance.initialLeakDetectionMethod);
@@ -168,7 +168,7 @@ Map<String, dynamic> _$WorkItemToJson(WorkItem instance) {
       'InitialLeakDetectionMethodID', instance.initialLeakDetectionMethodID);
   writeNotNull('MaterialTransfer', instance.materialTransfer);
   writeNotNull('PartsRequired', instance.partsRequired);
-  writeNotNull('ServiceDate', instance.serviceDate);
+  val['ServiceDate'] = instance.serviceDate;
   writeNotNull('Notes', instance.notes);
   writeNotNull('WasProblemResolved', instance.wasProblemResolved);
   writeNotNull('RepairNotes', instance.repairNotes);

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api_service.dart';
-import 'dart:async' show Future;
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:trakref_app/screens/page_service_event_add_bloc.dart';
+import 'package:trakref_app/widget/dropdown_widget.dart';
 
 class PageTestLinkBloc extends StatefulWidget {
   @override
@@ -14,6 +14,8 @@ class PageTestLinkBloc extends StatefulWidget {
 }
 
 class _PageTestLinkBlocState extends State<PageTestLinkBloc> {
+  bool allow = false;
+  List<Asset> assets = [];
 
   void getWorkOrders(int locationID) {
     // Below test for showing the GET Work Orders
@@ -31,6 +33,24 @@ class _PageTestLinkBlocState extends State<PageTestLinkBloc> {
     });
   }
 
+  void getAssets(int locationID) {
+    // Below test for showing the GET Work Orders
+    ApiService api = ApiService();
+    var baseUrl = "https://api.trakref.com/v3.21/assets?locationID=$locationID";
+
+    api.getResult<Asset>(baseUrl).then((results) {
+      print("api.getResult[${results.length}]");
+      int i = 0;
+      for (Asset asset in results) {
+        print("#$i asset is ${asset.name} for ${asset.assetID}");
+        i++;
+      }
+      setState(() {
+        assets = results;
+        this.allow = true;
+      });
+    });
+  }
   // For now just a leak inspection
   void postRandomWorkOrder() {
     String timeNow = DateFormat(kShortReadableDateFormat).format(DateTime.now());
@@ -72,12 +92,15 @@ class _PageTestLinkBlocState extends State<PageTestLinkBloc> {
   @override
   void initState() {
     super.initState();
+
+    getAssets(10721);
+
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
+      child: (allow == false) ? FormBuild.buildLoader() : Container(
         color: Colors.white,
         child: ListView(
           children: <Widget>[
@@ -87,7 +110,7 @@ class _PageTestLinkBlocState extends State<PageTestLinkBloc> {
                   onPressed: () {
                     Navigator.of(context).pushNamed('/accounts');
                   },
-                  child: Text("Show Account", style: TextStyle(
+                  child: Text("Show Service Event", style: TextStyle(
                       color: AppColors.blueTurquoise
                   )),
                 )
@@ -109,7 +132,13 @@ class _PageTestLinkBlocState extends State<PageTestLinkBloc> {
                 children: <Widget>[
                   OutlineButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/leaks');
+
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
+                        return PageServiceEventAddBloc(
+                            assets: assets
+                        );
+                      }));
+//                      Navigator.of(context).pushNamed('/leaks');
                     },
                     child: Text("Add New Service Event", style: TextStyle(
                         color: AppColors.blueTurquoise

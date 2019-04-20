@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:trakref_app/constants.dart';
+import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/workorder.dart';
 
 //import 'package:codable/codable.dart';
@@ -114,12 +115,23 @@ class ApiService {
       List<T> someList = new List<T>();
       String type = someList.runtimeType.toString();
       List<WorkOrder> workOrderList = new List<WorkOrder>();
+      List<Asset> assetsList = new List<Asset>();
 
       // This is a type WorkOrder
       if (type.toString() == workOrderList.runtimeType.toString()) {
         List<WorkOrder> results = [];
         for (Map<String, dynamic> result in resultMap) {
           WorkOrder singleResult = WorkOrder.fromJson(result);
+          results.add(singleResult);
+        }
+        return results;
+      }
+
+      // This is a type Assets
+      if (type.toString() == assetsList.runtimeType.toString()) {
+        List<Asset> results = [];
+        for (Map<String, dynamic> result in resultMap) {
+          Asset singleResult = Asset.fromJson(result);
           results.add(singleResult);
         }
         return results;

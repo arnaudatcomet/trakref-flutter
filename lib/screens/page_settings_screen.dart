@@ -164,6 +164,9 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
                     child: Padding(
                       padding: EdgeInsets.all(10),
                       child: MaterialButton(
+                        onPressed: () {
+
+                        },
                         height: 60,
                         child: Text('CANCEL',
                             style: TextStyle(
