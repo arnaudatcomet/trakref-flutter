@@ -3,7 +3,7 @@ import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/bloc/dashboard_bloc.dart';
 import 'package:trakref_app/bloc/login_bloc.dart';
 import 'package:trakref_app/bloc/search_bloc.dart';
-import 'package:trakref_app/screens/page_accounts_bloc.dart';
+import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/page_asset_add_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/page_login_bloc.dart';

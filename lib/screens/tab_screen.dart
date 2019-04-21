@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/repository/get_service.dart';
-import 'package:trakref_app/screens/page_account_detail_bloc.dart';
-import 'package:trakref_app/screens/page_accounts_bloc.dart';
+import 'package:trakref_app/screens/accounts/page_account_detail_bloc.dart';
+import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/page_location_bloc.dart';
 import 'package:trakref_app/screens/page_profile_bloc.dart';
@@ -47,9 +47,9 @@ class _TabScreensState extends State<TabScreens> {
                 PageSearchBloc(),
 // For testing purposes
 //                PageTopicsBloc(),
-                PageAssetAddBloc(),
+                PageAccountsBloc(),
+//                PageAssetAddBloc(),
                 PageTestLinkBloc()
-//                PageAccountsBloc(),
 //                MyHomePage()
 //                PageSettingsScreens()
               ]
