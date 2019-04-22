@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/widget/button_widget.dart';
+import 'package:trakref_app/widget/home_cell_widget.dart';
 import 'package:trakref_app/widget/search_widget.dart';
 import 'package:trakref_app/widget/service_event_widget.dart';
 
@@ -143,12 +144,28 @@ class SearchResultWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      physics: BouncingScrollPhysics(),
       padding: EdgeInsets.all(0),
       children: <Widget>[
-        ServiceItemTile('#186305', 'Chateau de Chappy', 'Brandon Sotelo', 'TO DO'),
-        ServiceItemTile('#6433', '#1000 COMMERCIAL TOWER', 'Brandon Sotelo', 'DONE'),
-        ServiceItemTile('#528', '#528 - Supermarket', 'Brandon Sotelo', 'DONE'),
-        ServiceItemTile('#263791', 'Chateau de Chappy', 'Brandon Sotelo', 'TO DO')
+        HomeCellWidget(
+            line1: '#186305',
+            line2: 'This is a test',
+            line3: 'Brandon Sotelo',
+            line4: 'TO DO',
+            cellType: HomeCellType.StickerTODO
+        ),
+        HomeCellWidget(
+            line1: '#6433',
+            line2: 'Chateau de Chappy',
+            line3: 'Brandon Sotelo',
+            cellType: HomeCellType.Normal
+        ),
+        HomeCellWidget(
+            line1: '#528',
+            line2: '#528 - Supermarket',
+            line3: 'Brandon Sotelo',
+            cellType: HomeCellType.StickerCOMPLETE
+        )
       ],
     );
   }

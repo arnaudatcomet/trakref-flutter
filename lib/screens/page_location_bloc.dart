@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
-import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 
 class LocationTextField extends StatelessWidget {
   String labeled = "This is an exemple";

@@ -7,7 +7,7 @@ import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/page_asset_add_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/page_login_bloc.dart';
-import 'package:trakref_app/screens/page_search_bloc.dart';
+import 'package:trakref_app/screens/search/page_search_bloc.dart';
 import 'package:trakref_app/screens/page_service_event_add_bloc.dart';
 import 'package:trakref_app/screens/page_settings_screen.dart';
 import 'package:trakref_app/screens/page_test_link_bloc.dart';

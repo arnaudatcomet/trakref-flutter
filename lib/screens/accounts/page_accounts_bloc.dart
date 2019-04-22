@@ -24,6 +24,7 @@ class PageAccountsBloc extends StatefulWidget {
 }
 
 class _PageAccountsBlocState extends State<PageAccountsBloc> {
+  ApiService api = ApiService();
   List<Account> accounts;
   bool _onLoaded = false;
   bool _activeState;
@@ -48,7 +49,6 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
 
   // API Service calls
   void getAccounts() {
-    ApiService api = ApiService();
     var baseUrl = "https://api.trakref.com/v3.21/accounts";
     api.getResult<Account>(baseUrl).then((results) {
       // Add accounts retrieved and prepare the list view
@@ -62,6 +62,11 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
         _onLoaded = true;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
