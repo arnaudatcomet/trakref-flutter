@@ -3,39 +3,9 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:trakref_app/constants.dart';
+import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/workorder.dart';
-
-//import 'package:codable/codable.dart';
-
-//class Account extends Coding {
-//  String name; // Name
-//  int instanceID; // InstanceID
-//  int accountTypeID; // AccountTypeID
-//  String accountType; // AccountType
-//  String statusName; // StatusName
-//
-//  @override
-//  void decode(KeyedArchive object) {
-//    // TODO: implement decode
-//    super.decode(object);
-//
-//    name = object.decode('Name');
-//    instanceID = object.decode('InstanceID');
-//    accountTypeID = object.decode('AccountTypeID');
-//    accountType = object.decode('AccountType');
-//    statusName = object.decode('StatusName');
-//  }
-//
-//  @override
-//  void encode(KeyedArchive object) {
-//    object.encode('Name', name);
-//    object.encode('InstanceID', instanceID);
-//    object.encode('AccountTypeID', accountTypeID);
-//    object.encode('AccountType', accountType);
-//    object.encode('StatusName', statusName);
-//  }
-//}
 
 class ApiService {
   ApiService();
@@ -116,6 +86,7 @@ class ApiService {
       String type = someList.runtimeType.toString();
       List<WorkOrder> workOrderList = new List<WorkOrder>();
       List<Asset> assetsList = new List<Asset>();
+      List<Account> accountsList = new List<Account>();
 
       // This is a type WorkOrder
       if (type.toString() == workOrderList.runtimeType.toString()) {
@@ -136,6 +107,28 @@ class ApiService {
         }
         return results;
       }
+
+      // This is a type Assets
+      if (type.toString() == assetsList.runtimeType.toString()) {
+        List<Asset> results = [];
+        for (Map<String, dynamic> result in resultMap) {
+          Asset singleResult = Asset.fromJson(result);
+          results.add(singleResult);
+        }
+        return results;
+      }
+
+      // This is a type Accounts
+      if (type.toString() == accountsList.runtimeType.toString()) {
+        List<Account> results = [];
+        for (Map<String, dynamic> result in resultMap) {
+          Account singleResult = Account.fromJson(result);
+          results.add(singleResult);
+        }
+        return results;
+      }
+
+      // Nothing instead
       return [];
     });
   }

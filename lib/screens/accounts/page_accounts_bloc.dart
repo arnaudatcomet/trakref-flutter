@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/models/account.dart';
+import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/screens/accounts/page_account_detail_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
+
+// Animation Widget
+//class AnimationFade extends StatelessWidget {
+//  final Widget child;
+//  final TickerProvider vsync;
+//  @override
+//  Widget build(BuildContext context) {
+//    return Container();
+//  }
+//}
+
 
 class PageAccountsBloc extends StatefulWidget {
   @override
@@ -11,7 +24,7 @@ class PageAccountsBloc extends StatefulWidget {
 }
 
 class _PageAccountsBlocState extends State<PageAccountsBloc> {
-  AccountsService service = AccountsService();
+  List<Account> accounts;
   bool _onLoaded = false;
   bool _activeState;
   TextEditingController _controller;
@@ -22,16 +35,37 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
   List<ListItem> _searchResult = [];
 
 
-  ListTile makeAccountTile(AccountItem item) => ListTile(
+  ListTile makeAccountTile(AccountItem item) =>
+      ListTile(
         title: Text(
           item.account,
-          style: Theme.of(context).textTheme.body1,
+          style: Theme
+              .of(context)
+              .textTheme
+              .body1,
         ),
       );
 
+  // API Service calls
+  void getAccounts() {
+    ApiService api = ApiService();
+    var baseUrl = "https://api.trakref.com/v3.21/accounts";
+    api.getResult<Account>(baseUrl).then((results) {
+      // Add accounts retrieved and prepare the list view
+      accounts = results;
+      for (Account acc in accounts) {
+        items.add(AccountItem(account: acc.name, accountID: acc.instanceID));
+      }
+
+      // Notify to stop loading
+      setState(() {
+        _onLoaded = true;
+      });
+    });
+  }
+
   @override
   void initState() {
-    service.loadAccounts();
     _onLoaded = false;
     _activeState = false;
     _controller = TextEditingController();
@@ -40,15 +74,9 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
     _controller.addListener(onChange);
     _textFocus.addListener(onChange);
 
-    // Load the whole page when the service is loading
-    service.onLoaded = () {
-      setState(() {
-        _onLoaded = true;
-        for (Account acc in service.accounts) {
-          items.add(AccountItem(account: acc.name, accountID: acc.instanceID));
-        }
-      });
-    };
+    // Get the list of accounts
+    getAccounts();
+
     super.initState();
   }
 
@@ -102,9 +130,9 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
               child: ListView.builder(
                   padding: EdgeInsets.all(5),
                   shrinkWrap: true,
-                  itemCount: (_activeState == true) ? (_searchResult.length + 1) : (items.length + 1),
+                  itemCount: (_activeState == true) ? (_searchResult.length) : (items.length + 1),
                   itemBuilder: (context, index) {
-                    if (index == 0) {
+                    if (index == 0 && (_activeState == false)) {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
@@ -114,16 +142,17 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
                           )
                         ],
                       );
-                    } else {
-                      final item = (_activeState == true) ? _searchResult[index - 1] : items[index - 1];
+                    }
+                    else {
+                      final item = (_activeState == true) ? _searchResult[index] : items[index - 1];
                       if (item is AccountItem) {
                         return InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {
-                              Account acc = service.accounts[index - 1];
+                              Account selectedAccount = accounts.where((Account account) => account.instanceID == item.accountID).first;
                               return PageAccountDetailBloc(
-                                  accountName: acc.name);
+                                  account: selectedAccount);
                             }));
                           },
                           child: Container(

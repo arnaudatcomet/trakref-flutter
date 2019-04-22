@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:trakref_app/models/workorder.dart';
 
 part 'asset.g.dart';
@@ -116,7 +115,6 @@ class Asset {
 
   @JsonKey(name: 'WeightUnits')
   final String weightUnits;
-
 
   Asset({this.name, this.assetID, this.assetStatusID, this.assetStatus,
     this.isCylinder, this.instanceID, this.instance, this.locationID,

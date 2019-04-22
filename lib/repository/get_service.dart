@@ -190,67 +190,6 @@ class DropdownService {
   }
 }
 
-class Accounts {
-  final List<Account> accounts;
-
-  Accounts({this.accounts});
-
-  factory Accounts.fromJson(Map<String, dynamic> parsedJson) {
-    var accountsList = parsedJson as List;
-    print("accountsList $accountsList");
-    return Accounts(
-      accounts: accountsList.map((i) => Account.fromJson(i)).toList(),
-    );
-  }
-}
-
-class Account {
-  String name;
-  int instanceID;
-  int accountTypeID;
-  String accountType;
-
-  Account({this.name, this.instanceID, this.accountTypeID, this.accountType});
-
-  List<Account> parsePhotos(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<Account>((json) => Account.fromJson(json)).toList();
-  }
-
-  factory Account.fromJson(Map<String, dynamic> parsedJson) {
-    print("Account $parsedJson");
-    return Account(
-        name: parsedJson['Name'],
-        instanceID: parsedJson['InstanceID'],
-        accountTypeID: parsedJson['AccountTypeID'],
-        accountType: parsedJson['AccountType']);
-  }
-}
-
-class AccountsService {
-  final String accountsURL = "$BASE_URL/accounts";
-  static final AccountsService _shared = new AccountsService._internal();
-
-  factory AccountsService() {
-    return _shared;
-  }
-
-  AccountsService._internal();
-
-  List<Account> accounts;
-  VoidCallback onLoaded;
-  ApiService api = ApiService();
-  final JsonDecoder _decoder = new JsonDecoder();
-
-  Future<List<Account>> loadAccounts() async {
-    String jsonResponse = await api.getStandard(accountsURL);
-    print("loadAccounts $jsonResponse");
-    accounts = Account().parsePhotos(jsonResponse);
-    this.onLoaded();
-    return accounts;
-  }
-}
-
 class Language {
   final String code;
   final String name;

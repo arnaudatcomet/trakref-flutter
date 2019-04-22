@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 
 class PageAccountDetailBloc extends StatefulWidget {
+  Account account;
   String accountName;
   String industryType;
   String status;
   String contactNumber;
   String email;
 
-  PageAccountDetailBloc({this.accountName, this.industryType, this.status,
+  PageAccountDetailBloc({this.account, this.accountName, this.industryType, this.status,
     this.contactNumber, this.email});
 
   @override
