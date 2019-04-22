@@ -5,14 +5,8 @@ import 'package:trakref_app/widget/dropdown_widget.dart';
 
 class PageAccountDetailBloc extends StatefulWidget {
   Account account;
-  String accountName;
-  String industryType;
-  String status;
-  String contactNumber;
-  String email;
 
-  PageAccountDetailBloc({this.account, this.accountName, this.industryType, this.status,
-    this.contactNumber, this.email});
+  PageAccountDetailBloc({this.account});
 
   @override
   _PageAccountDetailBlocState createState() => _PageAccountDetailBlocState();
@@ -27,6 +21,21 @@ class _PageAccountDetailBlocState extends State<PageAccountDetailBloc> {
     setState(() {
 
     });
+  }
+
+  Widget buildTextfieldRow(String key, String label, String initialValue) {
+    if (initialValue == null) {
+      return Row(mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            FormBuild.buildTextField(key: Key(key), label: label)
+          ]
+      );
+    }
+    return Row(mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          FormBuild.buildTextField(key: Key(key), label: label, initialValue: initialValue)
+        ]
+    );
   }
 
   @override
@@ -67,134 +76,14 @@ class _PageAccountDetailBlocState extends State<PageAccountDetailBloc> {
                     )
                   ],
                 ),
-                Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      FormBuild.buildTextField(key: Key("AccountNameKey"), label: "Account Name"),
-                    ]
-                ),
-                Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      FormBuild.buildTextField(key: Key("IndustryTypeKey"), label: "Industry Type"),
-                    ]
-                ),
-                Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      FormBuild.buildTextField(key: Key("StatusKey"), label: "Status"),
-                    ]
-                ),
-                Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      FormBuild.buildTextField(key: Key("ContactNumberKey"), label: "Contact Number"),
-                    ]
-                ),
-                Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      FormBuild.buildTextField(key: Key("ContactEmailKey"), label: "Contact Email"),
-                    ]
-                )
+                buildTextfieldRow("AccountNameKey", "Account Name", widget.account.name),
+                buildTextfieldRow("IndustryTypeKey", "Industry Type", widget.account.industryType),
+                buildTextfieldRow("StatusKey", "Status", widget.account.statusName),
+                buildTextfieldRow("ContactNumberKey", "Contact Number", widget.account.contactPhone),
+                buildTextfieldRow("ContactEmailKey", "Contact Email", widget.account.contactEmail),
               ],
             )
         )
     );
   }
 }
-
-/*
-class AccountDetailTextField extends StatelessWidget {
-  String labeled = "This is an exemple";
-
-  AccountDetailTextField({this.labeled});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: TextField(
-        decoration: InputDecoration(
-            labelText: labeled,
-            border: const UnderlineInputBorder()
-        ),
-      ),
-    );
-  }
-}
-
-class PageAccountDetailBloc extends FormField<AccountDetailTextField> {
-  PageAccountDetailBloc({
-    FormFieldSetter<AccountDetailTextField> onSaved,
-    FormFieldValidator<AccountDetailTextField> validator,
-    bool autovalidate = false
-}): super(
-    onSaved: onSaved,
-    validator: validator,
-    builder: (FormFieldState<AccountDetailTextField> state) {
-      return SafeArea(
-        child: ListView(
-          padding: EdgeInsets.all(30),
-          children: <Widget>[
-            ListTile(
-              title: Text(
-                "Account Details",
-                  style: TextStyle(
-                      color: AppColors.gray,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      fontFamily: "SF Pro Text Regular"
-                  )
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: AccountDetailTextField('Account Name'),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: AccountDetailTextField(labeled: 'Industry Type',),
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: AccountDetailTextField('Status'),
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: AccountDetailTextField('Contact Number'),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(),
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: AccountDetailTextField('Contact Email'),
-                )
-              ],
-            )
-          ],
-        ),
-      );
-    }
-  );
-}
-*/

@@ -100,8 +100,9 @@ class AppTextField extends StatefulWidget {
   ValueChanged<String> onValidated;
   ValueChanged<String> onSubmitted;
   TextInputType keyboardType;
+  String initialValue;
   AppTextField({
-    this.keyTextField, this.onValidated, this.keyboardType, this.labeled, this.onEditingComplete, this.onSubmitted});
+    this.keyTextField, this.onValidated, this.keyboardType, this.labeled, this.initialValue, this.onEditingComplete, this.onSubmitted});
 
   @override
   _AppTextFieldState createState() => _AppTextFieldState();
@@ -112,6 +113,7 @@ class _AppTextFieldState extends State<AppTextField> {
   Widget build(BuildContext context) {
     return Container(
       child: TextFormField(
+        initialValue: widget.initialValue,
         keyboardType: widget.keyboardType,
         key: widget.keyTextField,
         onEditingComplete: widget.onEditingComplete,

@@ -72,7 +72,8 @@ class FormBuild {
     Key key,
     TextInputType inputType,
     ValueChanged<String> onSubmitted,
-    ValueChanged<String> onValidated
+    ValueChanged<String> onValidated,
+    String initialValue
   }) {
     return Expanded(
       flex: 1,
@@ -82,6 +83,7 @@ class FormBuild {
         keyTextField: key,
         keyboardType: inputType,
         onSubmitted: onSubmitted,
+        initialValue: initialValue,
       ),
     );
   }
