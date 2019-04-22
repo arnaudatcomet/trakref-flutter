@@ -69,7 +69,7 @@ ThemeData buildTheme() {
       ),
       display2: TextStyle(
           color: AppColors.gray,
-          fontSize: 14,
+          fontSize: 17,
           fontWeight: FontWeight.bold,
           fontFamily: "SF Pro Text Regular"
       ),
