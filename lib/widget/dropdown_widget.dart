@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/main.dart';
 import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 
@@ -59,7 +60,9 @@ class FormBuild {
   // Convenient Loader
   static Widget buildLoader() {
     return Center(
-      child: new CircularProgressIndicator(backgroundColor: Colors.red),
+      child: new CircularProgressIndicator(
+          backgroundColor: Colors.white
+      ),
     );
   }
 
