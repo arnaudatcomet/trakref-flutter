@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 
-enum HomeCellType {StickerTODO, StickerCOMPLETE, Normal}
+enum HomeCellType {StickerTODO, StickerCOMPLETE, StickerCYLINDER, Normal}
 
 class HomeCellWidget extends ListTile {
   String line1;

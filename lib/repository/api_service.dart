@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/models/asset.dart';
+import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
 
 class ApiService {
@@ -86,6 +87,7 @@ class ApiService {
       String type = someList.runtimeType.toString();
       List<WorkOrder> workOrderList = new List<WorkOrder>();
       List<Asset> assetsList = new List<Asset>();
+      List<Location> locationsList = new List<Location>();
       List<Account> accountsList = new List<Account>();
 
       // This is a type WorkOrder
@@ -108,11 +110,11 @@ class ApiService {
         return results;
       }
 
-      // This is a type Assets
-      if (type.toString() == assetsList.runtimeType.toString()) {
-        List<Asset> results = [];
+      // This is a type Locations
+      if (type.toString() == locationsList.runtimeType.toString()) {
+        List<Location> results = [];
         for (Map<String, dynamic> result in resultMap) {
-          Asset singleResult = Asset.fromJson(result);
+          Location singleResult = Location.fromJson(result);
           results.add(singleResult);
         }
         return results;
