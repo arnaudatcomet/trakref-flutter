@@ -17,8 +17,8 @@ class LocationResultWidget extends StatelessWidget {
           return HomeCellWidget(
               line1: '',
               line2: '${loc.name}',
-              line3: '${loc.physicalAddress1}',
-              line4: '${loc.physicalCity}, ${loc.physicalState}',
+              line3: '${loc.physicalAddress1 ?? ""}',
+              line4: '${loc.physicalCity ?? ""}, ${loc.physicalState ?? ""}',
               cellType: HomeCellType.Normal
           );
         }

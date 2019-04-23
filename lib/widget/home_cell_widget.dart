@@ -21,6 +21,8 @@ class HomeCellWidget extends ListTile {
         return Colors.orange;
       case HomeCellType.StickerTODO:
         return AppColors.lightGreen;
+      case HomeCellType.StickerCYLINDER:
+        return AppColors.blueTurquoise;
     }
   }
 
@@ -32,6 +34,8 @@ class HomeCellWidget extends ListTile {
         return "COMPLETED";
       case HomeCellType.StickerTODO:
         return "TO DO";
+      case HomeCellType.StickerCYLINDER:
+        return "CYLINDER";
     }
   }
 
@@ -50,7 +54,7 @@ class HomeCellWidget extends ListTile {
   Widget build(BuildContext context) {
     // Create the badge if it's necessary
     Widget badgeWidget = Visibility(
-        visible: (this.cellType == HomeCellType.StickerTODO || this.cellType == HomeCellType.StickerCOMPLETE),
+        visible: (this.cellType == HomeCellType.StickerTODO || this.cellType == HomeCellType.StickerCYLINDER || this.cellType == HomeCellType.StickerCOMPLETE),
         child: Container(
 //          width: 36,
 //          height: 15,

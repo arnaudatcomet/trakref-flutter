@@ -12,7 +12,6 @@ class AssetResultWidget extends StatelessWidget {
         itemCount: assets.length,
         itemBuilder: (context, index) {
           Asset asset = assets[index];
-
           return HomeCellWidget(
               line1: '${asset.serialNumber}',
               line2: '${asset.name}',
