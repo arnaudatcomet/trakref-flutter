@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/widget/home_cell_widget.dart';
 
@@ -9,10 +10,15 @@ class LocationResultWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (locations == null) ? Container() : ListView.builder(
-        itemCount: locations.length,
+    // List of locations
+    ListView locationsWidget = ListView.builder(
+        itemCount: locations.length+1,
         itemBuilder: (context, index) {
-          Location loc = locations[index];
+          if (index == 0) {
+            return LocationHeaderTile();
+          }
+
+          Location loc = locations[index-1];
 
           return HomeCellWidget(
               line1: '',
@@ -23,5 +29,31 @@ class LocationResultWidget extends StatelessWidget {
           );
         }
     );
+
+    // Need to create a header to allow geolocation and list of locations
+
+
+
+    return (locations == null) ? Container() : locationsWidget;
+  }
+}
+
+class LocationHeaderTile extends ListTile {
+  @override
+  Widget build(BuildContext context) {
+    Widget header = Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(width: 40),
+        Icon(Icons.pin_drop, color: AppColors.blueTurquoise),
+        SizedBox(width: 20),
+        Text("AROUND ME", style: Theme.of(context).textTheme.display1.copyWith(
+          fontWeight: FontWeight.bold
+        )
+        )
+      ],
+    );
+
+    return header;
   }
 }
