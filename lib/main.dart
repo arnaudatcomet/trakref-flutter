@@ -32,9 +32,7 @@ class MyApp extends StatelessWidget {
 }
 
 ThemeData buildTheme() {
-  final baseTheme = ThemeData(
-    fontFamily: "SF Pro Text"
-  );
+  final baseTheme = ThemeData(fontFamily: "SF Pro Text");
 
   return baseTheme.copyWith(
     primaryColor: Color.fromRGBO(42, 45, 49, 1),
@@ -51,45 +49,41 @@ ThemeData buildTheme() {
       valueIndicatorTextStyle: TextStyle(),
     ),
     textTheme: TextTheme().copyWith(
-      title: TextStyle(
-          color: AppColors.gray,
-          fontWeight: FontWeight.bold,
-          fontSize: 30,
-          fontFamily: "SF Pro Text Regular"
-      ),
-      subhead: TextStyle(
-          color: AppColors.gray,
-          decorationColor: AppColors.lightGray,
-          fontFamily: "SF Pro Text Regular"
-        ),
-      // This is used for the cells
-      display1: TextStyle(
-          color: AppColors.blueTurquoise,
-          fontSize: 14,
-          fontFamily: "SF Pro Text Regular"
-      ),
-      display2: TextStyle(
-          color: AppColors.gray,
-          fontSize: 17,
-          fontWeight: FontWeight.bold,
-          fontFamily: "SF Pro Text Regular"
-      ),
-      display3: TextStyle(
-          color: AppColors.gray,
-          fontSize: 12,
-          fontFamily: "SF Pro Text Regular"
-      ),
-      display4: TextStyle(
-          color: AppColors.gray,
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-          fontFamily: "SF Pro Text Regular"
-      ),
-      body1: TextStyle(
-          color: AppColors.gray,
-          fontSize: 15,
-          fontFamily: "SF Pro Text Regular"
-      )
-    ),
+        title: TextStyle(
+            color: AppColors.gray,
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+            fontFamily: "SF Pro Text Regular"),
+        subhead: TextStyle(
+            color: AppColors.gray,
+            decorationColor: AppColors.lightGray,
+            fontFamily: "SF Pro Text Regular"),
+        // This is used for the cells
+        display1: TextStyle(
+            color: AppColors.blueTurquoise,
+            fontSize: 14,
+            fontFamily: "SF Pro Text Regular"),
+        display2: TextStyle(
+            color: AppColors.gray,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+            fontFamily: "SF Pro Text Regular"),
+        display3: TextStyle(
+            color: AppColors.gray,
+            fontSize: 12,
+            fontFamily: "SF Pro Text Regular"),
+        display4: TextStyle(
+            color: AppColors.gray,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            fontFamily: "SF Pro Text Regular"),
+        body1: TextStyle(
+            color: AppColors.gray,
+            fontSize: 15,
+            fontFamily: "SF Pro Text Regular"),
+        headline: TextStyle(
+            color: AppColors.gray,
+            fontSize: 19,
+            fontFamily: "SF Pro Text Regular")),
   );
 }
