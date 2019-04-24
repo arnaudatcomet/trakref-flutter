@@ -2,10 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 
+enum SearchFilterOptions {
+  AssignedToMe, AroundMe, Opened
+}
+
+typedef SearchFilterDelegate = void Function(List<SearchFilterOptions> options);
+
+
 class SearchFilter extends StatefulWidget {
   bool assignedToMe = false;
   bool aroundMe = false;
   bool opened = false;
+  SearchFilterDelegate delegate;
+
+  SearchFilter({@required this.delegate});
 
   @override
   _SearchFilterState createState() => _SearchFilterState();
@@ -71,7 +81,7 @@ class _SearchFilterState extends State<SearchFilter> {
             });
             print("'Around me = $switchValue'");
           }),
-          buildSettings("Open", widget.opened, (switchValue) {
+          buildSettings("Opened", widget.opened, (switchValue) {
             setState(() {
               widget.opened = switchValue;
             });
@@ -87,6 +97,18 @@ class _SearchFilterState extends State<SearchFilter> {
                   color: AppColors.blueTurquoise,
                   title:"Show Result",
                   onPressed: () {
+                    // Prepare the options of the filter
+                    List<SearchFilterOptions> options = [];
+                    if (widget.assignedToMe) {
+                      options.add(SearchFilterOptions.AssignedToMe);
+                    }
+                    if (widget.aroundMe) {
+                      options.add(SearchFilterOptions.AroundMe);
+                    }
+                    if (widget.opened) {
+                      options.add(SearchFilterOptions.Opened);
+                    }
+                    widget.delegate(options);
                     Navigator.of(context).pop();
                   }
               )

@@ -139,6 +139,9 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
               // Show the filter options
               Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
                 return SearchFilter(
+                  delegate: (listOptions) {
+                    print("listOptions $listOptions");
+                  },
                 );
               }));
             },
