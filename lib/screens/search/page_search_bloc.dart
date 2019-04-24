@@ -5,6 +5,7 @@ import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
+import 'package:trakref_app/screens/search/filter/result_search_filter.dart';
 import 'package:trakref_app/screens/search/service_event/result_asset.dart';
 import 'package:trakref_app/screens/search/service_event/result_location.dart';
 import 'package:trakref_app/screens/search/service_event/result_service_event.dart';
@@ -131,7 +132,17 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          AppOutlineButton(),
+          AppOutlineButton(
+            title: "Filter",
+            onPressed: () {
+              print("this is a test");
+              // Show the filter options
+              Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
+                return SearchFilter(
+                );
+              }));
+            },
+          ),
           Row(
             children: <Widget>[
               Text('Assigned to me', style: Theme.of(context).textTheme.body1),

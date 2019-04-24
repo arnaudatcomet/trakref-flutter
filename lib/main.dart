@@ -14,6 +14,7 @@ const kSecondaryDark = const Color(0xFF009faf);
 class AppColors {
   static final gray = Color.fromRGBO(51, 51, 51, 1);
   static final lightGray = Color.fromRGBO(107, 114, 125, 1);
+  static final border = Color.fromRGBO(230, 230, 230, 1);
   static final blueTurquoise = Color.fromRGBO(48, 125, 140, 1);
   static final lightGreen = Color.fromRGBO(140, 220, 84, 1);
 }

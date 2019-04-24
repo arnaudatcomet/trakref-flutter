@@ -4,18 +4,21 @@ import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
 
 class AppOutlineButton extends StatelessWidget {
+  String title;
+  Function onPressed;
+  AppOutlineButton({this.title, this.onPressed});
   @override
   Widget build(BuildContext context) {
     return OutlineButton(
           child: Text(
-            'Filters',
+            title ?? "",
             style: TextStyle(
               color: AppColors.gray,
               fontSize: 14,
               fontFamily: 'SF Pro Text Regular',
             ),
           ),
-          onPressed: () => print('hello'),
+          onPressed: () => onPressed(),
           borderSide: BorderSide(
               color: AppColors.lightGray,
               width: 0.3
@@ -26,7 +29,6 @@ class AppOutlineButton extends StatelessWidget {
       );
   }
 }
-
 
 class OutlineAppButton extends AppButton {
   OutlineAppButton({
@@ -221,6 +223,37 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
                 })
         ),
       ),
+    );
+  }
+}
+
+// A text button
+class TextButton extends StatelessWidget {
+  Function onPressed;
+  String title;
+  FontWeight fontWeight;
+  Color color;
+
+  TextButton({@required this.onPressed, this.title, this.fontWeight, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlineButton(
+        borderSide: BorderSide(
+            color: Colors.white
+        ),
+        color: Colors.white,
+        highlightColor: Colors.white,
+        highlightedBorderColor: Colors.white,
+        child: Text(title ?? "", style: Theme
+            .of(context)
+            .textTheme
+            .display1
+            .copyWith(
+            color: color ?? AppColors.gray,
+            fontWeight: fontWeight ?? FontWeight.normal
+        )),
+        onPressed: onPressed
     );
   }
 }
