@@ -10,7 +10,7 @@ import 'package:trakref_app/screens/page_asset_add_bloc.dart';
 import 'package:trakref_app/screens/page_settings_screen.dart';
 import 'package:trakref_app/screens/page_support_ticket_bloc.dart';
 import 'package:trakref_app/screens/page_test_link_bloc.dart';
-import 'package:trakref_app/screens/page_topics_bloc.dart';
+import 'package:trakref_app/screens/settings/support/page_topics_bloc.dart';
 import 'package:trakref_app/screens/home/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/settings/page_settings_bloc.dart';
 
