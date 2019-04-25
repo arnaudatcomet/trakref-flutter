@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/models/account.dart';
+import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
+import 'package:trakref_app/screens/settings/account_detail/page_account_detail_bloc.dart';
+import 'package:trakref_app/screens/settings/profile_detail/page_profile_detail_bloc.dart';
 
 class PageSettingsBloc extends StatefulWidget {
   @override
@@ -7,15 +11,18 @@ class PageSettingsBloc extends StatefulWidget {
 
 class _PageSettingsBlocState extends State<PageSettingsBloc> {
   Widget buildItem(String title, bool isPushing, Function onTapped) {
-    return Row(
-      children: <Widget>[
-        SizedBox(height: 50),
-        Text(title,
-          style: Theme.of(context).textTheme.headline,
-        ),
-        Spacer(),
-        (isPushing) ? Icon(Icons.chevron_right) : Container()
-      ],
+    return GestureDetector(
+      onTap: onTapped,
+      child: Row(
+        children: <Widget>[
+          SizedBox(height: 50),
+          Text(title,
+            style: Theme.of(context).textTheme.headline,
+          ),
+          Spacer(),
+          (isPushing) ? Icon(Icons.chevron_right) : Container()
+        ],
+      ),
     );
   }
   @override
@@ -40,9 +47,30 @@ class _PageSettingsBlocState extends State<PageSettingsBloc> {
                 )
                 ,
                 SizedBox(height: 20),
-                buildItem("Account Details", true, null),
+                buildItem("Account Details", true, () {
+                  Navigator.of(context).push(
+                      new MaterialPageRoute(builder: (BuildContext context) {
+                        return PageAccountDetailBloc(
+                          account: Account(
+                              name: "150 Spear Street",
+                              industryType: "",
+                              statusName: "Active",
+                              contactPhone: "",
+                              contactEmail: "Patrick.Flynn@am.jll.com"
+                          ),
+                        );
+                      }));
+                }),
                 Divider(),
-                buildItem("My Profile", true, null),
+                buildItem("My Profile", true, (){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (BuildContext context) {
+                      return PageProfileDetailBloc(
+
+                      );
+                    })
+                  );
+                }),
                 Divider(),
                 buildItem("Support", true, null),
                 Divider(),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/repository/get_service.dart';
-import 'package:trakref_app/screens/accounts/page_account_detail_bloc.dart';
+import 'package:trakref_app/screens/settings/account_detail/page_account_detail_bloc.dart';
 import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/adding/page_adding_events_bloc.dart';
 import 'package:trakref_app/screens/page_location_bloc.dart';

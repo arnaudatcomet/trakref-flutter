@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/models/asset.dart';
+import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
 
@@ -32,7 +33,6 @@ class ApiService {
       return resJson;
     });
   }
-
 
   Future<dynamic> post<T>(T item, String url) async {
     String apiKey = 'eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0=';
@@ -66,6 +66,27 @@ class ApiService {
       final res = response.body;
       print("post $url, result $res");
     });
+  }
+
+  Future<dynamic> getLoginResponse(String url, String username, String password) async {
+
+    String basicAuth = 'Basic '+ base64Encode(utf8.encode('$username:$password'));
+    print('basicAuth $basicAuth');
+    return http.get(url, headers: {"API-Key": "$apiKey", "authorization":"$basicAuth"}
+    );
+
+    /*
+    String basicAuth = 'Basic '+ base64Encode(utf8.encode('$username:$password'));
+
+    return await http.get(url, headers: headers).then((http.Response response) {
+      final res = response.body;
+      dynamic resultMap = jsonDecode(res);
+      print("resultMap $resultMap");
+      InfoUser user = InfoUser.fromJson(resultMap);
+      return user;
+    });
+
+    */
   }
 
   Future<List> getResult<T>(String url) async {

@@ -3,7 +3,7 @@ import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
-import 'package:trakref_app/screens/accounts/page_account_detail_bloc.dart';
+import 'package:trakref_app/screens/settings/account_detail/page_account_detail_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 
