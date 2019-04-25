@@ -15,8 +15,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [ZDKZendesk initializeWithAppId:@"5cb37f1d2a269a1150ab56965c7ace065e0b480a6234147d" clientId:@"mobile_sdk_client_f4a9ccf9588ab41aae56" zendeskUrl:@"https://arnaud.zendesk.com"];
     [ZDKSupport initializeWithZendesk:[ZDKZendesk instance]];
-    
-    
     // End of initialization
     
     FlutterViewController *flutterViewController = [[FlutterViewController alloc] init];
@@ -32,14 +30,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                                            binaryMessenger:flutterViewController];
     __weak  typeof(self) weakSelf = self;
     [nativeChannel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
-        if ([@"showZDChat"  isEqualToString:call.method]) {
-            NSString *strNative = [weakSelf helloFromNativeCode];
-            
-            // Try to present something
-            UIViewController * blankVC = [[UIViewController alloc] init];
-            blankVC.view.frame = flutterViewController.view.frame;
-            blankVC.view.backgroundColor = [UIColor redColor];
-            
+        if ([@"showZDChat" isEqualToString:call.method]) {
             // Push the zendesk pages
             ZDKHelpCenterUiConfiguration * hcConfig = [[ZDKHelpCenterUiConfiguration alloc] init];
             [hcConfig setHideContactSupport:true];
@@ -48,9 +39,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
             requestConfig.subject = @"iOS Ticket";
             UIViewController *helpCenter = [ZDKHelpCenterUi buildHelpCenterOverviewUiWithConfigs:@[requestConfig]];
 
-            
+            self.navigationController.navigationBarHidden = false;
             [self.navigationController pushViewController:helpCenter animated:true];
-            result(strNative);
         } else {
             result(FlutterMethodNotImplemented);
         }
@@ -58,7 +48,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [GeneratedPluginRegistrant  registerWithRegistry:self];
     return [super  application:application didFinishLaunchingWithOptions:launchOptions];
-    
     
     /*
     FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
@@ -83,8 +72,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [GeneratedPluginRegistrant  registerWithRegistry:self];
     return [super  application:application didFinishLaunchingWithOptions:launchOptions];
-     
-     */
+    */
+    
 }
 - (NSString *)helloFromNativeCode {
     return  @"Hello From Native IOS Code";

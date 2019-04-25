@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/settings/account_detail/page_account_detail_bloc.dart';
 import 'package:trakref_app/screens/settings/profile_detail/page_profile_detail_bloc.dart';
+
 
 class PageSettingsBloc extends StatefulWidget {
   @override
@@ -10,6 +13,21 @@ class PageSettingsBloc extends StatefulWidget {
 }
 
 class _PageSettingsBlocState extends State<PageSettingsBloc> {
+  static const platform = const MethodChannel('flutter.native/zendesk');
+
+  Future<void> responseFromNativeCode() async {
+    String response = "";
+    try {
+      final String result = await platform.invokeMethod('showZDChat');
+      response = result;
+      print("result of 'showZDChat'");
+    } on PlatformException catch (e) {
+      response = "Failed to Invoke: '${e.message}'.";
+      print("$response");
+    }
+  }
+
+  // List items
   Widget buildItem(String title, bool isPushing, Function onTapped) {
     return GestureDetector(
       onTap: onTapped,
@@ -25,6 +43,7 @@ class _PageSettingsBlocState extends State<PageSettingsBloc> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +91,10 @@ class _PageSettingsBlocState extends State<PageSettingsBloc> {
                   );
                 }),
                 Divider(),
-                buildItem("Support", true, null),
+                buildItem("Support", true, () {
+                  print("Support > true");
+                  responseFromNativeCode();
+                }),
                 Divider(),
                 buildItem("Log Out", false, null),
                 Divider(),
