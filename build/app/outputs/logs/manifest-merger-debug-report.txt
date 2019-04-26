@@ -1,0 +1,232 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:1:1-44:12
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:1:1-44:12
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:1:1-44:12
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:1:1-44:12
+MERGED from [:location_permissions] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/location_permissions/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-7:12
+MERGED from [:geolocator] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/geolocator/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-10:12
+MERGED from [:google_api_availability] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/google_api_availability/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.multidex:multidex:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/multidex-2.0.0.aar/b21a8061cb6a353b5a621d484b87ef2f/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.1.aar/fbf355894a6ad0a01cfff4891242f81a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-location-16.0.0.aar/715ffe642a3ba1c9cb59205bc494d9ac/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/a43ba5e8e9fe8d532192e6cb49d847fc/AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/0a40c6a90dc385e240ff13ad16bbf69c/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-16.0.1.aar/d51f5b48e01b35bdf08b6d090afd42a4/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/500c9401943c9aa796edc118861a2208/AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0-rc01] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/legacy-support-v4-1.0.0-rc01.aar/be5c581e51b2e0f803f55f12cfdbab23/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/fragment-1.0.0.aar/15d5749ad7b749741bb05881dff829c8/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/vectordrawable-animated-1.0.0.aar/9e6c790be8055fb62d4761ea0a38fc59/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/legacy-support-core-ui-1.0.0.aar/9f802492be81db86c9e16469b9ca000a/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/legacy-support-core-utils-1.0.0.aar/b1f394ebcdeeb34ce49d1112a6a4e7f4/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/vectordrawable-1.0.1.aar/ef824201446a65f050bed489fdce91f0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/loader-1.0.0.aar/60a3c635b40b8c5210e624853a9e62d1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/viewpager-1.0.0.aar/3127c4382db5076f883a6d8555d3609c/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-1.0.0.aar/901985ab1feda3f44780c880767a36b4/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/drawerlayout-1.0.0.aar/25e7612e64c3d79b5df9a7df4fbc62f0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-1.0.0.aar/a8bdca79b2ea86ef4a6beff5de46a166/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/customview-1.0.0.aar/8c633dd48105048386b95c6e039a0f0d/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-1.0.0.aar/31b351287a84ebd8cc25812e558f5c49/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-1.0.0.aar/e706026dea6c495d65f886a1595c66b9/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0-rc01] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/media-1.0.0-rc01.aar/23542049e00277313a90e42ad7213811/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/cd1e92d65b3a7c4963ce73f29a9e39ed/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.0.0.aar/ffc9cea544e9c019974c4fa40d489b6b/AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-runtime-2.0.0.aar/46cffdd29cf2e660b3d633f7fd20a3ce/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/cursoradapter-1.0.0.aar/0595f86698739af632d22fa1d1914ccf/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-livedata-2.0.0.aar/c1bd868b9e32893110cc44761f3fe948/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-livedata-core-2.0.0.aar/9214b01a622d0ce57cf80e5a7368d337/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/core-runtime-2.0.0.aar/bbe81d65a2d4567fb24fa4c7b23387bc/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/documentfile-1.0.0.aar/3bfc5f92a1097bedefcce0d75c07171d/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-1.0.0.aar/13a6f8e4caef95ee28715ba07e9b6cc7/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/print-1.0.0.aar/07ea58727253c8e4d21fa04153f27610/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-viewmodel-2.0.0.aar/ab2d29570d33b779a8324c60f853cefa/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/interpolator-1.0.0.aar/f2ebaed6338a3768cc3fcba589516705/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:1:1-44:12
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:1:1-44:12
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:1:1-44:12
+	package
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:2:5-49
+		INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:1:1-44:12
+		INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:1:1-44:12
+		INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:1:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:8:5-66
+	android:name
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:8:22-64
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:12:5-78
+MERGED from [:geolocator] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/geolocator/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-79
+MERGED from [:geolocator] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/geolocator/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-79
+	android:name
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:12:22-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:13:5-80
+MERGED from [:geolocator] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/geolocator/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:8:5-81
+MERGED from [:geolocator] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/geolocator/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:8:5-81
+	android:name
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:13:22-78
+application
+ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:20:5-43:19
+MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-location-16.0.0.aar/715ffe642a3ba1c9cb59205bc494d9ac/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-location-16.0.0.aar/715ffe642a3ba1c9cb59205bc494d9ac/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/a43ba5e8e9fe8d532192e6cb49d847fc/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/a43ba5e8e9fe8d532192e6cb49d847fc/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/0a40c6a90dc385e240ff13ad16bbf69c/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/0a40c6a90dc385e240ff13ad16bbf69c/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-16.0.1.aar/d51f5b48e01b35bdf08b6d090afd42a4/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-16.0.1.aar/d51f5b48e01b35bdf08b6d090afd42a4/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/500c9401943c9aa796edc118861a2208/AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/500c9401943c9aa796edc118861a2208/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.core:core:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/cd1e92d65b3a7c4963ce73f29a9e39ed/AndroidManifest.xml:22:5-89
+MERGED from [androidx.core:core:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/cd1e92d65b3a7c4963ce73f29a9e39ed/AndroidManifest.xml:22:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.0.0.aar/ffc9cea544e9c019974c4fa40d489b6b/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.0.0.aar/ffc9cea544e9c019974c4fa40d489b6b/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/cd1e92d65b3a7c4963ce73f29a9e39ed/AndroidManifest.xml:22:18-86
+	android:label
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:22:9-36
+	android:icon
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:23:9-43
+	android:name
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:21:9-57
+activity#app.refrigerant.trakref.trakrefapp.MainActivity
+ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:24:9-42:20
+	android:launchMode
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:26:13-43
+	android:hardwareAccelerated
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:29:13-47
+	android:windowSoftInputMode
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:30:13-55
+	android:configChanges
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:28:13-137
+	android:theme
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:27:13-47
+	android:name
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:25:13-41
+meta-data#io.flutter.app.android.SplashScreenUntilFirstFrame
+ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:35:13-37:40
+	android:value
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:37:17-37
+	android:name
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:36:17-82
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:38:13-41:29
+action#android.intent.action.MAIN
+ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:39:17-68
+	android:name
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:39:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:40:17-76
+	android:name
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml:40:27-74
+uses-sdk
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+MERGED from [:location_permissions] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/location_permissions/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:location_permissions] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/location_permissions/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:geolocator] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/geolocator/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:geolocator] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/geolocator/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:google_api_availability] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/google_api_availability/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:google_api_availability] /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/google_api_availability/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [androidx.multidex:multidex:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/multidex-2.0.0.aar/b21a8061cb6a353b5a621d484b87ef2f/AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/multidex-2.0.0.aar/b21a8061cb6a353b5a621d484b87ef2f/AndroidManifest.xml:20:5-43
+MERGED from [androidx.appcompat:appcompat:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.1.aar/fbf355894a6ad0a01cfff4891242f81a/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.1.aar/fbf355894a6ad0a01cfff4891242f81a/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-location-16.0.0.aar/715ffe642a3ba1c9cb59205bc494d9ac/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-location-16.0.0.aar/715ffe642a3ba1c9cb59205bc494d9ac/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/a43ba5e8e9fe8d532192e6cb49d847fc/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/a43ba5e8e9fe8d532192e6cb49d847fc/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/0a40c6a90dc385e240ff13ad16bbf69c/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/0a40c6a90dc385e240ff13ad16bbf69c/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-16.0.1.aar/d51f5b48e01b35bdf08b6d090afd42a4/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-16.0.1.aar/d51f5b48e01b35bdf08b6d090afd42a4/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/500c9401943c9aa796edc118861a2208/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/500c9401943c9aa796edc118861a2208/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0-rc01] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/legacy-support-v4-1.0.0-rc01.aar/be5c581e51b2e0f803f55f12cfdbab23/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0-rc01] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/legacy-support-v4-1.0.0-rc01.aar/be5c581e51b2e0f803f55f12cfdbab23/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/fragment-1.0.0.aar/15d5749ad7b749741bb05881dff829c8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/fragment-1.0.0.aar/15d5749ad7b749741bb05881dff829c8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/vectordrawable-animated-1.0.0.aar/9e6c790be8055fb62d4761ea0a38fc59/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/vectordrawable-animated-1.0.0.aar/9e6c790be8055fb62d4761ea0a38fc59/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/legacy-support-core-ui-1.0.0.aar/9f802492be81db86c9e16469b9ca000a/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/legacy-support-core-ui-1.0.0.aar/9f802492be81db86c9e16469b9ca000a/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/legacy-support-core-utils-1.0.0.aar/b1f394ebcdeeb34ce49d1112a6a4e7f4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/legacy-support-core-utils-1.0.0.aar/b1f394ebcdeeb34ce49d1112a6a4e7f4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/vectordrawable-1.0.1.aar/ef824201446a65f050bed489fdce91f0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/vectordrawable-1.0.1.aar/ef824201446a65f050bed489fdce91f0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/loader-1.0.0.aar/60a3c635b40b8c5210e624853a9e62d1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/loader-1.0.0.aar/60a3c635b40b8c5210e624853a9e62d1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/viewpager-1.0.0.aar/3127c4382db5076f883a6d8555d3609c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/viewpager-1.0.0.aar/3127c4382db5076f883a6d8555d3609c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-1.0.0.aar/901985ab1feda3f44780c880767a36b4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-1.0.0.aar/901985ab1feda3f44780c880767a36b4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/drawerlayout-1.0.0.aar/25e7612e64c3d79b5df9a7df4fbc62f0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/drawerlayout-1.0.0.aar/25e7612e64c3d79b5df9a7df4fbc62f0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-1.0.0.aar/a8bdca79b2ea86ef4a6beff5de46a166/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-1.0.0.aar/a8bdca79b2ea86ef4a6beff5de46a166/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/customview-1.0.0.aar/8c633dd48105048386b95c6e039a0f0d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/customview-1.0.0.aar/8c633dd48105048386b95c6e039a0f0d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-1.0.0.aar/31b351287a84ebd8cc25812e558f5c49/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-1.0.0.aar/31b351287a84ebd8cc25812e558f5c49/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-1.0.0.aar/e706026dea6c495d65f886a1595c66b9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-1.0.0.aar/e706026dea6c495d65f886a1595c66b9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0-rc01] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/media-1.0.0-rc01.aar/23542049e00277313a90e42ad7213811/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0-rc01] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/media-1.0.0-rc01.aar/23542049e00277313a90e42ad7213811/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/cd1e92d65b3a7c4963ce73f29a9e39ed/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/cd1e92d65b3a7c4963ce73f29a9e39ed/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.0.0.aar/ffc9cea544e9c019974c4fa40d489b6b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.0.0.aar/ffc9cea544e9c019974c4fa40d489b6b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-runtime-2.0.0.aar/46cffdd29cf2e660b3d633f7fd20a3ce/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-runtime-2.0.0.aar/46cffdd29cf2e660b3d633f7fd20a3ce/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/cursoradapter-1.0.0.aar/0595f86698739af632d22fa1d1914ccf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/cursoradapter-1.0.0.aar/0595f86698739af632d22fa1d1914ccf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-livedata-2.0.0.aar/c1bd868b9e32893110cc44761f3fe948/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-livedata-2.0.0.aar/c1bd868b9e32893110cc44761f3fe948/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-livedata-core-2.0.0.aar/9214b01a622d0ce57cf80e5a7368d337/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-livedata-core-2.0.0.aar/9214b01a622d0ce57cf80e5a7368d337/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/core-runtime-2.0.0.aar/bbe81d65a2d4567fb24fa4c7b23387bc/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/core-runtime-2.0.0.aar/bbe81d65a2d4567fb24fa4c7b23387bc/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/documentfile-1.0.0.aar/3bfc5f92a1097bedefcce0d75c07171d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/documentfile-1.0.0.aar/3bfc5f92a1097bedefcce0d75c07171d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-1.0.0.aar/13a6f8e4caef95ee28715ba07e9b6cc7/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-1.0.0.aar/13a6f8e4caef95ee28715ba07e9b6cc7/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/print-1.0.0.aar/07ea58727253c8e4d21fa04153f27610/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/print-1.0.0.aar/07ea58727253c8e4d21fa04153f27610/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-viewmodel-2.0.0.aar/ab2d29570d33b779a8324c60f853cefa/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/lifecycle-viewmodel-2.0.0.aar/ab2d29570d33b779a8324c60f853cefa/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/interpolator-1.0.0.aar/f2ebaed6338a3768cc3fcba589516705/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/interpolator-1.0.0.aar/f2ebaed6338a3768cc3fcba589516705/AndroidManifest.xml:20:5-44
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/android/app/src/main/AndroidManifest.xml
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/a43ba5e8e9fe8d532192e6cb49d847fc/AndroidManifest.xml:23:9-26:75
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/a43ba5e8e9fe8d532192e6cb49d847fc/AndroidManifest.xml:25:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/a43ba5e8e9fe8d532192e6cb49d847fc/AndroidManifest.xml:26:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/a43ba5e8e9fe8d532192e6cb49d847fc/AndroidManifest.xml:24:13-79
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/500c9401943c9aa796edc118861a2208/AndroidManifest.xml:23:9-25:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/500c9401943c9aa796edc118861a2208/AndroidManifest.xml:25:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:16.0.1] /Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/500c9401943c9aa796edc118861a2208/AndroidManifest.xml:24:13-58
