@@ -27,10 +27,15 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
   bool _isCylindersLoaded = false;
   bool _isLocationsLoaded = false;
 
-  // List of service events
+  // List values in the 3 tabs (Service Events, Cylinders, Locations)
   List<WorkOrder> _serviceEventsResult;
   List<Location> _locationsResult;
   List<Asset> _assetsResult;
+
+  // Filtered
+  List<WorkOrder> _filteredServiceEventsResult;
+  List<Location> _filteredLocationsResult;
+  List<Asset> _fiteredAssetsResult;
 
   getServiceEvents(int locationID) {
     // Below for showing the GET Work Orders
@@ -135,7 +140,6 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
           AppOutlineButton(
             title: "Filter",
             onPressed: () {
-              print("this is a test");
               // Show the filter options
               Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
                 return SearchFilter(

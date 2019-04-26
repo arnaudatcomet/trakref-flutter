@@ -36,44 +36,34 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
             [hcConfig setHideContactSupport:true];
             
             ZDKRequestUiConfiguration * requestConfig = [ZDKRequestUiConfiguration new];
+            
             requestConfig.subject = @"iOS Ticket";
             UIViewController *helpCenter = [ZDKHelpCenterUi buildHelpCenterOverviewUiWithConfigs:@[requestConfig]];
-
-            self.navigationController.navigationBarHidden = false;
             [self.navigationController pushViewController:helpCenter animated:true];
-        } else {
+        }
+        else if ([@"showZDTicket" isEqualToString:call.method]) {
+            NSString * message = call.arguments[@"Message"];
+            NSString * subject = call.arguments[@"Subject"];
+            
+            ZDKCreateRequest * request = [[ZDKCreateRequest alloc] init];
+            request.subject = subject;
+            request.requestDescription = message;
+            request.tags = [NSArray array];
+            
+            ZDKRequestProvider * provider = [[ZDKRequestProvider alloc] init];
+            [provider createRequest:request withCallback:^(id result, NSError *error) {
+                NSLog(@"result %@", [NSString stringWithFormat:@"%@", result]);
+                NSLog(@"localizedDescription %@", [NSString stringWithFormat:@"%@", [error localizedDescription]]);
+//                result(@"Test");
+            }];
+        }
+        else {
             result(FlutterMethodNotImplemented);
         }
     }];
     
     [GeneratedPluginRegistrant  registerWithRegistry:self];
     return [super  application:application didFinishLaunchingWithOptions:launchOptions];
-    
-    /*
-    FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
-    FlutterMethodChannel* nativeChannel = [FlutterMethodChannel
-                                           methodChannelWithName:@"flutter.native/helper"
-                                           binaryMessenger:controller];
-    __weak  typeof(self) weakSelf = self;
-    [nativeChannel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
-        if ([@"helloFromNativeCode"  isEqualToString:call.method]) {
-            NSString *strNative = [weakSelf helloFromNativeCode];
-            
-            // Try to present something
-            UIViewController * blankVC = [[UIViewController alloc] init];
-            blankVC.view.frame = controller.view.frame;
-            blankVC.view.backgroundColor = [UIColor redColor];
-            
-            result(strNative);
-        } else {
-            result(FlutterMethodNotImplemented);
-        }
-    }];
-    
-    [GeneratedPluginRegistrant  registerWithRegistry:self];
-    return [super  application:application didFinishLaunchingWithOptions:launchOptions];
-    */
-    
 }
 - (NSString *)helloFromNativeCode {
     return  @"Hello From Native IOS Code";

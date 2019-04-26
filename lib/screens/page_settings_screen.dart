@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:trakref_app/widget/loading_widget.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart' show CalendarCarousel;
 //import 'package:url_launcher/url_launcher.dart';
 //import 'package:barcode_scan/barcode_scan.dart';
 
@@ -60,12 +58,12 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
 
 
   // Get an image from picker
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      _image = image;
-    });
-  }
+//  Future getImage() async {
+//    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+//    setState(() {
+//      _image = image;
+//    });
+//  }
 
   // Call iOS native
 //  Future<void> responseFromNativeCode() async {
@@ -199,7 +197,6 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
                       border: const UnderlineInputBorder(),
                       suffixIcon: new IconButton(icon: new Image.asset('assets/images/barcode-icon.png', height: 22),
                           onPressed: () {
-                        getImage();
                           })
                   ),
                 ),
@@ -243,31 +240,7 @@ class _PageSettingsScreensState extends State<PageSettingsScreens> {
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.0),
-                child: CalendarCarousel(
-                  todayTextStyle: Theme.of(context).textTheme.display1,
-                  iconColor: AppColors.blueTurquoise,
-                  onDayPressed: (DateTime date, List<String> events) {
-                    this.setState(() => _currentDate = date);
-                  },
-                  thisMonthDayBorderColor: Colors.grey,
-                  height: 420.0,
-                  selectedDateTime: _currentDate,
-                  daysHaveCircularBorder: true,
-                  weekdayTextStyle: TextStyle(
-                      color: AppColors.blueTurquoise,
-                      fontWeight: FontWeight.bold
-                  ),
-                  headerTextStyle: TextStyle(
-                      color: AppColors.lightGray
-                  ),
-                  inactiveDaysTextStyle: TextStyle(
-                      color: AppColors.lightGray
-                  ),
-                  daysTextStyle: TextStyle(
-                      color: AppColors.gray,
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
+                child: Placeholder(),
               ),
             ],
           )
