@@ -1,9 +1,15 @@
+import 'dart:async';
+
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 
 class GeolocationService {
   static final GeolocationService _shared = new GeolocationService._internal();
-  Location _locationService = new Location();
+  Location locationService = new Location();
+  LocationData _startLocation;
+  LocationData _currentLocation;
+  bool _permission = false;
+  StreamSubscription<LocationData> _locationSubscription;
 
   factory GeolocationService() {
     return _shared;
@@ -11,22 +17,44 @@ class GeolocationService {
 
   GeolocationService._internal();
 
-  // Need to
+  // Platform messages are asynchronous, so we initialize in an async method.
   initPlatformState() async {
-  }
+    await locationService.changeSettings(accuracy: LocationAccuracy.HIGH, interval: 1000);
 
-  getCurrentLocation() async {
-//    await _locationService.changeSettings(accuracy: LocationAccuracy.HIGH, interval: 1000);
-//
-//    // Platform messages may fail, so we use a try/catch PlatformException.
-//    try {
-//      LocationData location;
-//      await currentLocation.getLocation();
-//    } on PlatformException catch (e) {
-//      if (e.code == 'PERMISSION_DENIED') {
-//        error = 'Permission denied';
-//      }
-//      currentLocation = null;
-//    }
+    LocationData location;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      bool serviceStatus = await locationService.serviceEnabled();
+      print("Service status: $serviceStatus");
+      if (serviceStatus) {
+        _permission = await locationService.requestPermission();
+        print("Permission: $_permission");
+        if (_permission) {
+          location = await locationService.getLocation();
+          _locationSubscription = locationService.onLocationChanged().listen((LocationData result) async {
+            print("latitude : ${result.latitude}");
+            print("longitude : ${result.longitude}");
+          });
+        }
+      } else {
+        bool serviceStatusResult = await locationService.requestService();
+        print("Service status activated after request: $serviceStatusResult");
+        if(serviceStatusResult){
+          initPlatformState();
+        }
+      }
+    } on PlatformException catch (e) {
+      print(e);
+      if (e.code == 'PERMISSION_DENIED') {
+        // Need to print that error
+//        error = e.message;
+      } else if (e.code == 'SERVICE_STATUS_ERROR') {
+        // Need to print that error
+//        error = e.message;
+      }
+      location = null;
+    }
+
+    _startLocation = location;
   }
 }

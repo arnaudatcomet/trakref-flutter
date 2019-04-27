@@ -4,6 +4,7 @@ import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api_service.dart';
+import 'package:trakref_app/repository/location_service.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/search/filter/result_search_filter.dart';
 import 'package:trakref_app/screens/search/service_event/result_asset.dart';
@@ -140,6 +141,8 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
           AppOutlineButton(
             title: "Filter",
             onPressed: () {
+              GeolocationService().initPlatformState();
+              /*
               // Show the filter options
               Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
                 return SearchFilter(
@@ -148,6 +151,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                   },
                 );
               }));
+              */
             },
           ),
           Row(

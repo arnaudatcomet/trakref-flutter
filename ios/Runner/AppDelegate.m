@@ -11,6 +11,7 @@
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Initialize Zendesk
+    /*
     [ZDCChat initializeWithAccountKey:@"1yFNgZ6kod4ZkkOuQFcp7rpbFD5WVBkx"];
     
     [ZDKZendesk initializeWithAppId:@"5cb37f1d2a269a1150ab56965c7ace065e0b480a6234147d" clientId:@"mobile_sdk_client_f4a9ccf9588ab41aae56" zendeskUrl:@"https://arnaud.zendesk.com"];
@@ -61,12 +62,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
             result(FlutterMethodNotImplemented);
         }
     }];
+    */
     
+    // Note from Arnaud : create a 'FlutterMethodChannel' instance above will grab all the events for geolocation, which we want to avoid
     [GeneratedPluginRegistrant  registerWithRegistry:self];
     return [super  application:application didFinishLaunchingWithOptions:launchOptions];
-}
-- (NSString *)helloFromNativeCode {
-    return  @"Hello From Native IOS Code";
 }
 
 @end
