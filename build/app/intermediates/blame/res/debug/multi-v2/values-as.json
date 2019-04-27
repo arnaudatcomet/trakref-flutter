@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-as/values-as.xml",
+            "map": [
+                {
+                    "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/b25d05eba3086a06623ac98f42c87a88/res/values-as/values-as.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        }
+    ]
+}

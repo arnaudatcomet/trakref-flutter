@@ -1,9 +1,7 @@
 package io.flutter.plugins;
 
 import io.flutter.plugin.common.PluginRegistry;
-import com.baseflow.flutter.plugin.geolocator.GeolocatorPlugin;
-import com.baseflow.googleapiavailability.GoogleApiAvailabilityPlugin;
-import com.baseflow.location_permissions.LocationPermissionsPlugin;
+import com.lyokone.location.LocationPlugin;
 
 /**
  * Generated file. Do not edit.
@@ -13,9 +11,7 @@ public final class GeneratedPluginRegistrant {
     if (alreadyRegisteredWith(registry)) {
       return;
     }
-    GeolocatorPlugin.registerWith(registry.registrarFor("com.baseflow.flutter.plugin.geolocator.GeolocatorPlugin"));
-    GoogleApiAvailabilityPlugin.registerWith(registry.registrarFor("com.baseflow.googleapiavailability.GoogleApiAvailabilityPlugin"));
-    LocationPermissionsPlugin.registerWith(registry.registrarFor("com.baseflow.location_permissions.LocationPermissionsPlugin"));
+    LocationPlugin.registerWith(registry.registrarFor("com.lyokone.location.LocationPlugin"));
   }
 
   private static boolean alreadyRegisteredWith(PluginRegistry registry) {
