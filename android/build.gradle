@@ -10,12 +10,14 @@ buildscript {
 //        classpath 'com.google.gms:google-services:4.0.0'
 
         // Flutter Auth
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        // (working one)
+//        classpath 'com.android.tools.build:gradle:3.1.2'
 
-        // Add the google service classpath
-        classpath 'com.google.gms:google-services:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.google.gms:google-services:4.2.0'
 
-//        implementation 'com.android.support:appcompat-v7:28.0.0'
+        // Add the google service classpath (working one)
+//        classpath 'com.google.gms:google-services:3.2.1'
     }
 
     subprojects {
