@@ -13,6 +13,8 @@ class ApiService {
   ApiService();
   final JsonDecoder _decoder = new JsonDecoder();
 
+  static String baseURL = "http://apitest.trakref.com";
+
   // By default for our test
   String _userID = 'echappell';
   String _token = '5d5ac1ae-0213-4e77-9ee7-e3a76e614909';
@@ -74,19 +76,11 @@ class ApiService {
     print('basicAuth $basicAuth');
     return http.get(url, headers: {"API-Key": "$apiKey", "authorization":"$basicAuth"}
     );
+  }
 
-    /*
-    String basicAuth = 'Basic '+ base64Encode(utf8.encode('$username:$password'));
-
-    return await http.get(url, headers: headers).then((http.Response response) {
-      final res = response.body;
-      dynamic resultMap = jsonDecode(res);
-      print("resultMap $resultMap");
-      InfoUser user = InfoUser.fromJson(resultMap);
-      return user;
-    });
-
-    */
+  Future<List> getLocationAroundMe(double lat, double long, double range) async {
+    String getLocationURL = "${ApiService.baseURL}/v3.21/geolocation?latitude=$lat&longitude=$long&range=$range";
+    return await getResult<Location>(getLocationURL);
   }
 
   Future<List> getResult<T>(String url) async {

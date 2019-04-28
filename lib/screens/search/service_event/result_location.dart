@@ -53,7 +53,8 @@ class _LocationCellResultWidgetState extends State<LocationCellResultWidget> {
 
 class LocationResultWidget extends StatefulWidget {
   final List<Location> locations;
-  LocationResultWidget({this.locations});
+  Function aroundMeActionHandle;
+  LocationResultWidget({this.locations, this.aroundMeActionHandle});
 
   @override
   _LocationResultWidgetState createState() => _LocationResultWidgetState();
@@ -67,7 +68,12 @@ class _LocationResultWidgetState extends State<LocationResultWidget> {
         itemCount: widget.locations.length+1,
         itemBuilder: (context, index) {
           if (index == 0) {
-            return LocationHeaderTile();
+            return GestureDetector(
+              onTap: () {
+                widget.aroundMeActionHandle();
+              },
+              child: LocationHeaderTile()
+            );
           }
 
           Location loc = widget.locations[index-1];
@@ -78,16 +84,6 @@ class _LocationResultWidgetState extends State<LocationResultWidget> {
             physicalCity: loc.physicalCity,
             physicalState: loc.physicalState,
           );
-//          GeolocationService().calculateDistance(loc.lat, loc.long).then((distance) {
-//            print('${loc.name} has $distance meters from here');
-//            return HomeCellWidget(
-//                line1: '$distance meters',
-//                line2: '${loc.name}',
-//                line3: '${loc.physicalAddress1 ?? ""}',
-//                line4: '${loc.physicalCity ?? ""}, ${loc.physicalState ?? ""}',
-//                cellType: HomeCellType.Normal
-//            );
-//          });
         }
     );
 
@@ -96,44 +92,6 @@ class _LocationResultWidgetState extends State<LocationResultWidget> {
     return (widget.locations == null) ? Container() : locationsWidget;
   }
 }
-
-/*
-class LocationResultWidget extends StatelessWidget {
-  final List<Location> locations;
-  LocationResultWidget({this.locations});
-
-  @override
-  Widget build(BuildContext context) {
-    // List of locations
-    ListView locationsWidget = ListView.builder(
-        itemCount: locations.length+1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return LocationHeaderTile();
-          }
-
-          Location loc = locations[index-1];
-          GeolocationService().calculateDistance(loc.lat, loc.long).then((distance) {
-            print('${loc.name} has $distance meters from here');
-            return HomeCellWidget(
-                line1: '$distance meters',
-                line2: '${loc.name}',
-                line3: '${loc.physicalAddress1 ?? ""}',
-                line4: '${loc.physicalCity ?? ""}, ${loc.physicalState ?? ""}',
-                cellType: HomeCellType.Normal
-            );
-           });
-        }
-    );
-
-    // Need to create a header to allow geolocation and list of locations
-
-
-
-    return (locations == null) ? Container() : locationsWidget;
-  }
-}
-*/
 
 class LocationHeaderTile extends ListTile {
   @override

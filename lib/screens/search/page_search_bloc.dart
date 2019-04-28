@@ -160,7 +160,6 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
           AppOutlineButton(
             title: "Filter",
             onPressed: () {
-              /*
               // Show the filter options
               Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
                 return SearchFilter(
@@ -169,7 +168,6 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                   },
                 );
               }));
-              */
             },
           ),
           Row(
@@ -245,7 +243,21 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                   children: <Widget>[
                     (this._isServiceEventsLoaded == false ) ? FormBuild.buildLoader() : ServiceEventResultWidget(orders: _serviceEventsResult),
                     (this._isCylindersLoaded == false) ? FormBuild.buildLoader() : AssetResultWidget(assets: _assetsResult),
-                    (this._isLocationsLoaded == false ) ? FormBuild.buildLoader() : LocationResultWidget(locations: _locationsResult)
+                    (this._isLocationsLoaded == false ) ? FormBuild.buildLoader() : LocationResultWidget(
+                      locations: _locationsResult,
+                      aroundMeActionHandle: () {
+                        print("aroundMeActionHandle");
+                        double currentLatitude = GeolocationService().currentLocation.latitude;
+                        double currentLongitude = GeolocationService().currentLocation.longitude;
+//                        currentLatitude = 36.1642643;
+//                        currentLongitude = -86.7834718;
+                        ApiService().getLocationAroundMe(currentLatitude, currentLongitude, 100).then((locationResults) {
+                          setState(() {
+                            _locationsResult = locationResults;
+                          });
+                        });
+                      },
+                    )
                   ],
                 ),
               ),

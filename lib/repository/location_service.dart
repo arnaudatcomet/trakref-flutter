@@ -7,7 +7,7 @@ class GeolocationService {
   static final GeolocationService _shared = new GeolocationService._internal();
   Location locationService = new Location();
   LocationData _startLocation;
-  LocationData _currentLocation;
+  LocationData currentLocation;
   bool _permission = false;
   StreamSubscription<LocationData> _locationSubscription;
 
@@ -34,7 +34,7 @@ class GeolocationService {
           _locationSubscription = locationService.onLocationChanged().listen((LocationData result) async {
             print("latitude : ${result.latitude}");
             print("longitude : ${result.longitude}");
-            _currentLocation = result;
+            currentLocation = result;
           });
         }
       } else {
@@ -60,10 +60,10 @@ class GeolocationService {
   }
 
   Future<double> calculateDistance(double distantLat, double distantLong) async {
-    if (_currentLocation == null) {
+    if (currentLocation == null) {
       return 0;
     }
-    return await geolocation.Geolocator().distanceBetween(_currentLocation.latitude, _currentLocation.longitude,
+    return await geolocation.Geolocator().distanceBetween(currentLocation.latitude, currentLocation.longitude,
         distantLat, distantLong);
   }
 }
