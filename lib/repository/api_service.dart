@@ -80,6 +80,7 @@ class ApiService {
 
   Future<List> getLocationAroundMe(double lat, double long, double range) async {
     String getLocationURL = "${ApiService.baseURL}/v3.21/geolocation?latitude=$lat&longitude=$long&range=$range";
+    print("getLocationURL $getLocationURL");
     return await getResult<Location>(getLocationURL);
   }
 

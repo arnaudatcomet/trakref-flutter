@@ -1,7 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/models/workorder.dart';
 
 enum HomeCellType {StickerTODO, StickerCOMPLETE, StickerCYLINDER, Normal}
+
+class ServiceEventCellWidget extends StatelessWidget {
+  WorkOrder order;
+  ServiceEventCellWidget({this.order});
+
+  @override
+  Widget build(BuildContext context) {
+    if (order.workOrderStatusID == 1) {
+      return HomeCellWidget(
+          line1: '${order.workOrderNumber}',
+          line2: '${order.location}',
+          line3: '${order.instance}',
+          line4: 'TO DO',
+          cellType: HomeCellType.StickerTODO
+      );
+    }
+    else if (order.workOrderStatusID == 2) {
+      return HomeCellWidget(
+          line1: '${order.workOrderNumber}',
+          line2: '${order.location}',
+          line3: '${order.instance}',
+          line4: 'COMPLETE',
+          cellType: HomeCellType.StickerCOMPLETE
+      );
+    }
+    return Container();
+  }
+}
+
 
 class HomeCellWidget extends ListTile {
   String line1;

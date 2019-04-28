@@ -13,26 +13,9 @@ class ServiceEventResultWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           WorkOrder order = orders[index];
           print("order #$index orderNumber : ${order.workOrderNumber} location : ${order.location} instance : ${order.instance}");
-
-          if (order.workOrderStatusID == 1) {
-            return HomeCellWidget(
-                line1: '${order.workOrderNumber}',
-                line2: '${order.location}',
-                line3: '${order.instance}',
-                line4: 'TO DO',
-                cellType: HomeCellType.StickerTODO
-            );
-          }
-          else if (order.workOrderStatusID == 2) {
-            return HomeCellWidget(
-                line1: '${order.workOrderNumber}',
-                line2: '${order.location}',
-                line3: '${order.instance}',
-                line4: 'COMPLETE',
-                cellType: HomeCellType.StickerCOMPLETE
-            );
-          }
-          return Container();
+          return ServiceEventCellWidget(
+            order: order,
+          );
         }
     );
   }

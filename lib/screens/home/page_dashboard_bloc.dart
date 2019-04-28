@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/models/workorder.dart';
+import 'package:trakref_app/repository/api_service.dart';
+import 'package:trakref_app/widget/dropdown_widget.dart';
+import 'package:trakref_app/widget/home_cell_widget.dart';
 import 'package:trakref_app/widget/service_event_widget.dart';
 
-// Temporary models
-abstract class ListItem {}
-
-class HeadingItem implements ListItem {
-  final String heading;
-  HeadingItem(this.heading);
-}
-
-class ServiceEventItem implements ListItem {
-  final String line1;
-  final String line2;
-  final String line3;
-  final String line4;
-
-  final String status;
-
-  ServiceEventItem(this.line1, this.line2, this.line3, this.line4, this.status);
+class DashboardTitleTile extends StatelessWidget {
+  String title;
+  DashboardTitleTile({this.title});
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        title: Text(
+          title ?? "",
+          style: Theme.of(context).textTheme.title,
+        ),
+        trailing: const Icon(Icons.refresh)
+    );;
+  }
 }
 
 class PageDashboardBloc extends StatefulWidget {
@@ -27,77 +29,45 @@ class PageDashboardBloc extends StatefulWidget {
 }
 
 class _PageDashboardBlocState extends State<PageDashboardBloc> {
-  // Properties
-  final List<ListItem> items = [
-    HeadingItem('Assigned to you'),
-    ServiceEventItem('#186305', 'Chateau de Chappy', 'RACK', 'Brandon Sotelo', 'TO DO'),
-    ServiceEventItem('#6433', '#1000 COMMERCIAL TOWER', 'RACK', 'Brandon Sotelo', 'DONE'),
-    ServiceEventItem('#528', '#528 - Supermarket', 'RACK', 'Brandon Sotelo', 'DONE'),
-    HeadingItem('To Synchronize'),
-    ServiceEventItem('#263791', 'Chateau de Chappy', 'RACK', 'Brandon Sotelo', 'TO DO')
-  ];
+  bool _isServiceEventsLoaded = false;
+  List<WorkOrder> _serviceEventsResult;
 
-  // Item builder
-  ListTile makeTile(ListItem item) {
-    if (item is ServiceEventItem) {
-      print('message ${item.line1} / ${item.line2} / ${item.line3} / ${item.line4}');
-      return makeServiceEventTile(item);
-    }
-    else if (item is HeadingItem) {
-      print('heading ${item.heading}');
-      return makeHeaderTile(item);
-    }
-    return makeServiceEventTile(item);
+  getServiceEvents(int locationID) {
+    // Below for showing the GET Work Orders
+    ApiService api = ApiService();
+    var baseUrl = "$baseURL/WorkOrders?locationID=$locationID";
+    api.getResult<WorkOrder>(baseUrl).then((results) {
+      _isServiceEventsLoaded = true;
+      setState(() {
+        _serviceEventsResult = results;
+      });
+    });
   }
 
-  ListTile makeHeaderTile(HeadingItem item) => ListTile(
-    contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-    title: Text(
-      item.heading,
-      style: Theme.of(context).textTheme.title,
-    ),
-    trailing: const Icon(Icons.refresh)
-  );
-
-  ListTile makeServiceEventTile(ServiceEventItem item) => ListTile(
-    title: Text(
-      item.line1,
-      style: Theme.of(context).textTheme.display1,
-    ),
-    subtitle: Text(
-      item.line2,
-      style: Theme.of(context).textTheme.display2,
-    ),
-  );
+  @override
+  void initState() {
+    int locationID = 47658;
+    getServiceEvents(locationID);
+    super.initState();
+  }
 
   // Renderer
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView.builder(
-          shrinkWrap: true,
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            final item = items[index];
-            if (item is HeadingItem) {
-              return new Container(
-                decoration: BoxDecoration(
-                  border: new Border(
-                    bottom: new BorderSide(
-                      color: AppColors.lightGray,
-                      width: 0.3
-                    )
-                  )
-                ),
-                child: this.makeHeaderTile(item),
-              );
-            }
-            else if (item is ServiceEventItem) {
-              return ServiceItemTile(item.line1, item.line2, item.line3, item.line4);
-            }
+      body: (_isServiceEventsLoaded == false) ? FormBuild.buildLoader() : ListView.builder(
+    itemCount: _serviceEventsResult.length + 1,
+        itemBuilder: (context, index) {
+          if (index == 0 ) {
+            return DashboardTitleTile(title: 'Assigned to you');
           }
-      )
+          final item = _serviceEventsResult[index-1];
+          return ServiceEventCellWidget(
+            order: item,
+          );
+        }
+    )
     );
   }
 }
