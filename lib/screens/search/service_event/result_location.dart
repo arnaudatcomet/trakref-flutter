@@ -1,9 +1,103 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/location.dart';
+import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:trakref_app/widget/home_cell_widget.dart';
+import 'package:trakref_app/repository/location_service.dart';
 
+class LocationCellResultWidget extends StatefulWidget {
+  final double locationLatitude;
+  final double locationLongitude;
+  final String locationName;
+  final String physicalAddress1;
+  final String physicalCity;
+  final String physicalState;
 
+  double distance;
+
+  LocationCellResultWidget({this.locationLatitude, this.locationLongitude,
+    this.locationName, this.physicalAddress1, this.physicalCity,
+    this.physicalState});
+
+  @override
+  _LocationCellResultWidgetState createState() => _LocationCellResultWidgetState();
+}
+
+class _LocationCellResultWidgetState extends State<LocationCellResultWidget> {
+  @override
+  void initState() {
+    GeolocationService().calculateDistance(widget.locationLatitude, widget.locationLongitude).then((distance) {
+      print("calculateDistance = $distance meters");
+      setState((){
+        widget.distance = distance;
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget locationCell = HomeCellWidget(
+        line1: (widget.distance == null) ? "" : '${widget.distance.toStringAsFixed(0)} meters',
+        line2: '${widget.locationName}',
+        line3: '${widget.physicalAddress1 ?? ""}',
+        line4: '${widget.physicalCity ?? ""}, ${widget.physicalState ?? ""}',
+        cellType: HomeCellType.Normal
+    );
+
+    print('build ${widget.locationName} > ${widget.distance} meters');
+    return locationCell;
+  }
+}
+
+class LocationResultWidget extends StatefulWidget {
+  final List<Location> locations;
+  LocationResultWidget({this.locations});
+
+  @override
+  _LocationResultWidgetState createState() => _LocationResultWidgetState();
+}
+
+class _LocationResultWidgetState extends State<LocationResultWidget> {
+  @override
+  Widget build(BuildContext context) {
+    // List of locations
+    ListView locationsWidget = ListView.builder(
+        itemCount: widget.locations.length+1,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return LocationHeaderTile();
+          }
+
+          Location loc = widget.locations[index-1];
+          return LocationCellResultWidget(locationLatitude: loc.lat,
+            locationLongitude: loc.long,
+            locationName: loc.name,
+            physicalAddress1: loc.physicalAddress1,
+            physicalCity: loc.physicalCity,
+            physicalState: loc.physicalState,
+          );
+//          GeolocationService().calculateDistance(loc.lat, loc.long).then((distance) {
+//            print('${loc.name} has $distance meters from here');
+//            return HomeCellWidget(
+//                line1: '$distance meters',
+//                line2: '${loc.name}',
+//                line3: '${loc.physicalAddress1 ?? ""}',
+//                line4: '${loc.physicalCity ?? ""}, ${loc.physicalState ?? ""}',
+//                cellType: HomeCellType.Normal
+//            );
+//          });
+        }
+    );
+
+    // Need to create a header to allow geolocation and list of locations
+
+    return (widget.locations == null) ? Container() : locationsWidget;
+  }
+}
+
+/*
 class LocationResultWidget extends StatelessWidget {
   final List<Location> locations;
   LocationResultWidget({this.locations});
@@ -19,14 +113,16 @@ class LocationResultWidget extends StatelessWidget {
           }
 
           Location loc = locations[index-1];
-
-          return HomeCellWidget(
-              line1: '',
-              line2: '${loc.name}',
-              line3: '${loc.physicalAddress1 ?? ""}',
-              line4: '${loc.physicalCity ?? ""}, ${loc.physicalState ?? ""}',
-              cellType: HomeCellType.Normal
-          );
+          GeolocationService().calculateDistance(loc.lat, loc.long).then((distance) {
+            print('${loc.name} has $distance meters from here');
+            return HomeCellWidget(
+                line1: '$distance meters',
+                line2: '${loc.name}',
+                line3: '${loc.physicalAddress1 ?? ""}',
+                line4: '${loc.physicalCity ?? ""}, ${loc.physicalState ?? ""}',
+                cellType: HomeCellType.Normal
+            );
+           });
         }
     );
 
@@ -37,6 +133,7 @@ class LocationResultWidget extends StatelessWidget {
     return (locations == null) ? Container() : locationsWidget;
   }
 }
+*/
 
 class LocationHeaderTile extends ListTile {
   @override

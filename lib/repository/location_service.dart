@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:geolocator/geolocator.dart' as geolocation;
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 
@@ -34,6 +34,7 @@ class GeolocationService {
           _locationSubscription = locationService.onLocationChanged().listen((LocationData result) async {
             print("latitude : ${result.latitude}");
             print("longitude : ${result.longitude}");
+            _currentLocation = result;
           });
         }
       } else {
@@ -56,5 +57,13 @@ class GeolocationService {
     }
 
     _startLocation = location;
+  }
+
+  Future<double> calculateDistance(double distantLat, double distantLong) async {
+    if (_currentLocation == null) {
+      return 0;
+    }
+    return await geolocation.Geolocator().distanceBetween(_currentLocation.latitude, _currentLocation.longitude,
+        distantLat, distantLong);
   }
 }

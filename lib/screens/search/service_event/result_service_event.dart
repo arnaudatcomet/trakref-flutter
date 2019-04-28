@@ -12,6 +12,8 @@ class ServiceEventResultWidget extends StatelessWidget {
         itemCount: orders.length,
         itemBuilder: (context, index) {
           WorkOrder order = orders[index];
+          print("order #$index orderNumber : ${order.workOrderNumber} location : ${order.location} instance : ${order.instance}");
+
           if (order.workOrderStatusID == 1) {
             return HomeCellWidget(
                 line1: '${order.workOrderNumber}',

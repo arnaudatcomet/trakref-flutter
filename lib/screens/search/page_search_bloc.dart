@@ -53,6 +53,21 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
     });
   }
 
+  void getAllServiceEvents() {
+    // Below test for showing the GET Work Orders
+    ApiService api = ApiService();
+    var baseUrl = "https://apitest.trakref.com/v3.21/WorkOrders/GetByInstance";
+    api.getResult<WorkOrder>(baseUrl).then((results) {
+      _isServiceEventsLoaded = true;
+      for (WorkOrder order in results) {
+        print("> ${order.workOrderNumber}");
+        setState(() {
+          _serviceEventsResult = results;
+        });
+      }
+    });
+  }
+
   getLocations() {
     // Below for showing the GET Work Orders
     ApiService api = ApiService();
@@ -85,11 +100,15 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
 
   @override
   void initState() {
+    // Instantiate the current location
+    GeolocationService().initPlatformState();
+
     // We probably need to move that to multiple locations IDs
     int locationID = 47658;
 
     // Below for showing the GET Work Orders
     getServiceEvents(locationID);
+//    getAllServiceEvents();
 
     // Showing the Locations
     getLocations();
@@ -141,7 +160,6 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
           AppOutlineButton(
             title: "Filter",
             onPressed: () {
-              GeolocationService().initPlatformState();
               /*
               // Show the filter options
               Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
