@@ -16,12 +16,12 @@ class PageProfileDetailBloc extends StatefulWidget {
 class _PageProfileDetailBloc extends State<PageProfileDetailBloc> {
   bool _isLoaded = false;
   InfoUser user = null;
+  ApiService service = ApiService();
 
   @override
   void initState() {
     super.initState();
 
-    ApiService service = ApiService();
     final String loginURL = "https://api.trakref.com/v3.21/login";
 
     String username = 'echappell';
@@ -98,6 +98,13 @@ class _PageProfileDetailBloc extends State<PageProfileDetailBloc> {
       ],
     );
   }
+
+  @override
+  void dispose() {
+    service.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
