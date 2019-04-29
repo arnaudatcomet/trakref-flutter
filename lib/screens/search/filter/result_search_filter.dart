@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/repository/preferences_service.dart';
 import 'package:trakref_app/widget/button_widget.dart';
-
-enum SearchFilterOptions {
-  AssignedToMe, AroundMe, Opened
-}
+import 'package:trakref_app/models/search_filter_options.dart';
 
 typedef SearchFilterDelegate = void Function(List<SearchFilterOptions> options);
 
-
 class SearchFilter extends StatefulWidget {
-  bool assignedToMe = false;
-  bool aroundMe = false;
-  bool opened = false;
   SearchFilterDelegate delegate;
 
   SearchFilter({@required this.delegate});
@@ -23,6 +17,37 @@ class SearchFilter extends StatefulWidget {
 
 class _SearchFilterState extends State<SearchFilter> {
   bool exampleValue = true;
+  bool aroundMeFilterValue = false;
+  bool assignedToMeFilterValue = false;
+  bool openedFilterValue = false;
+  FilterPreferenceService prefs =  FilterPreferenceService();
+
+  @override
+  void initState() {
+    prefs.getValues(SearchFilterOptions.AroundMe).then((aroundMeValue){
+      setState(() {
+        print("SearchFilterOptions.AroundMe $aroundMeValue");
+        aroundMeFilterValue = aroundMeValue;
+      });
+    });
+
+    prefs.getValues(SearchFilterOptions.AssignedToMe).then((assignedToMeValue){
+      setState(() {
+        print("SearchFilterOptions.AssignedToMe $assignedToMeValue");
+      assignedToMeFilterValue = assignedToMeValue;
+      });
+    });
+
+    prefs.getValues(SearchFilterOptions.Opened).then((openedValue){
+      setState(() {
+        print("SearchFilterOptions.Opened $openedValue");
+        openedFilterValue = openedValue;
+      });
+    });
+
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +83,9 @@ class _SearchFilterState extends State<SearchFilter> {
                 // Erase all actions
                 print("Erase all the actions");
                 setState(() {
-                  widget.assignedToMe = false;
-                  widget.aroundMe = false;
-                  widget.opened = false;
+                  assignedToMeFilterValue = false;
+                  aroundMeFilterValue = false;
+                  openedFilterValue = false;
                 });
               }
           ),
@@ -69,21 +94,21 @@ class _SearchFilterState extends State<SearchFilter> {
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          buildSettings("Assigned to me", widget.assignedToMe, (switchValue) {
+          buildSettings("Assigned to me", assignedToMeFilterValue, (switchValue) {
             setState(() {
-              widget.assignedToMe = switchValue;
+              assignedToMeFilterValue= switchValue;
             });
             print("'Assigned to me = $switchValue'");
           }),
-          buildSettings("Around me", widget.aroundMe, (switchValue) {
+          buildSettings("Around me", aroundMeFilterValue, (switchValue) {
             setState(() {
-              widget.aroundMe = switchValue;
+              aroundMeFilterValue = switchValue;
             });
             print("'Around me = $switchValue'");
           }),
-          buildSettings("Opened", widget.opened, (switchValue) {
+          buildSettings("Opened", openedFilterValue, (switchValue) {
             setState(() {
-              widget.opened = switchValue;
+              openedFilterValue = switchValue;
             });
             print("'Open me = $switchValue'");
           }),
@@ -99,13 +124,13 @@ class _SearchFilterState extends State<SearchFilter> {
                   onPressed: () {
                     // Prepare the options of the filter
                     List<SearchFilterOptions> options = [];
-                    if (widget.assignedToMe) {
+                    if (assignedToMeFilterValue) {
                       options.add(SearchFilterOptions.AssignedToMe);
                     }
-                    if (widget.aroundMe) {
+                    if (aroundMeFilterValue) {
                       options.add(SearchFilterOptions.AroundMe);
                     }
-                    if (widget.opened) {
+                    if (openedFilterValue) {
                       options.add(SearchFilterOptions.Opened);
                     }
                     widget.delegate(options);

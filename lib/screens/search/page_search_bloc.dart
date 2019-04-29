@@ -3,8 +3,10 @@ import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
+import 'package:trakref_app/models/search_filter_options.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/repository/location_service.dart';
+import 'package:trakref_app/repository/preferences_service.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/search/filter/result_search_filter.dart';
 import 'package:trakref_app/screens/search/service_event/result_asset.dart';
@@ -104,6 +106,13 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
 
   @override
   void initState() {
+    // Grab default value for the assigned to me
+     FilterPreferenceService().getValues(SearchFilterOptions.AssignedToMe).then((assignedToMe){
+      setState(() {
+        _assignedtoMe = assignedToMe;
+      });
+    });
+
     // Instantiate the current location
     GeolocationService().initPlatformState();
 
@@ -168,6 +177,14 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
               Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
                 return SearchFilter(
                   delegate: (listOptions) {
+                    FilterPreferenceService().resetAll();
+                    for (SearchFilterOptions option in listOptions) {
+                      FilterPreferenceService().setFilter(option, true);
+                      // If assigned to me then change the switch 'Assigned to me' state
+                      if (option == SearchFilterOptions.AssignedToMe) {
+                        _assignedtoMe = true;
+                      }
+                    }
                     print("listOptions $listOptions");
                   },
                 );
@@ -178,12 +195,14 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
             children: <Widget>[
               Text('Assigned to me', style: Theme.of(context).textTheme.body1),
               Switch(
+                activeColor: AppColors.blueTurquoise,
                 value: _assignedtoMe,
                 onChanged: (bool value) {
                   _assignedtoMe = value;
                 },
-                activeThumbImage: AssetImage("assets/images/toggle-on.png"),
-                inactiveThumbImage: AssetImage("assets/images/toggle-off.png"),
+                // Do that later on
+//                activeThumbImage: AssetImage("assets/images/toggle-on.png"),
+//                inactiveThumbImage: AssetImage("assets/images/toggle-off.png"),
               )
             ],
           )
