@@ -16,6 +16,9 @@ class ApiService {
   static String getWorkOrdersURL = "$baseURL/v3.21/WorkOrders";
   static String getWorkOrdersByInstanceURL = "$getWorkOrdersURL/GetByInstance";
 
+  static String getLocationsURL = "$baseURL/v3.21/WorkOrders";
+
+
   http.Client client = http.Client();
 
   // By default for our test
