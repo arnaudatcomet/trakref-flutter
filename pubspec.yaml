@@ -27,6 +27,7 @@ dependencies:
 #  geolocator: '^4.0.0'
   geolocator: ^4.0.1
   location: ^2.3.5
+  shared_preferences: ^0.5.2
   # url_launcher: ^5.0.1
   # barcode_scan: ^1.0.0
 
