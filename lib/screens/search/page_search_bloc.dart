@@ -28,6 +28,8 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
   bool _isCylindersLoaded = false;
   bool _isLocationsLoaded = false;
 
+  ApiService api = ApiService();
+
   // List values in the 3 tabs (Service Events, Cylinders, Locations)
   List<WorkOrder> _serviceEventsResult;
   List<Location> _locationsResult;
@@ -40,8 +42,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
 
   getServiceEvents(int locationID) {
     // Below for showing the GET Work Orders
-    ApiService api = ApiService();
-    var baseUrl = "https://api.trakref.com/v3.21/WorkOrders?locationID=$locationID";
+    var baseUrl = "http://api.trakref.com/v3.21/WorkOrders?locationID=$locationID";
     api.getResult<WorkOrder>(baseUrl).then((results) {
       _isServiceEventsLoaded = true;
       for (WorkOrder order in results) {
@@ -55,8 +56,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
 
   void getAllServiceEvents() {
     // Below test for showing the GET Work Orders
-    ApiService api = ApiService();
-    var baseUrl = "https://apitest.trakref.com/v3.21/WorkOrders/GetByInstance";
+    var baseUrl = "http://apitest.trakref.com/v3.21/WorkOrders/GetByInstance";
     api.getResult<WorkOrder>(baseUrl).then((results) {
       _isServiceEventsLoaded = true;
       for (WorkOrder order in results) {
@@ -70,8 +70,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
 
   getLocations() {
     // Below for showing the GET Work Orders
-    ApiService api = ApiService();
-    var baseUrl = "https://api.trakref.com/v3.21/location";
+    var baseUrl = "http://api.trakref.com/v3.21/location";
     api.getResult<Location>(baseUrl).then((results) {
       _isLocationsLoaded = true;
       for (Location location in results) {
@@ -85,8 +84,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
 
   getCylinders(int locationID) {
     // Below for showing the GET Work Orders
-    ApiService api = ApiService();
-    var baseUrl = "https://api.trakref.com/v3.21/assets?locationID=$locationID";
+    var baseUrl = "http://api.trakref.com/v3.21/assets?locationID=$locationID";
     api.getResult<Asset>(baseUrl).then((results) {
       _isCylindersLoaded = true;
       for (Asset asset in results) {
@@ -96,6 +94,12 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
         });
       }
     });
+  }
+
+  @override
+  void dispose() {
+    api.close();
+    super.dispose();
   }
 
   @override

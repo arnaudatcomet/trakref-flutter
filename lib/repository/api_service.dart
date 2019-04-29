@@ -12,13 +12,20 @@ import 'package:trakref_app/models/workorder.dart';
 class ApiService {
   ApiService();
   final JsonDecoder _decoder = new JsonDecoder();
-
   static String baseURL = "http://apitest.trakref.com";
+  static String getWorkOrdersURL = "$baseURL/v3.21/WorkOrders";
+  static String getWorkOrdersByInstanceURL = "$getWorkOrdersURL/GetByInstance";
+
+  http.Client client = http.Client();
 
   // By default for our test
   String _userID = 'echappell';
   String _token = '5d5ac1ae-0213-4e77-9ee7-e3a76e614909';
   String _instanceID = '6';
+
+  close() {
+    client.close();
+  }
 
   initialize(String userID, String token, String instanceID) {
     this._token = token;
@@ -29,7 +36,7 @@ class ApiService {
   Future<dynamic> get(String url) async {
     String apiKey = 'eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0=';
     final headers = {"Content-Type": "application/json", "Userid":"$_userID", "Api-Key":"$apiKey", "Authentication-Token":"$_token", "Instance-Id":"$_instanceID"};
-    return http.get(url, headers: headers).then((http.Response response) {
+    return client.get(url, headers: headers).then((http.Response response) {
       final res = response.body;
       List resJson = _decoder.convert(res);
       return resJson;
@@ -46,7 +53,7 @@ class ApiService {
       "Instance-Id": "$_instanceID"
     };
 
-    return await http.post(url, headers: headers).then((http.Response response){
+    return await client.post(url, headers: headers).then((http.Response response){
       final res = response.body;
       print("post $url, result $res");
     });
@@ -64,7 +71,7 @@ class ApiService {
 
     String jsonString = json.encode([order.toJson()]);
 
-    return await http.post(url, headers: headers, body: jsonString, encoding: utf8).then((http.Response response){
+    return await client.post(url, headers: headers, body: jsonString, encoding: utf8).then((http.Response response){
       final res = response.body;
       print("post $url, result $res");
     });
@@ -74,7 +81,7 @@ class ApiService {
 
     String basicAuth = 'Basic '+ base64Encode(utf8.encode('$username:$password'));
     print('basicAuth $basicAuth');
-    return http.get(url, headers: {"API-Key": "$apiKey", "authorization":"$basicAuth"}
+    return client.get(url, headers: {"API-Key": "$apiKey", "authorization":"$basicAuth"}
     );
   }
 
@@ -94,7 +101,7 @@ class ApiService {
       "Instance-Id": "$_instanceID"
     };
 
-    return await http.get(url, headers: headers).then((http.Response response) {
+    return await client.get(url, headers: headers).then((http.Response response) {
       final res = response.body;
       List<dynamic> resultMap = jsonDecode(res);
 
@@ -154,7 +161,7 @@ class ApiService {
   Future<dynamic> getStandard(String url) async {
     String apiKey = 'eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0=';
     final headers = {"Content-Type": "application/json", "Userid":"$_userID", "Api-Key":"$apiKey", "Authentication-Token":"$_token", "Instance-Id":"$_instanceID"};
-    return http.get(url, headers: headers).then((http.Response response) {
+    return client.get(url, headers: headers).then((http.Response response) {
       final res = response.body;
       return res;
     });

@@ -26,18 +26,6 @@ class LoginBloc implements BlocBase {
     String username = user.username;
     String password = user.password;
 
-    /*
-    ApiService().get(accountsURL).then((accountsJSON) {
-      for (var i = 0; i < accountsJSON.length; i++) {
-        final Map<String, dynamic> accountJSON = Map<String, dynamic>.from(accountsJSON[i]);
-        final archive = KeyedArchive.unarchive(accountJSON);
-        Account account = Account();
-        account.decode(archive);
-        print('ApiService<Account> account ${account.name} ${account.accountType} ${account.instanceID}');
-      }
-    });
-    */
-
     _loginService.login(username, password).then((result){
         LoggedUser user = LoggedUser.fromJson(result);
         print(user.toString());

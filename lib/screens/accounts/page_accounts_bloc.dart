@@ -66,6 +66,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
 
   @override
   void dispose() {
+    api.close();
     super.dispose();
   }
 

@@ -10,6 +10,8 @@ import 'package:trakref_app/widget/service_event_widget.dart';
 class DashboardTitleTile extends StatelessWidget {
   String title;
   DashboardTitleTile({this.title});
+  Function onReload;
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -18,7 +20,7 @@ class DashboardTitleTile extends StatelessWidget {
           title ?? "",
           style: Theme.of(context).textTheme.title,
         ),
-        trailing: const Icon(Icons.refresh)
+        trailing: IconButton(icon: const Icon(Icons.refresh), onPressed: onReload)
     );;
   }
 }
@@ -31,10 +33,10 @@ class PageDashboardBloc extends StatefulWidget {
 class _PageDashboardBlocState extends State<PageDashboardBloc> {
   bool _isServiceEventsLoaded = false;
   List<WorkOrder> _serviceEventsResult;
+  ApiService api = ApiService();
 
   getServiceEvents(int locationID) {
     // Below for showing the GET Work Orders
-    ApiService api = ApiService();
     var baseUrl = "$baseURL/WorkOrders?locationID=$locationID";
     api.getResult<WorkOrder>(baseUrl).then((results) {
       _isServiceEventsLoaded = true;
@@ -42,6 +44,12 @@ class _PageDashboardBlocState extends State<PageDashboardBloc> {
         _serviceEventsResult = results;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    api.close();
+    super.dispose();
   }
 
   @override
