@@ -9,20 +9,56 @@ import 'package:trakref_app/widget/service_event_widget.dart';
 
 class DashboardTitleTile extends StatelessWidget {
   String title;
-  DashboardTitleTile({this.title});
   Function onReload;
+
+  DashboardTitleTile({this.title, this.onReload});
+
+  final double paddingTop = 34;
+  final double paddingBottom = 20;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        title: Text(
-          title ?? "",
-          style: Theme.of(context).textTheme.title,
-        ),
-        trailing: IconButton(icon: const Icon(Icons.refresh), onPressed: onReload)
-    );;
+    return (onReload == null)
+        ? Column(
+            children: <Widget>[
+              SizedBox(
+                height: paddingTop
+              ),
+              ListTile(
+                  title: Text(
+                title ?? "",
+                style: Theme.of(context).textTheme.title,
+              )),
+              SizedBox(
+                  height: paddingBottom
+              ),
+              Divider(
+                height: 2,
+              )
+            ],
+          )
+        : Column(
+            children: <Widget>[
+              SizedBox(
+                  height: paddingTop
+              ),
+              ListTile(
+                  trailing: IconButton(
+                      icon: const Icon(Icons.refresh), onPressed: onReload),
+                  title: Text(
+                    title ?? "",
+                    style: Theme.of(context).textTheme.title,
+                  )),
+              SizedBox(
+                  height: paddingBottom
+              ),
+              Divider(
+                height: 2,
+              )
+            ],
+          );
   }
+//
 }
 
 class PageDashboardBloc extends StatefulWidget {
@@ -63,19 +99,27 @@ class _PageDashboardBlocState extends State<PageDashboardBloc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: (_isServiceEventsLoaded == false) ? FormBuild.buildLoader() : ListView.builder(
-    itemCount: _serviceEventsResult.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0 ) {
-            return DashboardTitleTile(title: 'Assigned to you');
-          }
-          final item = _serviceEventsResult[index-1];
-          return ServiceEventCellWidget(
-            order: item,
-          );
-        }
-    )
-    );
+        backgroundColor: Colors.white,
+        body: (_isServiceEventsLoaded == false)
+            ? FormBuild.buildLoader()
+            : ListView.builder(
+                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                itemCount: _serviceEventsResult.length + 2,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return DashboardTitleTile(title: 'Assigned to you');
+                  } else if (index < (_serviceEventsResult.length + 1)) {
+                    final item = _serviceEventsResult[index - 1];
+                    return ServiceEventCellWidget(
+                      order: item,
+                    );
+                  } else {
+                    return DashboardTitleTile(
+                        title: 'To Synchronize',
+                        onReload: () {
+                          // Do something
+                        });
+                  }
+                }));
   }
 }

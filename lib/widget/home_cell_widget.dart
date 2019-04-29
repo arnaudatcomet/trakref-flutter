@@ -86,8 +86,6 @@ class HomeCellWidget extends ListTile {
     Widget badgeWidget = Visibility(
         visible: (this.cellType == HomeCellType.StickerTODO || this.cellType == HomeCellType.StickerCYLINDER || this.cellType == HomeCellType.StickerCOMPLETE),
         child: Container(
-//          width: 36,
-//          height: 15,
         padding: EdgeInsets.all(5),
           decoration: new BoxDecoration(
               borderRadius: BorderRadius.circular(2),
@@ -111,14 +109,14 @@ class HomeCellWidget extends ListTile {
     return Container(
       width: 150.0,
       padding: new EdgeInsets.fromLTRB(20, 10, 20, 10),
-      decoration: BoxDecoration(
-          border: new Border(
-              bottom: new BorderSide(
-                  color: AppColors.lightGray,
-                  width: 0.3
-              )
-          )
-      ),
+//      decoration: BoxDecoration(
+//          border: new Border(
+//              bottom: new BorderSide(
+//                  color: AppColors.lightGray,
+//                  width: 0.3
+//              )
+//          )
+//      ),
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,6 +142,7 @@ class HomeCellWidget extends ListTile {
           buildLine(line3, Theme.of(context).textTheme.display3),
           SizedBox(height: 6),
           buildLine(line4, Theme.of(context).textTheme.display4),
+          Divider()
         ],
       ),
     );
