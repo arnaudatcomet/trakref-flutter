@@ -30,6 +30,33 @@ class AppOutlineButton extends StatelessWidget {
   }
 }
 
+class LinkAppButton extends StatefulWidget {
+  Function onPressed;
+  String title;
+  TextStyle style;
+
+  LinkAppButton({this.onPressed, this.title, this.style});
+
+  @override
+  _LinkAppButtonState createState() => _LinkAppButtonState();
+}
+
+class _LinkAppButtonState extends State<LinkAppButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 16),
+      alignment: Alignment.center,
+      child: new InkWell(
+          onTap: widget.onPressed,
+          child: new Text(widget.title ?? "",
+            style: widget.style,
+          )
+      ),
+    );
+  }
+}
+
 class OutlineAppButton extends AppButton {
   OutlineAppButton({
     Key keyButton,

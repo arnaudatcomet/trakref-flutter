@@ -16,8 +16,8 @@ import 'package:trakref_app/screens/settings/page_settings_bloc.dart';
 import 'package:trakref_app/screens/tab_screen.dart';
 
 final routes = {
-//  '/': (BuildContext context) => BlocProvider(bloc: LoginBloc(), child: PageLoginBloc()),
-  '/': (BuildContext context) => TabScreens(),
+  '/': (BuildContext context) => BlocProvider(bloc: LoginBloc(), child: PageLoginBloc()),
+//  '/': (BuildContext context) => TabScreens(),
 //      '/': (BuildContext context) => PageTestLinkBloc(),
 
 //  '/': (BuildContext context) => WebViewScaffold(

@@ -3,6 +3,7 @@ import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/bloc/login_bloc.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/logged_user_entity.dart';
+import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/loading_widget.dart';
 
 class PageLoginBloc extends StatefulWidget {
@@ -141,17 +142,17 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                             }
                         ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            new Container(
-                              margin: EdgeInsets.only(top: 16),
-                              alignment: Alignment.center,
-                              child: new InkWell(
-                                  onTap: () => print("Forgot password"),
-                                  child: new Text("Cancel",
-                                      style: TextStyle(color: AppColors.gray)
-                                  )
+                            LinkAppButton(
+                              title: "Forgot your password?",
+                              style: TextStyle(
+                                color: AppColors.gray,
+                                decoration: TextDecoration.underline
                               ),
-                            )
+                            ),
                           ],
                         )
                       ],

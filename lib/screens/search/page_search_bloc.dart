@@ -58,8 +58,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
 
   void getAllServiceEvents() {
     // Below test for showing the GET Work Orders
-    var baseUrl = "http://apitest.trakref.com/v3.21/WorkOrders/GetByInstance";
-    api.getResult<WorkOrder>(baseUrl).then((results) {
+    api.getResult<WorkOrder>(ApiService.getWorkOrdersByInstanceURL).then((results) {
       _isServiceEventsLoaded = true;
       for (WorkOrder order in results) {
         print("> ${order.workOrderNumber}");
@@ -182,9 +181,14 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                       FilterPreferenceService().setFilter(option, true);
                       // If assigned to me then change the switch 'Assigned to me' state
                       if (option == SearchFilterOptions.AssignedToMe) {
-                        _assignedtoMe = true;
+                        print("_assignedToMe $_assignedtoMe");
                       }
                     }
+
+                    setState(() {
+                      _assignedtoMe = (listOptions.contains(SearchFilterOptions.AssignedToMe));
+                    });
+
                     print("listOptions $listOptions");
                   },
                 );
@@ -199,6 +203,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                 value: _assignedtoMe,
                 onChanged: (bool value) {
                   _assignedtoMe = value;
+                  FilterPreferenceService().setFilter(SearchFilterOptions.AssignedToMe, _assignedtoMe);
                 },
                 // Do that later on
 //                activeThumbImage: AssetImage("assets/images/toggle-on.png"),
