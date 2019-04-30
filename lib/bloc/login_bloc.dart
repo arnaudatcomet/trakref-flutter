@@ -59,23 +59,10 @@ class LoginBloc implements BlocBase {
         _user = user;
         _goingNextScreenController.add(user);
       }
-//      _goingNextScreenController.add(user);
     }).catchError((error){
       _submitLoginController.addError(error);
       print('_loginService caught an error : $error');
     });
-
-    /*
-    _loginService.login(username, password).then((result){
-        LoggedUser user = LoggedUser.fromJson(result);
-        print(user.toString());
-        _user = user;
-        _goingNextScreenController.add(user);
-    }).catchError((error) {
-      _submitLoginController.addError(error);
-        print('_loginService caught an error : $error');
-    });
-    */
   }
 
   @override
