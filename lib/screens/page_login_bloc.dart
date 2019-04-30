@@ -20,6 +20,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
   final _formKey = GlobalKey<FormState>();
   _LoginData _data = new _LoginData();
   LoginBloc loginBloc;
+  bool _showPassword = false;
 
   @override
   void initState() {
@@ -79,14 +80,21 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                           onSaved: (String value) {
                             this._data.password = value;
                           },
-                          obscureText: true,
+                          obscureText: (_showPassword == false),
                           textAlign: TextAlign.start,
                           decoration: new InputDecoration(
                               labelText: 'Password',
                               contentPadding: new EdgeInsets.all(0),
-                              suffixIcon: const Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: const Icon(Icons.remove_red_eye),
+                              suffixIcon: Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  //loginBloc
+                                  child: IconButton(
+                                      icon: const Icon(Icons.remove_red_eye),
+                                      onPressed: () {
+                                        setState(() {
+                                          _showPassword = !_showPassword;
+                                        });
+                                      })
                               )
                           ),
                         ),
@@ -102,9 +110,11 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                     stream: this.loginBloc.resultLogin,
                                     builder: (BuildContext context, AsyncSnapshot<LoggedUser> snapshot) {
                                       print("Loading > ${snapshot.data.toString()}");
-
-                                      return (snapshot.connectionState != ConnectionState.waiting) ? Center(
-                                        child: CircularProgressIndicator(strokeWidth: 1
+                                      print("connectionState > ${snapshot.connectionState}");
+                                      print("hasError > ${snapshot.hasError}");
+                                      return (snapshot.connectionState == ConnectionState.active && !snapshot.hasError) ? Center(
+                                        child: CircularProgressIndicator(strokeWidth: 1,
+                                          backgroundColor: Colors.white
                                         ),
                                       ) : Text("Login", style: TextStyle(color: Colors.white, fontSize: 16));
                                     }
@@ -129,7 +139,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                               ),
                             )
                         ),
-                        new StreamBuilder(
+                        StreamBuilder(
                             initialData: LoggedUser.empty(),
                             stream: this.loginBloc.resultLogin,
                             builder: (BuildContext context, AsyncSnapshot<LoggedUser> snapshot) {
@@ -137,7 +147,6 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                               if (snapshot.hasError) {
                                 return new Text("${snapshot.error.toString()}", style: TextStyle(color: Colors.red, fontSize: 12, fontStyle: FontStyle.italic));
                               }
-
                               return Text("");
                             }
                         ),
