@@ -13,8 +13,12 @@ InfoUser _$InfoUserFromJson(Map<String, dynamic> json) {
           : Token.fromJson(json['token'] as Map<String, dynamic>),
       user: json['user'] == null
           ? null
-          : User.fromJson(json['user'] as Map<String, dynamic>));
+          : User.fromJson(json['user'] as Map<String, dynamic>),
+      errorMessage: json['Message'] as String);
 }
 
-Map<String, dynamic> _$InfoUserToJson(InfoUser instance) =>
-    <String, dynamic>{'token': instance.token, 'user': instance.user};
+Map<String, dynamic> _$InfoUserToJson(InfoUser instance) => <String, dynamic>{
+      'token': instance.token,
+      'user': instance.user,
+      'Message': instance.errorMessage
+    };

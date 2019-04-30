@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/bloc/login_bloc.dart';
 import 'package:trakref_app/main.dart';
-import 'package:trakref_app/models/logged_user_entity.dart';
+import 'package:trakref_app/models/info_user.dart';
+import 'package:trakref_app/models/user.dart';
+//import 'package:trakref_app/models/logged_user_entity.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/loading_widget.dart';
 
@@ -27,7 +29,8 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
     super.initState();
     this.loginBloc = BlocProvider.of<LoginBloc>(context);
 
-    this.loginBloc.nextScreen.listen((LoggedUser user) {
+    this.loginBloc.nextScreen.listen((InfoUser user) {
+      print("Push to a next screen");
       Navigator.of(context).pushNamed('/home');
     });
   }
@@ -106,9 +109,9 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                 key: Key('SubmitButton'),
                                 color: AppColors.blueTurquoise,
                                 child: StreamBuilder(
-                                    initialData: LoggedUser.empty(),
+                                    initialData: null,
                                     stream: this.loginBloc.resultLogin,
-                                    builder: (BuildContext context, AsyncSnapshot<LoggedUser> snapshot) {
+                                    builder: (BuildContext context, AsyncSnapshot<InfoUser> snapshot) {
                                       print("Loading > ${snapshot.data.toString()}");
                                       print("connectionState > ${snapshot.connectionState}");
                                       print("hasError > ${snapshot.hasError}");
@@ -126,9 +129,14 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                   String username = _data.username;
                                   String password = _data.password;
 
-                                  LoggedUser attemptedUser = LoggedUser.empty();
-                                  attemptedUser.username = username;
-                                  attemptedUser.password = password;
+                                  InfoUser attemptedUser = InfoUser(
+                                    user: User(
+                                      username: username,
+                                      password: password
+                                    )
+                                  );
+//                                  attemptedUser.user.username = username;
+//                                  attemptedUser.user.password = password;
 
                                   this.loginBloc.submitLogin.add(attemptedUser);
                                 }
@@ -140,9 +148,9 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                             )
                         ),
                         StreamBuilder(
-                            initialData: LoggedUser.empty(),
+                            initialData: null,
                             stream: this.loginBloc.resultLogin,
-                            builder: (BuildContext context, AsyncSnapshot<LoggedUser> snapshot) {
+                            builder: (BuildContext context, AsyncSnapshot<InfoUser> snapshot) {
                               print("data > ${snapshot.data.toString()}");
                               if (snapshot.hasError) {
                                 return new Text("${snapshot.error.toString()}", style: TextStyle(color: Colors.red, fontSize: 12, fontStyle: FontStyle.italic));

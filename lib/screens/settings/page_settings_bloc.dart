@@ -100,11 +100,11 @@ class _PageSettingsBlocState extends State<PageSettingsBloc> {
                         );
                       })
                   );
-//                  print("Support > true");
-//                  responseFromNativeCode();
                 }),
                 Divider(),
-                buildItem("Log Out", false, null),
+                buildItem("Log Out", false, () {
+                  Navigator.popUntil(context, ModalRoute.withName("/"));
+                }),
                 Divider(),
               ],
             ),

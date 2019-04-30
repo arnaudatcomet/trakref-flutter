@@ -18,6 +18,7 @@ class ApiService {
 
   static String getLocationsURL = "$baseURL/v3.21/WorkOrders";
 
+  static String getLoginURL = "$baseURL/v3.21/login";
 
   http.Client client = http.Client();
 

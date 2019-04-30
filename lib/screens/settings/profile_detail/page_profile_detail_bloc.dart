@@ -18,6 +18,39 @@ class _PageProfileDetailBloc extends State<PageProfileDetailBloc> {
   InfoUser user = null;
   ApiService service = ApiService();
 
+  void callLogin(String username, String password) {
+    final String loginURL = "https://api.trakref.com/v3.21/login";
+    String basicAuth = 'Basic '+ base64Encode(utf8.encode('$username:$password'));
+    final headers = {
+      "authorization": basicAuth,
+      "Api-Key": "eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0"
+    };
+    service.getLoginResponse(loginURL, username, password).then((response){
+      print("infoUser ${response}");
+      final res = response.body;
+      dynamic resultMap = jsonDecode(res);
+      InfoUser user = InfoUser.fromJson(resultMap);
+      print("resultMap $resultMap");
+
+      String fullName = user.user?.fullName;
+      String company = user.user?.company;
+      String preferredLeakDetectionMethod = user.user?.preferredLeakDetectionMethod;
+      String phone = user.user?.phone;
+      String email = user.user?.email;
+
+      print("Fullname $fullName");
+      print("Company $company");
+      print("PreferredLeakDetectionMethod $preferredLeakDetectionMethod");
+      print("Phone $phone");
+      print("email $email");
+
+      setState(() {
+        this.user = user;
+        _isLoaded = true;
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();

@@ -1,31 +1,71 @@
 import 'dart:async';
-import 'package:trakref_app/models/logged_user_entity.dart';
+import 'dart:convert';
+import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
 
 class LoginBloc implements BlocBase {
-  LoggedUser _user = LoggedUser.empty();
-  LoginService _loginService = LoginService();
+//  LoggedUser _user = LoggedUser.empty();
+//  LoginService _loginService = LoginService();
+  InfoUser _user;
+
+  ApiService _apiService = ApiService();
+  final JsonDecoder _decoder = new JsonDecoder();
 
   // Stream to handle the login / password
-  StreamController<LoggedUser> _submitLoginController = StreamController<LoggedUser>.broadcast();
-  Sink<LoggedUser> get submitLogin => _submitLoginController.sink;
-  Stream<LoggedUser> get resultLogin => _submitLoginController.stream;
+  StreamController<InfoUser> _submitLoginController = StreamController<InfoUser>.broadcast();
+  Sink<InfoUser> get submitLogin => _submitLoginController.sink;
+  Stream<InfoUser> get resultLogin => _submitLoginController.stream;
 
   // Stream to handle pushing to a new screen if the login was successful
-  StreamController<LoggedUser> _goingNextScreenController = StreamController<LoggedUser>.broadcast();
-  Stream<LoggedUser> get nextScreen => _goingNextScreenController.stream;
+  StreamController<InfoUser> _goingNextScreenController = StreamController<InfoUser>.broadcast();
+  Stream<InfoUser> get nextScreen => _goingNextScreenController.stream;
 
   LoginBloc() {
     _submitLoginController.stream.listen(_onSubmitLogin);
   }
 
-  void _onSubmitLogin(LoggedUser user) {
-    print('logged username ${user.username}');
-    print('logged password ${user.password}');
-    String username = user.username;
-    String password = user.password;
+  void _onSubmitLogin(InfoUser user) {
+    print('logged username ${user.user.username}');
+    print('logged password ${user.user.password}');
+    String username = user.user.username;
+    String password = user.user.password;
 
+    _apiService.getLoginResponse(ApiService.getLoginURL, username, password).then((response){
+      print("infoUser ${response}");
+      final res = response.body;
+      dynamic resultMap = jsonDecode(res);
+      InfoUser user = InfoUser.fromJson(resultMap);
+      print("resultMap $resultMap");
+
+      if (user.errorMessage != null) {
+        _submitLoginController.addError(user.errorMessage);
+      }
+      else {
+        String fullName = user.user?.fullName;
+        String company = user.user?.company;
+        String preferredLeakDetectionMethod = user.user?.preferredLeakDetectionMethod;
+        String phone = user.user?.phone;
+        String email = user.user?.email;
+
+        print("Fullname $fullName");
+        print("Company $company");
+        print("PreferredLeakDetectionMethod $preferredLeakDetectionMethod");
+        print("Phone $phone");
+        print("email $email");
+
+        print("Fullname $fullName");
+        print("Fullname $fullName");
+        _user = user;
+        _goingNextScreenController.add(user);
+      }
+//      _goingNextScreenController.add(user);
+    }).catchError((error){
+      _submitLoginController.addError(error);
+      print('_loginService caught an error : $error');
+    });
+
+    /*
     _loginService.login(username, password).then((result){
         LoggedUser user = LoggedUser.fromJson(result);
         print(user.toString());
@@ -35,6 +75,7 @@ class LoginBloc implements BlocBase {
       _submitLoginController.addError(error);
         print('_loginService caught an error : $error');
     });
+    */
   }
 
   @override

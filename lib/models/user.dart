@@ -12,6 +12,15 @@ class User {
   @JsonKey(name: 'InstanceID')
   final int instanceID;
 
+  @JsonKey(name: 'UserId')
+  final String userId;
+
+  @JsonKey(name: 'Username')
+  final String username;
+
+  @JsonKey(name: 'Password', nullable: true)
+  final String password;
+
   @JsonKey(name: 'FirstName')
   final String firstName;
 
@@ -108,7 +117,7 @@ class User {
   @JsonKey(name: 'ID')
   final int ID;
 
-  User({this.groupID, this.instanceID, this.firstName, this.lastName,
+  User({this.groupID, this.instanceID, this.userId, this.username, this.password, this.firstName, this.lastName,
     this.fullName, this.title, this.description, this.adress1, this.address2,
     this.city, this.county, this.state, this.zip, this.country, this.phone,
     this.cell, this.email, this.fax, this.certificationType,

@@ -10,6 +10,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
   return User(
       groupID: json['GroupID'] as int,
       instanceID: json['InstanceID'] as int,
+      userId: json['UserId'] as String,
+      username: json['Username'] as String,
+      password: json['Password'] as String,
       firstName: json['FirstName'] as String,
       lastName: json['LastName'] as String,
       fullName: json['FullName'] as String,
@@ -49,6 +52,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'GroupID': instance.groupID,
       'InstanceID': instance.instanceID,
+      'UserId': instance.userId,
+      'Username': instance.username,
+      'Password': instance.password,
       'FirstName': instance.firstName,
       'LastName': instance.lastName,
       'FullName': instance.fullName,

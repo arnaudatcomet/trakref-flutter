@@ -12,7 +12,11 @@ class InfoUser {
   @JsonKey(name: 'user')
   final User user;
 
-  InfoUser({this.token, this.user});
+  // This is for error message
+  @JsonKey(name: 'Message', nullable: true)
+  final String errorMessage;
+
+  InfoUser({this.token, this.user, this.errorMessage});
 
   factory InfoUser.fromJson(Map<String, dynamic> json) =>
       _$InfoUserFromJson(json);
