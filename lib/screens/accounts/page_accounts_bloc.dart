@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/bloc/accounts_bloc.dart';
+import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/account.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/screens/settings/account_detail/page_account_detail_bloc.dart';
@@ -17,8 +20,16 @@ import 'package:trakref_app/widget/dropdown_widget.dart';
 //  }
 //}
 
+enum PageAccountsType {
+  Details,
+  Home
+}
 
 class PageAccountsBloc extends StatefulWidget {
+  final int currentInstanceID;
+  final PageAccountsType type;
+  PageAccountsBloc({this.currentInstanceID, this.type});
+
   @override
   _PageAccountsBlocState createState() => _PageAccountsBlocState();
 }
@@ -30,6 +41,9 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
   bool _activeState;
   TextEditingController _controller;
   FocusNode _textFocus;
+
+  // BLoC
+  AccountsBloc accountBloc;
 
   // Properties
   List<ListItem> items = [];
@@ -47,23 +61,6 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
         ),
       );
 
-  // API Service calls
-  void getAccounts() {
-    var baseUrl = "https://api.trakref.com/v3.21/accounts";
-    api.getResult<Account>(baseUrl).then((results) {
-      // Add accounts retrieved and prepare the list view
-      accounts = results;
-      for (Account acc in accounts) {
-        items.add(AccountItem(account: acc.name, accountID: acc.instanceID));
-      }
-
-      // Notify to stop loading
-      setState(() {
-        _onLoaded = true;
-      });
-    });
-  }
-
   @override
   void dispose() {
     api.close();
@@ -80,8 +77,61 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
     _controller.addListener(onChange);
     _textFocus.addListener(onChange);
 
+    // Link to AccountBloc
+    this.accountBloc = BlocProvider.of<AccountsBloc>(context);
+
+    TrakrefAPIService api = TrakrefAPIService();
+    api.getAccounts().then((results) {
+      if (results == null) {
+        print("error when retrieving all the accounts");
+      }
+      else {
+        // Add accounts retrieved and prepare the list view
+        accounts = results;
+        print("getRetrievingAccount retrieved ${accounts.length} accounts");
+        for (Account acc in accounts) {
+          items.add(AccountItem(account: acc.name, accountID: acc.instanceID));
+        }
+      }
+
+      // Notify to stop loading
+      setState(() {
+        _onLoaded = true;
+      });
+    }).catchError((error){
+      setState(() {
+
+      });
+    });
+    /*
+    if (widget.currentInstanceID != null) {
+      print("AccountBLoC retrieve accounts for instanceID ${widget.currentInstanceID}");
+      this.accountBloc.currentInstanceID = widget.currentInstanceID;
+      this.accountBloc.getRetrievingAccount.listen((results){
+        print("getRetrievingAccount retrieved ${accounts.length} accounts");
+      });
+    }
+    */
+
+//    this.accountBloc.startRetrievingAccount.add(widget.currentInstanceID);
+
+    /*
+    this.accountBloc.getRetrievingAccount.listen((results) {
+      // Add accounts retrieved and prepare the list view
+      accounts = results;
+      print("getRetrievingAccount retrieved ${accounts.length} accounts");
+      for (Account acc in accounts) {
+        items.add(AccountItem(account: acc.name, accountID: acc.instanceID));
+      }
+
+      // Notify to stop loading
+      setState(() {
+        _onLoaded = true;
+      });
+    });
+    */
     // Get the list of accounts
-    getAccounts();
+//    getAccounts();
 
     super.initState();
   }
@@ -112,7 +162,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
           : AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
-              leading: IconButton(
+              leading: (widget.type == PageAccountsType.Home) ? Container() : IconButton(
                 icon: new Icon(Icons.close, color: AppColors.gray),
                 onPressed: () {
 //            Navigator.of(context).pop();
@@ -154,12 +204,23 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
                       if (item is AccountItem) {
                         return InkWell(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) {
-                              Account selectedAccount = accounts.where((Account account) => account.instanceID == item.accountID).first;
-                              return PageAccountDetailBloc(
-                                  account: selectedAccount);
-                            }));
+                            Account selectedAccount = accounts.where((Account account) => account.instanceID == item.accountID).first;
+                            // Show the details
+                            print("widget.type ${widget.type}");
+                            if (widget.type == PageAccountsType.Details) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return PageAccountDetailBloc(
+                                        account: selectedAccount);
+                                  }));
+                            }
+                            // Show the home page
+                            else if (widget.type == PageAccountsType.Home) {
+                              // Save the instanceID and selected account
+                              TrakrefAPIService().setSelectedAccount(selectedAccount);
+                              TrakrefAPIService().setInstanceID(selectedAccount.instanceID.toString());
+                              Navigator.of(context).pushNamed("/home");
+                            }
                           },
                           child: Container(
                             child: this.makeAccountTile(item),

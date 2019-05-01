@@ -10,11 +10,6 @@ class FilterPreferenceService {
 
   FilterPreferenceService._internal();
 
-  setFilter(SearchFilterOptions options, bool value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(_getPreferenceKeys(options), value);
-  }
-
   String _getPreferenceKeys(SearchFilterOptions options) {
     switch (options) {
       case SearchFilterOptions.AroundMe:
@@ -27,7 +22,6 @@ class FilterPreferenceService {
     return "";
   }
 
-
   resetAll() {
     setFilter(SearchFilterOptions.AroundMe, false);
     setFilter(SearchFilterOptions.AssignedToMe, false);
@@ -37,5 +31,10 @@ class FilterPreferenceService {
   Future<bool> getValues(SearchFilterOptions options) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_getPreferenceKeys(options));
+  }
+
+  setFilter(SearchFilterOptions options, bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(_getPreferenceKeys(options), value);
   }
 }

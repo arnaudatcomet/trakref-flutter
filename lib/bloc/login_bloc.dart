@@ -3,14 +3,15 @@ import 'dart:convert';
 import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginBloc implements BlocBase {
-//  LoggedUser _user = LoggedUser.empty();
-//  LoginService _loginService = LoginService();
   InfoUser _user;
-
   ApiService _apiService = ApiService();
   final JsonDecoder _decoder = new JsonDecoder();
+
+  // To save the preferences
+  SharedPreferences preferences;
 
   // Stream to handle the login / password
   StreamController<InfoUser> _submitLoginController = StreamController<InfoUser>.broadcast();
@@ -57,6 +58,7 @@ class LoginBloc implements BlocBase {
         print("Fullname $fullName");
         print("Fullname $fullName");
         _user = user;
+
         _goingNextScreenController.add(user);
       }
     }).catchError((error){

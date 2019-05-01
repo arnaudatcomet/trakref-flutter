@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:trakref_app/models/account.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/settings/support/page_topics_bloc.dart';
 import 'package:trakref_app/screens/settings/account_detail/page_account_detail_bloc.dart';
@@ -68,18 +69,14 @@ class _PageSettingsBlocState extends State<PageSettingsBloc> {
                 ,
                 SizedBox(height: 20),
                 buildItem("Account Details", true, () {
-                  Navigator.of(context).push(
-                      new MaterialPageRoute(builder: (BuildContext context) {
-                        return PageAccountDetailBloc(
-                          account: Account(
-                              name: "150 Spear Street",
-                              industryType: "",
-                              statusName: "Active",
-                              contactPhone: "",
-                              contactEmail: "Patrick.Flynn@am.jll.com"
-                          ),
-                        );
-                      }));
+                  TrakrefAPIService().getSelectedAccount().then((selectedAccount){
+                    Navigator.of(context).push(
+                        new MaterialPageRoute(builder: (BuildContext context) {
+                          return PageAccountDetailBloc(
+                            account: selectedAccount
+                          );
+                        }));
+                  });
                 }),
                 Divider(),
                 buildItem("My Profile", true, (){
@@ -103,6 +100,8 @@ class _PageSettingsBlocState extends State<PageSettingsBloc> {
                 }),
                 Divider(),
                 buildItem("Log Out", false, () {
+                  // Properly logout of the service
+                  TrakrefAPIService().logout();
                   Navigator.popUntil(context, ModalRoute.withName("/"));
                 }),
                 Divider(),

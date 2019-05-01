@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/bloc/accounts_bloc.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/bloc/login_bloc.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/user.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
+import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 //import 'package:trakref_app/models/logged_user_entity.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/loading_widget.dart';
@@ -28,10 +31,22 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
   void initState() {
     super.initState();
     this.loginBloc = BlocProvider.of<LoginBloc>(context);
-
     this.loginBloc.nextScreen.listen((InfoUser user) {
       print("Push to a next screen");
-      Navigator.of(context).pushNamed('/home');
+      // Set up keys
+      TrakrefAPIService().setAuthentificationToken(user.token.token);
+      TrakrefAPIService().setInstanceID((user.user.instanceID == 0) ? "248" : user.user.instanceID.toString());
+
+      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
+        return BlocProvider(bloc: AccountsBloc(), child: PageAccountsBloc(
+          type: PageAccountsType.Home,
+          currentInstanceID: 248,
+        ));
+      })).then((value){
+        setState(() {
+
+        });
+      });
     });
   }
 
