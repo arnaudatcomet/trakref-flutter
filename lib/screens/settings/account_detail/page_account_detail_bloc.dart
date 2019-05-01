@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/bloc/accounts_bloc.dart';
+import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/account.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
+import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 
 class PageAccountDetailBloc extends StatefulWidget {
@@ -45,7 +49,17 @@ class _PageAccountDetailBlocState extends State<PageAccountDetailBloc> {
           actions: <Widget>[
             FlatButton(
               onPressed: () {
-
+                TrakrefAPIService().getInstanceID().then((instanceID){
+                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return BlocProvider(
+                            bloc: AccountsBloc(), child: PageAccountsBloc(
+                          type: PageAccountsType.Details,
+                          currentInstanceID: int.parse(instanceID),
+                        ));
+                      },
+                      fullscreenDialog: true));
+                });
               },
               child: Text("Switch Account", style: TextStyle(
                   color: AppColors.blueTurquoise

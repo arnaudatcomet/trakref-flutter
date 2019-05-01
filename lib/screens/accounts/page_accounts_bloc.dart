@@ -165,7 +165,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
               leading: (widget.type == PageAccountsType.Home) ? Container() : IconButton(
                 icon: new Icon(Icons.close, color: AppColors.gray),
                 onPressed: () {
-//            Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
               ),
               actions: <Widget>[
@@ -207,18 +207,20 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
                             Account selectedAccount = accounts.where((Account account) => account.instanceID == item.accountID).first;
                             // Show the details
                             print("widget.type ${widget.type}");
+                            // Save the instanceID and selected account
+                            TrakrefAPIService().setSelectedAccount(selectedAccount);
+                            TrakrefAPIService().setInstanceID(selectedAccount.instanceID.toString());
+
                             if (widget.type == PageAccountsType.Details) {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return PageAccountDetailBloc(
-                                        account: selectedAccount);
-                                  }));
+//                              Navigator.of(context).push(MaterialPageRoute(
+//                                  builder: (BuildContext context) {
+//                                    return PageAccountDetailBloc(
+//                                        account: selectedAccount);
+//                                  }));
+                            Navigator.of(context).pop();
                             }
                             // Show the home page
                             else if (widget.type == PageAccountsType.Home) {
-                              // Save the instanceID and selected account
-                              TrakrefAPIService().setSelectedAccount(selectedAccount);
-                              TrakrefAPIService().setInstanceID(selectedAccount.instanceID.toString());
                               Navigator.of(context).pushNamed("/home");
                             }
                           },
