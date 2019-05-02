@@ -5,7 +5,6 @@ import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/repository/api_service.dart';
 
 class AccountsBloc implements BlocBase {
-
   ApiService _apiService = ApiService();
   int currentInstanceID = 0;
   List<Account> _account;
@@ -18,9 +17,11 @@ class AccountsBloc implements BlocBase {
   Stream<List<Account>> get getRetrievingAccount => _getAccountsController.stream;
 
   AccountsBloc({this.currentInstanceID}) {
-    print("_AccountsBloc($this.currentInstanceID)");
-    _triggerController.stream.listen(_startAccount);
-    _getAccountsController.stream.listen(_retrievingAccount);
+    print("_AccountsBloc($currentInstanceID)");
+    if (currentInstanceID != null) {
+      _triggerController.stream.listen(_startAccount);
+      _getAccountsController.stream.listen(_retrievingAccount);
+    }
   }
 
   void _startAccount(int instanceID) {
