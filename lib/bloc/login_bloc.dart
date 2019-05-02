@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:trakref_app/models/info_user.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginBloc implements BlocBase {
   InfoUser _user;
   ApiService _apiService = ApiService();
+  TrakrefAPIService _trakrefService = TrakrefAPIService();
   final JsonDecoder _decoder = new JsonDecoder();
 
   // To save the preferences
@@ -59,6 +61,12 @@ class LoginBloc implements BlocBase {
         print("Fullname $fullName");
         _user = user;
 
+        // Save the login keys
+        _trakrefService.setAuthentificationToken(user.token.token);
+        _trakrefService.setInstanceID((user.user.instanceID == 0) ? "248" : user.user.instanceID.toString());
+        _trakrefService.setProfile(user);
+
+        // Notify to go to the next screen
         _goingNextScreenController.add(user);
       }
     }).catchError((error){

@@ -7,7 +7,6 @@ import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/user.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
-//import 'package:trakref_app/models/logged_user_entity.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/loading_widget.dart';
 
@@ -33,10 +32,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
     this.loginBloc = BlocProvider.of<LoginBloc>(context);
     this.loginBloc.nextScreen.listen((InfoUser user) {
       print("Push to a next screen");
-      // Set up keys
-      TrakrefAPIService().setAuthentificationToken(user.token.token);
-      TrakrefAPIService().setInstanceID((user.user.instanceID == 0) ? "248" : user.user.instanceID.toString());
-
+      _formKey.currentState.reset();
       Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
         return BlocProvider(bloc: AccountsBloc(), child: PageAccountsBloc(
           type: PageAccountsType.Home,
@@ -44,10 +40,19 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
         ));
       })).then((value){
         setState(() {
-
         });
       });
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -126,13 +131,26 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                 child: StreamBuilder(
                                     initialData: null,
                                     stream: this.loginBloc.resultLogin,
-                                    builder: (BuildContext context, AsyncSnapshot<InfoUser> snapshot) {
-                                      print("Loading > ${snapshot.data.toString()}");
-                                      print("connectionState > ${snapshot.connectionState}");
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<InfoUser> snapshot) {
+                                      print("------------------------");
+                                      bool shouldShowCircular = (snapshot
+                                          .connectionState ==
+                                          ConnectionState.active &&
+                                          !snapshot.hasError);
+                                      print("shouldShowCircular? > $shouldShowCircular");
+                                      print("Loading > ${snapshot.data
+                                          .toString()}");
+                                      print("connectionState > ${snapshot
+                                          .connectionState}");
                                       print("hasError > ${snapshot.hasError}");
-                                      return (snapshot.connectionState == ConnectionState.active && !snapshot.hasError) ? Center(
-                                        child: CircularProgressIndicator(strokeWidth: 1,
-                                          backgroundColor: Colors.white
+                                      print("------------------------");
+                                      return (snapshot.connectionState ==
+                                          ConnectionState.active &&
+                                          !snapshot.hasError) ? Center(
+                                        child: CircularProgressIndicator(
+                                            strokeWidth: 1,
+                                            backgroundColor: Colors.white
                                         ),
                                       ) : Text("Login", style: TextStyle(color: Colors.white, fontSize: 16));
                                     }
