@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trakref_app/models/account.dart';
+import 'package:trakref_app/models/info_user.dart';
 
 import '../api_service.dart';
 
@@ -10,6 +11,7 @@ class TrakrefAPIService {
   static String AuthenticationTokenTRKey = "Authentication-Token";
   static String InstanceIDTRKey = "Instance-Id";
   static String SelectedAccountTRKey = "Selected-Account";
+  static String SelectedProfileTRKey = "Selected-Profile";
 
   static final TrakrefAPIService _shared = new TrakrefAPIService
       ._internal();
@@ -53,6 +55,11 @@ class TrakrefAPIService {
     _setValues(TrakrefAPIService.SelectedAccountTRKey, accountString);
   }
 
+  void setProfile(InfoUser user) async {
+    String userString = jsonEncode(user);
+    _setValues(TrakrefAPIService.SelectedProfileTRKey, userString);
+  }
+
   Future<String> getAPIKey() async {
     return await _getValue(TrakrefAPIService.ApiTRKey);
   }
@@ -72,10 +79,16 @@ class TrakrefAPIService {
     return account;
   }
 
+  Future<InfoUser> getSelectedProfile() async {
+    String userString = await _getValue(TrakrefAPIService.SelectedProfileTRKey);
+    Map userMap = jsonDecode(userString);
+    InfoUser user = InfoUser.fromJson(userMap);
+    return user;
+  }
+
   TrakrefAPIService._internal();
 
   // Access to different API services endpoint
-
   Future<List<Account>> getAccounts() async {
     String token = await getAuthentificationToken();
     String instanceID = await getInstanceID();
@@ -93,5 +106,9 @@ class TrakrefAPIService {
   void logout() async {
     await setAuthentificationToken(null);
     await setInstanceID(null);
+  }
+
+  close() {
+    apiService.close();
   }
 }

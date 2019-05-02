@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:trakref_app/models/info_user.dart';
@@ -14,82 +15,32 @@ class PageProfileDetailBloc extends StatefulWidget {
 }
 
 class _PageProfileDetailBloc extends State<PageProfileDetailBloc> {
-  bool _isLoaded = false;
-  InfoUser user = null;
-  ApiService service = ApiService();
-
-  void callLogin(String username, String password) {
-    final String loginURL = "https://api.trakref.com/v3.21/login";
-    String basicAuth = 'Basic '+ base64Encode(utf8.encode('$username:$password'));
-    final headers = {
-      "authorization": basicAuth,
-      "Api-Key": "eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0"
-    };
-    service.getLoginResponse(loginURL, username, password).then((response){
-      print("infoUser ${response}");
-      final res = response.body;
-      dynamic resultMap = jsonDecode(res);
-      InfoUser user = InfoUser.fromJson(resultMap);
-      print("resultMap $resultMap");
-
-      String fullName = user.user?.fullName;
-      String company = user.user?.company;
-      String preferredLeakDetectionMethod = user.user?.preferredLeakDetectionMethod;
-      String phone = user.user?.phone;
-      String email = user.user?.email;
-
-      print("Fullname $fullName");
-      print("Company $company");
-      print("PreferredLeakDetectionMethod $preferredLeakDetectionMethod");
-      print("Phone $phone");
-      print("email $email");
-
-      setState(() {
-        this.user = user;
-        _isLoaded = true;
-      });
-    });
-  }
+  InfoUser user;
+  TrakrefAPIService api = TrakrefAPIService();
 
   @override
   void initState() {
     super.initState();
 
-    final String loginURL = "https://api.trakref.com/v3.21/login";
-
-    String username = 'echappell';
-    String password = 'trakref';
-
-    String basicAuth = 'Basic '+ base64Encode(utf8.encode('$username:$password'));
-    final headers = {
-      "authorization": basicAuth,
-      "Api-Key": "eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0"
-    };
-
-    service.getLoginResponse(loginURL, username, password).then((response){
-      print("infoUser ${response}");
-      final res = response.body;
-      dynamic resultMap = jsonDecode(res);
-      InfoUser user = InfoUser.fromJson(resultMap);
-      print("resultMap $resultMap");
-
-      String fullName = user.user?.fullName;
-      String company = user.user?.company;
-      String preferredLeakDetectionMethod = user.user?.preferredLeakDetectionMethod;
-      String phone = user.user?.phone;
-      String email = user.user?.email;
-
-      print("Fullname $fullName");
-      print("Company $company");
-      print("PreferredLeakDetectionMethod $preferredLeakDetectionMethod");
-      print("Phone $phone");
-      print("email $email");
-
+    // Grab the user from sharedpreferences
+    api.getSelectedProfile().then((infoUser){
       setState(() {
-        this.user = user;
-        _isLoaded = true;
+        user = infoUser;
       });
-  });
+
+      if (infoUser == null) {
+        print("infoUser is empty!");
+      }
+      else {
+        print("infoUser ${user}");
+        print("infoUser.user ${user.user}");
+        print("FullNameKey ${user.user?.fullName}");
+        print("CompanyKey ${user.user?.company}");
+        print("FavoriteLeakTestMethodKey ${user.user?.preferredLeakDetectionMethod}");
+        print("PhoneNumberKey ${user.user?.phone}");
+      }
+
+    });
   }
 
   Widget buildTextfieldRow(String key, String label, String initialValue) {
@@ -134,7 +85,7 @@ class _PageProfileDetailBloc extends State<PageProfileDetailBloc> {
 
   @override
   void dispose() {
-    service.close();
+    api.close();
     super.dispose();
   }
 
@@ -151,7 +102,7 @@ class _PageProfileDetailBloc extends State<PageProfileDetailBloc> {
           elevation: 0.0,
           backgroundColor: Colors.white.withOpacity(0.0),
         ),
-        body: (_isLoaded == false) ? FormBuild.buildLoader() : SafeArea(
+        body: SafeArea(
             child: buildInfo(context, user)
         )
     );
