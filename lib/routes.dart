@@ -4,6 +4,7 @@ import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/bloc/dashboard_bloc.dart';
 import 'package:trakref_app/bloc/login_bloc.dart';
 import 'package:trakref_app/bloc/search_bloc.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/page_asset_add_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
@@ -27,5 +28,6 @@ final routes = {
   '/accounts': (BuildContext context) => PageAccountsBloc(),
   '/assets': (BuildContext context) => PageAssetAddBloc(),
   '/leaks': (BuildContext context) => PageServiceEventAddBloc(),
-  '/settings': (BuildContext context) => PageSettingsBloc()
+  '/settings': (BuildContext context) => PageSettingsBloc(),
+  '/add_service_event': (BuildContext context) => PageServiceEventAddBloc()
 };

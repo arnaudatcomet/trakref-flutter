@@ -11,14 +11,17 @@ import 'package:trakref_app/models/workorder.dart';
 
 class ApiService {
   final JsonDecoder _decoder = new JsonDecoder();
-  static String baseURL = "http://apitest.trakref.com";
+  static String baseURL = "https://apitest.trakref.com";
   static String getWorkOrdersURL = "$baseURL/v3.21/WorkOrders";
   static String getWorkOrdersByInstanceURL = "$getWorkOrdersURL/GetByInstance";
 
-  static String getLocationsURL = "$baseURL/v3.21/WorkOrders";
+  static String getAssetsURL = "$baseURL/v3.21/Assets";
+  static String getAssetsByInstanceURL = "$getAssetsURL/GetByInstance";
 
   static String getLoginURL = "$baseURL/v3.21/login";
   static String getAccountsURL = "$baseURL/v3.21/accounts";
+  static String getLocationsURL = "$baseURL/v3.21/location";
+  static String getGeolocationsURL = "$baseURL/v3.21/geolocation";
 
   http.Client client = http.Client();
 
@@ -39,7 +42,6 @@ class ApiService {
   Future<dynamic> get(String url) async {
     final headers = {
       "Content-Type": "application/json",
-//      "Userid":"$_userID",
       "Api-Key":"$apiKey",
       "Authentication-Token":"$token",
       "Instance-Id":"$instanceID"
@@ -54,7 +56,6 @@ class ApiService {
   Future<dynamic> post<T>(T item, String url) async {
     final headers = {
       "Content-Type": "application/json",
-//      "Userid": "$_userID",
       "Api-Key": "$apiKey",
       "Authentication-Token": "$token",
       "Instance-Id": "$instanceID"
@@ -69,7 +70,6 @@ class ApiService {
   Future<dynamic> postWorkOrder(WorkOrder order, String url) async {
     final headers = {
       "Content-Type": "application/json",
-//      "Userid": "$_userID",
       "Api-Key": "$apiKey",
       "Authentication-Token": "$token",
       "Instance-Id": "$instanceID"
@@ -100,12 +100,12 @@ class ApiService {
   Future<List> getResult<T>(String url) async {
     final headers = {
       "Content-Type": "application/json",
-//      "Userid": "$_userID",
       "Api-Key": "$apiKey",
       "Authentication-Token": "$token",
       "Instance-Id": "$instanceID"
     };
 
+    print("### getResult > URL $url");
     print("### getResult > Headers $headers");
 
     return await client.get(url, headers: headers).then((http.Response response) {

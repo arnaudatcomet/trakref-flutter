@@ -158,7 +158,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
       int leakCategory = _pickedInitialLeakCategory.id;
       int leakLocation = _pickedInitialLeakLocation.id;
       int causeLeak = _pickedCauseOfLeak.id;
-      int estimatedLeakAmount = _pickedEstimatedLeakAmount.toInt();
+      double estimatedLeakAmount = _pickedEstimatedLeakAmount.toDouble();
       String followUpDateString;
       if (_pickedFollowUpDate != null) {
         followUpDateString = DateFormat(kShortDateFormat).format(_pickedFollowUpDate);

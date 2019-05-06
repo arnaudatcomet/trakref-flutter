@@ -50,15 +50,20 @@ class _PageAccountDetailBlocState extends State<PageAccountDetailBloc> {
             FlatButton(
               onPressed: () {
                 TrakrefAPIService().getInstanceID().then((instanceID){
-                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return BlocProvider(
-                            bloc: AccountsBloc(), child: PageAccountsBloc(
-                          type: PageAccountsType.Details,
-                          currentInstanceID: int.parse(instanceID),
-                        ));
-                      },
-                      fullscreenDialog: true));
+                  if (instanceID.isNotEmpty) {
+                    Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return BlocProvider(
+                              bloc: AccountsBloc(), child: PageAccountsBloc(
+                            type: PageAccountsType.Details,
+                            currentInstanceID: int.parse(instanceID),
+                          ));
+                        },
+                        fullscreenDialog: true));
+                  }
+                  else {
+                    print("No instanceID retrieved from successful login");
+                  }
                 });
               },
               child: Text("Switch Account", style: TextStyle(

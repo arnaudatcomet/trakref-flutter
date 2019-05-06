@@ -35,7 +35,7 @@ class PageAccountsBloc extends StatefulWidget {
 }
 
 class _PageAccountsBlocState extends State<PageAccountsBloc> {
-  ApiService api = ApiService();
+  TrakrefAPIService api = TrakrefAPIService();
   List<Account> accounts;
   bool _onLoaded = false;
   bool _activeState;
@@ -80,7 +80,6 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
     // Link to AccountBloc
     this.accountBloc = BlocProvider.of<AccountsBloc>(context);
 
-    TrakrefAPIService api = TrakrefAPIService();
     api.getAccounts().then((results) {
       if (results == null) {
         print("error when retrieving all the accounts");
@@ -103,35 +102,6 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
 
       });
     });
-    /*
-    if (widget.currentInstanceID != null) {
-      print("AccountBLoC retrieve accounts for instanceID ${widget.currentInstanceID}");
-      this.accountBloc.currentInstanceID = widget.currentInstanceID;
-      this.accountBloc.getRetrievingAccount.listen((results){
-        print("getRetrievingAccount retrieved ${accounts.length} accounts");
-      });
-    }
-    */
-
-//    this.accountBloc.startRetrievingAccount.add(widget.currentInstanceID);
-
-    /*
-    this.accountBloc.getRetrievingAccount.listen((results) {
-      // Add accounts retrieved and prepare the list view
-      accounts = results;
-      print("getRetrievingAccount retrieved ${accounts.length} accounts");
-      for (Account acc in accounts) {
-        items.add(AccountItem(account: acc.name, accountID: acc.instanceID));
-      }
-
-      // Notify to stop loading
-      setState(() {
-        _onLoaded = true;
-      });
-    });
-    */
-    // Get the list of accounts
-//    getAccounts();
 
     super.initState();
   }

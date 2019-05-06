@@ -4,6 +4,7 @@ import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/models/search_filter_options.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/repository/location_service.dart';
 import 'package:trakref_app/repository/preferences_service.dart';
@@ -30,7 +31,8 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
   bool _isCylindersLoaded = false;
   bool _isLocationsLoaded = false;
 
-  ApiService api = ApiService();
+//  ApiService api = ApiService();
+  TrakrefAPIService api = TrakrefAPIService();
 
   // List values in the 3 tabs (Service Events, Cylinders, Locations)
   List<WorkOrder> _serviceEventsResult;
@@ -42,60 +44,60 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
   List<Location> _filteredLocationsResult;
   List<Asset> _fiteredAssetsResult;
 
-  getServiceEvents(int locationID) {
-    // Below for showing the GET Work Orders
-    var baseUrl = "http://api.trakref.com/v3.21/WorkOrders?locationID=$locationID";
-    api.getResult<WorkOrder>(baseUrl).then((results) {
-      _isServiceEventsLoaded = true;
-      for (WorkOrder order in results) {
-        print("> ${order.workOrderNumber}");
-        setState(() {
-          _serviceEventsResult = results;
-        });
-      }
-    });
-  }
+//  getServiceEvents(int locationID) {
+//    // Below for showing the GET Work Orders
+//    var baseUrl = "http://api.trakref.com/v3.21/WorkOrders?locationID=$locationID";
+//    api.getResult<WorkOrder>(baseUrl).then((results) {
+//      _isServiceEventsLoaded = true;
+//      for (WorkOrder order in results) {
+//        print("> ${order.workOrderNumber}");
+//        setState(() {
+//          _serviceEventsResult = results;
+//        });
+//      }
+//    });
+//  }
 
-  void getAllServiceEvents() {
-    // Below test for showing the GET Work Orders
-    api.getResult<WorkOrder>(ApiService.getWorkOrdersByInstanceURL).then((results) {
-      _isServiceEventsLoaded = true;
-      for (WorkOrder order in results) {
-        print("> ${order.workOrderNumber}");
-        setState(() {
-          _serviceEventsResult = results;
-        });
-      }
-    });
-  }
+//  void getAllServiceEvents() {
+//    // Below test for showing the GET Work Orders
+//    api.getResult<WorkOrder>(ApiService.getWorkOrdersByInstanceURL).then((results) {
+//      _isServiceEventsLoaded = true;
+//      for (WorkOrder order in results) {
+//        print("> ${order.workOrderNumber}");
+//        setState(() {
+//          _serviceEventsResult = results;
+//        });
+//      }
+//    });
+//  }
 
-  getLocations() {
-    // Below for showing the GET Work Orders
-    var baseUrl = "http://api.trakref.com/v3.21/location";
-    api.getResult<Location>(baseUrl).then((results) {
-      _isLocationsLoaded = true;
-      for (Location location in results) {
-        print("> ${location.name} > ${location.physicalAddress1}");
-        setState(() {
-          _locationsResult = results;
-        });
-      }
-    });
-  }
+//  getLocations() {
+//    // Below for showing the GET Work Orders
+//    var baseUrl = "http://api.trakref.com/v3.21/location";
+//    api.getResult<Location>(baseUrl).then((results) {
+//      _isLocationsLoaded = true;
+//      for (Location location in results) {
+//        print("> ${location.name} > ${location.physicalAddress1}");
+//        setState(() {
+//          _locationsResult = results;
+//        });
+//      }
+//    });
+//  }
 
-  getCylinders(int locationID) {
-    // Below for showing the GET Work Orders
-    var baseUrl = "http://api.trakref.com/v3.21/assets?locationID=$locationID";
-    api.getResult<Asset>(baseUrl).then((results) {
-      _isCylindersLoaded = true;
-      for (Asset asset in results) {
-        print("> ${asset.name} > ${asset.assetStatus}");
-        setState(() {
-          _assetsResult = results;
-        });
-      }
-    });
-  }
+//  getCylinders(int locationID) {
+//    // Below for showing the GET Work Orders
+//    var baseUrl = "http://api.trakref.com/v3.21/assets?locationID=$locationID";
+//    api.getResult<Asset>(baseUrl).then((results) {
+//      _isCylindersLoaded = true;
+//      for (Asset asset in results) {
+//        print("> ${asset.name} > ${asset.assetStatus}");
+//        setState(() {
+//          _assetsResult = results;
+//        });
+//      }
+//    });
+//  }
 
   @override
   void dispose() {
@@ -119,14 +121,39 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
     int locationID = 47658;
 
     // Below for showing the GET Work Orders
-    getServiceEvents(locationID);
+//    getServiceEvents(locationID);
 //    getAllServiceEvents();
+    api.getServiceEvents([]).then((results) {
+      _isServiceEventsLoaded = true;
+      setState(() {
+        _serviceEventsResult = results;
+      });
+    }).catchError((error){
+      _isServiceEventsLoaded = true;
+      print("TrakrefAPIService catch error on 'getServiceEvents'");
+    });
 
     // Showing the Locations
-    getLocations();
+    api.getLocations().then((results){
+      _isLocationsLoaded = true;
+      setState(() {
+        _locationsResult = results;
+      });
+    }).catchError((error){
+      _isLocationsLoaded = true;
+      print("TrakrefAPIService catch error on 'getLocations'");
+    });
 
     // Showing the Assets
-    getCylinders(locationID);
+    api.getCylinders([]).then((results){
+      _isCylindersLoaded = true;
+      setState(() {
+        _assetsResult = results;
+      });
+    }).catchError((error){
+      _isCylindersLoaded = true;
+      print("TrakrefAPIService catch error on 'getCylinder'");
+    });
 
     _controller = TabController(length: 3, vsync: this);
     super.initState();
@@ -177,12 +204,34 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                 return SearchFilter(
                   delegate: (listOptions) {
                     FilterPreferenceService().resetAll();
+                    bool showAroundMe = false;
                     for (SearchFilterOptions option in listOptions) {
                       FilterPreferenceService().setFilter(option, true);
                       // If assigned to me then change the switch 'Assigned to me' state
                       if (option == SearchFilterOptions.AssignedToMe) {
                         print("_assignedToMe $_assignedtoMe");
                       }
+
+                      if (option == SearchFilterOptions.AroundMe) {
+                        showAroundMe = true;
+                      }
+                    }
+
+                    if (showAroundMe) {
+                      double currentLatitude = GeolocationService().currentLocation.latitude;
+                      double currentLongitude = GeolocationService().currentLocation.longitude;
+                      api.getLocationAroundMe(currentLatitude, currentLongitude, 100).then((locationResults) {
+                        setState(() {
+                          _locationsResult = locationResults;
+                        });
+                      });
+                    }
+                    else {
+                      api.getLocations().then((locationResults){
+                        setState(() {
+                          _locationsResult = locationResults;
+                        });
+                      });
                     }
 
                     setState(() {
@@ -205,9 +254,6 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                   _assignedtoMe = value;
                   FilterPreferenceService().setFilter(SearchFilterOptions.AssignedToMe, _assignedtoMe);
                 },
-                // Do that later on
-//                activeThumbImage: AssetImage("assets/images/toggle-on.png"),
-//                inactiveThumbImage: AssetImage("assets/images/toggle-off.png"),
               )
             ],
           )
@@ -275,11 +321,10 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                       locations: _locationsResult,
                       aroundMeActionHandle: () {
                         print("aroundMeActionHandle");
+                        FilterPreferenceService().setFilter(SearchFilterOptions.AroundMe, true);
                         double currentLatitude = GeolocationService().currentLocation.latitude;
                         double currentLongitude = GeolocationService().currentLocation.longitude;
-//                        currentLatitude = 36.1642643;
-//                        currentLongitude = -86.7834718;
-                        ApiService().getLocationAroundMe(currentLatitude, currentLongitude, 100).then((locationResults) {
+                        TrakrefAPIService().getLocationAroundMe(currentLatitude, currentLongitude, 100).then((locationResults) {
                           setState(() {
                             _locationsResult = locationResults;
                           });

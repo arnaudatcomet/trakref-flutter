@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/screens/page_service_event_add_bloc.dart';
 
 
 class PageAddingEventsBloc extends StatefulWidget {
@@ -8,15 +9,18 @@ class PageAddingEventsBloc extends StatefulWidget {
 
 class _PageAddingEventsBloc extends State<PageAddingEventsBloc> {
   Widget buildItem(String title, bool isPushing, Function onTapped) {
-    return Row(
-      children: <Widget>[
-        SizedBox(height: 50),
-        Text(title,
-          style: Theme.of(context).textTheme.headline,
-        ),
-        Spacer(),
-        (isPushing) ? Icon(Icons.chevron_right) : Container()
-      ],
+    return GestureDetector(
+      onTap: onTapped,
+      child: Row(
+        children: <Widget>[
+          SizedBox(height: 50),
+          Text(title,
+            style: Theme.of(context).textTheme.headline,
+          ),
+          Spacer(),
+          (isPushing) ? Icon(Icons.chevron_right) : Container()
+        ],
+      )
     );
   }
   @override
@@ -41,7 +45,12 @@ class _PageAddingEventsBloc extends State<PageAddingEventsBloc> {
                 )
                 ,
                 SizedBox(height: 20),
-                buildItem("Service Event", true, null),
+                buildItem("Service Event", true, () {
+                  Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
+                    return PageServiceEventAddBloc(
+                    );
+                  }));
+                }),
                 Divider(),
                 buildItem("Cylinder", true, null),
                 Divider(),

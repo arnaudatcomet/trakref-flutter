@@ -128,7 +128,7 @@ class WorkItem {
   final double netGasLbsAdded;
 
   @JsonKey(name: 'GasLbsAdded')
-  final int gasLbsAdded;
+  final double gasLbsAdded;
 
   @JsonKey(name: 'VerificationLeakDetectionMethod')
   final String verificationLeakDetectionMethod;
@@ -206,7 +206,7 @@ class WorkItem {
   final String dateLeakFound;
 
   @JsonKey(name: 'GasLbsRemoved')
-  final int gasLbsRemoved;
+  final double gasLbsRemoved;
 
   @JsonKey(name: 'VacuumPSI')
   final double vacuumPSI;
@@ -218,7 +218,7 @@ class WorkItem {
   final String materialType;
 
   @JsonKey(name: 'FinalCoolingApplianceStatus')
-  final int finalCoolingApplianceStatus;
+  final String finalCoolingApplianceStatus;
 
   @JsonKey(name: 'LeakInspectionCount')
   final int leakInspectionCount;
@@ -264,7 +264,7 @@ class MaterialTransfer {
   @JsonKey(name: 'ToAssetID')
   final int toAssetID;
 
-  @JsonKey(name: 'toAsset')
+  @JsonKey(name: 'ToAsset')
   final String toAsset;
 
   @JsonKey(name: 'TransferDate')
@@ -295,7 +295,7 @@ class MaterialTransfer {
   final String materialTransferType;
 
   @JsonKey(name: 'TransferWeightLbs')
-  final int transferWeightLbs;
+  final double transferWeightLbs;
 
   @JsonKey(name: 'MaterialTransferTypeID')
   final int materialTransferTypeID;
@@ -335,7 +335,7 @@ class LeakInspection {
   final String leakInspectionType;
 
   @JsonKey(name: 'EstimatedLeakAmount')
-  final int estimatedLeakAmount;
+  final double estimatedLeakAmount;
 
   @JsonKey(name: 'FaultCauseType')
   final String faultCauseType;

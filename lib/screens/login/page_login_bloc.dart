@@ -7,6 +7,7 @@ import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/user.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
+import 'package:trakref_app/screens/login/reset/page_reset_password_bloc.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/loading_widget.dart';
 
@@ -197,6 +198,12 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             LinkAppButton(
+                              onPressed: () {
+                                Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
+                                  return PageResetPasswordBloc(
+                                  );
+                                }));
+                              },
                               title: "Forgot your password?",
                               style: TextStyle(
                                 color: AppColors.gray,

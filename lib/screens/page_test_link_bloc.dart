@@ -20,7 +20,7 @@ class _PageTestLinkBlocState extends State<PageTestLinkBloc> {
   void getWorkOrders(int locationID) {
     // Below test for showing the GET Work Orders
     ApiService api = ApiService();
-    var baseUrl = "https://api.trakref.com/v3.21/WorkOrders?locationID=$locationID";
+    var baseUrl = "https://apitest.trakref.com/v3.21/WorkOrders?locationID=$locationID";
 //    var baseUrl = "https://api.trakref.com/v3.21/WorkOrders?locationID=10723";
 
     api.getResult<WorkOrder>(baseUrl).then((results) {

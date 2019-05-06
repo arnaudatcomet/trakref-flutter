@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/workorder.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:trakref_app/widget/home_cell_widget.dart';
@@ -69,8 +70,10 @@ class PageDashboardBloc extends StatefulWidget {
 class _PageDashboardBlocState extends State<PageDashboardBloc> {
   bool _isServiceEventsLoaded = false;
   List<WorkOrder> _serviceEventsResult;
-  ApiService api = ApiService();
+//  ApiService api = ApiService();
+  TrakrefAPIService api = TrakrefAPIService();
 
+  /*
   getServiceEvents(int locationID) {
     // Below for showing the GET Work Orders
     var baseUrl = "$baseURL/WorkOrders?locationID=$locationID";
@@ -81,6 +84,7 @@ class _PageDashboardBlocState extends State<PageDashboardBloc> {
       });
     });
   }
+  */
 
   @override
   void dispose() {
@@ -90,8 +94,26 @@ class _PageDashboardBlocState extends State<PageDashboardBloc> {
 
   @override
   void initState() {
-    int locationID = 47658;
-    getServiceEvents(locationID);
+//    int locationID = 47658;
+//    getServiceEvents(locationID);
+
+    api.getServiceEvents([]).then((results) {
+      _isServiceEventsLoaded = true;
+      setState(() {
+        _serviceEventsResult = results;
+      });
+    });
+
+    // this is a test
+//    var locations = [43613, 10721];
+//    TrakrefAPIService().getServiceEvents(locations).then((orders){
+//      print("Orders for 43613 = $orders");
+//    });
+//
+//    TrakrefAPIService().getCylinders(locations).then((cylinders){
+//      print("Cylinders for 43613 = $cylinders");
+//    });
+
     super.initState();
   }
 

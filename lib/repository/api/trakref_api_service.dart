@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trakref_app/models/account.dart';
+import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/info_user.dart';
+import 'package:trakref_app/models/location.dart';
+import 'package:trakref_app/models/workorder.dart';
 
 import '../api_service.dart';
 
@@ -88,7 +91,21 @@ class TrakrefAPIService {
 
   TrakrefAPIService._internal();
 
+  // Get constructed API
+  Future<ApiService> getAPI() async {
+    String token = await getAuthentificationToken();
+    String instanceID = await getInstanceID();
+    if (token == null || instanceID == null) {
+      Future.error("No token or no instanceID associated");
+    }
+    ApiService api = ApiService(
+        instanceID: instanceID,
+        token: token
+    );
+    return api;
+  }
   // Access to different API services endpoint
+  // Showing the GET Accounts
   Future<List<Account>> getAccounts() async {
     String token = await getAuthentificationToken();
     String instanceID = await getInstanceID();
@@ -100,6 +117,64 @@ class TrakrefAPIService {
       token: token
     );
     return await api.getResult<Account>(ApiService.getAccountsURL);
+  }
+
+  // Showing the GET Locations
+  Future<List<Location>> getLocations() async {
+    ApiService api = await getAPI();
+    return await api.getResult<Location>(ApiService.getLocationsURL);
+  }
+
+  Future<List> getLocationAroundMe(double lat, double long, double range) async {
+    String getGeolocationURL = "${ApiService.getGeolocationsURL}?latitude=$lat&longitude=$long&range=$range";
+    print("getGeolocationURL $getGeolocationURL");
+    ApiService api = await getAPI();
+    return await api.getResult<Location>(getGeolocationURL);
+  }
+
+  // Showing the GET Work Orders
+  Future<List<WorkOrder>> getServiceEvents(List<int> locationIDs) async {
+    ApiService api = await getAPI();
+
+    if (locationIDs.length > 0) {
+      List<String> locations = locationIDs.map((value) => "LocationID=${value.toString()}").toList();
+      String locationParameters = locations.join("&");
+      var baseUrl = "${ApiService.getWorkOrdersURL}?GetLocationArray?$locationParameters";
+      print("getServiceEvents > Show baseURL $baseUrl");
+
+      return await api.getResult<WorkOrder>(baseUrl).catchError((error) {
+        Future.error(error);
+      });
+    }
+    else {
+      var baseUrl = "${ApiService.getWorkOrdersByInstanceURL}";
+      print("getServiceEvents > Show baseURL $baseUrl");
+      return await api.getResult<WorkOrder>(baseUrl).catchError((error) {
+        Future.error(error);
+      });
+    }
+  }
+
+  Future<List<Asset>> getCylinders(List<int> locationIDs) async {
+    ApiService api = await getAPI();
+
+    if (locationIDs.length > 0) {
+      List<String> locations = locationIDs.map((value) => "LocationID=${value.toString()}").toList();
+      String locationParameters = locations.join("&");
+      var baseUrl = "${ApiService.getAssetsURL}?GetLocationArray?$locationParameters";
+      print("getCylinders > Show baseURL $baseUrl");
+
+      return await api.getResult<Asset>(baseUrl).catchError((error) {
+        Future.error(error);
+      });
+    }
+    else {
+      var baseUrl = "${ApiService.getAssetsByInstanceURL}";
+      print("getServiceEvents > Show baseURL $baseUrl");
+      return await api.getResult<Asset>(baseUrl).catchError((error) {
+        Future.error(error);
+      });
+    }
   }
 
   // For logging out

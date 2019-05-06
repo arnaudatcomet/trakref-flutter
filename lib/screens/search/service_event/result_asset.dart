@@ -13,10 +13,10 @@ class AssetResultWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           Asset asset = assets[index];
           return HomeCellWidget(
-              line1: '${asset.serialNumber}',
-              line2: '${asset.name}',
-              line3: '${asset.assetStatus}',
-              line4: '${asset.assetType}, ${asset.assetCategory}',
+              line1: '${asset.serialNumber ?? ""}',
+              line2: '${asset.name ?? ""}',
+              line3: '${(asset.assetStatusID == 1) ? "Active" : "Inactive"}',
+              line4: '${asset.assetCategory ?? ""}',
               cellType: (asset.isCylinder == true) ? HomeCellType.StickerCYLINDER : HomeCellType.Normal
           );
         }

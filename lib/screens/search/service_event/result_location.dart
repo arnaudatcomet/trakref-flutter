@@ -65,7 +65,7 @@ class _LocationResultWidgetState extends State<LocationResultWidget> {
   Widget build(BuildContext context) {
     // List of locations
     ListView locationsWidget = ListView.builder(
-        itemCount: widget.locations.length+1,
+        itemCount: (widget.locations?.length ?? 0) + 1,
         itemBuilder: (context, index) {
           if (index == 0) {
             return GestureDetector(
