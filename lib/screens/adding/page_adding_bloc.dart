@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/screens/adding/service_event/page_service_event_add_bloc.dart';
 
 
-class PageAddingEventsBloc extends StatefulWidget {
+class PageAddingBloc extends StatefulWidget {
   @override
-  _PageAddingEventsBloc createState() => _PageAddingEventsBloc();
+  _PageAddingBloc createState() => _PageAddingBloc();
 }
 
-class _PageAddingEventsBloc extends State<PageAddingEventsBloc> {
+class _PageAddingBloc extends State<PageAddingBloc> {
   Widget buildItem(String title, bool isPushing, Function onTapped) {
     return GestureDetector(
       onTap: onTapped,
