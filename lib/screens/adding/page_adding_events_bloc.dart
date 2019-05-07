@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trakref_app/screens/page_service_event_add_bloc.dart';
+import 'package:trakref_app/screens/adding/service_event/page_service_event_add_bloc.dart';
 
 
 class PageAddingEventsBloc extends StatefulWidget {
@@ -15,7 +15,9 @@ class _PageAddingEventsBloc extends State<PageAddingEventsBloc> {
         children: <Widget>[
           SizedBox(height: 50),
           Text(title,
-            style: Theme.of(context).textTheme.headline,
+            style: Theme.of(context).textTheme.headline.copyWith(
+              color: (isPushing) ? Colors.black : Colors.black38
+            )
           ),
           Spacer(),
           (isPushing) ? Icon(Icons.chevron_right) : Container()
@@ -53,11 +55,11 @@ class _PageAddingEventsBloc extends State<PageAddingEventsBloc> {
                   }));
                 }),
                 Divider(),
-                buildItem("Cylinder", true, null),
+                buildItem("Cylinder", false, null),
                 Divider(),
-                buildItem("Appliance", true, null),
+                buildItem("Appliance", false, null),
                 Divider(),
-                buildItem("Work Order", true, null),
+                buildItem("Work Order", false, null),
                 Divider(),
               ],
             ),

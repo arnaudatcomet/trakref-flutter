@@ -5,7 +5,7 @@ import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api_service.dart';
-import 'package:trakref_app/screens/page_service_event_add_bloc.dart';
+import 'package:trakref_app/screens/adding/service_event/page_service_event_add_bloc.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 
 class PageTestLinkBloc extends StatefulWidget {

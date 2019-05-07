@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/models/asset.dart';
+import 'package:trakref_app/models/dropdown.dart';
 import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
@@ -107,7 +108,7 @@ class TrakrefAPIService {
   }
   // Access to different API services endpoint
   // Showing the GET Dropdowns
-  Future<Dropdowns> getDropdown() async {
+  Future<DropdownList> getDropdown() async {
     String token = await getAuthentificationToken();
     String instanceID = await getInstanceID();
     if (token == null || instanceID == null) {

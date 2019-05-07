@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/asset.dart';
+import 'package:trakref_app/models/dropdown.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
@@ -43,21 +44,21 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     Dropdown(name: 'No', id: 0)
   ];
 
-  List<Dropdown> assetsDropdowns;
-  List<LeakLocationDropdown> initialLocationLeakFound;
-  List<LeakLocationDropdown> verificationLocationLeakFound;
-  List<Dropdown> _filteredInitialLocationLeakFound;
-  List<Dropdown> _filteredVerificationLocationLeakFound;
-  List<Dropdown> categoriesLeakFound;
-  List<Dropdown> categoryLocationLeakFound;
-  List<Dropdown> causeOfLeaks;
-  List<Dropdown> leakDetectionMethod;
-  List<Dropdown> serviceActions;
-  List<Dropdown> leakRepairStatus;
-  List<Dropdown> shutdownStatus = [
-    Dropdown(name: 'Shutdown', id: 6),
-    Dropdown(name: 'Mothball', id: 2),
-    Dropdown(name: 'Pending Install', id: 12),
+  List<DropdownItem> assetsDropdowns;
+  List<LeakLocationItem> initialLocationLeakFound;
+  List<LeakLocationItem> verificationLocationLeakFound;
+  List<DropdownItem> _filteredInitialLocationLeakFound;
+  List<DropdownItem> _filteredVerificationLocationLeakFound;
+  List<DropdownItem> categoriesLeakFound;
+  List<DropdownItem> categoryLocationLeakFound;
+  List<DropdownItem> causeOfLeaks;
+  List<DropdownItem> leakDetectionMethod;
+  List<DropdownItem> serviceActions;
+  List<DropdownItem> leakRepairStatus;
+  List<DropdownItem> shutdownStatus = [
+    DropdownItem(name: 'Shutdown', id: 6),
+    DropdownItem(name: 'Mothball', id: 2),
+    DropdownItem(name: 'Pending Install', id: 12),
   ];
   List<Dropdown> depthVacuumAmount = _buildDropdownInt(0, 31);
 
@@ -114,13 +115,14 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
         this.categoriesLeakFound = results.leakLocationCategories;
         this.causeOfLeaks = results.causeOfLeaks;
         this.leakDetectionMethod = results.leakDetectionMethods;
-        this.serviceActions = service.dropdowns.serviceActions;
-        this.leakRepairStatus = service.dropdowns.leakRepairStatuses;
+
+        this.serviceActions = results.serviceActions;
+        this.leakRepairStatus = results.leakRepairStatuses;
         _isDropdownsLoaded = true;
 
         // Map the list of assets to a dropdown sources
         assetsDropdowns = (widget.assets ?? []).map((i) {
-          return Dropdown(
+          return DropdownItem(
               name: i.name,
               id: i.assetID
           );
@@ -308,16 +310,16 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         this._filteredInitialLocationLeakFound = null;
                       });
                       Future.delayed(const Duration(milliseconds: 500), () {
-                        if (value is Dropdown) {
+                        if (value is DropdownItem) {
                           // Get the filtered leak location category
-                          List<LeakLocationDropdown> selectedLeakLocationList =
+                          List<LeakLocationItem> selectedLeakLocationList =
                               this
                                   .initialLocationLeakFound
                                   .where((i) => i.categoryID == value.id)
                                   .toList();
-                          List<Dropdown> categoryLeaksLocation =
+                          List<DropdownItem> categoryLeaksLocation =
                               selectedLeakLocationList
-                                  .map((i) => Dropdown(id: i.id, name: i.name))
+                                  .map((i) => DropdownItem(id: i.id, name: i.name))
                                   .toList();
                           setState(() {
                             if (categoryLeaksLocation.length == 0) {
@@ -414,16 +416,16 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         this._filteredInitialLocationLeakFound = null;
                       });
                       Future.delayed(const Duration(milliseconds: 500), () {
-                        if (value is Dropdown) {
+                        if (value is DropdownItem) {
                           // Get the filtered leak location category
-                          List<LeakLocationDropdown> selectedLeakLocationList =
+                          List<LeakLocationItem> selectedLeakLocationList =
                               this
                                   .initialLocationLeakFound
                                   .where((i) => i.categoryID == value.id)
                                   .toList();
-                          List<Dropdown> categoryLeaksLocation =
+                          List<DropdownItem> categoryLeaksLocation =
                               selectedLeakLocationList
-                                  .map((i) => Dropdown(id: i.id, name: i.name))
+                                  .map((i) => DropdownItem(id: i.id, name: i.name))
                                   .toList();
                           setState(() {
                             if (categoryLeaksLocation.length == 0) {
@@ -565,15 +567,15 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                 () {
                               if (value is Dropdown) {
                                 // Get the filtered leak location category
-                                List<LeakLocationDropdown>
+                                List<LeakLocationItem>
                                     selectedLeakLocationList = this
                                         .verificationLocationLeakFound
                                         .where((i) => i.categoryID == value.id)
                                         .toList();
-                                List<Dropdown> categoryLeaksLocation =
+                                List<DropdownItem> categoryLeaksLocation =
                                     selectedLeakLocationList
                                         .map((i) =>
-                                            Dropdown(id: i.id, name: i.name))
+                                        DropdownItem(id: i.id, name: i.name))
                                         .toList();
                                 setState(() {
                                   if (categoryLeaksLocation.length == 0) {

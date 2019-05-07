@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/models/asset.dart';
+import 'package:trakref_app/models/dropdown.dart';
 import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
@@ -102,7 +103,7 @@ class ApiService {
   }
 
 
-  Future<Dropdowns> getDropdowns(String url) async {
+  Future<DropdownList> getDropdowns(String url) async {
     final headers = {
       "Content-Type": "application/json",
       "Api-Key": "$apiKey",
@@ -110,8 +111,8 @@ class ApiService {
       "Instance-Id": "$instanceID"
     };
 
-    print("### getResults > URL $url");
-    print("### getResults > Headers $headers");
+    print("### getResults for DropdownList > URL $url");
+    print("### getResults for DropdownList > Headers $headers");
 
     return await client.get(url, headers: headers).then((http.Response response) {
       final res = response.body;
@@ -119,7 +120,7 @@ class ApiService {
       try
       {
         dynamic resultMap = jsonDecode(res);
-        Dropdowns dropdowns = Dropdowns.fromJson(resultMap);
+        DropdownList dropdowns = DropdownList.fromJson(resultMap);
         return dropdowns;
       }
       catch(error) {

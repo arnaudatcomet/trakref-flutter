@@ -11,7 +11,7 @@ import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/login/page_login_bloc.dart';
 import 'package:trakref_app/screens/page_main.dart';
 import 'package:trakref_app/screens/search/page_search_bloc.dart';
-import 'package:trakref_app/screens/page_service_event_add_bloc.dart';
+import 'package:trakref_app/screens/adding/service_event/page_service_event_add_bloc.dart';
 import 'package:trakref_app/screens/page_settings_screen.dart';
 import 'package:trakref_app/screens/page_test_link_bloc.dart';
 import 'package:trakref_app/screens/settings/support/page_topics_bloc.dart';
