@@ -92,6 +92,7 @@ class _PageProfileDetailBloc extends State<PageProfileDetailBloc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
             icon: new Icon(Icons.arrow_back, color: AppColors.gray),

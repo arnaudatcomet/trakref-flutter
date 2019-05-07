@@ -171,7 +171,6 @@ class DropdownService {
   static final DropdownService _shared = new DropdownService._internal();
 
   factory DropdownService() {
-//    _shared.loadDropdowns();
     return _shared;
   }
 

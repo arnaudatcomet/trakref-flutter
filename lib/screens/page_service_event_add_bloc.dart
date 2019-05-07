@@ -3,12 +3,10 @@ import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/workorder.dart';
-import 'package:trakref_app/repository/api_service.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
-import 'package:trakref_app/screens/page_material_gas_install_bloc.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
-import 'package:async/async.dart';
 import 'package:intl/intl.dart';
 
 enum ServiceType { LeakInspection, ServiceAndLeakRepair, Shutdown, None }
@@ -109,15 +107,13 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   @override
   void initState() {
     super.initState();
-    service.loadDropdowns();
-    _isDropdownsLoaded = false;
-    service.onLoaded = () {
+    TrakrefAPIService().getDropdown().then((results){
       setState(() {
-        this.initialLocationLeakFound = service.dropdowns.leakLocations;
-        this.verificationLocationLeakFound = service.dropdowns.leakLocations;
-        this.categoriesLeakFound = service.dropdowns.leakLocationCategories;
-        this.causeOfLeaks = service.dropdowns.causeOfLeaks;
-        this.leakDetectionMethod = service.dropdowns.leakDetectionMethods;
+        this.initialLocationLeakFound = results.leakLocations;
+        this.verificationLocationLeakFound = results.leakLocations;
+        this.categoriesLeakFound = results.leakLocationCategories;
+        this.causeOfLeaks = results.causeOfLeaks;
+        this.leakDetectionMethod = results.leakDetectionMethods;
         this.serviceActions = service.dropdowns.serviceActions;
         this.leakRepairStatus = service.dropdowns.leakRepairStatuses;
         _isDropdownsLoaded = true;
@@ -125,11 +121,15 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
         // Map the list of assets to a dropdown sources
         assetsDropdowns = (widget.assets ?? []).map((i) {
           return Dropdown(
-            name: i.name,
-            id: i.assetID
+              name: i.name,
+              id: i.assetID
           );
         }).toList();
       });
+    });
+    service.loadDropdowns();
+    _isDropdownsLoaded = false;
+    service.onLoaded = () {
     };
   }
 

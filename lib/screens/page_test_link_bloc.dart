@@ -23,7 +23,7 @@ class _PageTestLinkBlocState extends State<PageTestLinkBloc> {
     var baseUrl = "https://apitest.trakref.com/v3.21/WorkOrders?locationID=$locationID";
 //    var baseUrl = "https://api.trakref.com/v3.21/WorkOrders?locationID=10723";
 
-    api.getResult<WorkOrder>(baseUrl).then((results) {
+    api.getResults<WorkOrder>(baseUrl).then((results) {
       print("api.getResult[${results.length}]");
       int i = 0;
       for (WorkOrder order in results) {
@@ -38,7 +38,7 @@ class _PageTestLinkBlocState extends State<PageTestLinkBloc> {
     ApiService api = ApiService();
     var baseUrl = "https://api.trakref.com/v3.21/assets?locationID=$locationID";
 
-    api.getResult<Asset>(baseUrl).then((results) {
+    api.getResults<Asset>(baseUrl).then((results) {
       print("api.getResult[${results.length}]");
       int i = 0;
       for (Asset asset in results) {

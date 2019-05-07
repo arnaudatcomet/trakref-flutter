@@ -132,20 +132,7 @@ class PageSupportTicketBloc extends FormField<SupportTicketTextField> {
                 onPressed: () {
                   print("I pressed on the cancel button");
                 },
-              ), /*
-              Center(
-                child: Container(
-                  margin: EdgeInsets.only(top: 16),
-                  alignment: Alignment.center,
-                  child: new InkWell(
-                      onTap: () => print("Forgot password"),
-                      child: new Text("Cancel",
-                          style: TextStyle(color: AppColors.gray)
-                      )
-                  ),
-                ),
-              )
-              */
+              ),
             ],
           ),
         );

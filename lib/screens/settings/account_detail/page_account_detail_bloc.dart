@@ -45,6 +45,7 @@ class _PageAccountDetailBlocState extends State<PageAccountDetailBloc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: AppBar(
           actions: <Widget>[
             FlatButton(

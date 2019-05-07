@@ -8,10 +8,12 @@ import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
+import 'package:trakref_app/repository/get_service.dart';
 
 class ApiService {
   final JsonDecoder _decoder = new JsonDecoder();
   static String baseURL = "https://apitest.trakref.com";
+  static String baseTestURL = "https://apitest.trakref.com";
   static String getWorkOrdersURL = "$baseURL/v3.21/WorkOrders";
   static String getWorkOrdersByInstanceURL = "$getWorkOrdersURL/GetByInstance";
 
@@ -19,6 +21,8 @@ class ApiService {
   static String getAssetsByInstanceURL = "$getAssetsURL/GetByInstance";
 
   static String getLoginURL = "$baseURL/v3.21/login";
+  static String getDropdownsURL = "$baseURL/v3.21/dropdowns";
+  static String getDropdownsTestURL = "$baseTestURL/v3.21/dropdowns";
   static String getAccountsURL = "$baseURL/v3.21/accounts";
   static String getLocationsURL = "$baseURL/v3.21/location";
   static String getGeolocationsURL = "$baseURL/v3.21/geolocation";
@@ -94,10 +98,11 @@ class ApiService {
   Future<List> getLocationAroundMe(double lat, double long, double range) async {
     String getLocationURL = "${ApiService.baseURL}/v3.21/geolocation?latitude=$lat&longitude=$long&range=$range";
     print("getLocationURL $getLocationURL");
-    return await getResult<Location>(getLocationURL);
+    return await getResults<Location>(getLocationURL);
   }
 
-  Future<List> getResult<T>(String url) async {
+
+  Future<Dropdowns> getDropdowns(String url) async {
     final headers = {
       "Content-Type": "application/json",
       "Api-Key": "$apiKey",
@@ -105,8 +110,34 @@ class ApiService {
       "Instance-Id": "$instanceID"
     };
 
-    print("### getResult > URL $url");
-    print("### getResult > Headers $headers");
+    print("### getResults > URL $url");
+    print("### getResults > Headers $headers");
+
+    return await client.get(url, headers: headers).then((http.Response response) {
+      final res = response.body;
+      print("#### response from $url : $res");
+      try
+      {
+        dynamic resultMap = jsonDecode(res);
+        Dropdowns dropdowns = Dropdowns.fromJson(resultMap);
+        return dropdowns;
+      }
+      catch(error) {
+        Future.error(error);
+      }
+    });
+  }
+
+  Future<List> getResults<T>(String url) async {
+    final headers = {
+      "Content-Type": "application/json",
+      "Api-Key": "$apiKey",
+      "Authentication-Token": "$token",
+      "Instance-Id": "$instanceID"
+    };
+
+    print("### getResults > URL $url");
+    print("### getResults > Headers $headers");
 
     return await client.get(url, headers: headers).then((http.Response response) {
       final res = response.body;

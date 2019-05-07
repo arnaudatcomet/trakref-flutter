@@ -28,6 +28,5 @@ final routes = {
   '/accounts': (BuildContext context) => PageAccountsBloc(),
   '/assets': (BuildContext context) => PageAssetAddBloc(),
   '/leaks': (BuildContext context) => PageServiceEventAddBloc(),
-  '/settings': (BuildContext context) => PageSettingsBloc(),
-  '/add_service_event': (BuildContext context) => PageServiceEventAddBloc()
+  '/settings': (BuildContext context) => PageSettingsBloc()
 };

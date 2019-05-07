@@ -26,6 +26,7 @@ class _PageAddingEventsBloc extends State<PageAddingEventsBloc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
           child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(20, 50, 20, 0),

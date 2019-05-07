@@ -28,7 +28,7 @@ class AccountsBloc implements BlocBase {
     print("_startAccount($instanceID)");
     _getAccountsController.add([]);
 
-    _apiService.getResult<Account>(ApiService.getAccountsURL).then((response){
+    _apiService.getResults<Account>(ApiService.getAccountsURL).then((response){
       print("getResult > (${response})");
       _account = response;
       retrievingAccount.add(_account);

@@ -6,6 +6,7 @@ import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
+import 'package:trakref_app/repository/get_service.dart';
 
 import '../api_service.dart';
 
@@ -105,6 +106,20 @@ class TrakrefAPIService {
     return api;
   }
   // Access to different API services endpoint
+  // Showing the GET Dropdowns
+  Future<Dropdowns> getDropdown() async {
+    String token = await getAuthentificationToken();
+    String instanceID = await getInstanceID();
+    if (token == null || instanceID == null) {
+      Future.error("No token or no instanceID associated");
+    }
+    ApiService api = ApiService(
+        instanceID: instanceID,
+        token: token
+    );
+    return await api.getDropdowns(ApiService.getDropdownsTestURL);
+  }
+
   // Showing the GET Accounts
   Future<List<Account>> getAccounts() async {
     String token = await getAuthentificationToken();
@@ -116,20 +131,20 @@ class TrakrefAPIService {
       instanceID: instanceID,
       token: token
     );
-    return await api.getResult<Account>(ApiService.getAccountsURL);
+    return await api.getResults<Account>(ApiService.getAccountsURL);
   }
 
   // Showing the GET Locations
   Future<List<Location>> getLocations() async {
     ApiService api = await getAPI();
-    return await api.getResult<Location>(ApiService.getLocationsURL);
+    return await api.getResults<Location>(ApiService.getLocationsURL);
   }
 
   Future<List> getLocationAroundMe(double lat, double long, double range) async {
     String getGeolocationURL = "${ApiService.getGeolocationsURL}?latitude=$lat&longitude=$long&range=$range";
     print("getGeolocationURL $getGeolocationURL");
     ApiService api = await getAPI();
-    return await api.getResult<Location>(getGeolocationURL);
+    return await api.getResults<Location>(getGeolocationURL);
   }
 
   // Showing the GET Work Orders
@@ -142,14 +157,14 @@ class TrakrefAPIService {
       var baseUrl = "${ApiService.getWorkOrdersURL}?GetLocationArray?$locationParameters";
       print("getServiceEvents > Show baseURL $baseUrl");
 
-      return await api.getResult<WorkOrder>(baseUrl).catchError((error) {
+      return await api.getResults<WorkOrder>(baseUrl).catchError((error) {
         Future.error(error);
       });
     }
     else {
       var baseUrl = "${ApiService.getWorkOrdersByInstanceURL}";
       print("getServiceEvents > Show baseURL $baseUrl");
-      return await api.getResult<WorkOrder>(baseUrl).catchError((error) {
+      return await api.getResults<WorkOrder>(baseUrl).catchError((error) {
         Future.error(error);
       });
     }
@@ -164,14 +179,14 @@ class TrakrefAPIService {
       var baseUrl = "${ApiService.getAssetsURL}?GetLocationArray?$locationParameters";
       print("getCylinders > Show baseURL $baseUrl");
 
-      return await api.getResult<Asset>(baseUrl).catchError((error) {
+      return await api.getResults<Asset>(baseUrl).catchError((error) {
         Future.error(error);
       });
     }
     else {
       var baseUrl = "${ApiService.getAssetsByInstanceURL}";
       print("getServiceEvents > Show baseURL $baseUrl");
-      return await api.getResult<Asset>(baseUrl).catchError((error) {
+      return await api.getResults<Asset>(baseUrl).catchError((error) {
         Future.error(error);
       });
     }

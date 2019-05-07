@@ -263,6 +263,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
     );
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
