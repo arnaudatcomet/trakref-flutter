@@ -118,9 +118,9 @@ class _PageAddingBloc extends State<PageAddingBloc> {
           pushSelectWorkOrder(context);
         }),
         Divider(),
-        buildItem("Cylinder",true, null),
+        buildItem("Cylinder",false, null),
         Divider(),
-        buildItem("Appliance",true, null),
+        buildItem("Appliance",false, null),
         Divider(),
         buildItem("Service Event", true, () {
           Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
