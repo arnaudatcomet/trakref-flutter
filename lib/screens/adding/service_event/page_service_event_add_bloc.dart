@@ -14,12 +14,13 @@ enum ServiceType { LeakInspection, ServiceAndLeakRepair, Shutdown, None }
 
 class PageServiceEventAddBloc extends StatefulWidget {
   List<Asset> assets = [];
+  WorkOrder currentWorkOrder;
 
   @override
   _PageServiceEventAddBlocState createState() =>
       _PageServiceEventAddBlocState();
 
-  PageServiceEventAddBloc({this.assets});
+  PageServiceEventAddBloc({this.assets, this.currentWorkOrder});
 }
 
 class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
@@ -28,7 +29,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   // Need to check what it is in the dropdown API
 // List<Dropdown> temperatureClass;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  DropdownService service = DropdownService();
+//  DropdownService service = DropdownService();
   bool _isDropdownsLoaded = false;
   DateTime _date = DateTime.now();
   ServiceType typeOfService = ServiceType.None;
@@ -108,6 +109,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   @override
   void initState() {
     super.initState();
+    _isDropdownsLoaded = false;
     TrakrefAPIService().getDropdown().then((results){
       setState(() {
         this.initialLocationLeakFound = results.leakLocations;
@@ -129,10 +131,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
         }).toList();
       });
     });
-    service.loadDropdowns();
-    _isDropdownsLoaded = false;
-    service.onLoaded = () {
-    };
+//    service.loadDropdowns();
+//    _isDropdownsLoaded = false;
+//    service.onLoaded = () {
+//    };
   }
 
   // Submit Service Event - Leak Inspection
@@ -180,27 +182,42 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
 
     // Create the WorkOrder and Submit it
     // For the sake of purpose we don't touch the Work Order part, only the service event part
-    WorkOrder workOrder = WorkOrder(
-        id: 1071647,
-        workOrderNumber: "790345789",
-        instanceID: 248,
-        locationID: 10721,
-        workOrderTypeID: 2,
-        workOrderStatusID: 1,
-        workItem: [
-          WorkItem(
-              wasLeakFound: leakFound,
-              assetID: equipmentWorkedOn,
-              workItemTypeID: 2, // It's invalid if WorkItem type != 3, 2 and 5
-              serviceDate: serviceDate,
-              workItemStatusID: 1,
-              // Repair
-              repairNotes: notes,
-              leakInspectionCount: (leakFound == false) ? 0 : 1,
-              leakInspection: (leakFound == false) ? [] : leakInspections
-          )
-        ]
-    );
+    widget.currentWorkOrder.workItem = [
+      WorkItem(
+          wasLeakFound: leakFound,
+          assetID: equipmentWorkedOn,
+          workItemTypeID: 2,
+          // It's invalid if WorkItem type != 3, 2 and 5
+          serviceDate: serviceDate,
+          workItemStatusID: 1,
+          // Repair
+          repairNotes: notes,
+          leakInspectionCount: (leakFound == false) ? 0 : 1,
+          leakInspection: (leakFound == false) ? [] : leakInspections
+      )
+    ];
+    widget.currentWorkOrder.workItemCount = 1;
+//    WorkOrder workOrder = WorkOrder(
+//        id: 1071647,
+//        workOrderNumber: "790345789",
+//        instanceID: 248,
+//        locationID: 10721,
+//        workOrderTypeID: 2,
+//        workOrderStatusID: 1,
+//        workItem: [
+//          WorkItem(
+//              wasLeakFound: leakFound,
+//              assetID: equipmentWorkedOn,
+//              workItemTypeID: 2, // It's invalid if WorkItem type != 3, 2 and 5
+//              serviceDate: serviceDate,
+//              workItemStatusID: 1,
+//              // Repair
+//              repairNotes: notes,
+//              leakInspectionCount: (leakFound == false) ? 0 : 1,
+//              leakInspection: (leakFound == false) ? [] : leakInspections
+//          )
+//        ]
+//    );
 
     setState(() {
       _isDropdownsLoaded = false;
@@ -682,7 +699,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           backgroundColor: Colors.white.withOpacity(0.0),
           leading: IconButton(
               icon: Icon(
-                Icons.close,
+                Icons.arrow_back,
                 color: Colors.black87,
               ),
               onPressed: () {

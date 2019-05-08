@@ -17,6 +17,7 @@ class TrakrefAPIService {
   static String InstanceIDTRKey = "Instance-Id";
   static String SelectedAccountTRKey = "Selected-Account";
   static String SelectedProfileTRKey = "Selected-Profile";
+  static String SelectedWorkOrderTRKey = "Selected-WorkOrder";
 
   static final TrakrefAPIService _shared = new TrakrefAPIService
       ._internal();
@@ -65,6 +66,11 @@ class TrakrefAPIService {
     _setValues(TrakrefAPIService.SelectedProfileTRKey, userString);
   }
 
+  void setWorkOrder(WorkOrder workOrder) async {
+    String workOrderString = jsonEncode(workOrder);
+    _setValues(TrakrefAPIService.SelectedWorkOrderTRKey, workOrderString);
+  }
+
   Future<String> getAPIKey() async {
     return await _getValue(TrakrefAPIService.ApiTRKey);
   }
@@ -75,6 +81,13 @@ class TrakrefAPIService {
 
   Future<String> getInstanceID() async {
     return await _getValue(TrakrefAPIService.InstanceIDTRKey);
+  }
+
+  Future<WorkOrder> getCurrentWorkOrder() async {
+    String workOrderString = await _getValue(TrakrefAPIService.SelectedWorkOrderTRKey);
+    Map workOrderMap = jsonDecode(workOrderString);
+    WorkOrder workOrder = WorkOrder.fromJson(workOrderMap);
+    return workOrder;
   }
 
   Future<Account> getSelectedAccount() async {

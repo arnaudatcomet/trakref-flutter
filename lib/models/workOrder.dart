@@ -33,7 +33,7 @@ class WorkOrder {
   final String location;
 
   @JsonKey(name: 'WorkItemCount')
-  final int workItemCount;
+  int workItemCount;
 
   @JsonKey(name: 'State')
   final String state;
