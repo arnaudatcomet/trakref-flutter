@@ -20,7 +20,7 @@ class DropdownFormField<T> extends FormField<T> {
           onSaved: onSaved,
           validator: validator,
           autovalidate: autovalidate,
-          initialValue: items.contains(initialValue) ? initialValue : null,
+          initialValue: initialValue/* items.contains(initialValue) ? initialValue : null */,
           builder: (FormFieldState<T> field) {
             final InputDecoration effectiveDecoration = (decoration ??
                     const InputDecoration())

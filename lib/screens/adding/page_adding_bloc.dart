@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/models/asset.dart';
+import 'package:trakref_app/models/dropdown.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/adding/service_event/page_service_event_add_bloc.dart';
@@ -13,14 +15,29 @@ class PageAddingBloc extends StatefulWidget {
 
 class _PageAddingBloc extends State<PageAddingBloc> {
   bool _isLoadedWorkOrder = false;
+  bool _isLoadedAssets = false;
   WorkOrder _currentWorkOrder;
+  List<Asset> assetsResult;
+
   @override
   void initState() {
+    print("PageAddingBloc > _currentWorkOrder is ? ");
     TrakrefAPIService().getCurrentWorkOrder().then((workOrder){
+      print("PageAddingBloc > _currentWorkOrder is $workOrder");
       _currentWorkOrder = workOrder;
       _isLoadedWorkOrder = true;
     }).catchError((error){
+      print("PageAddingBloc > _currentWorkOrder has an error");
       _isLoadedWorkOrder = true;
+    });
+
+    _isLoadedAssets = false;
+    print("TrakrefAPIService().getCylinders([])");
+    TrakrefAPIService().getCylinders([]).then((assets){
+      print("getCylinders [${assets.length}]");
+      _isLoadedAssets = true;
+      assetsResult = assets;
+      setState(() {});
     });
     super.initState();
   }
@@ -122,13 +139,15 @@ class _PageAddingBloc extends State<PageAddingBloc> {
         Divider(),
         buildItem("Appliance",false, null),
         Divider(),
-        buildItem("Service Event", true, () {
+        (_isLoadedAssets == false) ? buildItem("Service Event", false, null) : buildItem("Service Event", true, () {
           Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
             return PageServiceEventAddBloc(
               currentWorkOrder: _currentWorkOrder,
+              assets: assetsResult,
             );
           }));
-        })];
+        })
+      ];
     }
     return Scaffold(
       backgroundColor: Colors.white,
