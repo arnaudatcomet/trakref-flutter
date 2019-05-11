@@ -975,3 +975,90 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     );
   }
 }
+
+typedef AppCancellableTextFieldDelegate = void Function(dynamic);
+
+class AppCancellableTextField extends StatefulWidget {
+  final Function onChangedValue;
+  final String textLabel;
+  final String textKey;
+  final String textError;
+  final List<dynamic> sourcesDropdown;
+
+  AppCancellableTextField({this.onChangedValue, this.textLabel, this.textError,
+    this.textKey, this.sourcesDropdown});
+
+  @override
+  _AppCancellableTextFieldState createState() => _AppCancellableTextFieldState();
+}
+
+class _AppCancellableTextFieldState extends State<AppCancellableTextField> {
+  dynamic _pickedValue;
+
+  void resetPickedValue() {
+    _pickedValue = null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget selectedValue = Expanded(
+      flex: 1,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          IconButton(
+              icon: Icon(Icons.close, color: AppColors.blueTurquoise),
+              onPressed: () {
+                _pickedValue = null;
+                setState(() {
+                });
+              }),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                widget.textLabel, style: Theme.of(context).textTheme.display3,
+              ),
+              Text(
+                (_pickedValue == null) ? "" : _pickedValue.toString(), style: Theme.of(context).textTheme.display2.copyWith(
+                color: AppColors.blueTurquoise
+              ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+
+    Widget toSelectDropdown = FormBuild.buildDropdown(
+        label: widget.textLabel,
+        key: Key(widget.textKey),
+        source: widget.sourcesDropdown,
+        isRequired: true,
+        onChangedValue: (value) {
+          print("onChangedValue $value");
+          if (value is DropdownItem) {
+            print("onChangedValue id=${value.id}");
+          }
+          print("onChangedValue=${widget.onChangedValue}");
+          _pickedValue = value;
+          widget.onChangedValue(_pickedValue);
+          setState(() {
+          });
+        },
+        onValidator: (value) {
+          if (value == null) {
+            return widget.textError;
+          }
+        }
+    );
+
+
+    return (_pickedValue != null) ? selectedValue : toSelectDropdown ;
+  }
+}
