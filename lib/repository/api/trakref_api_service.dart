@@ -208,8 +208,11 @@ class TrakrefAPIService {
 
   // For logging out
   void logout() async {
-    await setAuthentificationToken(null);
-    await setInstanceID(null);
+    setAuthentificationToken(null);
+    setInstanceID(null);
+    setSelectedAccount(null);
+    setProfile(null);
+    setWorkOrder(null);
   }
 
   close() {
