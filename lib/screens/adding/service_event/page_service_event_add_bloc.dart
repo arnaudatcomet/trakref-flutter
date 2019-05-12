@@ -81,11 +81,15 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   DropdownItem _pickedInitialLeakLocation;
   DropdownItem _pickedVerificationLeakCategory;
   DropdownItem _pickedVerificationLeakLocation;
+  DropdownItem _pickedVerificationLeakDetectionMethod;
+  DropdownItem _pickedVerificationCauseOfLeak;
   DropdownItem _pickedWasVacuumPulled;
   DropdownItem _pickedDepthOfVacuum;
   DropdownItem _pickedServiceAction;
+  DropdownItem _pickedLeakRepairStatus;
   DropdownItem _pickedShutdownStatus;
   DateTime _pickedFollowUpDate;
+  DateTime _pickeVerificationDate;
   String _pickedObservationNotes;
 
   @override
@@ -138,6 +142,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     _pickedWasVacuumPulled = null;
     _pickedDepthOfVacuum = null;
     _pickedServiceAction = null;
+    _pickedLeakRepairStatus = null;
     _pickedShutdownStatus = null;
     _pickedFollowUpDate = null;
     _pickedObservationNotes = null;
@@ -336,7 +341,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                       _pickedInitialLeakLocation = null;
                       setState(() {
                       });
-                    }),
+                    }
+                    ),
               ],
             ),
             (this._filteredInitialLocationLeakFound != null)
@@ -409,12 +415,17 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(
+                AppCancellableTextField(
+                    initialValue: _pickedInitialLeakCategory,
+                    sourcesDropdown: this.categoriesLeakFound,
+                    textKey: kInitialLeakCategoryKey,
+                    textLabel: kInitialLeakCategory,
+                    textError: "Required",
                     isRequired: true,
-                    source: this.categoriesLeakFound,
-                    key: Key(kInitialLeakCategoryKey),
-                    label: kInitialLeakCategory,
                     onChangedValue: (value) {
+                      // Cancel the subcategories
+                      _pickedInitialLeakCategory = value;
+                      _pickedInitialLeakLocation = null;
                       setState(() {
                         this._filteredInitialLocationLeakFound = null;
                       });
@@ -422,14 +433,14 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         if (value is DropdownItem) {
                           // Get the filtered leak location category
                           List<LeakLocationItem> selectedLeakLocationList =
-                              this
-                                  .initialLocationLeakFound
-                                  .where((i) => i.categoryID == value.id)
-                                  .toList();
+                          this
+                              .initialLocationLeakFound
+                              .where((i) => i.categoryID == value.id)
+                              .toList();
                           List<DropdownItem> categoryLeaksLocation =
-                              selectedLeakLocationList
-                                  .map((i) => DropdownItem(id: i.id, name: i.name))
-                                  .toList();
+                          selectedLeakLocationList
+                              .map((i) => DropdownItem(id: i.id, name: i.name))
+                              .toList();
                           setState(() {
                             if (categoryLeaksLocation.length == 0) {
                               this._filteredInitialLocationLeakFound = null;
@@ -440,40 +451,40 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                           });
                         }
                       });
-                    })
+                    }
+                )
               ],
             ),
             (this._filteredInitialLocationLeakFound != null)
                 ? Row(
                     children: <Widget>[
-                      // Need to change that
-                      FormBuild.buildDropdown(
+                      AppCancellableTextField(
+                          initialValue: _pickedInitialLeakLocation,
+                          sourcesDropdown: this._filteredInitialLocationLeakFound,
+                          textKey: kInitialLeakLocationKey,
+                          textLabel: kInitialLeakLocation,
+                          textError: "Required",
                           isRequired: true,
-                          source: this._filteredInitialLocationLeakFound,
-                          label: kInitialLeakLocation,
-                          key: Key(kInitialLeakLocationKey))
+                          onChangedValue: (value) {
+                            _pickedInitialLeakLocation = value;
+                          }
+                      ),
                     ],
                   )
                 : Container(),
             Row(
               children: <Widget>[
-                // Need to change that
-                FormBuild.buildDropdown(
-                    onValidator: (value) {
-                      if (_pickedTypeOfService.id == 3 ||
-                          _pickedTypeOfService.id == 5) {
-                        if (_pickedCauseOfLeak.id == null) {
-                          return "Cause of Leak required since WasLeakFound was clicked for leak inspection service event";
-                        }
-                      }
-                    },
+                AppCancellableTextField(
+                    initialValue: _pickedCauseOfLeak,
+                    sourcesDropdown: this.causeOfLeaks,
+                    textKey: kCauseOfLeakKey,
+                    textLabel: kCauseOfLeak,
+                    textError: "Cause of Leak required since WasLeakFound was clicked for leak inspection service event",
+                    isRequired: true,
                     onChangedValue: (value) {
                       _pickedCauseOfLeak = value;
-                    },
-                    isRequired: true,
-                    source: this.causeOfLeaks,
-                    key: Key(kCauseOfLeakKey),
-                    label: kCauseOfLeak)
+                    }
+                ),
               ],
             ),
             Row(
@@ -487,112 +498,151 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
             ),
             Row(
               children: <Widget>[
-                // Need to change that
-                FormBuild.buildDropdown(
-                    source: this.serviceActions,
+                AppCancellableTextField(
+                    initialValue: _pickedServiceAction,
+                    sourcesDropdown: this.serviceActions,
+                    textKey: kServiceAndLeakRepairServiceActionKey,
+                    textLabel: kServiceAction,
+                    textError: "Required",
                     isRequired: true,
-                    key: Key(kServiceAndLeakRepairServiceActionKey),
-                    label: kServiceAction)
+                    onChangedValue: (value) {
+                      _pickedServiceAction = value;
+                    }
+                )
               ],
             ),
             // URGENT: Need to add material gas
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(
-                    source: this.leakRepairStatus,
+                AppCancellableTextField(
+                    initialValue: _pickedLeakRepairStatus,
+                    sourcesDropdown: this.leakRepairStatus,
+                    textKey: kLeakRepairStatusKey,
+                    textLabel: kLeakRepairStatus,
+                    textError: "Required",
                     isRequired: true,
-                    key: Key(kLeakRepairStatusKey),
-                    label: kLeakRepairStatus)
+                    onChangedValue: (value) {
+                      _pickedLeakRepairStatus = value;
+                    }
+                )
               ],
             ),
             Row(
               children: <Widget>[
                 FormBuild.buildDatePicker(
-                    key: Key(kVerificationDateKey), helper: kVerificationDate)
+                    onValidated: (value) {
+                      if (_pickeVerificationDate == null) return "No service date found for service event";
+                      if (_pickeVerificationDate.isAfter(DateTime.now())) return "Future service date found for service event";
+                    },
+                    onPressed: (value) {
+                      print(
+                          "$kServiceDateKey buildDatePicker > onPressed is $value");
+                      _pickeVerificationDate = value;
+                    },
+                    key: Key(kVerificationDateKey),
+                    helper: kVerificationDate)
               ],
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildDropdown(
-                    source: this.leakDetectionMethod,
+                AppCancellableTextField(
+                    initialValue: _pickedVerificationLeakDetectionMethod,
+                    sourcesDropdown: this.leakDetectionMethod,
+                    textKey: kVerificationLeakMethodKey,
+                    textLabel: kVerificationLeakMethod,
+                    textError: "Required",
                     isRequired: true,
-                    key: Key(kVerificationLeakMethodKey),
-                    label: kVerificationLeakMethod)
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                FormBuild.buildDropdown(
-                    source: this.wasLeakFound,
-                    key: Key(kVerificationWasLeakFoundKey),
-                    isRequired: true,
-                    label: kVerificationWasLeakFound,
                     onChangedValue: (value) {
-                      if (value is DropdownItem) {
-                        setState(() {
-                          this._filteredVerificationLocationLeakFound = [];
-                          if (value.name == "Yes") {
-                            _wasVerificationLeakFound = true;
-                          } else {
-                            _wasVerificationLeakFound = false;
-                          }
-                        });
+                      _pickedVerificationLeakDetectionMethod = value;
+                    }
+                )
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                AppCancellableTextField(
+                    initialValue: _wasVerificationLeakFound,
+                    sourcesDropdown: this.wasLeakFound,
+                    textKey: kVerificationWasLeakFoundKey,
+                    textLabel: kVerificationWasLeakFound,
+                    textError: "Required",
+                    isRequired: true,
+                    onChangedValue: (value) {setState(() {
+                      this._filteredVerificationLocationLeakFound = [];
+                      if (value.name == "Yes") {
+                        _wasVerificationLeakFound = true;
+                      } else {
+                        _wasVerificationLeakFound = false;
                       }
-                    })
+                    });
+                    }
+                )
               ],
             ),
             // Note : maybe a better way to do the UI below
             (_wasVerificationLeakFound)
                 ? Row(
                     children: <Widget>[
-                      FormBuild.buildDropdown(
-                          source: this.causeOfLeaks,
+                      AppCancellableTextField(
+                          initialValue: _pickedVerificationLeakDetectionMethod,
+                          sourcesDropdown: this.causeOfLeaks,
+                          textKey: kVerificationLeakCauseKey,
+                          textLabel: kVerificationLeakCause,
+                          textError: "Required",
                           isRequired: true,
-                          key: Key(kVerificationLeakCauseKey),
-                          label: kVerificationLeakCause),
-                      _buildVerificationChip()
+                          onChangedValue: (value) {
+                            _pickedVerificationCauseOfLeak = value;
+                          }
+                      ),
+//                      _buildVerificationChip()
                     ],
                   )
                 : Container(),
             (_wasVerificationLeakFound)
                 ? Row(
                     children: <Widget>[
-                      FormBuild.buildDropdown(
-                          source: this.categoriesLeakFound,
+                      AppCancellableTextField(
+                          initialValue: _pickedVerificationLeakDetectionMethod,
+                          sourcesDropdown: this.categoriesLeakFound,
+                          textKey: kVerificationLeakCategoryKey,
+                          textLabel: kVerificationLeakCategory,
+                          textError: "Required",
                           isRequired: true,
-                          key: Key(kVerificationLeakCategoryKey),
-                          label: kVerificationLeakCategory,
                           onChangedValue: (value) {
+                            // Cancel the subcategories
+                            _pickedVerificationLeakCategory = value;
+                            _pickedVerificationLeakLocation = null;
                             setState(() {
-                              this._filteredVerificationLocationLeakFound = [];
+                              this._filteredVerificationLocationLeakFound = null;
                             });
                             Future.delayed(const Duration(milliseconds: 500),
-                                () {
-                              if (value is DropdownItem) {
-                                // Get the filtered leak location category
-                                List<LeakLocationItem>
+                                    () {
+                                  if (value is DropdownItem) {
+                                    // Get the filtered leak location category
+                                    List<LeakLocationItem>
                                     selectedLeakLocationList = this
                                         .verificationLocationLeakFound
                                         .where((i) => i.categoryID == value.id)
                                         .toList();
-                                List<DropdownItem> categoryLeaksLocation =
+                                    List<DropdownItem> categoryLeaksLocation =
                                     selectedLeakLocationList
                                         .map((i) =>
                                         DropdownItem(id: i.id, name: i.name))
                                         .toList();
-                                setState(() {
-                                  if (categoryLeaksLocation.length == 0) {
-                                    this._filteredVerificationLocationLeakFound =
+                                    setState(() {
+                                      if (categoryLeaksLocation.length == 0) {
+                                        this._filteredVerificationLocationLeakFound =
                                         [];
-                                  } else {
-                                    this._filteredVerificationLocationLeakFound =
-                                        categoryLeaksLocation;
+                                      } else {
+                                        this._filteredVerificationLocationLeakFound =
+                                            categoryLeaksLocation;
+                                      }
+                                    });
                                   }
                                 });
-                              }
-                            });
-                          }),
-                      _buildVerificationChip()
+                          }
+                      ),
+//                      _buildVerificationChip()
                     ],
                   )
                 : Container(),
@@ -600,12 +650,17 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     this._filteredVerificationLocationLeakFound != null)
                 ? Row(
                     children: <Widget>[
-                      FormBuild.buildDropdown(
+                      AppCancellableTextField(
+                          initialValue: _pickedVerificationLeakLocation,
+                          sourcesDropdown: this._filteredVerificationLocationLeakFound,
+                          textKey: kVerificationLeakLocationKey,
+                          textLabel: kVerificationLeakLocation,
+                          textError: "Required",
                           isRequired: true,
-                          source: this._filteredVerificationLocationLeakFound,
-                          key: Key(kVerificationLeakLocationKey),
-                          label: kVerificationLeakLocation),
-                      _buildVerificationChip()
+                          onChangedValue: (value) {
+                            _pickedVerificationLeakLocation = value;
+                          }
+                      ),
                     ],
                   )
                 : Container()
