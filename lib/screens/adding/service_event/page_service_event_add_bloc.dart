@@ -65,38 +65,28 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   ];
   List<DropdownItem> depthVacuumAmount = _buildDropdownInt(0, 31);
 
-  // Current workOrder being constructed
-  WorkOrder order = WorkOrder(
-      id: 1071647,
-      workOrderNumber: "790345789",
-      instanceID: 248,
-      locationID: 10721,
-      workOrderTypeID: 2,
-      workOrderStatusID: 1
-  );
-
   // UI Control variables
-  bool _wasLeakFound = null;
+  bool _wasLeakFound;
   bool _wasVerificationLeakFound = false;
 
   // Form values
-  DropdownItem _pickedEquipmentWorkedOn = null;
-  DropdownItem _pickedTypeOfService = null;
-  DropdownItem _pickedLeakDetectionMethod = null;
-  DropdownItem _pickedWasLeakFound = null;
-  DateTime _pickedServiceDate = null;
-  DropdownItem _pickedCauseOfLeak = null;
-  double _pickedEstimatedLeakAmount = null;
-  DropdownItem _pickedInitialLeakCategory = null;
-  DropdownItem _pickedInitialLeakLocation = null;
-  DropdownItem _pickedVerificationLeakCategory = null;
-  DropdownItem _pickedVerificationLeakLocation = null;
-  DropdownItem _pickedWasVacuumPulled = null;
-  DropdownItem _pickedDepthOfVacuum = null;
-  DropdownItem _pickedServiceAction = null;
-  DropdownItem _pickedShutdownStatus = null;
-  DateTime _pickedFollowUpDate = null;
-  String _pickedObservationNotes = null;
+  DropdownItem _pickedEquipmentWorkedOn;
+  DropdownItem _pickedTypeOfService;
+  DropdownItem _pickedLeakDetectionMethod;
+  DropdownItem _pickedWasLeakFound;
+  DateTime _pickedServiceDate;
+  DropdownItem _pickedCauseOfLeak;
+  double _pickedEstimatedLeakAmount;
+  DropdownItem _pickedInitialLeakCategory;
+  DropdownItem _pickedInitialLeakLocation;
+  DropdownItem _pickedVerificationLeakCategory;
+  DropdownItem _pickedVerificationLeakLocation;
+  DropdownItem _pickedWasVacuumPulled;
+  DropdownItem _pickedDepthOfVacuum;
+  DropdownItem _pickedServiceAction;
+  DropdownItem _pickedShutdownStatus;
+  DateTime _pickedFollowUpDate;
+  String _pickedObservationNotes;
 
   @override
   void initState() {
@@ -246,15 +236,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     setState(() {
       _isDropdownsLoaded = true;
     });
-
-//    scaffoldKey.currentState.showSnackBar(
-//      SnackBar(content: Text("Your service event was added"))
-//    );
-
-//    await new Future.delayed(const Duration(seconds:2));
-//    Navigator.of(context).pop();
-//    Navigator.push(context, new MaterialPageRoute(builder: (__) => new SecondView()));
-
   }
 
   // Build Vacuum dept dynamically
@@ -949,7 +930,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                   }
                                 },
                               ),
-                            )
+
+                            ),
                           ],
                         ),
                         Row(
@@ -958,7 +940,22 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                               height: 20,
                             )
                           ],
-                        )
+                        ),
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.center,
+//                          children: <Widget>[
+//                            OutlineAppButton(
+//                              keyButton: Key('RestFormKey'),
+//                              titleButton: "CLEAR FORM",
+//                              onPressed: () {
+//                                print("> RestFormKey");
+//                                resetPickedValues();
+//                                setState(() {
+//                                });
+//                              },
+//                            )
+//                          ],
+//                        )
                       ],
                     ),
                   )),
