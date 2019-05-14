@@ -4,7 +4,8 @@ import 'package:trakref_app/widget/home_cell_widget.dart';
 
 class ServiceEventResultWidget extends StatelessWidget {
   final List<WorkOrder> orders;
-  ServiceEventResultWidget({this.orders});
+  Function serviceEventSelectedHandle;
+  ServiceEventResultWidget({this.orders, this.serviceEventSelectedHandle});
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,13 @@ class ServiceEventResultWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           WorkOrder order = orders[index];
           print("order #$index orderNumber : ${order.workOrderNumber} location : ${order.location} instance : ${order.instance}");
-          return ServiceEventCellWidget(
-            order: order,
+          return GestureDetector(
+            onTap: () {
+              serviceEventSelectedHandle(order);
+            },
+            child: ServiceEventCellWidget(
+              order: order,
+            ),
           );
         }
     );

@@ -54,7 +54,8 @@ class _LocationCellResultWidgetState extends State<LocationCellResultWidget> {
 class LocationResultWidget extends StatefulWidget {
   final List<Location> locations;
   Function aroundMeActionHandle;
-  LocationResultWidget({this.locations, this.aroundMeActionHandle});
+  Function locationSelectedHandle;
+  LocationResultWidget({this.locations, this.aroundMeActionHandle, this.locationSelectedHandle});
 
   @override
   _LocationResultWidgetState createState() => _LocationResultWidgetState();
@@ -75,14 +76,18 @@ class _LocationResultWidgetState extends State<LocationResultWidget> {
               child: LocationHeaderTile()
             );
           }
-
           Location loc = widget.locations[index-1];
-          return LocationCellResultWidget(locationLatitude: loc.lat,
-            locationLongitude: loc.long,
-            locationName: loc.name,
-            physicalAddress1: loc.physicalAddress1,
-            physicalCity: loc.physicalCity,
-            physicalState: loc.physicalState,
+          return GestureDetector(
+            onTap: () {
+              widget.locationSelectedHandle(loc);
+            },
+            child: LocationCellResultWidget(locationLatitude: loc.lat,
+              locationLongitude: loc.long,
+              locationName: loc.name,
+              physicalAddress1: loc.physicalAddress1,
+              physicalCity: loc.physicalCity,
+              physicalState: loc.physicalState,
+            ),
           );
         }
     );

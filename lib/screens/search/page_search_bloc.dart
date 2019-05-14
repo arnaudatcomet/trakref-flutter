@@ -8,6 +8,9 @@ import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/repository/location_service.dart';
 import 'package:trakref_app/repository/preferences_service.dart';
+import 'package:trakref_app/screens/details/page_cylinder_detail_bloc.dart';
+import 'package:trakref_app/screens/details/page_location_detail_bloc.dart';
+import 'package:trakref_app/screens/details/page_work_order_detail_bloc.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/search/filter/result_search_filter.dart';
 import 'package:trakref_app/screens/search/service_event/result_asset.dart';
@@ -316,8 +319,26 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                   physics: BouncingScrollPhysics(),
                   controller: _controller,
                   children: <Widget>[
-                    (this._isServiceEventsLoaded == false ) ? FormBuild.buildLoader() : ServiceEventResultWidget(orders: _serviceEventsResult),
-                    (this._isCylindersLoaded == false) ? FormBuild.buildLoader() : AssetResultWidget(assets: _assetsResult),
+                    (this._isServiceEventsLoaded == false ) ? FormBuild.buildLoader() : ServiceEventResultWidget(
+                        orders: _serviceEventsResult,
+                        serviceEventSelectedHandle: (order) {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (builderContext){
+                            return PageWorkOrderDetailBloc(
+                              order: order
+                            );
+                          }));
+                        }
+                    ),
+                    (this._isCylindersLoaded == false) ? FormBuild.buildLoader() : AssetResultWidget(
+                        assets: _assetsResult,
+                      assetSelectedHandle: (assetSelected){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (builderContext){
+                          return PageCylinderDetailBloc(
+                            asset: assetSelected,
+                          );
+                        }));
+                      },
+                    ),
                     (this._isLocationsLoaded == false ) ? FormBuild.buildLoader() : LocationResultWidget(
                       locations: _locationsResult,
                       aroundMeActionHandle: () {
@@ -330,6 +351,13 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                             _locationsResult = locationResults;
                           });
                         });
+                      },
+                      locationSelectedHandle: (selectedLocation) {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (builderContext){
+                          return PageLocationDetailBloc(
+                            location: selectedLocation,
+                          );
+                        }));
                       },
                     )
                   ],

@@ -66,6 +66,22 @@ class FormBuild {
     );
   }
 
+  // To add a row textfield quicker
+  static Widget buildTextfieldRow(String key, String label, String initialValue) {
+    if (initialValue == null) {
+      return Row(mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            FormBuild.buildTextField(key: Key(key), label: label)
+          ]
+      );
+    }
+    return Row(mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          FormBuild.buildTextField(key: Key(key), label: label, initialValue: initialValue)
+        ]
+    );
+  }
+
   // To add a textfield quickly
   static Widget buildTextField({
     String label,

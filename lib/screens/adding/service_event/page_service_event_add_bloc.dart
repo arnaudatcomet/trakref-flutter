@@ -996,21 +996,86 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                             )
                           ],
                         ),
-//                        Row(
-//                          mainAxisAlignment: MainAxisAlignment.center,
-//                          children: <Widget>[
-//                            OutlineAppButton(
-//                              keyButton: Key('RestFormKey'),
-//                              titleButton: "CLEAR FORM",
-//                              onPressed: () {
-//                                print("> RestFormKey");
-//                                resetPickedValues();
-//                                setState(() {
-//                                });
-//                              },
-//                            )
-//                          ],
-//                        )
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            OutlineAppButton(
+                              keyButton: Key('RestFormKey'),
+                              titleButton: "CLEAR FORM",
+                              onPressed: () {
+
+                                // Show modal
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (builder) {
+                                      // Prepare the content for material gas
+                                      Asset selectedAsset = Asset(
+                                          assetID: _pickedEquipmentWorkedOn.id
+                                      );
+                                      int pickedIndex = widget.assets.indexOf(
+                                          selectedAsset);
+
+                                      print("Current asset recovery working ${widget
+                                          .assets[pickedIndex]}");
+
+                                      return new Container(
+                                        color: Color(0xFF737373),
+                                        child: new Container(
+                                            decoration: new BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: new BorderRadius.only(
+                                                    topLeft: const Radius.circular(20.0), topRight: const Radius.circular(20.0))),
+                                            child: Container(
+                                              child: PageMaterialGasInstallBloc(
+                                                installType: MaterialGasInstallType
+                                                    .Recovery,
+                                                currentAssetWorkedOn: widget
+                                                    .assets[pickedIndex],
+                                                assets: widget.assets,
+                                              ),
+                                            )),
+                                      );
+                                    });
+
+
+                                return;
+                                Asset selectedAsset = Asset(
+                                    assetID: _pickedEquipmentWorkedOn.id
+                                );
+                                int pickedIndex = widget.assets.indexOf(
+                                    selectedAsset);
+
+                                print("Current asset recovery working ${widget
+                                    .assets[pickedIndex]}");
+
+                                // Testing the navigation route
+                                Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                      return PageMaterialGasInstallBloc(
+                                        installType: MaterialGasInstallType
+                                            .Recovery,
+                                        currentAssetWorkedOn: widget
+                                            .assets[pickedIndex],
+                                        assets: widget.assets,
+                                      );
+                                    },
+                                    fullscreenDialog: true));
+
+//                                Navigator.of(context).push(
+//                                    SlideRightRoute(
+//                                        widget: PageMaterialGasInstallBloc(
+//                                          installType: MaterialGasInstallType
+//                                              .Recovery,
+//                                          currentAssetWorkedOn: widget
+//                                              .assets[pickedIndex],
+//                                          assets: widget.assets,
+//                                        )
+//                                    )
+//                                );
+                              },
+                            )
+                          ],
+                        )
                       ],
                     ),
                   )),

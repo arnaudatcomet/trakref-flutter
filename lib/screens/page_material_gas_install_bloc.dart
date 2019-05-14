@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/widget/button_widget.dart';
@@ -47,6 +48,9 @@ class _PageMaterialGasInstallBlocState extends State<PageMaterialGasInstallBloc>
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           _buildTitle(context),
+          SizedBox(
+            height: 10,
+          ),
           _buildInstallGasHeader(context, widget.currentAssetWorkedOn),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -123,20 +127,6 @@ class _PageMaterialGasInstallBlocState extends State<PageMaterialGasInstallBloc>
                 )
               ],
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: OutlineAppButton(
-                    keyButton: Key('CancelButton'),
-                    titleButton: "CANCEL",
-                    onPressed: () {
-                      print("I pressed on the cancel button");
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                )
-              ],
-            ),
             SizedBox(
               height: 20,
             )
@@ -151,18 +141,15 @@ class _PageMaterialGasInstallBlocState extends State<PageMaterialGasInstallBloc>
           alignment: Alignment.topCenter,
           child: Row(
             children: <Widget>[
-              SizedBox(
-                  child: Container(
-                    height: 124,
-                    width: 10,
-                  )
-              ),
               Text(
                 "Gas ${getTitle(widget.installType)}",
+                textAlign: TextAlign.center,
                 style: Theme
                     .of(context)
                     .textTheme
-                    .title,
+                    .title.copyWith(
+                  color: AppColors.blueTurquoise
+                ),
               )
             ],
           ),
@@ -254,47 +241,9 @@ class _PageMaterialGasInstallBlocState extends State<PageMaterialGasInstallBloc>
     );
   }
 
+  // child: _buildOverlayContent(context),
   @override
   Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
-      // make sure that the overlay content is not cut off
-      child: SafeArea(
-        child: _buildOverlayContent(context)
-      ),
-    );
+    return _buildOverlayContent(context);
   }
-}
-
-class SlideRightRoute extends PageRouteBuilder {
-  final Widget widget;
-
-  @override
-  final Duration transitionDuration = const Duration(milliseconds: 120);
-
-  @override
-  final bool opaque = false;
-
-  @override
-  Color get barrierColor => Colors.white.withOpacity(0.95);
-
-  SlideRightRoute({this.widget})
-      : super(
-    pageBuilder: (BuildContext context, Animation<double> animation,
-        Animation<double> secondaryAnimation) {
-      return widget;
-    },
-    transitionsBuilder: (BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child) {
-      return SlideTransition(
-        position: new Tween<Offset>(
-          begin: const Offset(1.0, 0.0),
-          end: Offset.zero,
-        ).animate(animation),
-        child: child,
-      );
-    },
-  );
 }

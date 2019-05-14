@@ -12,7 +12,7 @@ class ServiceEventCellWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (order.workOrderStatusID == 1) {
       return HomeCellWidget(
-          line1: '${order.workOrderNumber}',
+          line1: '${order.workOrderNumber} (${order.workItemCount})',
           line2: '${order.location}',
           line3: '${order.instance}',
           line4: 'TO DO',
@@ -21,7 +21,7 @@ class ServiceEventCellWidget extends StatelessWidget {
     }
     else if (order.workOrderStatusID == 2) {
       return HomeCellWidget(
-          line1: '${order.workOrderNumber}',
+          line1: '${order.workOrderNumber} (${order.workItemCount})',
           line2: '${order.location}',
           line3: '${order.instance}',
           line4: 'COMPLETE',
