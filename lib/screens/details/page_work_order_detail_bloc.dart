@@ -3,6 +3,7 @@ import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
 import 'package:intl/intl.dart';
 import 'package:trakref_app/models/workorder.dart';
+import 'package:trakref_app/screens/details/page_service_event_detail_bloc.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 
 //PageCylinderDetailBloc
@@ -124,14 +125,15 @@ class ServiceEventRow extends StatelessWidget {
 
   ServiceEventRow({this.serviceEvent});
 
-  Widget buildCircleAvatar(String type, double gasAdded, double gasRemoved) {
+  Widget buildCircleAvatar(int serviceEventTypeID, double gasAdded, double gasRemoved) {
+    String shortcutEventType = getServiceEventShortcutType(serviceEventTypeID);
     return CircleAvatar(
       radius: 44,
       backgroundColor: AppColors.blueTurquoise,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(type.toUpperCase(), style: TextStyle(
+          Text(shortcutEventType, style: TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold
@@ -173,6 +175,19 @@ class ServiceEventRow extends StatelessWidget {
         .format(serviceDate);
   }
 
+  String getServiceEventShortcutType(int serviceType) {
+    if (serviceType == 2) {
+      return "LE";
+    }
+    if (serviceType == 3) {
+      return "SLR";
+    }
+    if (serviceType == 4) {
+      return "SH";
+    }
+    return "";
+  }
+
   @override
   Widget build(BuildContext context) {
     final serviceEventThumbnail = new Container(
@@ -180,11 +195,11 @@ class ServiceEventRow extends StatelessWidget {
       margin: const EdgeInsets.only(left: 8.0),
       child: new Hero(
         tag: 'service-event-${serviceEvent.workItemID}',
-        child: buildCircleAvatar("LE", serviceEvent.gasLbsAdded, serviceEvent.gasLbsRemoved),
+        child: buildCircleAvatar(serviceEvent.workItemTypeID, serviceEvent.gasLbsAdded, serviceEvent.gasLbsRemoved),
       ),
     );
 
-    final serviceEventCard = new Container(
+    final serviceEventCard = Container(
       margin: const EdgeInsets.only(left: 54.0, right: 8.0),
       decoration: new BoxDecoration(
         color: Colors.white,
@@ -240,20 +255,33 @@ class ServiceEventRow extends StatelessWidget {
       ),
     );
 
-    return new Container(
-      height: 120.0,
-      margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
-      child: new FlatButton(
-        child: new Stack(
-          children: <Widget>[
-            serviceEventCard,
-            serviceEventThumbnail,
-          ],
+    return GestureDetector(
+      onTap: () {
+        print("GestureDetector > onTap()");
+        Navigator.of(context).push(MaterialPageRoute(builder: (buildContext) {
+          return PageServiceEventDetailBloc(
+              serviceEvent : serviceEvent,
+            delegate: () {
+                return buildCircleAvatar(serviceEvent.workItemTypeID, serviceEvent.gasLbsAdded, serviceEvent.gasLbsRemoved);
+//              return serviceEventCard;
+            },
+          );
+        }
+        )
+        );
+      },
+      child: Container(
+        height: 120.0,
+        margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+        child: new FlatButton(
+          child: new Stack(
+            children: <Widget>[
+              serviceEventCard,
+              serviceEventThumbnail,
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  _navigateTo(context, String id) {
   }
 }

@@ -79,13 +79,17 @@ class Location {
   @JsonKey(name: 'ID')
   final int ID;
 
+  @JsonKey(name: 'ContactPhone')
+  final String contactPhone;
+
+
   Location({this.name, this.code, this.instanceID, this.associationGUID,
     this.locationTypeID, this.contactFirstName, this.contactLastName,
     this.mailingAddress1, this.mailingCity, this.mailingState,
     this.mailingZip, this.mailingCountry, this.physicalAddress1,
     this.physicalCity, this.physicalState, this.physicalZip,
     this.physicalCountry, this.additional, this.isSupplier, this.isDestructor,
-    this.isServicer, this.lat, this.long, this.isOffsite, this.ID});
+    this.isServicer, this.lat, this.long, this.isOffsite, this.ID, this.contactPhone});
 
   factory Location.fromJson(Map<String, dynamic> json) =>
       _$LocationFromJson(json);
