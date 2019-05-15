@@ -205,6 +205,11 @@ class _PageServiceEventDetailBlocState
       ]);
     }
 
+    // Spacer
+    Widget jumpBox = SizedBox(
+      height: 14,
+    );
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -241,33 +246,23 @@ class _PageServiceEventDetailBlocState
                 ],
               ),
               ...serviceEventHeader,
-              SizedBox(
-                height: 14,
-              ),
+              jumpBox,
               Text("Leak Inspection",
                   style: Theme.of(context)
                       .textTheme
                       .display2
                       .copyWith(color: AppColors.blueTurquoise)),
-              SizedBox(
-                height: 14,
-              ),
+              jumpBox,
               ...leaks,
-              SizedBox(
-                height: 14,
-              ),
+              jumpBox,
               Text("Material Transfer",
                   style: Theme.of(context)
                       .textTheme
                       .display2
                       .copyWith(color: AppColors.blueTurquoise)),
-              SizedBox(
-                height: 14,
-              ),
+              jumpBox,
               ...materialTransfers,
-              SizedBox(
-                height: 14,
-              )
+              jumpBox
             ])),
       ),
     );
