@@ -47,61 +47,6 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
   List<Location> _filteredLocationsResult;
   List<Asset> _fiteredAssetsResult;
 
-//  getServiceEvents(int locationID) {
-//    // Below for showing the GET Work Orders
-//    var baseUrl = "http://api.trakref.com/v3.21/WorkOrders?locationID=$locationID";
-//    api.getResult<WorkOrder>(baseUrl).then((results) {
-//      _isServiceEventsLoaded = true;
-//      for (WorkOrder order in results) {
-//        print("> ${order.workOrderNumber}");
-//        setState(() {
-//          _serviceEventsResult = results;
-//        });
-//      }
-//    });
-//  }
-
-//  void getAllServiceEvents() {
-//    // Below test for showing the GET Work Orders
-//    api.getResult<WorkOrder>(ApiService.getWorkOrdersByInstanceURL).then((results) {
-//      _isServiceEventsLoaded = true;
-//      for (WorkOrder order in results) {
-//        print("> ${order.workOrderNumber}");
-//        setState(() {
-//          _serviceEventsResult = results;
-//        });
-//      }
-//    });
-//  }
-
-//  getLocations() {
-//    // Below for showing the GET Work Orders
-//    var baseUrl = "http://api.trakref.com/v3.21/location";
-//    api.getResult<Location>(baseUrl).then((results) {
-//      _isLocationsLoaded = true;
-//      for (Location location in results) {
-//        print("> ${location.name} > ${location.physicalAddress1}");
-//        setState(() {
-//          _locationsResult = results;
-//        });
-//      }
-//    });
-//  }
-
-//  getCylinders(int locationID) {
-//    // Below for showing the GET Work Orders
-//    var baseUrl = "http://api.trakref.com/v3.21/assets?locationID=$locationID";
-//    api.getResult<Asset>(baseUrl).then((results) {
-//      _isCylindersLoaded = true;
-//      for (Asset asset in results) {
-//        print("> ${asset.name} > ${asset.assetStatus}");
-//        setState(() {
-//          _assetsResult = results;
-//        });
-//      }
-//    });
-//  }
-
   @override
   void dispose() {
     api.close();
@@ -175,7 +120,9 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.all(10),
-                    child: SearchWidget(),
+                    child: SearchWidget(
+
+                    ),
                   )
                 ]
             ),
