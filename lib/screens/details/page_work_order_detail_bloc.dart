@@ -222,7 +222,7 @@ class ServiceEventRow extends StatelessWidget {
                 .textTheme
                 .display2),
             Text(
-                serviceEvent.materialType
+                serviceEvent.materialType ?? ""
             ),
             Text("Reason : ${serviceEvent.serviceTransferReason ?? "None"}", style: Theme
                 .of(context)
