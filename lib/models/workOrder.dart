@@ -3,6 +3,8 @@ import 'package:meta/meta.dart';
 
 part 'workorder.g.dart';
 
+enum MaterialGasInstallType { Recovery, Install }
+
 @JsonSerializable()
 class WorkOrder {
   @JsonKey(name: 'WorkOrderNumber', nullable: false)
@@ -319,8 +321,42 @@ class MaterialTransfer {
     this.transferWeightLbs, this.materialTransferTypeID, this.fromLocationID,
     this.materialTransferID, this.materialType, this.fromLocation});
 
+  static int serviceRecoveryID() => 1;
+  static String serviceRecovery() => "Service Recovery";
+  static int serviceInstallID() => 2;
+  static String serviceInstall() => "Service Install";
+
   factory MaterialTransfer.fromJson(Map<String, dynamic> json) => _$MaterialTransferFromJson(json);
   Map<String, dynamic> toJson() => _$MaterialTransferToJson(this);
+
+  static int getMaterialGasInstallID(MaterialGasInstallType type) {
+    if (type == MaterialGasInstallType.Install) {
+      return 2;
+    }
+    if (type == MaterialGasInstallType.Recovery) {
+      return 1;
+    }
+    return 0;
+  }
+
+  static String getMaterialGasInstall(MaterialGasInstallType type) {
+    if (type == MaterialGasInstallType.Install) {
+      return "Service Install";
+    }
+    if (type == MaterialGasInstallType.Recovery) {
+      return "Service Recovery";
+    }
+    return "";
+  }
+
+  static String getMaterialGasTitle(MaterialGasInstallType type) {
+    if (type == MaterialGasInstallType.Install) {
+      return "Install";
+    } else if (type == MaterialGasInstallType.Recovery) {
+      return "Recovery";
+    }
+    return null;
+  }
 }
 
 @JsonSerializable()

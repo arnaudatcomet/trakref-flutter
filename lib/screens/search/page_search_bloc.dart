@@ -22,6 +22,10 @@ import 'package:trakref_app/widget/home_cell_widget.dart';
 import 'package:trakref_app/widget/search_widget.dart';
 import 'package:trakref_app/widget/service_event_widget.dart';
 
+enum PageSearchTab {
+  ServiceEvents, Cylinders, Locations
+}
+
 class PageSearchBloc extends StatefulWidget {
   @override
   _PageSearchBlocState createState() => _PageSearchBlocState();
@@ -29,7 +33,8 @@ class PageSearchBloc extends StatefulWidget {
 
 class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProviderStateMixin {
   bool _assignedtoMe = false;
-  TabController _controller;
+  TabController _tabController;
+  TextEditingController _textController = TextEditingController();
   bool _isServiceEventsLoaded = false;
   bool _isCylindersLoaded = false;
   bool _isLocationsLoaded = false;
@@ -39,22 +44,82 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
 
   // List values in the 3 tabs (Service Events, Cylinders, Locations)
   List<WorkOrder> _serviceEventsResult;
-  List<Location> _locationsResult;
-  List<Asset> _assetsResult;
+  List<WorkOrder> _filteredServiceEventsResult = [];
 
-  // Filtered
-  List<WorkOrder> _filteredServiceEventsResult;
-  List<Location> _filteredLocationsResult;
-  List<Asset> _fiteredAssetsResult;
+  List<Location> _locationsResult;
+  List<Location> _filteredLocationsResult = [];
+
+  List<Asset> _assetsResult = [];
+  List<Asset> _filteredAssetsResult = [];
 
   @override
   void dispose() {
     api.close();
+    _textController.dispose();
     super.dispose();
+  }
+
+  void onSearchTextChanged() {
+    // Listening to search
+    String searchedText = _textController.text.toLowerCase();
+    print("onSearchTextChanged > $searchedText");
+    int indexChanged = _tabController.index;
+
+    if (searchedText.isNotEmpty) {
+      if (indexChanged == PageSearchTab.ServiceEvents.index) {
+        _filteredServiceEventsResult.clear();
+        _serviceEventsResult.forEach((workOrder) {
+          if (workOrder.workOrderNumber.toLowerCase().contains(searchedText) ||
+              workOrder.location.toLowerCase().contains(searchedText) ||
+              workOrder.instance.toLowerCase().contains(searchedText)) {
+            _filteredServiceEventsResult.add(workOrder);
+          }
+        });
+      }
+      else if (indexChanged == PageSearchTab.Cylinders.index) {
+        _filteredAssetsResult.clear();
+        _assetsResult.forEach((asset) {
+          String serialNumber = asset.serialNumber ?? "";
+          String name = asset.name ?? "";
+          String assetCategory = asset.assetCategory ?? "";
+          if (serialNumber.toLowerCase().contains(searchedText) ||
+              name.toLowerCase().contains(searchedText) ||
+              assetCategory.toLowerCase().contains(searchedText)) {
+            _filteredAssetsResult.add(asset);
+          }
+        });
+      }
+      else if (indexChanged == PageSearchTab.Locations.index) {
+        _filteredLocationsResult.clear();
+        _locationsResult.forEach((location) {
+
+          String physicalAddress1 = location.physicalAddress1 ?? "";
+          String physicalCity = location.physicalCity ?? "";
+          String name = location.name ?? "";
+          String physicalState = location.physicalState ?? "";
+
+          if (physicalAddress1.toLowerCase().contains(searchedText) ||
+              physicalCity.toLowerCase().contains(searchedText) ||
+              name.toLowerCase().contains(searchedText) ||
+              physicalState.toLowerCase().contains(searchedText)) {
+            _filteredLocationsResult.add(location);
+          }
+        });
+      }
+      setState(() {});
+    }
+  }
+
+  void onTabControllerIndexChanged() {
+    int indexChanged = _tabController.index;
+    print("onTabControllerIndexChanged $indexChanged");
   }
 
   @override
   void initState() {
+    // Listen to search changes
+    _textController.addListener(onSearchTextChanged);
+
     // Grab default value for the assigned to me
      FilterPreferenceService().getValues(SearchFilterOptions.AssignedToMe).then((assignedToMe){
       setState(() {
@@ -103,7 +168,9 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
       print("TrakrefAPIService catch error on 'getCylinder'");
     });
 
-    _controller = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(onTabControllerIndexChanged);
+
     super.initState();
   }
 
@@ -121,7 +188,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: SearchWidget(
-
+                      controller: _textController,
                     ),
                   )
                 ]
@@ -242,7 +309,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
               ),
               child: TabBar(
                 labelColor: AppColors.gray,
-                controller: _controller,
+                controller: _tabController,
                 indicatorColor: AppColors.gray,
                 labelStyle: TextStyle(
                     fontWeight: FontWeight.bold
@@ -264,10 +331,10 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
               child: Container(
                 child: TabBarView(
                   physics: BouncingScrollPhysics(),
-                  controller: _controller,
+                  controller: _tabController,
                   children: <Widget>[
                     (this._isServiceEventsLoaded == false ) ? FormBuild.buildLoader() : ServiceEventResultWidget(
-                        orders: _serviceEventsResult,
+                        orders: (_textController.text.isEmpty) ? _serviceEventsResult : _filteredServiceEventsResult,
                         serviceEventSelectedHandle: (order) {
                           Navigator.of(context).push(MaterialPageRoute(builder: (builderContext){
                             return PageWorkOrderDetailBloc(
@@ -277,7 +344,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                         }
                     ),
                     (this._isCylindersLoaded == false) ? FormBuild.buildLoader() : AssetResultWidget(
-                        assets: _assetsResult,
+                        assets: (_textController.text.isEmpty) ? _assetsResult : _filteredAssetsResult,
                       assetSelectedHandle: (assetSelected){
                         Navigator.of(context).push(MaterialPageRoute(builder: (builderContext){
                           return PageCylinderDetailBloc(
@@ -287,7 +354,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                       },
                     ),
                     (this._isLocationsLoaded == false ) ? FormBuild.buildLoader() : LocationResultWidget(
-                      locations: _locationsResult,
+                      locations: (_textController.text.isEmpty) ? _locationsResult : _filteredLocationsResult,
                       aroundMeActionHandle: () {
                         print("aroundMeActionHandle");
                         FilterPreferenceService().setFilter(SearchFilterOptions.AroundMe, true);

@@ -89,6 +89,7 @@ class FormBuild {
     TextInputType inputType,
     ValueChanged<String> onSubmitted,
     ValueChanged<String> onValidated,
+    TextEditingController textController,
     String initialValue
   }) {
     return Expanded(
@@ -100,6 +101,7 @@ class FormBuild {
         keyboardType: inputType,
         onSubmitted: onSubmitted,
         initialValue: initialValue,
+        textController: textController,
       ),
     );
   }

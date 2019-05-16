@@ -128,21 +128,41 @@ class AppTextField extends StatefulWidget {
   VoidCallback onEditingComplete;
   ValueChanged<String> onValidated;
   ValueChanged<String> onSubmitted;
+  ValueChanged<String> onChanged;
   TextInputType keyboardType;
+  TextEditingController textController;
   String initialValue;
   bool enabled;
   AppTextField({
-    this.keyTextField, this.onValidated, this.keyboardType, this.labeled, this.initialValue, this.onEditingComplete, this.onSubmitted, this.enabled});
+    this.keyTextField, this.onValidated, this.textController, this.onChanged, this.keyboardType, this.labeled, this.initialValue, this.onEditingComplete, this.onSubmitted, this.enabled});
 
   @override
   _AppTextFieldState createState() => _AppTextFieldState();
 }
 
 class _AppTextFieldState extends State<AppTextField> {
+
+  @override
+  void initState() {
+    widget.textController.addListener(onTextChanged);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.textController.removeListener(onTextChanged);
+    super.dispose();
+  }
+
+  void onTextChanged() {
+    print("onTextChanged > ${widget.textController.text}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: TextFormField(
+        controller: widget.textController,
         enabled: widget.enabled,
         initialValue: widget.initialValue,
         keyboardType: widget.keyboardType,

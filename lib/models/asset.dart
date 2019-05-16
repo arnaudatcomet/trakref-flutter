@@ -134,4 +134,13 @@ class Asset {
 
   @override
   bool operator ==(Object other) => other is Asset && other.assetID == assetID;
+
+  static Asset createUnknown() {
+    return Asset(
+      name: "Unknown",
+      assetID: 0
+    );
+  }
+
+
 }

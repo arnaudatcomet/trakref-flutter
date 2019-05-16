@@ -103,7 +103,7 @@ class _PageDashboardBlocState extends State<PageDashboardBloc> {
             ? FormBuild.buildLoader()
             : ListView.builder(
                 padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                itemCount: _serviceEventsResult.length + 2,
+                itemCount: ((_serviceEventsResult != null) ? _serviceEventsResult.length : 0) + 2,
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return DashboardTitleTile(title: 'Assigned to you');

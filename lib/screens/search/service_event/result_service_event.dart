@@ -13,7 +13,7 @@ class ServiceEventResultWidget extends StatelessWidget {
         itemCount: orders.length,
         itemBuilder: (context, index) {
           WorkOrder order = orders[index];
-          print("order #$index orderNumber : ${order.workOrderNumber} location : ${order.location} instance : ${order.instance}");
+//          print("order #$index orderNumber : ${order.workOrderNumber} location : ${order.location} instance : ${order.instance}");
           return GestureDetector(
             onTap: () {
               serviceEventSelectedHandle(order);

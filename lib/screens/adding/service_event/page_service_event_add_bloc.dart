@@ -6,7 +6,8 @@ import 'package:trakref_app/models/dropdown.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
-import 'package:trakref_app/screens/page_material_gas_install_bloc.dart';
+import 'package:trakref_app/screens/adding/material_transfer/material_transfer_widget.dart';
+import 'package:trakref_app/screens/adding/material_transfer/page_material_gas_install_bloc.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:intl/intl.dart';
@@ -90,6 +91,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   DropdownItem _pickedShutdownStatus;
   DateTime _pickedFollowUpDate;
   DateTime _pickeVerificationDate;
+  List<MaterialTransfer> _pickedMaterialTransfers = [];
   String _pickedObservationNotes;
 
   @override
@@ -316,6 +318,32 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     );
   }
 
+  Widget _buildMaterialTransfer(ServiceType type) {
+    List<MaterialGasInstallType> allowedMaterialTransfer = [];
+    if (type == ServiceType.LeakInspection) {
+      return Container();
+    }
+
+    if (type == ServiceType.ServiceAndLeakRepair) {
+      allowedMaterialTransfer = [
+        MaterialGasInstallType.Recovery,
+        MaterialGasInstallType.Install,
+      ];
+    }
+    else if (type == ServiceType.Shutdown) {
+      allowedMaterialTransfer = [
+        MaterialGasInstallType.Recovery
+      ];
+    }
+
+    return MaterialTransfersWidget(
+      allowedTransfers: allowedMaterialTransfer,
+      assets: widget.assets,
+      materialTransfers: _pickedMaterialTransfers,
+      equipmentWorkedOnID: _pickedEquipmentWorkedOn.id,
+    );
+  }
+
   Widget _buildInspection(bool leakFound, ServiceType type,
       {bool verificationLeakFound}) {
     print(
@@ -379,22 +407,22 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
             ),
             Row(
               children: <Widget>[
-                FormBuild.buildTextField(
-                    onValidated: (value) {
-                      print("Textfield ${Key(kEstimatedLeakAmountKey)} is being validated with value '$value'");
-                      if (value.isEmpty || value == null) {
-                        return "Required";
-                      }
-                    },
-                    onSubmitted: (value) {
-                      double estimatedLeakAmount = double.parse(value);
-                      if (estimatedLeakAmount != null) {
-                        _pickedEstimatedLeakAmount = estimatedLeakAmount;
-                      }
-                    },
-                    key: Key(kEstimatedLeakAmountKey),
-                    label: kEstimatedLeakAmount,
-                    inputType: TextInputType.number)
+                  FormBuild.buildTextField(
+                      onValidated: (value) {
+                        print("Textfield ${Key(kEstimatedLeakAmountKey)} is being validated with value '$value'");
+                        if (value.isEmpty || value == null) {
+                          return "Required";
+                        }
+                      },
+                      onSubmitted: (value) {
+                        double estimatedLeakAmount = double.parse(value);
+                        if (estimatedLeakAmount != null) {
+                          _pickedEstimatedLeakAmount = estimatedLeakAmount;
+                        }
+                      },
+                      key: Key(kEstimatedLeakAmountKey),
+                      label: kEstimatedLeakAmount,
+                      inputType: TextInputType.number)
               ],
             ),
             Row(
@@ -742,6 +770,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     final key = new GlobalKey<ScaffoldState>();
     return Scaffold(
       key: key,
+      backgroundColor: Colors.white,
       appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.white.withOpacity(0.0),
@@ -777,6 +806,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                               textKey: kEquipmentWorkedOnKey,
                               onChangedValue: (value) {
                                 _pickedEquipmentWorkedOn = value;
+                                // To show the material transfer part
+                                setState(() {
+                                });
                               }
                           ),
                         ]),
@@ -891,6 +923,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         //  === PART === Second part of the form
                         _buildInspection(_wasLeakFound, this.typeOfService,
                             verificationLeakFound: _wasVerificationLeakFound),
+                        (_pickedEquipmentWorkedOn != null) ?
+                        _buildMaterialTransfer(this.typeOfService) : Container()
+                        ,
                         //  === PART === Submit
                         // This is for giving some space for the bottom button 'SUBMIT'
                         Row(
@@ -921,7 +956,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                   maxLines: 5,
                                   decoration: InputDecoration(
                                     helperText: kObservationNotes,
-                                    fillColor: Colors.white,
+                                    fillColor: Colors.black.withAlpha(6),
                                     border: InputBorder.none,
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -969,8 +1004,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
 //                                  );
 //                                  return;
 
+                                  print("Submit _pickedEquipmentWorkedOn : $_pickedEquipmentWorkedOn");
+                                  print("Submit _pickedEstimatedLeakAmount : $_pickedEstimatedLeakAmount");
 
-                                  print("Submit _pickedEquipmentWorkedOn : ${_pickedEquipmentWorkedOn}");
                                   print("Submit Button was pressed by Arnaud");
                                   if (_formKey.currentState.validate()) {
                                     print("> validate");
@@ -1003,75 +1039,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                               keyButton: Key('RestFormKey'),
                               titleButton: "CLEAR FORM",
                               onPressed: () {
-
-                                // Show modal
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (builder) {
-                                      // Prepare the content for material gas
-                                      Asset selectedAsset = Asset(
-                                          assetID: _pickedEquipmentWorkedOn.id
-                                      );
-                                      int pickedIndex = widget.assets.indexOf(
-                                          selectedAsset);
-
-                                      print("Current asset recovery working ${widget
-                                          .assets[pickedIndex]}");
-
-                                      return new Container(
-                                        color: Color(0xFF737373),
-                                        child: new Container(
-                                            decoration: new BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: new BorderRadius.only(
-                                                    topLeft: const Radius.circular(20.0), topRight: const Radius.circular(20.0))),
-                                            child: Container(
-                                              child: PageMaterialGasInstallBloc(
-                                                installType: MaterialGasInstallType
-                                                    .Recovery,
-                                                currentAssetWorkedOn: widget
-                                                    .assets[pickedIndex],
-                                                assets: widget.assets,
-                                              ),
-                                            )),
-                                      );
-                                    });
-
-
-                                return;
-                                Asset selectedAsset = Asset(
-                                    assetID: _pickedEquipmentWorkedOn.id
-                                );
-                                int pickedIndex = widget.assets.indexOf(
-                                    selectedAsset);
-
-                                print("Current asset recovery working ${widget
-                                    .assets[pickedIndex]}");
-
-                                // Testing the navigation route
-                                Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                      return PageMaterialGasInstallBloc(
-                                        installType: MaterialGasInstallType
-                                            .Recovery,
-                                        currentAssetWorkedOn: widget
-                                            .assets[pickedIndex],
-                                        assets: widget.assets,
-                                      );
-                                    },
-                                    fullscreenDialog: true));
-
-//                                Navigator.of(context).push(
-//                                    SlideRightRoute(
-//                                        widget: PageMaterialGasInstallBloc(
-//                                          installType: MaterialGasInstallType
-//                                              .Recovery,
-//                                          currentAssetWorkedOn: widget
-//                                              .assets[pickedIndex],
-//                                          assets: widget.assets,
-//                                        )
-//                                    )
-//                                );
                               },
                             )
                           ],
@@ -1178,7 +1145,6 @@ class _AppCancellableTextFieldState extends State<AppCancellableTextField> {
           }
         }
     );
-
 
     return (_pickedValue != null) ? selectedValue : toSelectDropdown ;
   }

@@ -27,7 +27,7 @@ class _LocationCellResultWidgetState extends State<LocationCellResultWidget> {
   @override
   void initState() {
     GeolocationService().calculateDistance(widget.locationLatitude, widget.locationLongitude).then((distance) {
-      print("calculateDistance = $distance meters");
+//      print("calculateDistance = $distance meters");
       setState((){
         widget.distance = distance;
       });
@@ -45,8 +45,6 @@ class _LocationCellResultWidgetState extends State<LocationCellResultWidget> {
         line4: '${widget.physicalCity ?? ""}, ${widget.physicalState ?? ""}',
         cellType: HomeCellType.Normal
     );
-
-    print('build ${widget.locationName} > ${widget.distance} meters');
     return locationCell;
   }
 }
