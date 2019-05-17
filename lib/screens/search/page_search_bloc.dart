@@ -121,10 +121,10 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
     _textController.addListener(onSearchTextChanged);
 
     // Grab default value for the assigned to me
-     FilterPreferenceService().getValues(SearchFilterOptions.AssignedToMe).then((assignedToMe){
-      setState(() {
-        _assignedtoMe = assignedToMe;
-      });
+    FilterPreferenceService().getValues(SearchFilterOptions.AssignedToMe).then((
+        assignedToMe) {
+      _assignedtoMe = assignedToMe;
+      setState(() {});
     });
 
     // Instantiate the current location
@@ -134,9 +134,8 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
     int locationID = 47658;
 
     // Below for showing the GET Work Orders
-//    getServiceEvents(locationID);
-//    getAllServiceEvents();
     api.getServiceEvents([]).then((results) {
+      print("getServiceEvents with count (${results.length})");
       _isServiceEventsLoaded = true;
       setState(() {
         _serviceEventsResult = results;
@@ -148,6 +147,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
 
     // Showing the Locations
     api.getLocations().then((results){
+      print("getLocations with count (${results.length})");
       _isLocationsLoaded = true;
       setState(() {
         _locationsResult = results;
@@ -159,6 +159,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
 
     // Showing the Assets
     api.getCylinders([]).then((results){
+      print("getCylinders with count (${results.length})");
       _isCylindersLoaded = true;
       setState(() {
         _assetsResult = results;
@@ -266,7 +267,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
               Text('Assigned to me', style: Theme.of(context).textTheme.body1),
               Switch(
                 activeColor: AppColors.blueTurquoise,
-                value: _assignedtoMe,
+                value: _assignedtoMe ?? false,
                 onChanged: (bool value) {
                   _assignedtoMe = value;
                   FilterPreferenceService().setFilter(SearchFilterOptions.AssignedToMe, _assignedtoMe);

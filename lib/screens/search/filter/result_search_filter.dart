@@ -52,6 +52,10 @@ class _SearchFilterState extends State<SearchFilter> {
   @override
   Widget build(BuildContext context) {
     Widget buildSettings(String title, bool defaultValue, Function onChanged) {
+      bool switchDefaultValue = false;
+      if (defaultValue != null) {
+        switchDefaultValue = defaultValue;
+      }
       return Row(
         children: <Widget>[
           SizedBox(width: 20),
@@ -59,7 +63,7 @@ class _SearchFilterState extends State<SearchFilter> {
           Spacer(),
           Switch(
               activeColor: AppColors.blueTurquoise,
-              value: defaultValue,
+              value: switchDefaultValue,
               onChanged: onChanged
           ),
           SizedBox(width: 20)

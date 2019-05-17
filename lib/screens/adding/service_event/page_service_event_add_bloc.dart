@@ -194,7 +194,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
       leakInspections = [inspection];
     }
 
-    // Create the WorkOrder and Submit it
+      // Create the WorkOrder and Submit it
     // For the sake of purpose we don't touch the Work Order part, only the service event part
     widget.currentWorkOrder.workItem = [
       WorkItem(
@@ -243,6 +243,36 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     setState(() {
       _isDropdownsLoaded = true;
     });
+  }
+
+
+
+  // Submit Service Event - Leak Inspection
+  Future<bool> submitShutdown(bool leakFound) async {
+    if (leakFound == true) {
+      // Retrieve the values
+      int equipmentWorkedOn =
+          _pickedEquipmentWorkedOn.id;
+      String typeOfService =
+          _pickedTypeOfService.name;
+      String leakDetectionMethod =
+          _pickedLeakDetectionMethod.name;
+      String wasLeakFound =
+          _pickedWasLeakFound.name;
+      String serviceDate;
+      if (_pickedServiceDate != null) {
+        serviceDate = DateFormat(kShortDateFormat)
+            .format(_pickedServiceDate);
+      }
+      String notes = _pickedObservationNotes;
+
+      print("=== submitShutdown ===");
+      print("> equipmentWorkedOn : $equipmentWorkedOn");
+      print("> typeOfService : $typeOfService");
+      print("> leakDetectionMethod : $leakDetectionMethod");
+      print("> wasLeakFound : $wasLeakFound");
+      print("> serviceDate : $serviceDate");
+    }
   }
 
   // Build Vacuum dept dynamically
@@ -986,24 +1016,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                 keyButton: Key(kSubmitButtonKey),
                                 titleButton: kSubmitButton,
                                 onPressed: () {
-//                                  Asset selectedAsset = Asset(
-//                                      assetID: _pickedEquipmentWorkedOn.id
-//                                  );
-//                                  int pickedIndex = widget.assets.indexOf(
-//                                      selectedAsset);
-//
-//                                  Navigator.of(context).push(
-//                                      SlideRightRoute(
-//                                          widget: PageMaterialGasInstallBloc(
-//                                            installType: MaterialGasInstallType.Recovery,
-//                                            currentAssetWorkedOn: widget
-//                                                .assets[pickedIndex],
-//                                            assets: widget.assets,
-//                                          )
-//                                      )
-//                                  );
-//                                  return;
-
                                   print("Submit _pickedEquipmentWorkedOn : $_pickedEquipmentWorkedOn");
                                   print("Submit _pickedEstimatedLeakAmount : $_pickedEstimatedLeakAmount");
 
@@ -1013,6 +1025,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                                     _formKey.currentState.save();
                                     print("> saved");
 
+                                    if (typeOfService == ServiceType.Shutdown) {
+                                      submitShutdown(_wasLeakFound);
+                                    }
 //                                    if (typeOfService ==
 //                                        ServiceType.LeakInspection) {
 //                                      submitLeakInspection(_wasLeakFound, key);

@@ -144,13 +144,17 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   void initState() {
-    widget.textController.addListener(onTextChanged);
+    if (widget.textController != null) {
+      widget.textController.addListener(onTextChanged);
+    }
     super.initState();
   }
 
   @override
   void dispose() {
-    widget.textController.removeListener(onTextChanged);
+    if (widget.textController != null) {
+      widget.textController.removeListener(onTextChanged);
+    }
     super.dispose();
   }
 
