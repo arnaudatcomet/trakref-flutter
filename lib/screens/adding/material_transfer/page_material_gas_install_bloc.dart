@@ -52,6 +52,12 @@ class _PageMaterialGasInstallBlocState
 
   void onAmountChanged() {
     print("onAmountChanged text > ${amountTextController.text}");
+    try {
+      _pickedAmountLbs = double.parse(amountTextController.text);
+    }
+    catch (error){
+      _pickedAmountLbs = 0;
+    }
   }
 
   @override

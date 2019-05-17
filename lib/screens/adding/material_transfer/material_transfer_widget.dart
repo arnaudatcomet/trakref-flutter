@@ -56,6 +56,10 @@ class _MaterialTransfersWidgetState extends State<MaterialTransfersWidget> {
                       assets: widget.assets,
                       delegate: (materialTransfer) {
                         print("materialTransfer > $materialTransfer");
+                        print("materialTransferType > ${materialTransfer.materialTransferType}");
+                        print("transferWeightLbs > ${materialTransfer.transferWeightLbs}");
+                        print("fromAsset > ${materialTransfer.fromAsset}");
+                        print("toAsset > ${materialTransfer.toAsset}");
                         widget.materialTransfers.add(materialTransfer);
                         setState(() {});
                       },
@@ -118,7 +122,7 @@ class _MaterialTransfersWidgetState extends State<MaterialTransfersWidget> {
         onPressed: () {
           int pickedEquipmentWorked = widget.equipmentWorkedOnID;
           if (pickedEquipmentWorked != null) {
-            showAddMaterialModal(pickedEquipmentWorked, MaterialGasInstallType.Install);
+            showAddMaterialModal(pickedEquipmentWorked, type);
           }
         },
       );
@@ -164,6 +168,16 @@ class _MaterialTransfersWidgetState extends State<MaterialTransfersWidget> {
         Spacer()
       ],
     );
+  }
+
+  String concatenateAsset(String assetName, int maxLength) {
+    String fromAsset = assetName ?? "Unknown";
+    if (fromAsset.length > maxLength) {
+      print("fromAsset.length ${fromAsset.length}");
+      print("maxLength $maxLength");
+      fromAsset = fromAsset.substring(0, maxLength);
+    }
+    return fromAsset;
   }
 
   Widget buildMaterialTransfer(MaterialTransfer transfer, int index) {
@@ -242,12 +256,24 @@ class _MaterialTransfersWidgetState extends State<MaterialTransfersWidget> {
             ),
             Row(
               children: <Widget>[
+                /*
                 Text("${transfer.fromAsset.substring(0, maxAssetNameLength)}..." ?? "Unknown", style: Theme
                     .of(context)
                     .textTheme
                     .display4),
                 Icon(Icons.arrow_right, color: AppColors.blueTurquoise),
                 Text("${transfer.toAsset?.substring(0, maxAssetNameLength) ?? "Unknown"}", style: Theme
+                    .of(context)
+                    .textTheme
+                    .display4)
+                    */
+//                concatenateAsset
+                Text("${concatenateAsset(transfer.fromAsset, maxAssetNameLength)}", style: Theme
+                    .of(context)
+                    .textTheme
+                    .display4),
+                Icon(Icons.arrow_right, color: AppColors.blueTurquoise),
+                Text("${concatenateAsset(transfer.toAsset, maxAssetNameLength)}", style: Theme
                     .of(context)
                     .textTheme
                     .display4)
