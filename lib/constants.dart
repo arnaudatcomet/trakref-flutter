@@ -4,6 +4,10 @@ final String baseURL = "https://api.trakref.com/v3.21";
 final String loginURL = "$baseURL/login";
 final String accountsURL = "$baseURL/accounts";
 
+// POST Messages Constants
+const String kAddServiceEventSuccessfulMessage = "A service event has been successfully added.";
+const String kAddServiceEventErrorMessage = "Something wrong happened, please retry a bit later.";
+
 // FORMS Keys Constants
 const String kEquipmentWorkedOnKey = "EquipmentWorkedOnKey";
 const String kEquipmentWorkedOn = "Equipment worked on";

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trakref_app/models/account.dart';
@@ -8,7 +9,7 @@ import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/get_service.dart';
-
+import 'package:path_provider/path_provider.dart';
 import '../api_service.dart';
 
 class TrakrefAPIService {
@@ -104,6 +105,27 @@ class TrakrefAPIService {
     return user;
   }
 
+  // Save json to local path
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/post_request.json');
+  }
+
+  Future<File> writeOrderOnDisk(List<WorkOrder> order) async {
+    final file = await _localFile;
+    print("writeOrderOnDisk $file");
+    // Write the file
+    String orderString = jsonEncode(order);
+    print("orderString $orderString");
+    return file.writeAsString(orderString);
+  }
+
   TrakrefAPIService._internal();
 
   // Get constructed API
@@ -186,24 +208,38 @@ class TrakrefAPIService {
 
   Future<List<Asset>> getCylinders(List<int> locationIDs) async {
     ApiService api = await getAPI();
+    print("getCylinders > for locations $locationIDs");
 
     if (locationIDs.length > 0) {
       List<String> locations = locationIDs.map((value) => "LocationID=${value.toString()}").toList();
       String locationParameters = locations.join("&");
-      var baseUrl = "${ApiService.getAssetsURL}?GetLocationArray?$locationParameters";
+      var baseUrl = "${ApiService.getAssetsURL}/GetLocationArray?$locationParameters";
       print("getCylinders > Show baseURL $baseUrl");
 
       return await api.getResults<Asset>(baseUrl).catchError((error) {
+        print("getCylinder errors > $error");
         Future.error(error);
       });
     }
     else {
       var baseUrl = "${ApiService.getAssetsByInstanceURL}";
-      print("getServiceEvents > Show baseURL $baseUrl");
+      print("getCylinders > Show baseURL $baseUrl");
       return await api.getResults<Asset>(baseUrl).catchError((error) {
         Future.error(error);
       });
     }
+  }
+
+  // POST
+  Future<dynamic> post<T>(T item, String url) async {
+    ApiService api = await getAPI();
+    return await api.post(item, url);
+  }
+
+  Future<dynamic> postWorkOrder(WorkOrder order) async {
+    String workOrderURL = ApiService.getWorkOrdersURL;
+    ApiService api = await getAPI();
+    return api.postWorkOrder(order, workOrderURL);
   }
 
   // For logging out

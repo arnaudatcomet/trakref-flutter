@@ -109,8 +109,16 @@ class _PageMaterialGasInstallBlocState
                   }
                   Asset selectedAsset =
                   Asset(assetID: (value is Dropdown) ? value.id : 0);
-                  int pickedIndex = widget.assets.indexOf(selectedAsset);
+
+//                  int pickedIndex = widget.assets.indexOf(selectedAsset);
+                  int pickedIndex = widget.assets.indexWhere((i) => i.assetID == selectedAsset.assetID);
+
+                  print("pickedIndex ## $pickedIndex");
                   Asset fullSelectedAsset = widget.assets[pickedIndex];
+
+                  print("fullSelectedAsset.id ${fullSelectedAsset.id}");
+                  print("fullSelectedAsset.materialTypeID ${fullSelectedAsset.materialTypeID}");
+
                   setState(() {
                     _pickedAsset = fullSelectedAsset;
                   });
@@ -214,6 +222,7 @@ class _PageMaterialGasInstallBlocState
           }
           print("_pickedAmountLbs $_pickedAmountLbs");
           print("_pickedAsset.id ${_pickedAsset.id}");
+          print("_pickedAsset.materialTypeID ${_pickedAsset.materialTypeID}");
           print("_dateMaterialTransfer $dateMaterialTransfer");
 
           int materialTransferTypeID =  MaterialTransfer.getMaterialGasInstallID(widget.installType);
@@ -228,6 +237,7 @@ class _PageMaterialGasInstallBlocState
               materialTransferType: materialTransferType,
               fromAssetID: _pickedAsset.id,
               fromAsset: _pickedAsset.name,
+              materialTypeID: _pickedAsset.materialTypeID,
               transferDate: dateMaterialTransfer);
           // Transmit the information to material transfer
           if (widget.delegate != null) {

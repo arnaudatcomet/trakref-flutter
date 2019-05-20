@@ -1,22 +1,28 @@
+import 'dart:convert';
+
 import "package:flutter/material.dart";
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/dropdown.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/screens/adding/material_transfer/material_transfer_widget.dart';
 import 'package:trakref_app/screens/adding/material_transfer/page_material_gas_install_bloc.dart';
+import 'package:trakref_app/screens/adding/page_adding_bloc.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:flushbar/flushbar.dart';
 
 // 2, 3, 5, 0
 enum ServiceType { LeakInspection, ServiceAndLeakRepair, Shutdown, None }
 
 class PageServiceEventAddBloc extends StatefulWidget {
-  List<Asset> assets = [];
+  List<Asset> assets;
   WorkOrder currentWorkOrder;
 
   @override
@@ -32,7 +38,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   // Need to check what it is in the dropdown API
 // List<Dropdown> temperatureClass;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
 //  DropdownService service = DropdownService();
+  List<Asset> coolingApplianceAssets;
   bool _isDropdownsLoaded = false;
   DateTime _date = DateTime.now();
   ServiceType typeOfService = ServiceType.None;
@@ -74,10 +82,11 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   DropdownItem _pickedEquipmentWorkedOn;
   DropdownItem _pickedTypeOfService;
   DropdownItem _pickedLeakDetectionMethod;
-  DropdownItem _pickedWasLeakFound;
   DateTime _pickedServiceDate;
   DropdownItem _pickedCauseOfLeak;
   double _pickedEstimatedLeakAmount;
+  TextEditingController _estimatedLeakAmountController = TextEditingController();
+
   DropdownItem _pickedInitialLeakCategory;
   DropdownItem _pickedInitialLeakLocation;
   DropdownItem _pickedVerificationLeakCategory;
@@ -94,22 +103,30 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   List<MaterialTransfer> _pickedMaterialTransfers = [];
   String _pickedObservationNotes;
 
+  void onEstimatedAmountChanged() {
+    print("onEstimatedAmountChanged");
+    try {
+      _pickedEstimatedLeakAmount =
+          double.parse(_estimatedLeakAmountController.text);
+      print("onEstimatedAmountChanged : $_pickedEstimatedLeakAmount");
+    }
+    catch (error) {
+      _pickedEstimatedLeakAmount = 0;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    _isDropdownsLoaded = false;
-    TrakrefAPIService().getDropdown().then((results){
+    // Listen to textfield
+    _estimatedLeakAmountController.addListener(onEstimatedAmountChanged);
 
+    // Get the dropdowns
+    _isDropdownsLoaded = false;
+    TrakrefAPIService().getDropdown().then((results) {
       print("AssetDropdowns ${widget.assets}");
       // Map the list of assets to a dropdown sources
       setState(() {
-        assetsDropdowns = (widget.assets ?? []).map((i) {
-          return DropdownItem(
-              name: i.name,
-              id: i.assetID
-          );
-        }).toList();
-
         this.initialLocationLeakFound = results.leakLocations;
         this.verificationLocationLeakFound = results.leakLocations;
         this.categoriesLeakFound = results.leakLocationCategories;
@@ -118,9 +135,33 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
 
         this.serviceActions = results.serviceActions;
         this.leakRepairStatus = results.leakRepairStatuses;
-        _isDropdownsLoaded = true;
+
+        // Get the assets
+        print(
+            "getCylinders for locations[${widget.currentWorkOrder
+                .locationID}]");
+
+        TrakrefAPIService()
+            .getCylinders([widget.currentWorkOrder.locationID])
+            .then((assets) {
+          // Add a fix for the cooling appliance status ; it will throw an error for shutdown service event
+          coolingApplianceAssets =
+              assets.where((i) => (i.coolingApplianceStatusID > 0)).toList();
+
+          assetsDropdowns = (coolingApplianceAssets ?? []).map((i) {
+            return DropdownItem(name: i.name, id: i.assetID);
+          }).toList();
+          _isDropdownsLoaded = true;
+          setState(() {});
+        });
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _estimatedLeakAmountController.dispose();
+    super.dispose();
   }
 
   void resetPickedValues() {
@@ -128,7 +169,12 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     _pickedTypeOfService = null;
     _pickedLeakDetectionMethod = null;
     _pickedServiceDate = null;
+    _wasLeakFound = null;
+    typeOfService = ServiceType.None;
+    _wasVerificationLeakFound = false;
+
     resetLeakWasFoundPickedValues();
+    _pickedMaterialTransfers = [];
   }
 
   void resetLeakWasFoundPickedValues() {
@@ -148,57 +194,66 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     _pickedShutdownStatus = null;
     _pickedFollowUpDate = null;
     _pickedObservationNotes = null;
-    _pickedWasLeakFound = null;
+    _wasVerificationLeakFound = null;
   }
 
   // Submit Service Event - Leak Inspection
-  Future<bool> submitLeakInspection(bool leakFound, GlobalKey<ScaffoldState> scaffoldKey) async {
+  Future<bool> submitLeakInspection() async {
     // Retrieve the values
-    int equipmentWorkedOn =
-        _pickedEquipmentWorkedOn.id;
-    String typeOfService =
-        _pickedTypeOfService.name;
-    String leakDetectionMethod =
-        _pickedLeakDetectionMethod.name;
-    String wasLeakFound =
-        _pickedWasLeakFound.name;
+    int equipmentWorkedOn = _pickedEquipmentWorkedOn.id;
+    String typeOfService = _pickedTypeOfService.name;
+    String leakDetectionMethod = _pickedLeakDetectionMethod.name;
+    bool wasLeakFound = _wasLeakFound;
     String serviceDate = null;
     if (_pickedServiceDate != null) {
-      serviceDate = DateFormat(kShortDateFormat)
-          .format(_pickedServiceDate);
+      serviceDate = DateFormat(kShortDateFormat).format(_pickedServiceDate);
     }
     String notes = _pickedObservationNotes;
 
+    print("equipmentWorkedOn : $equipmentWorkedOn");
+    print("typeOfService : $typeOfService");
+    print("leakDetectionMethod : $leakDetectionMethod");
+    print("wasLeakFound : $wasLeakFound");
+    print("serviceDate : $serviceDate");
+
     // If we found a leak
     List<LeakInspection> leakInspections = [];
-    if (leakFound == true) {
+    if (wasLeakFound == true) {
       // Values from the forms
       int leakCategory = _pickedInitialLeakCategory.id;
-      int leakLocation = _pickedInitialLeakLocation.id;
       int causeLeak = _pickedCauseOfLeak.id;
-      double estimatedLeakAmount = _pickedEstimatedLeakAmount.toDouble();
+      double estimatedLeakAmount = _pickedEstimatedLeakAmount;
       String followUpDateString;
       if (_pickedFollowUpDate != null) {
-        followUpDateString = DateFormat(kShortDateFormat).format(_pickedFollowUpDate);
+        followUpDateString =
+            DateFormat(kShortDateFormat).format(_pickedFollowUpDate);
         print("followUpDate $followUpDateString");
       }
 
+      print("leakCategory : ${_pickedInitialLeakCategory.name}");
+      print("causeLeak : ${_pickedCauseOfLeak.name}");
+      print("estimatedLeakAmount : $estimatedLeakAmount");
+      print("followUpDateString : $followUpDateString");
+      print("notes : $notes");
+
       LeakInspection inspection = LeakInspection(
-        leakLocationCategoryID: leakCategory,
-        leakLocationID: leakLocation,
-        faultCauseTypeID: causeLeak,
-        estimatedLeakAmount: estimatedLeakAmount,
-        inspectionDate: followUpDateString
-      );
+          leakLocationCategoryID: leakCategory,
+          faultCauseTypeID: causeLeak,
+          estimatedLeakAmount: estimatedLeakAmount,
+          inspectionDate: followUpDateString);
 
       leakInspections = [inspection];
     }
 
-      // Create the WorkOrder and Submit it
+    // Create the WorkOrder and Submit it
     // For the sake of purpose we don't touch the Work Order part, only the service event part
-    widget.currentWorkOrder.workItem = [
+
+
+    WorkOrder order = widget.currentWorkOrder;
+    order.workItemCount = 1;
+    order.workItem = [
       WorkItem(
-          wasLeakFound: leakFound,
+          wasLeakFound: wasLeakFound,
           assetID: equipmentWorkedOn,
           workItemTypeID: 2,
           // It's invalid if WorkItem type != 3, 2 and 5
@@ -206,73 +261,233 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           workItemStatusID: 1,
           // Repair
           repairNotes: notes,
-          leakInspectionCount: (leakFound == false) ? 0 : 1,
-          leakInspection: (leakFound == false) ? [] : leakInspections
-      )
+          leakInspectionCount: (wasLeakFound == false) ? 0 : 1,
+          leakInspection: (wasLeakFound == false) ? [] : leakInspections)
     ];
-    widget.currentWorkOrder.workItemCount = 1;
-//    WorkOrder workOrder = WorkOrder(
-//        id: 1071647,
-//        workOrderNumber: "790345789",
-//        instanceID: 248,
-//        locationID: 10721,
-//        workOrderTypeID: 2,
-//        workOrderStatusID: 1,
-//        workItem: [
-//          WorkItem(
-//              wasLeakFound: leakFound,
-//              assetID: equipmentWorkedOn,
-//              workItemTypeID: 2, // It's invalid if WorkItem type != 3, 2 and 5
-//              serviceDate: serviceDate,
-//              workItemStatusID: 1,
-//              // Repair
-//              repairNotes: notes,
-//              leakInspectionCount: (leakFound == false) ? 0 : 1,
-//              leakInspection: (leakFound == false) ? [] : leakInspections
-//          )
-//        ]
-//    );
 
-    setState(() {
-      _isDropdownsLoaded = false;
-    });
-    await new Future.delayed(const Duration(seconds:2));
-//    var response = await ApiService().postWorkOrder(workOrder, "https://api.trakref.com/v3.21/WorkOrders");
-//    print("Response from POST Service event : $response");
+    // For testing purpose only
+    TrakrefAPIService().writeOrderOnDisk([order]);
 
-    setState(() {
-      _isDropdownsLoaded = true;
+    // Post the work order
+    TrakrefAPIService().postWorkOrder(order).then((result) {
+      print("result $result");
+      return true;
+    }).catchError((error) {
+      return false;
     });
   }
 
+  // Submit Service Event - Service and Leak Repair
+  Future<bool> submitServiceAndLeakRepair() async {
+    // Retrieve the values
+    int equipmentWorkedOn = _pickedEquipmentWorkedOn.id;
 
-
-  // Submit Service Event - Leak Inspection
-  Future<bool> submitShutdown(bool leakFound) async {
-    if (leakFound == true) {
-      // Retrieve the values
-      int equipmentWorkedOn =
-          _pickedEquipmentWorkedOn.id;
-      String typeOfService =
-          _pickedTypeOfService.name;
-      String leakDetectionMethod =
-          _pickedLeakDetectionMethod.name;
-      String wasLeakFound =
-          _pickedWasLeakFound.name;
-      String serviceDate;
-      if (_pickedServiceDate != null) {
-        serviceDate = DateFormat(kShortDateFormat)
-            .format(_pickedServiceDate);
-      }
-      String notes = _pickedObservationNotes;
-
-      print("=== submitShutdown ===");
-      print("> equipmentWorkedOn : $equipmentWorkedOn");
-      print("> typeOfService : $typeOfService");
-      print("> leakDetectionMethod : $leakDetectionMethod");
-      print("> wasLeakFound : $wasLeakFound");
-      print("> serviceDate : $serviceDate");
+    String typeOfService = _pickedTypeOfService.name;
+    String leakDetectionMethod = _pickedLeakDetectionMethod.name;
+    bool wasLeakFound = _wasLeakFound;
+    String serviceDate;
+    if (_pickedServiceDate != null) {
+      serviceDate =
+          DateFormat(kShortTimeDateFormat).format(_pickedServiceDate);
     }
+
+    String leakCategory = _pickedInitialLeakCategory.name;
+    String leakLocation = _pickedInitialLeakLocation.name;
+    String causeOfLeak = _pickedCauseOfLeak.name;
+    String estimatedLeakAmount = _pickedEstimatedLeakAmount.toString();
+    String serviceAction = _pickedServiceAction.name;
+    String leakRepairStatus = _pickedLeakRepairStatus.name;
+    String verificationServiceDate;
+    if (_pickeVerificationDate != null) {
+      verificationServiceDate =
+          DateFormat(kShortTimeDateFormat).format(_pickeVerificationDate);
+    }
+    String verificationLeakMethod =
+        _pickedVerificationLeakDetectionMethod.name;
+    bool verificationWasLeakFoundDuringInspection = _wasVerificationLeakFound;
+    String verificationCauseOfLeak = _pickedVerificationCauseOfLeak.name;
+    String verificationLeakCategory = _pickedVerificationLeakCategory.name;
+    String verificationLeakLocation = _pickedVerificationLeakLocation.name;
+
+    String notes = _pickedObservationNotes;
+
+    print("=== submitServiceAndLeakRepair ===");
+    print("> equipmentWorkedOn : $equipmentWorkedOn");
+    print("> typeOfService : $typeOfService");
+    print("> leakDetectionMethod : $leakDetectionMethod");
+    print("> wasLeakFound : $wasLeakFound");
+    print("> leakCategory : $leakCategory");
+    print("> leakLocation : $leakLocation");
+    print("> causeOfLeak : $causeOfLeak");
+    print("> serviceDate : $serviceDate");
+    print("> estimatedLeakAmount : $estimatedLeakAmount");
+    print("> serviceAction : $serviceAction");
+    print("> leakRepairStatus : $leakRepairStatus");
+    print("> followUpServiceDate : $verificationServiceDate");
+    print("> verificationLeakMethod : $verificationLeakMethod");
+    print(
+        "> verificationWasLeakFoundDuringInspection : $verificationWasLeakFoundDuringInspection");
+    print("> verificationCauseOfLeak : $verificationCauseOfLeak");
+    print("> verificationLeakCategory : $verificationLeakCategory");
+    print("> verificationLeakLocation : $verificationLeakLocation");
+
+    for (MaterialTransfer transfer in _pickedMaterialTransfers) {
+      print("=== MaterialTransfer ===");
+      print("> transferWeightLbs : ${transfer.transferWeightLbs} lbs");
+      print("> fromAsset : ${transfer.fromAsset}");
+      print("> toAsset : ${transfer.toAsset}");
+      print("> transferDate : ${transfer.transferDate}");
+    }
+
+    // Construct the work order to POST
+    print("### workOrderNumber : ${widget.currentWorkOrder.workOrderNumber}");
+    print("### instanceID : ${widget.currentWorkOrder.instanceID}");
+    print("### workOrderType : ${widget.currentWorkOrder.workOrderType}");
+
+    // Create the leak inspection 'Initial'
+    LeakInspection initialLeakInspection = LeakInspection(
+        leakLocationCategoryID: _pickedInitialLeakCategory.id,
+        leakLocationID: _pickedInitialLeakLocation.id,
+        faultCauseTypeID: _pickedCauseOfLeak.id,
+        estimatedLeakAmount: _pickedEstimatedLeakAmount,
+        leakInspectionType: "initial",
+        wasLeakFound: _wasLeakFound,
+        leakDetectionMethodID: _pickedLeakDetectionMethod.id);
+
+    LeakInspection verificationLeakInspection = LeakInspection(
+        leakLocationCategoryID: _pickedVerificationLeakCategory.id,
+        leakLocationID: _pickedVerificationLeakLocation.id,
+        faultCauseTypeID: _pickedVerificationCauseOfLeak.id,
+        leakInspectionType: "verification",
+        // Need to change that
+        wasLeakFound: false,
+        leakDetectionMethodID: _pickedVerificationLeakDetectionMethod.id);
+
+    // You need to grab the locationID to pass it to workItem ID
+    WorkOrder order = widget.currentWorkOrder;
+
+    // Create the work item
+    WorkItem item = WorkItem(
+        assetID: equipmentWorkedOn,
+        assetLocationID: order.locationID,
+        workItemTypeID: 3,
+        // Open by default
+        workItemStatusID: 1,
+        serviceDate: serviceDate,
+        wasLeakFound: wasLeakFound,
+        repairNotes: notes,
+        serviceActionID: _pickedServiceAction.id,
+        leakRepairDispositionTypeID: _pickedLeakRepairStatus.id,
+        dateOfFollowUpService: verificationServiceDate,
+        leakInspectionCount: 2,
+        leakInspection: [initialLeakInspection, verificationLeakInspection],
+        materialTransfer: _pickedMaterialTransfers,
+        materialTransferCount: _pickedMaterialTransfers.length);
+
+    order.workItemCount = 1;
+    order.workItem = [item];
+
+    print("order ${order.toJson()}");
+    print("item ${order.workItem.first.toJson()}");
+//      print("materialTransfer ${order.workItem.first.materialTransfer.first.toJson()}");
+
+    // For testing purpose only
+    TrakrefAPIService().writeOrderOnDisk([order]);
+
+    // Post the work order
+    TrakrefAPIService().postWorkOrder(order).then((result) {
+      print("result $result");
+      return true;
+    }).catchError((error) {
+      return false;
+    });
+  }
+
+  // Submit Service Event - Shutdown
+  Future<bool> submitShutdown() async {
+    return false;
+    // Retrieve the values
+    int equipmentWorkedOn = _pickedEquipmentWorkedOn.id;
+    String typeOfService = _pickedTypeOfService.name;
+    String leakDetectionMethod = _pickedLeakDetectionMethod.name;
+    bool wasLeakFound = _wasLeakFound;
+    String serviceDate;
+    if (_pickedServiceDate != null) {
+      serviceDate = DateFormat(kShortDateFormat).format(_pickedServiceDate);
+    }
+    String notes = _pickedObservationNotes;
+
+    bool wasVacuumPulled = false;
+    if (_pickedWasVacuumPulled.name == "Yes") {
+      wasVacuumPulled = true;
+    } else if (_pickedWasVacuumPulled.name == "No") {
+      wasVacuumPulled = false;
+    }
+
+    double depthOfVacuum = 0;
+    try {
+      depthOfVacuum = double.parse(_pickedDepthOfVacuum.name);
+    }
+    catch (error) {
+      // Do something
+    }
+
+    String serviceAction = _pickedServiceAction.name;
+    String shutdownStatus = _pickedShutdownStatus.name;
+
+    print("=== submitShutdown ===");
+    print("> equipmentWorkedOn : $equipmentWorkedOn");
+    print("> typeOfService : $typeOfService");
+    print("> leakDetectionMethod : $leakDetectionMethod");
+    print("> wasLeakFound : $wasLeakFound");
+    print("> serviceDate : $serviceDate");
+    print("> wasVacuumPulled : $wasVacuumPulled");
+    print("> depthOfVacuum : $depthOfVacuum");
+    print("> serviceAction : $serviceAction");
+    print("> shutdownStatus : $shutdownStatus");
+
+
+    // You need to grab the locationID to pass it to workItem ID
+    WorkOrder order = widget.currentWorkOrder;
+
+//      print("> shutdownStatus : $shutdownStatus");
+
+    LeakInspection leakInspection = LeakInspection(
+        leakInspectionType: "initial",
+        wasLeakFound: _wasLeakFound,
+        leakDetectionMethodID: _pickedLeakDetectionMethod.id);
+
+    // Create the work item
+    WorkItem item = WorkItem(
+        assetID: equipmentWorkedOn,
+        assetLocationID: order.locationID,
+        workItemTypeID: 5,
+        // Open by default
+        workItemStatusID: 1,
+        serviceDate: serviceDate,
+        wasLeakFound: wasLeakFound,
+        vacuumPSI: depthOfVacuum,
+        repairNotes: notes,
+        finalCoolingApplianceStatusID: _pickedShutdownStatus.id,
+        serviceActionID: _pickedServiceAction.id,
+        leakInspectionCount: 1,
+        leakInspection: [],
+        wasProperVacuumPulled: wasVacuumPulled,
+        materialTransfer: _pickedMaterialTransfers,
+        materialTransferCount: _pickedMaterialTransfers.length);
+
+    order.workItem = [item];
+    order.workItemCount = 1;
+
+    TrakrefAPIService().writeOrderOnDisk([order]);
+
+    // Post the work order
+    TrakrefAPIService().postWorkOrder(order).then((result) {
+      print("result $result");
+      return true;
+    }).catchError((error) {
+      return false;
+    });
   }
 
   // Build Vacuum dept dynamically
@@ -303,10 +518,14 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
               flex: (type == ServiceType.None) ? 1 : 2,
               child: Text(
                 "Add Service Event",
-                style: Theme.of(context).textTheme.title,
-              )
-          ),
-          (type == ServiceType.None) ? Container() : Expanded(
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .title,
+              )),
+          (type == ServiceType.None)
+              ? Container()
+              : Expanded(
             flex: 1,
             child: Chip(
               backgroundColor: AppColors.blueTurquoise,
@@ -324,7 +543,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
               flex: 2,
               child: Text(
                 "Add Service Event",
-                style: Theme.of(context).textTheme.title,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .title,
               )),
           Expanded(
             flex: 1,
@@ -359,16 +581,16 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
         MaterialGasInstallType.Recovery,
         MaterialGasInstallType.Install,
       ];
+    } else if (type == ServiceType.Shutdown) {
+      allowedMaterialTransfer = [MaterialGasInstallType.Recovery];
     }
-    else if (type == ServiceType.Shutdown) {
-      allowedMaterialTransfer = [
-        MaterialGasInstallType.Recovery
-      ];
-    }
+
+    print("coolingApplianceAssets $coolingApplianceAssets");
+    print("_pickedMaterialTransfers $_pickedMaterialTransfers");
 
     return MaterialTransfersWidget(
       allowedTransfers: allowedMaterialTransfer,
-      assets: widget.assets,
+      assets: coolingApplianceAssets,
       materialTransfers: _pickedMaterialTransfers,
       equipmentWorkedOnID: _pickedEquipmentWorkedOn.id,
     );
@@ -388,19 +610,17 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
             Row(
               children: <Widget>[
                 AppCancellableTextField(
-                  initialValue: _pickedInitialLeakCategory,
-                  sourcesDropdown: this.categoriesLeakFound,
-                  textKey: kInitialLeakCategoryKey,
-                  textLabel: kInitialLeakCategory,
-                  textError: "Required",
-                  isRequired: true,
+                    initialValue: _pickedInitialLeakCategory,
+                    sourcesDropdown: this.categoriesLeakFound,
+                    textKey: kInitialLeakCategoryKey,
+                    textLabel: kInitialLeakCategory,
+                    textError: "Required",
+                    isRequired: true,
                     onChangedValue: (value) {
                       _pickedInitialLeakCategory = value;
                       _pickedInitialLeakLocation = null;
-                      setState(() {
-                      });
-                    }
-                    ),
+                      setState(() {});
+                    }),
               ],
             ),
             (this._filteredInitialLocationLeakFound != null)
@@ -408,15 +628,15 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
               children: <Widget>[
                 AppCancellableTextField(
                     initialValue: _pickedInitialLeakLocation,
-                    sourcesDropdown: this._filteredInitialLocationLeakFound,
+                    sourcesDropdown:
+                    this._filteredInitialLocationLeakFound,
                     textKey: kInitialLeakLocationKey,
                     textLabel: kInitialLeakLocation,
                     textError: "Required",
                     isRequired: true,
                     onChangedValue: (value) {
                       _pickedInitialLeakLocation = value;
-                    }
-                )
+                    })
               ],
             )
                 : Container(),
@@ -431,42 +651,58 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     isRequired: true,
                     onChangedValue: (value) {
                       _pickedCauseOfLeak = value;
-                    }
-                )
+                    })
               ],
             ),
             Row(
               children: <Widget>[
-                  FormBuild.buildTextField(
-                      onValidated: (value) {
-                        print("Textfield ${Key(kEstimatedLeakAmountKey)} is being validated with value '$value'");
-                        if (value.isEmpty || value == null) {
-                          return "Required";
-                        }
-                      },
-                      onSubmitted: (value) {
-                        double estimatedLeakAmount = double.parse(value);
-                        if (estimatedLeakAmount != null) {
-                          _pickedEstimatedLeakAmount = estimatedLeakAmount;
-                        }
-                      },
-                      key: Key(kEstimatedLeakAmountKey),
-                      label: kEstimatedLeakAmount,
-                      inputType: TextInputType.number)
+                FormBuild.buildTextField(
+                    textController: _estimatedLeakAmountController,
+                    onValidated: (value) {
+                      if (value.isEmpty || value == null) {
+                        return "Required";
+                      }
+                      try {
+                        double amountEstimatedValue = double.parse(value);
+                      }
+                      catch (error) {
+                        return "Amount input is not valid";
+                      }
+                    },
+                    onSubmitted: (value) {
+                      print("kEstimatedLeakAmountKey > onSubmitted $value");
+                      double leakAmount = double.parse(value);
+                      if (leakAmount != null) {
+                        _pickedEstimatedLeakAmount = leakAmount;
+                      }
+                    },
+                    inputType: TextInputType.text,
+                    key: Key(kEstimatedLeakAmountKey),
+                    label: kEstimatedLeakAmount),
               ],
             ),
             Row(
               children: <Widget>[
                 FormBuild.buildDatePicker(
+                    onValidated: (value) {
+                      if (_pickedFollowUpDate == null)
+                        return "No service date found for service event";
+                      if (_pickedFollowUpDate.isAfter(_pickedServiceDate) ==
+                          false)
+                        return "Date of Followup Service must be on or after Initial Leak Test Date";
+                    },
+                    onPressed: (value) {
+                      print(
+                          "$kServiceDateKey buildDatePicker > onPressed is $value");
+                      _pickedFollowUpDate = value;
+                    },
                     key: Key(kFollowUpDateKey),
-                    helper: kFollowUpDate,
-                    onPressed: (value) => _pickedFollowUpDate = value)
+                    helper: kFollowUpDate)
               ],
             )
           ],
         );
-      }
-      else if (type == ServiceType.ServiceAndLeakRepair) {
+      } else if (type == ServiceType.ServiceAndLeakRepair) {
         print("===> ServiceAndLeakRepair");
         return Column(
           key: Key("kbuildServiceAndLeakRepair"),
@@ -490,14 +726,14 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                       Future.delayed(const Duration(milliseconds: 500), () {
                         if (value is DropdownItem) {
                           // Get the filtered leak location category
-                          List<LeakLocationItem> selectedLeakLocationList =
-                          this
+                          List<LeakLocationItem> selectedLeakLocationList = this
                               .initialLocationLeakFound
                               .where((i) => i.categoryID == value.id)
                               .toList();
                           List<DropdownItem> categoryLeaksLocation =
                           selectedLeakLocationList
-                              .map((i) => DropdownItem(id: i.id, name: i.name))
+                              .map((i) =>
+                              DropdownItem(id: i.id, name: i.name))
                               .toList();
                           setState(() {
                             if (categoryLeaksLocation.length == 0) {
@@ -509,26 +745,25 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                           });
                         }
                       });
-                    }
-                )
+                    })
               ],
             ),
             (this._filteredInitialLocationLeakFound != null)
                 ? Row(
-                    children: <Widget>[
-                      AppCancellableTextField(
-                          initialValue: _pickedInitialLeakLocation,
-                          sourcesDropdown: this._filteredInitialLocationLeakFound,
-                          textKey: kInitialLeakLocationKey,
-                          textLabel: kInitialLeakLocation,
-                          textError: "Required",
-                          isRequired: true,
-                          onChangedValue: (value) {
-                            _pickedInitialLeakLocation = value;
-                          }
-                      ),
-                    ],
-                  )
+              children: <Widget>[
+                AppCancellableTextField(
+                    initialValue: _pickedInitialLeakLocation,
+                    sourcesDropdown:
+                    this._filteredInitialLocationLeakFound,
+                    textKey: kInitialLeakLocationKey,
+                    textLabel: kInitialLeakLocation,
+                    textError: "Required",
+                    isRequired: true,
+                    onChangedValue: (value) {
+                      _pickedInitialLeakLocation = value;
+                    }),
+              ],
+            )
                 : Container(),
             Row(
               children: <Widget>[
@@ -537,12 +772,12 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     sourcesDropdown: this.causeOfLeaks,
                     textKey: kCauseOfLeakKey,
                     textLabel: kCauseOfLeak,
-                    textError: "Cause of Leak required since WasLeakFound was clicked for leak inspection service event",
+                    textError:
+                    "Cause of Leak required since WasLeakFound was clicked for leak inspection service event",
                     isRequired: true,
                     onChangedValue: (value) {
                       _pickedCauseOfLeak = value;
-                    }
-                ),
+                    }),
               ],
             ),
             Row(
@@ -565,8 +800,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     isRequired: true,
                     onChangedValue: (value) {
                       _pickedServiceAction = value;
-                    }
-                )
+                    })
               ],
             ),
             // URGENT: Need to add material gas
@@ -581,16 +815,18 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     isRequired: true,
                     onChangedValue: (value) {
                       _pickedLeakRepairStatus = value;
-                    }
-                )
+                    })
               ],
             ),
             Row(
               children: <Widget>[
                 FormBuild.buildDatePicker(
                     onValidated: (value) {
-                      if (_pickeVerificationDate == null) return "No service date found for service event";
-                      if (_pickeVerificationDate.isAfter(DateTime.now())) return "Future service date found for service event";
+                      if (_pickeVerificationDate == null)
+                        return "No service date found for service event";
+                      if (_pickeVerificationDate.isAfter(_pickedServiceDate) ==
+                          false)
+                        return "Date of Followup Service must be on or after Initial Leak Test Date";
                     },
                     onPressed: (value) {
                       print(
@@ -612,8 +848,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     isRequired: true,
                     onChangedValue: (value) {
                       _pickedVerificationLeakDetectionMethod = value;
-                    }
-                )
+                    })
               ],
             ),
             Row(
@@ -625,102 +860,103 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     textLabel: kVerificationWasLeakFound,
                     textError: "Required",
                     isRequired: true,
-                    onChangedValue: (value) {setState(() {
-                      this._filteredVerificationLocationLeakFound = [];
-                      if (value.name == "Yes") {
-                        _wasVerificationLeakFound = true;
-                      } else {
-                        _wasVerificationLeakFound = false;
-                      }
-                    });
-                    }
-                )
+                    onChangedValue: (value) {
+                      setState(() {
+                        this._filteredVerificationLocationLeakFound = [];
+                        if (value.name == "Yes") {
+                          _wasVerificationLeakFound = true;
+                        } else {
+                          _wasVerificationLeakFound = false;
+                        }
+                      });
+                    })
               ],
             ),
             // Note : maybe a better way to do the UI below
-            (_wasVerificationLeakFound)
+            (_wasVerificationLeakFound != null)
                 ? Row(
-                    children: <Widget>[
-                      AppCancellableTextField(
-                          initialValue: _pickedVerificationLeakDetectionMethod,
-                          sourcesDropdown: this.causeOfLeaks,
-                          textKey: kVerificationLeakCauseKey,
-                          textLabel: kVerificationLeakCause,
-                          textError: "Required",
-                          isRequired: true,
-                          onChangedValue: (value) {
-                            _pickedVerificationCauseOfLeak = value;
-                          }
-                      ),
+              children: <Widget>[
+                AppCancellableTextField(
+                    initialValue: _pickedVerificationCauseOfLeak,
+                    sourcesDropdown: this.causeOfLeaks,
+                    textKey: kVerificationLeakCauseKey,
+                    textLabel: kVerificationLeakCause,
+                    textError: "Required",
+                    isRequired: true,
+                    onChangedValue: (value) {
+                      print("kVerificationLeakCauseKey > $value");
+                      _pickedVerificationCauseOfLeak = value;
+                    }),
 //                      _buildVerificationChip()
-                    ],
-                  )
+              ],
+            )
                 : Container(),
-            (_wasVerificationLeakFound)
+            (_wasVerificationLeakFound != null)
                 ? Row(
-                    children: <Widget>[
-                      AppCancellableTextField(
-                          initialValue: _pickedVerificationLeakDetectionMethod,
-                          sourcesDropdown: this.categoriesLeakFound,
-                          textKey: kVerificationLeakCategoryKey,
-                          textLabel: kVerificationLeakCategory,
-                          textError: "Required",
-                          isRequired: true,
-                          onChangedValue: (value) {
-                            // Cancel the subcategories
-                            _pickedVerificationLeakCategory = value;
-                            _pickedVerificationLeakLocation = null;
-                            setState(() {
-                              this._filteredVerificationLocationLeakFound = null;
-                            });
-                            Future.delayed(const Duration(milliseconds: 500),
-                                    () {
-                                  if (value is DropdownItem) {
-                                    // Get the filtered leak location category
-                                    List<LeakLocationItem>
-                                    selectedLeakLocationList = this
-                                        .verificationLocationLeakFound
-                                        .where((i) => i.categoryID == value.id)
-                                        .toList();
-                                    List<DropdownItem> categoryLeaksLocation =
-                                    selectedLeakLocationList
-                                        .map((i) =>
-                                        DropdownItem(id: i.id, name: i.name))
-                                        .toList();
-                                    setState(() {
-                                      if (categoryLeaksLocation.length == 0) {
-                                        this._filteredVerificationLocationLeakFound =
-                                        [];
-                                      } else {
-                                        this._filteredVerificationLocationLeakFound =
-                                            categoryLeaksLocation;
-                                      }
-                                    });
-                                  }
-                                });
-                          }
-                      ),
+              children: <Widget>[
+                AppCancellableTextField(
+                    initialValue: _pickedVerificationLeakCategory,
+                    sourcesDropdown: this.categoriesLeakFound,
+                    textKey: kVerificationLeakCategoryKey,
+                    textLabel: kVerificationLeakCategory,
+                    textError: "Required",
+                    isRequired: true,
+                    onChangedValue: (value) {
+                      // Cancel the subcategories
+                      _pickedVerificationLeakCategory = value;
+                      _pickedVerificationLeakLocation = null;
+                      setState(() {
+                        this._filteredVerificationLocationLeakFound =
+                        null;
+                      });
+                      Future.delayed(const Duration(milliseconds: 500),
+                              () {
+                            if (value is DropdownItem) {
+                              // Get the filtered leak location category
+                              List<LeakLocationItem>
+                              selectedLeakLocationList = this
+                                  .verificationLocationLeakFound
+                                  .where((i) => i.categoryID == value.id)
+                                  .toList();
+                              List<DropdownItem> categoryLeaksLocation =
+                              selectedLeakLocationList
+                                  .map((i) =>
+                                  DropdownItem(
+                                      id: i.id, name: i.name))
+                                  .toList();
+                              setState(() {
+                                if (categoryLeaksLocation.length == 0) {
+                                  this._filteredVerificationLocationLeakFound =
+                                  [];
+                                } else {
+                                  this._filteredVerificationLocationLeakFound =
+                                      categoryLeaksLocation;
+                                }
+                              });
+                            }
+                          });
+                    }),
 //                      _buildVerificationChip()
-                    ],
-                  )
+              ],
+            )
                 : Container(),
-            (_wasVerificationLeakFound &&
-                    this._filteredVerificationLocationLeakFound != null)
+            ((_wasVerificationLeakFound != null) &&
+                this._filteredVerificationLocationLeakFound != null)
                 ? Row(
-                    children: <Widget>[
-                      AppCancellableTextField(
-                          initialValue: _pickedVerificationLeakLocation,
-                          sourcesDropdown: this._filteredVerificationLocationLeakFound,
-                          textKey: kVerificationLeakLocationKey,
-                          textLabel: kVerificationLeakLocation,
-                          textError: "Required",
-                          isRequired: true,
-                          onChangedValue: (value) {
-                            _pickedVerificationLeakLocation = value;
-                          }
-                      ),
-                    ],
-                  )
+              children: <Widget>[
+                AppCancellableTextField(
+                    initialValue: _pickedVerificationLeakLocation,
+                    sourcesDropdown:
+                    this._filteredVerificationLocationLeakFound,
+                    textKey: kVerificationLeakLocationKey,
+                    textLabel: kVerificationLeakLocation,
+                    textError: "Required",
+                    isRequired: true,
+                    onChangedValue: (value) {
+                      _pickedVerificationLeakLocation = value;
+                    }),
+              ],
+            )
                 : Container()
           ],
         );
@@ -736,12 +972,12 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     sourcesDropdown: this.wasLeakFound,
                     textKey: kWasVacuumPulledKey,
                     textLabel: kWasVacuumPulled,
-                    textError: "No value for WasProperVacuumPulled found for shutdown service event",
+                    textError:
+                    "No value for WasProperVacuumPulled found for shutdown service event",
                     isRequired: true,
                     onChangedValue: (value) {
                       _pickedWasVacuumPulled = value;
-                    }
-                ),
+                    }),
               ],
             ),
             Row(
@@ -754,8 +990,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     isRequired: false,
                     onChangedValue: (value) {
                       _pickedDepthOfVacuum = value;
-                    }
-                )
+                    })
               ],
             ),
             Row(
@@ -769,8 +1004,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     textError: "Required",
                     onChangedValue: (value) {
                       _pickedServiceAction = value;
-                    }
-                )
+                    })
               ],
             ),
             Row(
@@ -784,8 +1018,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     textError: "Required",
                     onChangedValue: (value) {
                       _pickedShutdownStatus = value;
-                    }
-                )
+                    })
               ],
             )
           ],
@@ -793,6 +1026,31 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
       }
     }
     return Container();
+  }
+
+  void showConfirmationMessage(bool onSucceeded) {
+    String message = (onSucceeded) ? kAddServiceEventSuccessfulMessage : kAddServiceEventErrorMessage;
+    Flushbar(
+      duration:  Duration(seconds: 3),
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+      backgroundColor: Colors.white,
+      boxShadows: [BoxShadow(color: Colors.black, offset: Offset(0.0, 0.2), blurRadius: 0.0)],
+      messageText: Text(message),
+      mainButton: FlatButton(
+        onPressed: () {},
+        child: FlatButton(onPressed: () {
+          Flushbar().dismiss();
+        }, child: Text(
+          "GOT IT", //dismiss
+          style: TextStyle(color: Colors.black),
+        )),
+      ),
+    )..show(context).then((r){
+      if (onSucceeded) {
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   @override
@@ -820,247 +1078,249 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
             child: (_isDropdownsLoaded == false)
                 ? FormBuild.buildLoader()
                 : Form(
-                    key: _formKey,
-                    child: ListView(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      children: <Widget>[
-                        _buildTitle(this.typeOfService),
-                        Row(children: <Widget>[
-                          AppCancellableTextField(
-                            initialValue: _pickedEquipmentWorkedOn,
-                            sourcesDropdown: assetsDropdowns,
-                            textLabel: kEquipmentWorkedOn,
-                            textError: "Required",
-                            isRequired: true,
-                              textKey: kEquipmentWorkedOnKey,
-                              onChangedValue: (value) {
-                                _pickedEquipmentWorkedOn = value;
-                                // To show the material transfer part
-                                setState(() {
-                                });
-                              }
-                          ),
-                        ]),
-                        Row(children: <Widget>[
-                          AppCancellableTextField(
-                            initialValue: _pickedTypeOfService,
-                            sourcesDropdown: this.serviceType,
-                            textLabel: kTypeOfService,
-                            textError: "Required",
-                            isRequired: true,
-                            textKey: kTypeOfServiceKey,
-                            onChangedValue: (value) {
-                              setState(() {
-                                print("Selected > Type Of Service : $value");
+              key: _formKey,
+              child: ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                children: <Widget>[
+                  _buildTitle(this.typeOfService),
+                  Row(children: <Widget>[
+                    AppCancellableTextField(
+                        initialValue: _pickedEquipmentWorkedOn,
+                        sourcesDropdown: assetsDropdowns,
+                        textLabel: kEquipmentWorkedOn,
+                        textError: "Required",
+                        isRequired: true,
+                        textKey: kEquipmentWorkedOnKey,
+                        onChangedValue: (value) {
+                          _pickedEquipmentWorkedOn = value;
+                          // To show the material transfer part
+                          setState(() {});
+                        }),
+                  ]),
+                  Row(children: <Widget>[
+                    AppCancellableTextField(
+                      initialValue: _pickedTypeOfService,
+                      sourcesDropdown: this.serviceType,
+                      textLabel: kTypeOfService,
+                      textError: "Required",
+                      isRequired: true,
+                      textKey: kTypeOfServiceKey,
+                      onChangedValue: (value) {
+                        setState(() {
+                          print("Selected > Type Of Service : $value");
 
-                                resetLeakWasFoundPickedValues();
-                                if (value == null) {
-                                  // Reset the was leak found part to avoid confusion in UI
-                                  _wasLeakFound = null;
-                                  _wasLeakFound = false;
-                                  _pickedTypeOfService = value;
-                                }
-                                else {
-                                  if (value is DropdownItem) {
-                                    print("Selected > Type Of Service (ID) : ${value.id}");
-                                    this._filteredInitialLocationLeakFound = [];
-                                    this._filteredVerificationLocationLeakFound =
-                                    [];
-                                    _pickedTypeOfService = value;
-                                    switch (value.id) {
-                                      case 2:
-                                        {
-                                          this.typeOfService =
-                                              ServiceType.LeakInspection;
-                                        }
-                                        break;
-                                      case 3:
-                                        {
-                                          this.typeOfService =
-                                              ServiceType.ServiceAndLeakRepair;
-                                        }
-                                        break;
-                                      case 5:
-                                        {
-                                          this.typeOfService =
-                                              ServiceType.Shutdown;
-                                        }
-                                        break;
-                                      default:
-                                        {
-                                          this.typeOfService = ServiceType.None;
-                                        }
-                                        break;
-                                    }
+                          resetLeakWasFoundPickedValues();
+                          if (value == null) {
+                            // Reset the was leak found part to avoid confusion in UI
+                            _wasLeakFound = null;
+                            _wasLeakFound = false;
+                            _pickedTypeOfService = value;
+                          } else {
+                            if (value is DropdownItem) {
+                              print(
+                                  "Selected > Type Of Service (ID) : ${value
+                                      .id}");
+                              this._filteredInitialLocationLeakFound = [];
+                              this._filteredVerificationLocationLeakFound =
+                              [];
+                              _pickedTypeOfService = value;
+                              switch (value.id) {
+                                case 2:
+                                  {
+                                    this.typeOfService =
+                                        ServiceType.LeakInspection;
                                   }
-                                }
-                              });
-                            },
-                          ),
-                        ]),
-                        Row(children: <Widget>[
-                          AppCancellableTextField(
-                              initialValue: _pickedLeakDetectionMethod,
-                              sourcesDropdown: this.leakDetectionMethod,
-                              textLabel: kLeakDetectionMethod,
-                              textError: "Required",
-                              isRequired: true,
-                              textKey: kLeakDetectionMethodKey,
-                              onChangedValue: (value) {
-                                _pickedLeakDetectionMethod = value;
-                              }
-                          ),
-                        ]),
-                        Row(children: <Widget>[
-                          AppCancellableTextField(
-                              initialValue: _wasLeakFound,
-                              sourcesDropdown: this.wasLeakFound,
-                              textLabel: kWasLeakFound,
-                              textError: "No Was Leak Found value found for service event",
-                              isRequired: true,
-                              textKey: kWasLeakFoundKey,
-                              onChangedValue: (dropdown) {
-                                print(
-                                    "Was leak found selected > $dropdown");
-                                _wasLeakFound = null;
-                                setState(() {
-                                  if (dropdown is DropdownItem) {
-                                    if (dropdown.name == "Yes") {
-                                      _wasLeakFound = true;
-                                    } else if (dropdown.name == "No"){
-                                      _wasLeakFound = false;
-                                    }
+                                  break;
+                                case 3:
+                                  {
+                                    this.typeOfService =
+                                        ServiceType.ServiceAndLeakRepair;
                                   }
-                                });
-                              }
-                          )
-                        ]),
-                        Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
-                          FormBuild.buildDatePicker(
-                              onValidated: (value) {
-                                if (_pickedServiceDate == null) return "No service date found for service event";
-                                if (_pickedServiceDate.isAfter(DateTime.now())) return "Future service date found for service event";
-                              },
-                              onPressed: (value) {
-                                print(
-                                    "$kServiceDateKey buildDatePicker > onPressed is $value");
-                                _pickedServiceDate = value;
-                              },
-                              key: Key(kServiceDateKey),
-                              helper: kServiceDate),
-                        ]),
-                        //  === PART === Second part of the form
-                        _buildInspection(_wasLeakFound, this.typeOfService,
-                            verificationLeakFound: _wasVerificationLeakFound),
-                        (_pickedEquipmentWorkedOn != null) ?
-                        _buildMaterialTransfer(this.typeOfService) : Container()
-                        ,
-                        //  === PART === Submit
-                        // This is for giving some space for the bottom button 'SUBMIT'
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 20,
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 1,
-                              child: TextFormField(
-                                  onSaved: (value) {
-                                    _pickedObservationNotes = value;
-                                  },
-                                  validator: (value) {
-                                    if (_pickedTypeOfService.id == 3 || _pickedTypeOfService.id == 5) {
-                                      if (value.isEmpty) return "No repair notes found for service event with asset ID";
-                                      if (_pickedServiceAction.id == 9 && value.length <= 30) {
-                                        return "Repair notes must be at least 30 characters if service action Other is selected for service event";
-                                      }
-                                    }
-                                  },
-                                  key: Key(kObservationNotesKey),
-                                  maxLength: 50,
-                                  maxLines: 5,
-                                  decoration: InputDecoration(
-                                    helperText: kObservationNotes,
-                                    fillColor: Colors.black.withAlpha(6),
-                                    border: InputBorder.none,
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                            BorderSide(color: Colors.blue)),
-                                    filled: true,
-                                    contentPadding: EdgeInsets.only(
-                                        bottom: 10.0, left: 10.0, right: 10.0),
-                                  ),
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 18)),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 20,
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: AppButton(
-                                keyButton: Key(kSubmitButtonKey),
-                                titleButton: kSubmitButton,
-                                onPressed: () {
-                                  print("Submit _pickedEquipmentWorkedOn : $_pickedEquipmentWorkedOn");
-                                  print("Submit _pickedEstimatedLeakAmount : $_pickedEstimatedLeakAmount");
-
-                                  print("Submit Button was pressed by Arnaud");
-                                  if (_formKey.currentState.validate()) {
-                                    print("> validate");
-                                    _formKey.currentState.save();
-                                    print("> saved");
-
-                                    if (typeOfService == ServiceType.Shutdown) {
-                                      submitShutdown(_wasLeakFound);
-                                    }
-//                                    if (typeOfService ==
-//                                        ServiceType.LeakInspection) {
-//                                      submitLeakInspection(_wasLeakFound, key);
-//                                    } else if (typeOfService ==
-//                                        ServiceType.Shutdown) {}
+                                  break;
+                                case 5:
+                                  {
+                                    this.typeOfService =
+                                        ServiceType.Shutdown;
                                   }
-                                },
-                              ),
-
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 20,
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            OutlineAppButton(
-                              keyButton: Key('RestFormKey'),
-                              titleButton: "CLEAR FORM",
-                              onPressed: () {
-                              },
-                            )
-                          ],
-                        )
-                      ],
+                                  break;
+                                default:
+                                  {
+                                    this.typeOfService = ServiceType.None;
+                                  }
+                                  break;
+                              }
+                            }
+                          }
+                        });
+                      },
                     ),
-                  )),
+                  ]),
+                  Row(children: <Widget>[
+                    AppCancellableTextField(
+                        initialValue: _pickedLeakDetectionMethod,
+                        sourcesDropdown: this.leakDetectionMethod,
+                        textLabel: kLeakDetectionMethod,
+                        textError: "Required",
+                        isRequired: true,
+                        textKey: kLeakDetectionMethodKey,
+                        onChangedValue: (value) {
+                          _pickedLeakDetectionMethod = value;
+                        }),
+                  ]),
+                  Row(children: <Widget>[
+                    AppCancellableTextField(
+                        initialValue: _wasLeakFound,
+                        sourcesDropdown: this.wasLeakFound,
+                        textLabel: kWasLeakFound,
+                        textError:
+                        "No Was Leak Found value found for service event",
+                        isRequired: true,
+                        textKey: kWasLeakFoundKey,
+                        onChangedValue: (dropdown) {
+                          print("Was leak found selected > $dropdown");
+                          _wasLeakFound = null;
+                          setState(() {
+                            if (dropdown is DropdownItem) {
+                              if (dropdown.name == "Yes") {
+                                _wasLeakFound = true;
+                              } else if (dropdown.name == "No") {
+                                _wasLeakFound = false;
+                              }
+                            }
+                          });
+                        })
+                  ]),
+                  Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
+                    FormBuild.buildDatePicker(
+                        onValidated: (value) {
+                          if (_pickedServiceDate == null)
+                            return "No service date found for service event";
+                          if (_pickedServiceDate.isAfter(DateTime.now()))
+                            return "Future service date found for service event";
+                        },
+                        onPressed: (value) {
+                          print(
+                              "$kServiceDateKey buildDatePicker > onPressed is $value");
+                          _pickedServiceDate = value;
+                        },
+                        key: Key(kServiceDateKey),
+                        helper: kServiceDate),
+                  ]),
+                  //  === PART === Second part of the form
+                  _buildInspection(_wasLeakFound, this.typeOfService,
+                      verificationLeakFound: _wasVerificationLeakFound),
+                  (_pickedEquipmentWorkedOn != null)
+                      ? _buildMaterialTransfer(this.typeOfService)
+                      : Container(),
+                  //  === PART === Submit
+                  // This is for giving some space for the bottom button 'SUBMIT'
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 20,
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                            onSaved: (value) {
+                              _pickedObservationNotes = value;
+                            },
+                            validator: (value) {
+                              if (_pickedTypeOfService.id == 3 ||
+                                  _pickedTypeOfService.id == 5) {
+                                if (value.isEmpty)
+                                  return "No repair notes found for service event with asset ID";
+//                                if (_pickedServiceAction.id == 9 &&
+//                                    value.length <= 30) {
+//                                  return "Repair notes must be at least 30 characters if service action Other is selected for service event";
+//                                }
+                              }
+                            },
+                            key: Key(kObservationNotesKey),
+                            maxLength: 50,
+                            maxLines: 5,
+                            decoration: InputDecoration(
+                              helperText: kObservationNotes,
+                              fillColor: Colors.black.withAlpha(6),
+                              border: InputBorder.none,
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(5.0)),
+                                  borderSide:
+                                  BorderSide(color: Colors.blue)),
+                              filled: true,
+                              contentPadding: EdgeInsets.only(
+                                  bottom: 10.0, left: 10.0, right: 10.0),
+                            ),
+                            style: TextStyle(
+                                color: Colors.grey, fontSize: 18)),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 20,
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: AppButton(
+                          keyButton: Key(kSubmitButtonKey),
+                          titleButton: kSubmitButton,
+                          onPressed: () {
+                            print(
+                                "Submit _pickedEquipmentWorkedOn : $_pickedEquipmentWorkedOn");
+                            print(
+                                "Submit _pickedEstimatedLeakAmount : $_pickedEstimatedLeakAmount");
+
+                            print("Submit Button was pressed by Arnaud");
+                            if (_formKey.currentState.validate()) {
+                              print("> validate");
+                              _formKey.currentState.save();
+                              print("> saved");
+
+                              print("> $typeOfService");
+                              if (typeOfService == ServiceType.Shutdown) {
+                                submitShutdown().then((succeeded) {
+                                  showConfirmationMessage(succeeded);
+                                });
+                                }
+                                else if (typeOfService ==
+                                    ServiceType.ServiceAndLeakRepair) {
+                                  submitServiceAndLeakRepair().then((succeeded) {
+                                    showConfirmationMessage(succeeded);
+                                  });
+                                }
+                                else if (typeOfService ==
+                                    ServiceType.LeakInspection) {
+                                  submitLeakInspection().then((succeeded) {
+                                    showConfirmationMessage(succeeded);
+                                  });
+                                }
+                              }
+                            },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 20,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            )),
       ),
     );
   }
@@ -1077,16 +1337,22 @@ class AppCancellableTextField extends StatefulWidget {
   final List<dynamic> sourcesDropdown;
   final dynamic initialValue;
 
-  AppCancellableTextField({this.initialValue, @required this.onChangedValue, @required this.textLabel, this.textError,
-    @required this.textKey, this.isRequired, @required this.sourcesDropdown});
+  AppCancellableTextField({this.initialValue,
+    @required this.onChangedValue,
+    @required this.textLabel,
+    this.textError,
+    @required this.textKey,
+    this.isRequired,
+    @required this.sourcesDropdown});
 
   @override
-  _AppCancellableTextFieldState createState() => _AppCancellableTextFieldState();
+  _AppCancellableTextFieldState createState() =>
+      _AppCancellableTextFieldState();
 }
 
 class _AppCancellableTextFieldState extends State<AppCancellableTextField> {
   dynamic _pickedValue;
-  
+
   void resetPickedValue() {
     _pickedValue = null;
   }
@@ -1099,7 +1365,6 @@ class _AppCancellableTextFieldState extends State<AppCancellableTextField> {
 
   @override
   Widget build(BuildContext context) {
-    print("AppCancellableTextField '${widget.textKey}' > Build : $_pickedValue");
     // Default it's not required
     bool isRequired = widget.isRequired ?? false;
 
@@ -1114,12 +1379,25 @@ class _AppCancellableTextFieldState extends State<AppCancellableTextField> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                widget.textLabel, style: (isRequired == false) ? Theme.of(context).textTheme.display3 : Theme.of(context).textTheme.display3.copyWith(fontWeight: FontWeight.bold),
+                widget.textLabel,
+                style: (isRequired == false)
+                    ? Theme
+                    .of(context)
+                    .textTheme
+                    .display3
+                    : Theme
+                    .of(context)
+                    .textTheme
+                    .display3
+                    .copyWith(fontWeight: FontWeight.bold),
               ),
               Text(
-                (_pickedValue == null) ? "" : _pickedValue.toString(), style: Theme.of(context).textTheme.display2.copyWith(
-                color: AppColors.blueTurquoise
-              ),
+                (_pickedValue == null) ? "" : _pickedValue.toString(),
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .display2
+                    .copyWith(color: AppColors.blueTurquoise),
               )
             ],
           ),
@@ -1128,9 +1406,8 @@ class _AppCancellableTextFieldState extends State<AppCancellableTextField> {
               icon: Icon(Icons.remove_circle, color: Colors.redAccent),
               onPressed: () {
                 _pickedValue = null;
-                setState(() {
-                });
                 widget.onChangedValue(_pickedValue);
+                setState(() {});
               })
         ],
       ),
@@ -1144,13 +1421,11 @@ class _AppCancellableTextFieldState extends State<AppCancellableTextField> {
         onChangedValue: (value) {
           print("onChangedValue $value");
           if (value is DropdownItem) {
-            print("onChangedValue id=${value.id}");
+            print("onChangedValue id=${value.id} name=${value.name}");
+            _pickedValue = value;
+            widget.onChangedValue(_pickedValue);
+            setState(() {});
           }
-          print("onChangedValue=${widget.onChangedValue}");
-          _pickedValue = value;
-          widget.onChangedValue(_pickedValue);
-          setState(() {
-          });
         },
         onValidator: (value) {
           if (widget.textError != null) {
@@ -1158,9 +1433,8 @@ class _AppCancellableTextFieldState extends State<AppCancellableTextField> {
               return widget.textError;
             }
           }
-        }
-    );
+        });
 
-    return (_pickedValue != null) ? selectedValue : toSelectDropdown ;
+    return (_pickedValue != null) ? selectedValue : toSelectDropdown;
   }
 }

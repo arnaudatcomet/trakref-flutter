@@ -35,12 +35,20 @@ class _MaterialTransfersWidgetState extends State<MaterialTransfersWidget> {
             Asset selectedAsset = Asset(
                 assetID: equipmentWorkedOn
             );
-            int pickedIndex = widget.assets.indexOf(
-                selectedAsset);
 
-            print("Current asset recovery working ${widget
-                .assets[pickedIndex]}");
+            int pickedIndex = widget.assets.indexWhere((i) => i.assetID == equipmentWorkedOn);
 
+            print("equipmentWorkedOn $equipmentWorkedOn");
+            for (Asset asset in widget.assets) {
+              print("================");
+              print("name : ${asset.name}");
+              print("asset : ${asset.assetID}");
+            }
+
+            print("pickedIndex : $pickedIndex");
+            if (pickedIndex < 0) return Container();
+
+            Asset picketAsset = widget.assets[pickedIndex];
             return new Container(
               color: Color(0xFF737373),
               child: new Container(

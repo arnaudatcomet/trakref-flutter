@@ -234,7 +234,6 @@ class WorkItem {
   @JsonKey(nullable: true, name: 'LeakInspection')
   List<LeakInspection> leakInspection;
 
-
   WorkItem({this.chargeCapacitySourceTypeID, this.leakRepairDispositionType,
     this.materialTypeID, @required this.workItemTypeID, this.wasLeakFound,
     this.workItemType, this.chargeCapacitySourceType, this.workItemStatus,

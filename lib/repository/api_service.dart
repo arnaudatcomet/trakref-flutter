@@ -63,8 +63,12 @@ class ApiService {
       "Content-Type": "application/json",
       "Api-Key": "$apiKey",
       "Authentication-Token": "$token",
-      "Instance-Id": "$instanceID"
+      "Instance-Id": "$instanceID",
+      "Accept-Encoding": "gzip, deflate"
     };
+
+    print("### post ### $item");
+    print("### headers ### $headers");
 
     return await client.post(url, headers: headers).then((http.Response response){
       final res = response.body;
