@@ -21,6 +21,9 @@ class ApiService {
   static String getAssetsURL = "$baseURL/v3.21/Assets";
   static String getAssetsByInstanceURL = "$getAssetsURL/GetByInstance";
 
+  static String getCylindersURL = "$baseURL/v3.21/cylinders";
+
+
   static String getLoginURL = "$baseURL/v3.21/login";
   static String getDropdownsURL = "$baseURL/v3.21/dropdowns";
   static String getDropdownsTestURL = "$baseTestURL/v3.21/dropdowns";
@@ -85,6 +88,22 @@ class ApiService {
     };
 
     String jsonString = json.encode([order.toJson()]);
+
+    return await client.post(url, headers: headers, body: jsonString, encoding: utf8).then((http.Response response){
+      final res = response.body;
+      print("post $url, result $res");
+    });
+  }
+
+  Future<dynamic> postAsset(Asset asset, String url) async {
+    final headers = {
+      "Content-Type": "application/json",
+      "Api-Key": "$apiKey",
+      "Authentication-Token": "$token",
+      "Instance-Id": "$instanceID"
+    };
+
+    String jsonString = json.encode([asset.toJson()]);
 
     return await client.post(url, headers: headers, body: jsonString, encoding: utf8).then((http.Response response){
       final res = response.body;

@@ -117,13 +117,13 @@ class TrakrefAPIService {
     return File('$path/post_request.json');
   }
 
-  Future<File> writeOrderOnDisk(List<WorkOrder> order) async {
+  Future<File> writeOnDisk<T>(List<T> item) async {
     final file = await _localFile;
     print("writeOrderOnDisk $file");
     // Write the file
-    String orderString = jsonEncode(order);
-    print("orderString $orderString");
-    return file.writeAsString(orderString);
+    String itemString = jsonEncode(item);
+    print("itemString $itemString");
+    return file.writeAsString(itemString);
   }
 
   TrakrefAPIService._internal();
@@ -240,6 +240,12 @@ class TrakrefAPIService {
     String workOrderURL = ApiService.getWorkOrdersURL;
     ApiService api = await getAPI();
     return api.postWorkOrder(order, workOrderURL);
+  }
+
+  Future<dynamic> postCylinder(Asset cylinder) async {
+    String assetsURL = ApiService.getCylindersURL;
+    ApiService api = await getAPI();
+    return api.postAsset(cylinder, assetsURL);
   }
 
   // For logging out

@@ -110,6 +110,9 @@ class Asset {
   @JsonKey(name: 'CoolingApplianceStatusID')
   final int coolingApplianceStatusID;
 
+  @JsonKey(name: 'StatusDate')
+  final int statusDate;
+
   @JsonKey(nullable: true, name: 'WorkItem')
   List<WorkItem> workItem;
 
@@ -125,7 +128,7 @@ class Asset {
     this.zipcode, this.country, this.serialNumber, this.tagNumber,
     this.materialTypeID, this.materialType, this.currentGasWeightLbs,
     this.maxGasCapacityLbs, this.category, this.assetCategoryID,
-    this.assetCategory, this.assetTypeID, this.assetType, this.assetSubtypeID,
+    this.assetCategory, this.assetTypeID, this.assetType, this.assetSubtypeID, this.statusDate,
     this.assetSubtype, this.assetKindID, this.coolingApplianceStatusID, this.assetKind, this.poNumber,
     this.leakRate, this.lastServiceDate, this.workItemCount, this.id, this.weightUnits, List<WorkItem> workItem}): workItem = workItem ?? <WorkItem>[];
 

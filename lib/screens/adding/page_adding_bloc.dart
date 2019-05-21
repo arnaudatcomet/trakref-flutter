@@ -6,6 +6,7 @@ import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/adding/service_event/page_service_event_add_bloc.dart';
 import 'package:trakref_app/screens/adding/work_order/page_select_work_order_bloc.dart';
+import 'package:trakref_app/screens/adding/cylinder/page_asset_add_block.dart';
 
 
 class PageAddingBloc extends StatefulWidget {
@@ -108,16 +109,15 @@ class _PageAddingBloc extends State<PageAddingBloc> {
           pushSelectWorkOrder(context);
         }),
         Divider(),
-        buildItem("Cylinder",false, null),
+        buildItem("Cylinder",true, () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+            return PageAssetAddBloc();
+          }));
+        }),
         Divider(),
         buildItem("Appliance",false, null),
         Divider(),
-        buildItem("Service Event", false, () {
-          Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
-            return PageServiceEventAddBloc(
-            );
-          }));
-        })];
+        buildItem("Service Event", false, null)];
     }
     else {
       rows = [
@@ -125,11 +125,15 @@ class _PageAddingBloc extends State<PageAddingBloc> {
           pushSelectWorkOrder(context);
         }),
         Divider(),
-        buildItem("Cylinder",false, null),
+        buildItem("Cylinder",true, () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+            return PageAssetAddBloc();
+          }));
+        }),
         Divider(),
         buildItem("Appliance",false, null),
         Divider(),
-        (_currentWorkOrder == null) ? buildItem("Service Event", false, null) : buildItem("Service Event", true, () {
+        buildItem("Service Event", true, () {
           Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
             return PageServiceEventAddBloc(
               currentWorkOrder: _currentWorkOrder

@@ -35,6 +35,7 @@ Asset _$AssetFromJson(Map<String, dynamic> json) {
       assetTypeID: json['AssetTypeID'] as int,
       assetType: json['AssetType'] as String,
       assetSubtypeID: json['AssetSubtypeID'] as int,
+      statusDate: json['StatusDate'] as int,
       assetSubtype: json['AssetSubtype'] as String,
       assetKindID: json['AssetKindID'] as int,
       coolingApplianceStatusID: json['CoolingApplianceStatusID'] as int,
@@ -87,6 +88,7 @@ Map<String, dynamic> _$AssetToJson(Asset instance) => <String, dynamic>{
       'LastServiceDate': instance.lastServiceDate,
       'WorkItemCount': instance.workItemCount,
       'CoolingApplianceStatusID': instance.coolingApplianceStatusID,
+      'StatusDate': instance.statusDate,
       'WorkItem': instance.workItem,
       'ID': instance.id,
       'WeightUnits': instance.weightUnits
