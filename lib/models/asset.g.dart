@@ -35,7 +35,7 @@ Asset _$AssetFromJson(Map<String, dynamic> json) {
       assetTypeID: json['AssetTypeID'] as int,
       assetType: json['AssetType'] as String,
       assetSubtypeID: json['AssetSubtypeID'] as int,
-      statusDate: json['StatusDate'] as int,
+      statusDate: json['StatusDate'] as String,
       assetSubtype: json['AssetSubtype'] as String,
       assetKindID: json['AssetKindID'] as int,
       coolingApplianceStatusID: json['CoolingApplianceStatusID'] as int,

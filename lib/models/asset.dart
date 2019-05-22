@@ -111,7 +111,7 @@ class Asset {
   final int coolingApplianceStatusID;
 
   @JsonKey(name: 'StatusDate')
-  final int statusDate;
+  final String statusDate;
 
   @JsonKey(nullable: true, name: 'WorkItem')
   List<WorkItem> workItem;
@@ -147,6 +147,5 @@ class Asset {
       assetID: 0
     );
   }
-
 
 }
