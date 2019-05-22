@@ -182,7 +182,7 @@ class ServiceEventRow extends StatelessWidget {
     if (serviceType == 3) {
       return "SLR";
     }
-    if (serviceType == 4) {
+    if (serviceType == 5) {
       return "SH";
     }
     return "";

@@ -34,6 +34,7 @@ class PageMaterialGasInstallBloc extends StatefulWidget {
 class _PageMaterialGasInstallBlocState
     extends State<PageMaterialGasInstallBloc> {
   Asset _pickedAsset;
+  List<Asset> _allAssets; // including Unknown asset transfer
   double _pickedAmountLbs;
   DateTime _pickedDateMaterialTransfer;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
@@ -44,6 +45,17 @@ class _PageMaterialGasInstallBlocState
   void initState() {
     amountTextController = TextEditingController();
     amountTextController.addListener(onAmountChanged);
+
+    // Add unknown asset to the available cylinder
+    Asset unknown = Asset(
+        assetID: 0,
+        name: "Unknown",
+        category: "Cylinder"
+    );
+
+    _allAssets = [Asset.createUnknown()];
+    _allAssets.addAll(widget.assets);
+
     super.initState();
   }
 
@@ -96,7 +108,7 @@ class _PageMaterialGasInstallBlocState
             FormBuild.buildDropdown(
                 isRequired: true,
                 key: Key("SelectedCylinder"),
-                source: (widget.assets ?? [])
+                source: (_allAssets ?? [])
                     .map((i) => Dropdown(name: i.name, id: i.assetID))
                     .toList(),
                 label: "Select Cylinder",
@@ -114,10 +126,10 @@ class _PageMaterialGasInstallBlocState
                   Asset(assetID: (value is Dropdown) ? value.id : 0);
 
 //                  int pickedIndex = widget.assets.indexOf(selectedAsset);
-                  int pickedIndex = widget.assets.indexWhere((i) => i.assetID == selectedAsset.assetID);
+                  int pickedIndex = _allAssets.indexWhere((i) => i.assetID == selectedAsset.assetID);
 
                   print("pickedIndex ## $pickedIndex");
-                  Asset fullSelectedAsset = widget.assets[pickedIndex];
+                  Asset fullSelectedAsset = _allAssets[pickedIndex];
 
                   print("fullSelectedAsset.id ${fullSelectedAsset.id}");
                   print("fullSelectedAsset.materialTypeID ${fullSelectedAsset.materialTypeID}");
@@ -128,32 +140,6 @@ class _PageMaterialGasInstallBlocState
                 })
           ],
         ),
- /*
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Text("or"),
-              ),
-              OutlineButton(
-                  child: Text(
-                    "Unknown Asset",
-                    style: TextStyle(
-                      color: AppColors.gray,
-                      fontSize: 14,
-                      fontFamily: 'SF Pro Text Regular',
-                    ),
-                  ),
-                  onPressed: () {
-                    _pickedAsset = Asset.createUnknown();
-                  },
-                  borderSide: BorderSide(
-                      color: AppColors.lightGray,
-                      width: 0.3
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                  )
-              ), */
-
         _buildInstallAmount(context),
         Row(
           children: <Widget>[

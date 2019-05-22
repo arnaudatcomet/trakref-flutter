@@ -144,7 +144,8 @@ class Asset {
   static Asset createUnknown() {
     return Asset(
       name: "Unknown",
-      assetID: 0
+      assetID: 0,
+      category: "Cylinder"
     );
   }
 }

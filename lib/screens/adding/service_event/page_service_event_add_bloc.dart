@@ -151,7 +151,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           // Add a fix for the cooling appliance status ; it will throw an error for shutdown service event
           coolingApplianceAssets =
               assets.where((i) => (i.coolingApplianceStatusID > 0)).toList();
-//          coolingApplianceAssets = assets;
+          coolingApplianceAssets = assets;
 
           assetsDropdowns = (coolingApplianceAssets ?? []).map((i) {
             return DropdownItem(name: i.name, id: i.assetID);
@@ -1304,7 +1304,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                               print("> validate");
                               _formKey.currentState.save();
                               print("> saved");
-
                               print("> $typeOfService");
                               if (typeOfService == ServiceType.Shutdown) {
                                 submitShutdown().then((succeeded) {
