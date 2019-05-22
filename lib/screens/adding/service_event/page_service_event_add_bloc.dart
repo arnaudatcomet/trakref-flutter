@@ -68,6 +68,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   List<DropdownItem> leakDetectionMethod;
   List<DropdownItem> serviceActions;
   List<DropdownItem> leakRepairStatus;
+  List<DropdownItem> serviceTransferReason;
   List<DropdownItem> shutdownStatus = [
     DropdownItem(name: 'Shutdown', id: 6),
     DropdownItem(name: 'Mothball', id: 2),
@@ -94,6 +95,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   DropdownItem _pickedVerificationLeakLocation;
   DropdownItem _pickedVerificationLeakDetectionMethod;
   DropdownItem _pickedVerificationCauseOfLeak;
+  DropdownItem _pickedServiceTransferReason;
   DropdownItem _pickedWasVacuumPulled;
   DropdownItem _pickedDepthOfVacuum;
   DropdownItem _pickedServiceAction;
@@ -133,6 +135,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
         this.categoriesLeakFound = results.leakLocationCategories;
         this.causeOfLeaks = results.causeOfLeaks;
         this.leakDetectionMethod = results.leakDetectionMethods;
+        this.serviceTransferReason = results.purposesForAddingGas;
 
         this.serviceActions = results.serviceActions;
         this.leakRepairStatus = results.leakRepairStatuses;
@@ -148,13 +151,21 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           // Add a fix for the cooling appliance status ; it will throw an error for shutdown service event
           coolingApplianceAssets =
               assets.where((i) => (i.coolingApplianceStatusID > 0)).toList();
-          coolingApplianceAssets = assets;
-
+//          coolingApplianceAssets = assets;
 
           assetsDropdowns = (coolingApplianceAssets ?? []).map((i) {
             return DropdownItem(name: i.name, id: i.assetID);
           }).toList();
           _isDropdownsLoaded = true;
+          // Show a warning if there's no cooling assets
+          print("coolingApplianceAssets ${coolingApplianceAssets.length}");
+          if (coolingApplianceAssets.length < 1) {
+            FormBuild.showFlushBarMessage(context,
+                "No equipment/cooling appliance found for that work order",
+                    () {
+              Navigator.of(context).pop();
+                });
+          }
           setState(() {});
         });
       });
@@ -296,6 +307,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     String estimatedLeakAmount = _pickedEstimatedLeakAmount.toString();
     String serviceAction = _pickedServiceAction.name;
     String leakRepairStatus = _pickedLeakRepairStatus.name;
+    String serviceTransferReason = _pickedServiceTransferReason.name;
+
     String verificationServiceDate;
     if (_pickeVerificationDate != null) {
       verificationServiceDate =
@@ -321,6 +334,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     print("> serviceDate : $serviceDate");
     print("> estimatedLeakAmount : $estimatedLeakAmount");
     print("> serviceAction : $serviceAction");
+    print("> serviceTransferReason : $serviceTransferReason");
     print("> leakRepairStatus : $leakRepairStatus");
     print("> followUpServiceDate : $verificationServiceDate");
     print("> verificationLeakMethod : $verificationLeakMethod");
@@ -375,6 +389,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
         serviceDate: serviceDate,
         wasLeakFound: wasLeakFound,
         repairNotes: notes,
+        serviceTransferReasonID: _pickedServiceTransferReason.id,
         serviceActionID: _pickedServiceAction.id,
         leakRepairDispositionTypeID: _pickedLeakRepairStatus.id,
         dateOfFollowUpService: verificationServiceDate,
@@ -577,6 +592,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     print("_pickedMaterialTransfers $_pickedMaterialTransfers");
 
     return MaterialTransfersWidget(
+      serviceType: type,
       allowedTransfers: allowedMaterialTransfer,
       assets: coolingApplianceAssets,
       materialTransfers: _pickedMaterialTransfers,
@@ -788,6 +804,20 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     isRequired: true,
                     onChangedValue: (value) {
                       _pickedServiceAction = value;
+                    })
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                AppCancellableTextField(
+                    initialValue: _pickedServiceTransferReason,
+                    sourcesDropdown: this.serviceTransferReason,
+                    textKey: kServiceAndLeakRepairServiceTransferReasonKey,
+                    textLabel: kTransferReason,
+                    textError: "Required",
+                    isRequired: (_pickedMaterialTransfers.length > 0) ?? false,
+                    onChangedValue: (value) {
+                      _pickedServiceTransferReason = value;
                     })
               ],
             ),

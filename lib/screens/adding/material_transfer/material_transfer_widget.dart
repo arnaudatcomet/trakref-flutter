@@ -5,15 +5,17 @@ import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/screens/adding/material_transfer/page_material_gas_install_bloc.dart';
+import 'package:trakref_app/screens/adding/service_event/page_service_event_add_bloc.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 
 class MaterialTransfersWidget extends StatefulWidget {
+  final ServiceType serviceType;
   final List<MaterialTransfer> materialTransfers;
   final List<Asset> assets;
   final List<MaterialGasInstallType> allowedTransfers;
   int equipmentWorkedOnID;
 
-  MaterialTransfersWidget({this.materialTransfers, this.allowedTransfers, this.assets, this.equipmentWorkedOnID});
+  MaterialTransfersWidget({@required this.serviceType, this.materialTransfers, this.allowedTransfers, this.assets, this.equipmentWorkedOnID});
 
   @override
   _MaterialTransfersWidgetState createState() => _MaterialTransfersWidgetState();
@@ -58,6 +60,7 @@ class _MaterialTransfersWidgetState extends State<MaterialTransfersWidget> {
                           topLeft: const Radius.circular(20.0), topRight: const Radius.circular(20.0))),
                   child: Container(
                     child: PageMaterialGasInstallBloc(
+                      serviceType: widget.serviceType,
                       installType: type,
                       currentAssetWorkedOn: widget
                           .assets[pickedIndex],

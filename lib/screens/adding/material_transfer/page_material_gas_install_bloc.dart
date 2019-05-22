@@ -5,6 +5,7 @@ import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/get_service.dart';
+import 'package:trakref_app/screens/adding/service_event/page_service_event_add_bloc.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 
@@ -16,12 +17,14 @@ class PageMaterialGasInstallBloc extends StatefulWidget {
   final Asset currentAssetWorkedOn;
   final MaterialGasInstallType installType;
   final SelectMaterialGasTransferDelegate delegate;
+  final ServiceType serviceType;
 
-  PageMaterialGasInstallBloc(
-      {this.assets,
-      this.currentAssetWorkedOn,
-      this.installType,
-      this.delegate});
+  PageMaterialGasInstallBloc({
+    @required this.serviceType,
+    this.assets,
+    this.currentAssetWorkedOn,
+    this.installType,
+    this.delegate});
 
   @override
   _PageMaterialGasInstallBlocState createState() =>
@@ -231,19 +234,59 @@ class _PageMaterialGasInstallBlocState
           print("materialTransferTypeID $materialTransferTypeID");
           print("materialTransferType $materialTransferType");
 
-          MaterialTransfer transfer = MaterialTransfer(
-              transferWeightLbs: _pickedAmountLbs,
-              materialTransferTypeID: materialTransferTypeID,
-              materialTransferType: materialTransferType,
-              fromAssetID: _pickedAsset.id,
-              fromAsset: _pickedAsset.name,
-              materialTypeID: _pickedAsset.materialTypeID,
-              transferDate: dateMaterialTransfer);
-          // Transmit the information to material transfer
-          if (widget.delegate != null) {
-            widget?.delegate(transfer);
+          print("===> ServiceType > ${widget.serviceType}");
+          // Add fixes
+          // If it's service recover then put the selected cylinder to 'toAsset' and 'toAssetID'
+          MaterialTransfer transfer;
+          if (widget.serviceType == ServiceType.Shutdown && materialTransferTypeID == 1) {
+            transfer = MaterialTransfer(
+                transferWeightLbs: _pickedAmountLbs,
+                materialTransferTypeID: materialTransferTypeID,
+                materialTransferType: materialTransferType,
+                toAssetID: _pickedAsset.id,
+                toAsset: _pickedAsset.name,
+                materialTypeID: _pickedAsset.materialTypeID,
+                transferDate: dateMaterialTransfer);
           }
-          Navigator.of(context).pop();
+          else if (widget.serviceType == ServiceType.ServiceAndLeakRepair) {
+            if (materialTransferTypeID == 1) {
+              transfer = MaterialTransfer(
+                  transferWeightLbs: _pickedAmountLbs,
+                  materialTransferTypeID: materialTransferTypeID,
+                  materialTransferType: materialTransferType,
+                  fromAssetID: _pickedAsset.id,
+                  fromAsset: _pickedAsset.name,
+                  materialTypeID: _pickedAsset.materialTypeID,
+                  transferDate: dateMaterialTransfer);
+            }
+            else if (materialTransferTypeID == 2) {
+                transfer = MaterialTransfer(
+                    transferWeightLbs: _pickedAmountLbs,
+                    materialTransferTypeID: materialTransferTypeID,
+                    materialTransferType: materialTransferType,
+                    toAssetID: _pickedAsset.id,
+                    toAsset: _pickedAsset.name,
+                    materialTypeID: _pickedAsset.materialTypeID,
+                    transferDate: dateMaterialTransfer);
+              }
+          }
+
+          print("===> MaterialTransfer");
+          print("===> _pickedAmountLbs : $_pickedAmountLbs");
+          print("===> materialTransferTypeID : $materialTransferTypeID");
+          print("===> materialTransferType : $materialTransferType");
+          print("===> id : ${_pickedAsset.id}");
+          print("===> name : ${_pickedAsset.name}");
+          print("===> materialTypeID : ${_pickedAsset.materialTypeID}");
+          print("===> dateMaterialTransfer : ${dateMaterialTransfer}");
+
+          // Transmit the information to material transfer if not null
+          if (transfer != null) {
+            if (widget.delegate != null) {
+              widget?.delegate(transfer);
+            }
+            Navigator.of(context).pop();
+          }
         }
       },
     );

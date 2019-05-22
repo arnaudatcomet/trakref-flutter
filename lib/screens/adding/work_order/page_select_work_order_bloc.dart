@@ -20,7 +20,7 @@ class PageSelectCurrentWorkOrderBloc extends StatefulWidget {
 
 class _PageSelectCurrentWorkOrderBlocState extends State<PageSelectCurrentWorkOrderBloc> {
   bool _isWorkOrdersLoaded;
-  List<WorkOrder> _workOrdersResult;
+  List<WorkOrder> _workOrdersResult = [];
   List<WorkOrder> _searchWorkOrdersResult = [];
 
   bool _searchIsActiveState = false;
