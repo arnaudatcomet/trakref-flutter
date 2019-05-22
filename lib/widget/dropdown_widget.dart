@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/repository/get_service.dart';
@@ -64,6 +65,28 @@ class FormBuild {
           backgroundColor: Colors.white
       ),
     );
+  }
+
+  static void showFlushBarMessage(BuildContext context, String msg, Function showCallback) {
+    Flushbar(
+      duration:  Duration(seconds: 3),
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+      backgroundColor: Colors.white,
+      boxShadows: [BoxShadow(color: Colors.black, offset: Offset(0.0, 0.2), blurRadius: 0.0)],
+      messageText: Text(msg),
+      mainButton: FlatButton(
+        onPressed: () {},
+        child: FlatButton(onPressed: () {
+          Flushbar().dismiss();
+        }, child: Text(
+          "GOT IT", //dismiss
+          style: TextStyle(color: Colors.black),
+        )),
+      ),
+    )..show(context).then((r){
+      showCallback();
+    });
   }
 
   // To add a row textfield quicker

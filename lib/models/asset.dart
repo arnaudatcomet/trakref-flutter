@@ -147,5 +147,4 @@ class Asset {
       assetID: 0
     );
   }
-
 }

@@ -90,8 +90,30 @@ class ApiService {
     String jsonString = json.encode([order.toJson()]);
 
     return await client.post(url, headers: headers, body: jsonString, encoding: utf8).then((http.Response response){
+
       final res = response.body;
-      print("post $url, result $res");
+      // Catch error
+      try {
+        Map resMap = json.decode(res);
+        if (resMap['Message'] != null) {
+          print("postWorkOrder $url, error ${resMap['Message']}");
+          return Future.error(resMap['Message']);
+        }
+      }
+      catch (error) {
+        print("postWorkOrder > Didn't find error on expected error:: $error");
+      }
+
+      // Catch response
+      try {
+        Map resMap = json.decode(res).first;
+        WorkOrder workOrder = WorkOrder.fromJson(resMap);
+        print("postWorkOrder > workOrder:: $workOrder");
+        return true;
+      }
+      catch (error) {
+        return Future.error("Not found a work order as a response");
+      }
     });
   }
 

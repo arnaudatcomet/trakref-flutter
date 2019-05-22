@@ -148,6 +148,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           // Add a fix for the cooling appliance status ; it will throw an error for shutdown service event
           coolingApplianceAssets =
               assets.where((i) => (i.coolingApplianceStatusID > 0)).toList();
+          coolingApplianceAssets = assets;
+
 
           assetsDropdowns = (coolingApplianceAssets ?? []).map((i) {
             return DropdownItem(name: i.name, id: i.assetID);
@@ -271,12 +273,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     TrakrefAPIService().writeOnDisk<WorkOrder>([order]);
 
     // Post the work order
-    TrakrefAPIService().postWorkOrder(order).then((result) {
-      print("result $result");
-      return true;
-    }).catchError((error) {
-      return false;
-    });
+    return await TrakrefAPIService().postWorkOrder(order);
   }
 
   // Submit Service Event - Service and Leak Repair
@@ -397,16 +394,11 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     TrakrefAPIService().writeOnDisk<WorkOrder>([order]);
 
     // Post the work order
-    TrakrefAPIService().postWorkOrder(order).then((result) {
-      print("result $result");
-      return true;
-    }).catchError((error) {
-      return false;
-    });
+    return await TrakrefAPIService().postWorkOrder(order);
   }
 
   // Submit Service Event - Shutdown
-  Future<bool> submitShutdown() async {
+  Future<dynamic> submitShutdown() async {
     // Retrieve the values
     int equipmentWorkedOn = _pickedEquipmentWorkedOn.id;
     String typeOfService = _pickedTypeOfService.name;
@@ -483,12 +475,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     TrakrefAPIService().writeOnDisk<WorkOrder>([order]);
 
     // Post the work order
-    TrakrefAPIService().postWorkOrder(order).then((result) {
-      print("result $result");
-      return true;
-    }).catchError((error) {
-      return false;
-    });
+    return await TrakrefAPIService().postWorkOrder(order);
   }
 
   // Build Vacuum dept dynamically
@@ -1291,23 +1278,42 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                               print("> $typeOfService");
                               if (typeOfService == ServiceType.Shutdown) {
                                 submitShutdown().then((succeeded) {
-                                  showConfirmationMessage(succeeded);
+                                  FormBuild.showFlushBarMessage(context,
+                                      kAddServiceEventSuccessfulMessage, () {
+                                        Navigator.of(context).pop();
+                                      });
+                                }).catchError((error) {
+                                  FormBuild.showFlushBarMessage(
+                                      context, error, () {});
                                 });
-                                }
-                                else if (typeOfService ==
-                                    ServiceType.ServiceAndLeakRepair) {
-                                  submitServiceAndLeakRepair().then((succeeded) {
-                                    showConfirmationMessage(succeeded);
-                                  });
-                                }
-                                else if (typeOfService ==
-                                    ServiceType.LeakInspection) {
-                                  submitLeakInspection().then((succeeded) {
-                                    showConfirmationMessage(succeeded);
-                                  });
-                                }
                               }
-                            },
+                              else if (typeOfService ==
+                                  ServiceType.ServiceAndLeakRepair) {
+                                submitServiceAndLeakRepair().then((succeeded) {
+                                  FormBuild.showFlushBarMessage(context,
+                                      kAddServiceEventSuccessfulMessage, () {
+                                        Navigator.of(context).pop();
+                                      });
+                                }).catchError((error) {
+                                  FormBuild.showFlushBarMessage(
+                                      context, error, () {});
+                                });
+                              }
+                              else if (typeOfService ==
+                                  ServiceType.LeakInspection) {
+                                submitLeakInspection().then((succeeded) {
+                                  FormBuild.showFlushBarMessage(context,
+                                      kAddServiceEventSuccessfulMessage, () {
+                                        Navigator.of(context).pop();
+                                      });
+                                }).catchError((error) {
+                                  print("submitLeakInspection > Error $error");
+                                  FormBuild.showFlushBarMessage(
+                                      context, error, () {});
+                                });
+                              }
+                            }
+                          },
                         ),
                       ),
                     ],
