@@ -19,13 +19,13 @@ import 'package:trakref_app/screens/settings/page_settings_bloc.dart';
 import 'package:trakref_app/screens/tab_screen.dart';
 
 final routes = {
-//  '/': (BuildContext context) => BlocProvider(bloc: LoginBloc(), child: PageLoginBloc()),
+  '/': (BuildContext context) => BlocProvider(bloc: LoginBloc(), child: PageLoginBloc()),
 //  '/': (BuildContext context) => PageMain(),
-  '/': (BuildContext context) => TabScreens(),
+//  '/': (BuildContext context) => TabScreens(),
   '/dashboard': (BuildContext context) => BlocProvider(bloc: DashboardBloc(), child: PageDashboardBloc()),
   '/home': (BuildContext context) => TabScreens(),
   '/search': (BuildContext context) => BlocProvider(bloc: SearchBloc(), child: PageSearchBloc()),
-  '/topics': (BuildContext context) => PageTopicsBloc(),
+//  '/topics': (BuildContext context) => PageTopicsBloc(),
   '/accounts': (BuildContext context) => PageAccountsBloc(),
   '/assets': (BuildContext context) => PageAssetAddBloc(),
   '/leaks': (BuildContext context) => PageServiceEventAddBloc(),
