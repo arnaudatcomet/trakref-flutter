@@ -34,6 +34,9 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
   List<DropdownItem> assetSubTypes;
   DropdownItem _pickedAssetSubTypes;
 
+  String _pickedSerialNumber;
+  String _pickedTagNumber;
+
   List<DropdownItem> assetCategories = [
     DropdownItem(
       id: 1,
@@ -77,8 +80,8 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
     print("Appliance Type : ${_pickedAssetTypes.name}");
     print("Appliance SubType : ${_pickedAssetSubTypes.name}");
     print("Appliance Category : ${_pickedAssetCategories.name}");
-//                print("Tag Number : ### NEED TO DEFINE ###");
-//                print("Serial Number : ### NEED TO DEFINE ###");
+    print("Tag Number : $_pickedTagNumber");
+    print("Serial Number : $_pickedSerialNumber");
     print("Location : ${_pickedLocations.name}");
     print("Material type : ${_pickedMaterialTypes.name}");
     print("System Status : ${_pickedSystemStatuses.name}");
@@ -180,24 +183,6 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
         ),
         Row(
           children: <Widget>[
-            FormBuild.buildImagePicker(
-                label: "Serial Number",
-                key: Key("serialNumberImageKey"),
-                onPressed: () {
-                  print("OnPressed");
-                }
-            ),
-            FormBuild.buildImagePicker(
-                label: "Tag Number",
-                key: Key("tagNumberImageKey"),
-                onPressed: () {
-                  print("OnPressed");
-                }
-            )
-          ],
-        ),
-        Row(
-          children: <Widget>[
             FormBuild.buildTextField(key: Key("CurrentGasWeightKey"),
                 textController: currentGasWeightController,
                 label: "Current Gas Weight",
@@ -261,7 +246,7 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
             AppCancellableTextField(
                 initialValue: _pickedAssetCategories,
                 sourcesDropdown: this.assetCategories,
-                textKey: "ApplianceTypeKey",
+                textKey: "ApplianceCategoryKey",
                 textLabel: "Appliance Category",
                 isRequired: true,
                 onChangedValue: (value) {
@@ -285,15 +270,27 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
         ),
         Row(
           children: <Widget>[
-            // Need to be able to take pictures of tag numbers
-            FormBuild.buildTextField(key: Key("TagNumberKey"),
-                label: "Tag Number",
-                initialValue: null),
-            ColumnSpacer,
-            // Need to be able to take pictures of serial numbers
-            FormBuild.buildTextField(key: Key("SerialNumberKey"),
-                label: "Serial Number",
-                initialValue: null),
+            AppCancellablePicker(
+              textLabel: "Serial Number",
+              textKey: "serialNumberImageKey",
+              onChangedValue: (value) {
+                print("onChangedValue $value");
+                _pickedSerialNumber = value;
+//                String _pickedTagNumber;
+              },
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            AppCancellablePicker(
+              textLabel: "Tag Number",
+              textKey: "tagNumberImageKey",
+              onChangedValue: (value) {
+                print("onChangedValue $value");
+                _pickedTagNumber = value;
+              },
+            ),
           ],
         ),
         Row(
