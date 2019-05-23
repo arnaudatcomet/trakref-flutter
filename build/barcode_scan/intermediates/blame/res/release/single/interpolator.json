@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/barcode_scan/intermediates/res/merged/release/interpolator/mtrl_fast_out_slow_in.xml",
+        "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/87bb0f576b34899df1f89af42eb67cfb/res/interpolator/mtrl_fast_out_slow_in.xml"
+    },
+    {
+        "merged": "/Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/barcode_scan/intermediates/res/merged/release/interpolator/mtrl_linear_out_slow_in.xml",
+        "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/87bb0f576b34899df1f89af42eb67cfb/res/interpolator/mtrl_linear_out_slow_in.xml"
+    },
+    {
+        "merged": "/Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/barcode_scan/intermediates/res/merged/release/interpolator/mtrl_linear.xml",
+        "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/87bb0f576b34899df1f89af42eb67cfb/res/interpolator/mtrl_linear.xml"
+    },
+    {
+        "merged": "/Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/barcode_scan/intermediates/res/merged/release/interpolator/mtrl_fast_out_linear_in.xml",
+        "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/87bb0f576b34899df1f89af42eb67cfb/res/interpolator/mtrl_fast_out_linear_in.xml"
+    }
+]

@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/barcode_scan/intermediates/incremental/mergeReleaseResources/merged.dir/values-xhdpi-v4/values-xhdpi-v4.xml",
+            "map": [
+                {
+                    "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-core-1.9.13.aar/70f6558a3f07cfe7c47014dc8d4975d9/res/values-xhdpi-v4/values-xhdpi-v4.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,113",
+                        "endColumns": "57,55",
+                        "endOffsets": "108,164"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/barcode_scan/intermediates/res/merged/release/values-xhdpi-v4/values-xhdpi-v4.xml",
+            "map": [
+                {
+                    "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/jetified-core-1.9.13.aar/70f6558a3f07cfe7c47014dc8d4975d9/res/values-xhdpi-v4/values-xhdpi-v4.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,113",
+                        "endColumns": "57,55",
+                        "endOffsets": "108,164"
+                    }
+                }
+            ]
+        }
+    ]
+}

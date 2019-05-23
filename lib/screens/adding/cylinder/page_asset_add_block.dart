@@ -100,9 +100,11 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
     TrakrefAPIService().writeOnDisk<Asset>([cylinder]);
 
     TrakrefAPIService().postCylinder(cylinder).then((result) {
-      showConfirmationMessage();
+      FormBuild.showFlushBarMessage(context, kAddCylinderSuccessfulMessage, () {
+        Navigator.of(context).pop();
+      });
     }).catchError((error) {
-      showErrorMessage(kAddServiceEventErrorMessage);
+      FormBuild.showFlushBarMessage(context, error, null);
     });
   }
 
@@ -174,6 +176,24 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
                 textController: nameController,
                 label: "Name",
                 initialValue: null),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            FormBuild.buildImagePicker(
+                label: "Serial Number",
+                key: Key("serialNumberImageKey"),
+                onPressed: () {
+                  print("OnPressed");
+                }
+            ),
+            FormBuild.buildImagePicker(
+                label: "Tag Number",
+                key: Key("tagNumberImageKey"),
+                onPressed: () {
+                  print("OnPressed");
+                }
+            )
           ],
         ),
         Row(
@@ -314,11 +334,7 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
           actions: <Widget>[
             FlatButton(
               onPressed: () {
-                postCylinder().then((succeeded) {
-                  if (succeeded != null) {
-                    showConfirmationMessage();
-                  }
-                });
+                postCylinder();
               },
               child: Text("Save", style: TextStyle(
                   color: AppColors.blueTurquoise
@@ -352,47 +368,30 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
   void onMaxGasWeightChanged() {
     print("${maxGasWeightController.text}");
   }
+}
 
-  void showConfirmationMessage() {
-    Flushbar(
-      duration:  Duration(seconds: 3),
-      flushbarPosition: FlushbarPosition.TOP,
-      flushbarStyle: FlushbarStyle.GROUNDED,
-      backgroundColor: Colors.white,
-      boxShadows: [BoxShadow(color: Colors.black, offset: Offset(0.0, 0.2), blurRadius: 0.0)],
-      messageText: Text(kAddServiceEventSuccessfulMessage),
-      mainButton: FlatButton(
-        onPressed: () {},
-        child: FlatButton(onPressed: () {
-          Flushbar().dismiss();
-        }, child: Text(
-          "GOT IT", //dismiss
-          style: TextStyle(color: Colors.black),
-        )),
-      ),
-    )..show(context).then((r){
-      Navigator.of(context).pop();
-    });
-  }
+typedef BarcodeReaderDelegate = void Function(String);
 
-  void showErrorMessage(String errorMessage) {
-    Flushbar(
-      duration:  Duration(seconds: 3),
-      flushbarPosition: FlushbarPosition.TOP,
-      flushbarStyle: FlushbarStyle.GROUNDED,
-      backgroundColor: Colors.white,
-      boxShadows: [BoxShadow(color: Colors.black, offset: Offset(0.0, 0.2), blurRadius: 0.0)],
-      messageText: Text(errorMessage),
-      mainButton: FlatButton(
-        onPressed: () {},
-        child: FlatButton(onPressed: () {
-          Flushbar().dismiss();
-        }, child: Text(
-          "GOT IT", //dismiss
-          style: TextStyle(color: Colors.black),
-        )),
-      ),
-    )..show(context).then((r){
-    });
+class BarcodeReaderTextField extends StatefulWidget {
+  BarcodeReaderDelegate delegate;
+  @override
+  _BarcodeReaderTextFieldState createState() => _BarcodeReaderTextFieldState();
+}
+
+class _BarcodeReaderTextFieldState extends State<BarcodeReaderTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return Placeholder();
+//    return TextField(
+//      decoration: InputDecoration(
+//          labelText: labeled,
+//          border: const UnderlineInputBorder(),
+//          suffixIcon: new IconButton(icon: Image.asset('assets/images/barcode-icon.png',
+//              colorBlendMode: BlendMode.color,
+//              color: AppColors.blueTurquoise,
+//              height: 22),
+//              onPressed: onPressed)
+//      ),
+//    );
   }
 }
