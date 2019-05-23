@@ -98,8 +98,8 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
         _onLoaded = true;
       });
     }).catchError((error){
-      setState(() {
-
+      FormBuild.showFlushBarMessage(context, error, (){
+        Navigator.of(context).pop();
       });
     });
 
