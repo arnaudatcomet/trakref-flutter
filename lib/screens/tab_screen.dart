@@ -30,16 +30,20 @@ class _TabScreensState extends State<TabScreens> {
                   unselectedLabelColor: Colors.grey,
                   tabs: [
                     new Tab(
-                        icon: new Icon(Icons.home)
+                        icon: Image.asset('assets/images/icon-home.png',
+                            height: 24)
                     ),
                     new Tab(
-                        icon: new Icon(Icons.search)
+                        icon: Image.asset('assets/images/icon-search.png',
+                            height: 24)
                     ),
                     new Tab(
-                        icon: new Icon(Icons.add_box)
+                        icon: Image.asset('assets/images/icon-add.png',
+                            height: 24)
                     ),
                     new Tab(
-                        icon: new Icon(Icons.settings)
+                        icon: Image.asset('assets/images/icon-settings.png',
+                            height: 24)
                     )
                   ]
               ),
