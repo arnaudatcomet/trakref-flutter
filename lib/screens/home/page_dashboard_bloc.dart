@@ -85,10 +85,12 @@ class _PageDashboardBlocState extends State<PageDashboardBloc> {
 //    getServiceEvents(locationID);
 
     api.getServiceEvents([]).then((results) {
-      _isServiceEventsLoaded = true;
-      setState(() {
-        _serviceEventsResult = results;
-      });
+      if (mounted) {
+        _isServiceEventsLoaded = true;
+        setState(() {
+          _serviceEventsResult = results;
+        });
+      }
     });
 
     super.initState();

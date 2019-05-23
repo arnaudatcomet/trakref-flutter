@@ -123,8 +123,10 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
     // Grab default value for the assigned to me
     FilterPreferenceService().getValues(SearchFilterOptions.AssignedToMe).then((
         assignedToMe) {
-      _assignedtoMe = assignedToMe;
-      setState(() {});
+      if (mounted) {
+        _assignedtoMe = assignedToMe;
+        setState(() {});
+      }
     });
 
     // Instantiate the current location
