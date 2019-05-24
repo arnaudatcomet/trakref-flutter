@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/services.dart';
+import 'package:trakref_app/widget/dropdown_widget.dart';
 
 class AppOutlineButton extends StatelessWidget {
   String title;
@@ -184,25 +187,57 @@ class _AppTextFieldState extends State<AppTextField> {
 }
 
 // Image picker for textfield
+typedef ImagePickerDelegate = void Function(String);
+
 class ImagePickerTextField extends StatefulWidget {
   VoidCallback onPressed;
-  String labeled = "This is an imagepicker example";
+  String labeled;
   Key keyImagePickerTextField;
+  ImagePickerDelegate delegate;
   ValueChanged<String> onSubmitted;
 
   ImagePickerTextField({this.onPressed, this.labeled,
-    this.keyImagePickerTextField, this.onSubmitted});
+    this.keyImagePickerTextField, this.onSubmitted, this.delegate});
 
   @override
   _ImagePickerTextFieldState createState() => _ImagePickerTextFieldState();
 }
 
 class _ImagePickerTextFieldState extends State<ImagePickerTextField> {
+  String barcode;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void scan() async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      print("ImagePickerTextFieldState barcode value : $barcode");
+      widget.delegate(barcode);
+      setState(() => this.barcode = barcode);
+    }
+    on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        FormBuild.showFlushBarMessage(context, "The user did not grant the camera permission", null);
+      } else {
+        FormBuild.showFlushBarMessage(context, "Unknown error happened when trying to scan barcode", null);
+      }
+    } on FormatException{
+      FormBuild.showFlushBarMessage(context, "The user click on back button without scanning anything", null);
+    } catch (e) {
+      FormBuild.showFlushBarMessage(context, "Unknown error happened when trying to scan barcode", null);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-      child: TextField(
+      child: TextFormField(
+        initialValue: barcode,
+        focusNode: AlwaysDisabledFocusNode(),
         decoration: InputDecoration(
             labelText: widget.labeled,
             border: const UnderlineInputBorder(),
@@ -210,7 +245,7 @@ class _ImagePickerTextFieldState extends State<ImagePickerTextField> {
                 colorBlendMode: BlendMode.color,
                 color: AppColors.blueTurquoise,
                 height: 22),
-                onPressed: widget.onPressed)
+                onPressed: scan)
         ),
       ),
     );

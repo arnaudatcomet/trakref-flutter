@@ -82,7 +82,9 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
 
     api.getAccounts().then((results) {
       if (results == null) {
-        print("error when retrieving all the accounts");
+        FormBuild.showFlushBarMessage(context, "Error when retrieving all the accounts", (){
+          Navigator.of(context).pop();
+        });
       }
       else {
         // Add accounts retrieved and prepare the list view

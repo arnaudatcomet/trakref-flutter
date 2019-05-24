@@ -21,6 +21,9 @@ class PageAssetAddBloc extends StatefulWidget {
 class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
   bool _isDropdownsLoaded = false;
 
+  // Forms information
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
   TextEditingController nameController;
   TextEditingController currentGasWeightController;
   TextEditingController maxGasWeightController;
@@ -73,18 +76,18 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
     }
     catch (error) {}
 
-    print("Name : ${nameController.text}");
-    print("Current Gas Weight : ${currentGasWeightController.text}");
-    print("Max Gas Weight : ${maxGasWeightController.text}");
-    print("Appliance Status : ${_pickedCoolingApplianceStatuses.name}");
-    print("Appliance Type : ${_pickedAssetTypes.name}");
-    print("Appliance SubType : ${_pickedAssetSubTypes.name}");
-    print("Appliance Category : ${_pickedAssetCategories.name}");
-    print("Tag Number : $_pickedTagNumber");
-    print("Serial Number : $_pickedSerialNumber");
-    print("Location : ${_pickedLocations.name}");
-    print("Material type : ${_pickedMaterialTypes.name}");
-    print("System Status : ${_pickedSystemStatuses.name}");
+    print("Name : ${nameController.text ?? ""}");
+    print("Current Gas Weight : ${currentGasWeightController.text ?? ""}");
+    print("Max Gas Weight : ${maxGasWeightController?.text ?? ""}");
+    print("Appliance Status : ${_pickedCoolingApplianceStatuses?.name ?? ""}");
+    print("Appliance Type : ${_pickedAssetTypes?.name ?? ""}");
+    print("Appliance SubType : ${_pickedAssetSubTypes?.name ?? ""}");
+    print("Appliance Category : ${_pickedAssetCategories?.name ?? ""}");
+    print("Tag Number : ${_pickedTagNumber ?? ""}");
+    print("Serial Number : ${_pickedSerialNumber ?? ""}");
+    print("Location : ${_pickedLocations?.name ?? ""}");
+    print("Material type : ${_pickedMaterialTypes?.name ?? ""}");
+    print("System Status : ${_pickedSystemStatuses?.name ?? ""}");
 
     Asset cylinder = Asset(
       name: nameController.text,
@@ -178,6 +181,11 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
             FormBuild.buildTextField(key: Key("SystemNameKey"),
                 textController: nameController,
                 label: "Name",
+                onValidated: (value) {
+                  if(nameController.text.isEmpty) {
+                    return "Required";
+                  }
+                },
                 initialValue: null),
           ],
         ),
@@ -325,13 +333,25 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
       ],
     );
 
+
+    Form AddAppliangeForm = Form(
+      child: NewAddApplianceWidget,
+      key: _formKey,
+    );
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           actions: <Widget>[
             FlatButton(
               onPressed: () {
-                postCylinder();
+//                _formKey.currentState.validate()
+                print("Trying to validate the forms");
+                if (_formKey.currentState.validate()) {
+                  print("the form '$_formKey is validated");
+                  _formKey.currentState.save();
+                  postCylinder();
+                }
               },
               child: Text("Save", style: TextStyle(
                   color: AppColors.blueTurquoise
@@ -348,7 +368,7 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
           backgroundColor: Colors.white.withOpacity(0.0),
         ),
         body: SafeArea(
-            child:(_isDropdownsLoaded == false) ? FormBuild.buildLoader() : NewAddApplianceWidget
+            child:(_isDropdownsLoaded == false) ? FormBuild.buildLoader() : AddAppliangeForm
         )
     );
   }
@@ -364,31 +384,5 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
 
   void onMaxGasWeightChanged() {
     print("${maxGasWeightController.text}");
-  }
-}
-
-typedef BarcodeReaderDelegate = void Function(String);
-
-class BarcodeReaderTextField extends StatefulWidget {
-  BarcodeReaderDelegate delegate;
-  @override
-  _BarcodeReaderTextFieldState createState() => _BarcodeReaderTextFieldState();
-}
-
-class _BarcodeReaderTextFieldState extends State<BarcodeReaderTextField> {
-  @override
-  Widget build(BuildContext context) {
-    return Placeholder();
-//    return TextField(
-//      decoration: InputDecoration(
-//          labelText: labeled,
-//          border: const UnderlineInputBorder(),
-//          suffixIcon: new IconButton(icon: Image.asset('assets/images/barcode-icon.png',
-//              colorBlendMode: BlendMode.color,
-//              color: AppColors.blueTurquoise,
-//              height: 22),
-//              onPressed: onPressed)
-//      ),
-//    );
   }
 }

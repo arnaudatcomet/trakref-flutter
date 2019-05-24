@@ -87,13 +87,21 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
               Row(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    FormBuild.buildTextField(key: Key("NameAppliance"), label: "Name"),
+                    FormBuild.buildTextField(
+                        key: Key("NameAppliance"),
+                        label: "Name",
+                        onValidated: (value) {
+                          if (value.isEmpty || value == null) {
+                            return "Required";
+                          }
+                        })
                   ]
               ),
               Row(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    FormBuild.buildDropdown(source: materialType, label: "Type", isRequired: true)
+                    FormBuild.buildDropdown(
+                        source: materialType, label: "Type", isRequired: true)
                   ]
               ),
               Row(
