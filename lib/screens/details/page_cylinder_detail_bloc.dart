@@ -43,16 +43,16 @@ class _PageCylinderDetailBlocState extends State<PageCylinderDetailBloc> {
                     )
                   ],
                 ),
-                FormBuild.buildTextfieldRow("SystemNameKey", "System Name", widget.asset.name),
-                FormBuild.buildTextfieldRow("SerialNumberKey", "Serial Number", widget.asset.serialNumber),
-                FormBuild.buildTextfieldRow("TagNumberKey", "Tag Number", widget.asset.tagNumber),
-                FormBuild.buildTextfieldRow("CategoryKey", "Category", widget.asset.assetCategory),
-                FormBuild.buildTextfieldRow("SystemTypeKey", "System Type", widget.asset.assetType),
-                FormBuild.buildTextfieldRow("PONumberKey", "PO Number", widget.asset.poNumber),
-                FormBuild.buildTextfieldRow("SystemStatusKey", "System Status", ((widget.asset.assetStatusID == 0) ? "Closed" : "Opened")),
-                FormBuild.buildTextfieldRow("ClientNameKey", "Refrigerant Type", widget.asset.materialType),
-                FormBuild.buildTextfieldRow("ContactNumberKey", "Max Gas Weight", widget.asset.maxGasCapacityLbs.toString()),
-                FormBuild.buildTextfieldRow("ContactEmailKey", "Current Gas Weight", widget.asset.currentGasWeightLbs.toString())
+                FormBuild.buildTextfieldRow("SystemNameKey", "System Name", widget.asset.name, enabled: false),
+                FormBuild.buildTextfieldRow("SerialNumberKey", "Serial Number", widget.asset.serialNumber, enabled: false),
+                FormBuild.buildTextfieldRow("TagNumberKey", "Tag Number", widget.asset.tagNumber, enabled: false),
+                FormBuild.buildTextfieldRow("CategoryKey", "Category", widget.asset.assetCategory, enabled: false),
+                FormBuild.buildTextfieldRow("SystemTypeKey", "System Type", widget.asset.assetType, enabled: false),
+                FormBuild.buildTextfieldRow("PONumberKey", "PO Number", widget.asset.poNumber, enabled: false),
+                FormBuild.buildTextfieldRow("SystemStatusKey", "System Status", ((widget.asset.assetStatusID == 0) ? "Closed" : "Opened"), enabled: false),
+                FormBuild.buildTextfieldRow("ClientNameKey", "Refrigerant Type", widget.asset.materialType, enabled: false),
+                FormBuild.buildTextfieldRow("ContactNumberKey", "Max Gas Weight", widget.asset.maxGasCapacityLbs.toString(), enabled: false),
+                FormBuild.buildTextfieldRow("ContactEmailKey", "Current Gas Weight", widget.asset.currentGasWeightLbs.toString(), enabled: false)
               ],
             )
         )

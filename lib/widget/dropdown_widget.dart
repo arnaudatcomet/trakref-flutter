@@ -90,17 +90,17 @@ class FormBuild {
   }
 
   // To add a row textfield quicker
-  static Widget buildTextfieldRow(String key, String label, String initialValue) {
+  static Widget buildTextfieldRow(String key, String label, String initialValue, {bool enabled}) {
     if (initialValue == null) {
       return Row(mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            FormBuild.buildTextField(key: Key(key), label: label)
+            FormBuild.buildTextField(key: Key(key), label: label, enabled: enabled ?? true)
           ]
       );
     }
     return Row(mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          FormBuild.buildTextField(key: Key(key), label: label, initialValue: initialValue)
+          FormBuild.buildTextField(key: Key(key), label: label, initialValue: initialValue, enabled: enabled ?? true)
         ]
     );
   }
@@ -113,7 +113,8 @@ class FormBuild {
     ValueChanged<String> onSubmitted,
     ValueChanged<String> onValidated,
     TextEditingController textController,
-    String initialValue
+    String initialValue,
+    bool enabled
   }) {
     return Expanded(
       flex: 1,
@@ -125,6 +126,7 @@ class FormBuild {
         onSubmitted: onSubmitted,
         initialValue: initialValue,
         textController: textController,
+        enabled: enabled,
       ),
     );
   }

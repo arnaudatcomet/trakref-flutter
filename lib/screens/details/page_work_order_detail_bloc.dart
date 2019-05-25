@@ -95,16 +95,19 @@ class WorkOrderList extends StatelessWidget {
                         children: <Widget>[
                           FormBuild.buildTextfieldRow(
                               "LocationKey", "Location",
-                              order.location),
+                              order.location, enabled: false),
+                          FormBuild.buildTextfieldRow(
+                              "ClientKey", "Client",
+                              order.instance, enabled: false),
                           FormBuild.buildTextfieldRow(
                               "WorkOrderTypeKey", "Work Order Type",
-                              order.workOrderType),
+                              order.workOrderType, enabled: false),
                           FormBuild.buildTextfieldRow(
                               "StatusReasonKey", "Status Reason",
-                              order.workOrderStatusReason),
+                              order.workOrderStatusReason, enabled: false),
                           FormBuild.buildTextfieldRow(
                               "RequestDetailsKey", "Request Details",
-                              order.requestDetails),
+                              order.requestDetails, enabled: false),
 
                         ]
                     )

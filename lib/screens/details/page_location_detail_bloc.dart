@@ -42,10 +42,10 @@ class _PageLocationDetailBlocState extends State<PageLocationDetailBloc> {
                     )
                   ],
                 ),
-                FormBuild.buildTextfieldRow("NameKey", "Name", widget.location.name),
-                FormBuild.buildTextfieldRow("ContactKey", "Contact", "${widget.location.contactFirstName ?? ""} ${widget.location.contactLastName ?? ""}"),
-                FormBuild.buildTextfieldRow("AddressKey", "Address", "${widget.location.mailingCity ?? ""} ${widget.location.mailingState ?? ""} ${widget.location.mailingZip ?? ""} ${widget.location.mailingCountry ?? ""}"),
-                FormBuild.buildTextfieldRow("ContactPhoneKey", "Contact Number", widget.location.contactPhone ?? "")
+                FormBuild.buildTextfieldRow("NameKey", "Name", widget.location.name, enabled: false),
+                FormBuild.buildTextfieldRow("ContactKey", "Contact", "${widget.location.contactFirstName ?? ""} ${widget.location.contactLastName ?? ""}", enabled: false),
+                FormBuild.buildTextfieldRow("AddressKey", "Address", "${widget.location.mailingCity ?? ""} ${widget.location.mailingState ?? ""} ${widget.location.mailingZip ?? ""} ${widget.location.mailingCountry ?? ""}", enabled: false),
+                FormBuild.buildTextfieldRow("ContactPhoneKey", "Contact Number", widget.location.contactPhone ?? "", enabled: false)
               ],
             )
         )

@@ -25,13 +25,13 @@ class _PageServiceEventDetailBlocState
         children: <Widget>[
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Transfer Type", transfer.materialTransferType),
+                "", "Transfer Type", transfer.materialTransferType, enabled: false),
             flex: 1,
           ),
           Icon(Icons.person, color: AppColors.blueTurquoise),
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Technician Name", transfer.technicianName),
+                "", "Technician Name", transfer.technicianName, enabled: false),
             flex: 1,
           )
         ],
@@ -40,13 +40,13 @@ class _PageServiceEventDetailBlocState
         children: <Widget>[
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "From Location", transfer.fromLocation),
+                "", "From Location", transfer.fromLocation, enabled: false),
             flex: 1,
           ),
           Icon(Icons.shuffle, color: AppColors.blueTurquoise),
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "To Location", transfer.toLocation),
+                "", "To Location", transfer.toLocation, enabled: false),
             flex: 1,
           )
         ],
@@ -55,19 +55,19 @@ class _PageServiceEventDetailBlocState
         children: <Widget>[
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "From Asset", transfer.fromAsset),
+                "", "From Asset", transfer.fromAsset, enabled: false),
             flex: 1,
           ),
           Icon(Icons.shuffle, color: AppColors.blueTurquoise),
           Expanded(
             child:
-                FormBuild.buildTextfieldRow("", "To Asset", transfer.toAsset),
+                FormBuild.buildTextfieldRow("", "To Asset", transfer.toAsset, enabled: false),
             flex: 1,
           )
         ],
       ),
       FormBuild.buildTextfieldRow(
-          "", "Transfer Weight", transfer.transferWeightLbs.toString()),
+          "", "Transfer Weight", transfer.transferWeightLbs.toString(), enabled: false),
     ];
 
     return [
@@ -100,12 +100,12 @@ class _PageServiceEventDetailBlocState
         children: <Widget>[
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Leak Inspection", leak.leakInspectionType),
+                "", "Leak Inspection", leak.leakInspectionType, enabled: false),
             flex: 1,
           ),
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Detection Method", leak.leakDetectionMethod),
+                "", "Detection Method", leak.leakDetectionMethod, enabled: false),
             flex: 1,
           )
         ],
@@ -114,17 +114,17 @@ class _PageServiceEventDetailBlocState
         children: <Widget>[
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Leak Category", leak.leakLocationCategory),
+                "", "Leak Category", leak.leakLocationCategory, enabled: false),
             flex: 1,
           ),
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Leak Location", leak.leakLocation),
+                "", "Leak Location", leak.leakLocation, enabled: false),
             flex: 1,
           )
         ],
       ),
-      FormBuild.buildTextfieldRow("", "Fault Cause Type", leak.faultCauseType),
+      FormBuild.buildTextfieldRow("", "Fault Cause Type", leak.faultCauseType, enabled: false),
     ];
 
     return [
@@ -159,28 +159,28 @@ class _PageServiceEventDetailBlocState
         children: <Widget>[
           Expanded(
             child: FormBuild.buildTextfieldRow("", "Service Event #",
-                widget.serviceEvent.workItemID.toString()),
+                widget.serviceEvent.workItemID.toString(), enabled: false),
             flex: 1,
           ),
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Asset Location", widget.serviceEvent.assetLocation),
+                "", "Asset Location", widget.serviceEvent.assetLocation, enabled: false),
             flex: 1,
           )
         ],
       ),
       FormBuild.buildTextfieldRow("", "Service Transfer Reason",
-          widget.serviceEvent.serviceTransferReason),
+          widget.serviceEvent.serviceTransferReason, enabled: false),
       Row(
         children: <Widget>[
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Material Type", widget.serviceEvent.materialType),
+                "", "Material Type", widget.serviceEvent.materialType, enabled: false),
             flex: 1,
           ),
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Service Action", widget.serviceEvent.serviceAction),
+                "", "Service Action", widget.serviceEvent.serviceAction, enabled: false),
             flex: 1,
           )
         ],
