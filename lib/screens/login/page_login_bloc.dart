@@ -90,7 +90,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                               },
                               keyboardType: TextInputType.emailAddress,
                               decoration: new InputDecoration(
-                                  hintText: 'Enter your email adress',
+                                  hintText: 'Enter your username',
                                   labelText: 'Username'
                               ),
                             )
