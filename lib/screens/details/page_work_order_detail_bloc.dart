@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:trakref_app/constants.dart';
-import 'package:trakref_app/main.dart';
 import 'package:intl/intl.dart';
+import 'package:trakref_app/constants.dart';
+import 'package:trakref_app/helper.dart';
+import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/screens/details/page_service_event_detail_bloc.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
@@ -108,6 +109,12 @@ class WorkOrderList extends StatelessWidget {
                           FormBuild.buildTextfieldRow(
                               "RequestDetailsKey", "Request Details",
                               order.requestDetails, enabled: false),
+                          Row(
+                            children: <Widget>[
+                              FormBuild.buildTextField(key: Key("ScheduleDateKey"), initialValue: Helper.getShortDate(order.scheduleDate) ?? " ",label: "Schedule Date", enabled: false),
+                              FormBuild.buildTextField(key: Key("DueDateKey"), initialValue: Helper.getShortDate(order.dueDate) ?? " ",label: "Due Date", enabled: false),
+                            ],
+                          )
 
                         ]
                     )
@@ -172,13 +179,11 @@ class ServiceEventRow extends StatelessWidget {
     );
   }
 
-  String shortDate(String serviceEventDate) {
-    DateTime serviceDate = DateFormat(kShortTimeDateFormat).parse(serviceEvent.serviceDate);
-    return DateFormat(kShortDateFormat)
-        .format(serviceDate);
-  }
-
   String getServiceEventShortcutType(int serviceType) {
+    print("Get service type $serviceType");
+    if (serviceType == 1) {
+      return "SI";
+    }
     if (serviceType == 2) {
       return "LE";
     }
@@ -238,7 +243,7 @@ class ServiceEventRow extends StatelessWidget {
               children: <Widget>[
                 Icon(Icons.access_time, size: 12.0,
                     color: AppColors.gray),
-                Text("${shortDate(serviceEvent.serviceDate)}", style: Theme
+                Text("${Helper.getShortDate(serviceEvent.serviceDate) ?? "Non available"}", style: Theme
                     .of(context)
                     .textTheme
                     .display3),
@@ -246,7 +251,7 @@ class ServiceEventRow extends StatelessWidget {
                 Icon(Icons.history, size: 14.0,
                     color: AppColors.gray),
                 Text(
-                    "${shortDate(serviceEvent.dateOfFollowUpService)}",
+                    "${Helper.getShortDate(serviceEvent.dateOfFollowUpService) ?? "Non available"}",
                     style: Theme
                         .of(context)
                         .textTheme

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/helper.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
+import 'package:trakref_app/constants.dart';
+import 'package:intl/intl.dart';
 
 // PageWorkOrderDetailBloc
 typedef PageServiceEventDetailDelegate = Widget Function();
@@ -153,36 +156,57 @@ class _PageServiceEventDetailBlocState
 
   @override
   Widget build(BuildContext context) {
+    // Create widget for the dates
+    Widget ServiceDateWidget = FormBuild.buildTextField(
+        label: "Service Date",
+        key: Key("ServiceDateKey"),
+        initialValue: Helper.getShortDate(widget.serviceEvent.serviceDate) ?? "Non available",
+        enabled: false
+    );
+
+    Widget FollowUpDateWidget = FormBuild.buildTextField(
+      label: "Follow Up Date",
+      key: Key("FollowUpDateKey"),
+      initialValue: Helper.getShortDate(widget.serviceEvent.dateOfFollowUpService) ?? "Non available",
+      enabled: false
+    );
+
     // Build service event header
     List<Widget> serviceEventHeader = [
       Row(
         children: <Widget>[
           Expanded(
-            child: FormBuild.buildTextfieldRow("", "Service Event #",
+            child: FormBuild.buildTextfieldRow("ServiceEventNumber", "Service Event #",
                 widget.serviceEvent.workItemID.toString(), enabled: false),
             flex: 1,
           ),
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Asset Location", widget.serviceEvent.assetLocation, enabled: false),
+                "AssetLocationKey", "Asset Location", widget.serviceEvent.assetLocation, enabled: false),
             flex: 1,
           )
         ],
       ),
-      FormBuild.buildTextfieldRow("", "Service Transfer Reason",
+      FormBuild.buildTextfieldRow("ServiceTransferReasonKey", "Service Transfer Reason",
           widget.serviceEvent.serviceTransferReason, enabled: false),
       Row(
         children: <Widget>[
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Material Type", widget.serviceEvent.materialType, enabled: false),
+                "MaterialTypeKey", "Material Type", widget.serviceEvent.materialType, enabled: false),
             flex: 1,
           ),
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "Service Action", widget.serviceEvent.serviceAction, enabled: false),
+                "ServiceActionKey", "Service Action", widget.serviceEvent.serviceAction, enabled: false),
             flex: 1,
           )
+        ],
+      ),
+      Row(
+        children: <Widget>[
+          ServiceDateWidget,
+          FollowUpDateWidget
         ],
       )
     ];
