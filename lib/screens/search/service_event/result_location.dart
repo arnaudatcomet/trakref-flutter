@@ -38,11 +38,18 @@ class _LocationCellResultWidgetState extends State<LocationCellResultWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // Fix to avoid a line with only ','
+    List<String> lastLine = [
+      widget.physicalCity,
+      widget.physicalState
+    ];
+    lastLine.removeWhere((i) => i==null);
+
     Widget locationCell = HomeCellWidget(
         line1: (widget.distance == null) ? "" : '${widget.distance.toStringAsFixed(0)} meters',
         line2: '${widget.locationName}',
         line3: '${widget.physicalAddress1 ?? ""}',
-        line4: '${widget.physicalCity ?? ""}, ${widget.physicalState ?? ""}',
+        line4: lastLine.join(","),
         cellType: HomeCellType.Normal
     );
     return locationCell;
