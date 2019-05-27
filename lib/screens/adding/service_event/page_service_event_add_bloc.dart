@@ -156,6 +156,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           assetsDropdowns = (coolingApplianceAssets ?? []).map((i) {
             return DropdownItem(name: i.name, id: i.assetID);
           }).toList();
+          assetsDropdowns.sort((item1, item2) => item1.name.compareTo(item2.name));
           _isDropdownsLoaded = true;
           // Show a warning if there's no cooling assets
           print("coolingApplianceAssets ${coolingApplianceAssets.length}");
