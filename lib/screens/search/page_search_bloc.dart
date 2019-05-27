@@ -82,9 +82,11 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
           String serialNumber = asset.serialNumber ?? "";
           String name = asset.name ?? "";
           String assetCategory = asset.assetCategory ?? "";
+          String location = asset.location ?? "";
           if (serialNumber.toLowerCase().contains(searchedText) ||
               name.toLowerCase().contains(searchedText) ||
-              assetCategory.toLowerCase().contains(searchedText)) {
+              assetCategory.toLowerCase().contains(searchedText) ||
+              location.toLowerCase().contains(searchedText)) {
             _filteredAssetsResult.add(asset);
           }
         });
@@ -92,7 +94,6 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
       else if (indexChanged == PageSearchTab.Locations.index) {
         _filteredLocationsResult.clear();
         _locationsResult.forEach((location) {
-
           String physicalAddress1 = location.physicalAddress1 ?? "";
           String physicalCity = location.physicalCity ?? "";
           String name = location.name ?? "";
@@ -141,10 +142,11 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
       _isServiceEventsLoaded = true;
       setState(() {
         // Fix : need to sort the service event results by location name
-//        _serviceEventsResult.sort((event1, event2){
-//          return event1.location.compareTo(event2.location);
-//        });
         _serviceEventsResult = results;
+        _serviceEventsResult.sort((event1, event2){
+          print("Compare '${event1.location}' > '${event2.location}'");
+          return (event1.location ?? "").compareTo(event2.location ?? "");
+        });
       });
     }).catchError((error){
       _isServiceEventsLoaded = true;
@@ -155,6 +157,25 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
     api.getLocations().then((results){
       print("getLocations with count (${results.length})");
       _isLocationsLoaded = true;
+
+      for (Location loc in results) {
+        // Calculate the distance and sort the location by distance
+        GeolocationService().calculateDistance(loc.lat, loc.long).then((distance) {
+          loc.distance = distance;
+          // Sort the locations by distance
+          results.sort((loc1, loc2) {
+            if (loc1.distance == null || loc2.distance == null)
+              return 0;
+            if (loc1.distance > loc2.distance)
+              return 1;
+            if (loc1.distance < loc2.distance)
+              return -1;
+            return 0;
+          });
+
+          setState(() {});
+        });
+      }
       setState(() {
         _locationsResult = results;
       });

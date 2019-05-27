@@ -20,7 +20,8 @@ class AssetResultWidget extends StatelessWidget {
             child: HomeCellWidget(
                 line1: '${asset.serialNumber ?? ""}',
                 line2: '${asset.name ?? ""}',
-                line3: '${(asset.assetStatusID == 1) ? "Active" : "Inactive"}',
+//                line3: '${(asset.assetStatusID == 1) ? "Active" : "Inactive"}',
+                line3: '${asset.location}',
                 line4: '${asset.assetCategory ?? ""}',
                 cellType: (asset.isCylinder == true) ? HomeCellType.StickerCYLINDER : HomeCellType.Normal
             ),
