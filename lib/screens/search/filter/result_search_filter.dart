@@ -18,7 +18,6 @@ class SearchFilter extends StatefulWidget {
 class _SearchFilterState extends State<SearchFilter> {
   bool exampleValue = true;
   bool aroundMeFilterValue = false;
-  bool assignedToMeFilterValue = false;
   bool openedFilterValue = false;
   FilterPreferenceService prefs =  FilterPreferenceService();
 
@@ -28,13 +27,6 @@ class _SearchFilterState extends State<SearchFilter> {
       setState(() {
         print("SearchFilterOptions.AroundMe $aroundMeValue");
         aroundMeFilterValue = aroundMeValue;
-      });
-    });
-
-    prefs.getValues(SearchFilterOptions.AssignedToMe).then((assignedToMeValue){
-      setState(() {
-        print("SearchFilterOptions.AssignedToMe $assignedToMeValue");
-      assignedToMeFilterValue = assignedToMeValue;
       });
     });
 
@@ -87,7 +79,6 @@ class _SearchFilterState extends State<SearchFilter> {
                 // Erase all actions
                 print("Erase all the actions");
                 setState(() {
-                  assignedToMeFilterValue = false;
                   aroundMeFilterValue = false;
                   openedFilterValue = false;
                 });
@@ -98,12 +89,6 @@ class _SearchFilterState extends State<SearchFilter> {
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          buildSettings("Assigned to me", assignedToMeFilterValue, (switchValue) {
-            setState(() {
-              assignedToMeFilterValue= switchValue;
-            });
-            print("'Assigned to me = $switchValue'");
-          }),
           buildSettings("Around me", aroundMeFilterValue, (switchValue) {
             setState(() {
               aroundMeFilterValue = switchValue;
@@ -128,9 +113,6 @@ class _SearchFilterState extends State<SearchFilter> {
                   onPressed: () {
                     // Prepare the options of the filter
                     List<SearchFilterOptions> options = [];
-                    if (assignedToMeFilterValue) {
-                      options.add(SearchFilterOptions.AssignedToMe);
-                    }
                     if (aroundMeFilterValue) {
                       options.add(SearchFilterOptions.AroundMe);
                     }

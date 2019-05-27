@@ -140,6 +140,10 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
       print("getServiceEvents with count (${results.length})");
       _isServiceEventsLoaded = true;
       setState(() {
+        // Fix : need to sort the service event results by location name
+//        _serviceEventsResult.sort((event1, event2){
+//          return event1.location.compareTo(event2.location);
+//        });
         _serviceEventsResult = results;
       });
     }).catchError((error){
@@ -228,9 +232,11 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                     for (SearchFilterOptions option in listOptions) {
                       FilterPreferenceService().setFilter(option, true);
                       // If assigned to me then change the switch 'Assigned to me' state
+                      /*
                       if (option == SearchFilterOptions.AssignedToMe) {
                         print("_assignedToMe $_assignedtoMe");
                       }
+                      */
 
                       if (option == SearchFilterOptions.AroundMe) {
                         showAroundMe = true;
@@ -263,21 +269,7 @@ class _PageSearchBlocState extends State<PageSearchBloc> with SingleTickerProvid
                 );
               }));
             },
-          ),
-          Row(
-            children: <Widget>[
-              Text('Assigned to me', style: Theme.of(context).textTheme.body1),
-              Switch(
-                activeColor: AppColors.blueTurquoise,
-                value: _assignedtoMe ?? false,
-                onChanged: (bool value) {
-                  _assignedtoMe = value;
-                  FilterPreferenceService().setFilter(SearchFilterOptions.AssignedToMe, _assignedtoMe);
-                },
-              )
-            ],
           )
-
         ],
       ),
     );
