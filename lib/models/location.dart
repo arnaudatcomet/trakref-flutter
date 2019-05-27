@@ -82,12 +82,13 @@ class Location {
   @JsonKey(name: 'ContactPhone')
   final String contactPhone;
 
+  double distance = 0;
 
   Location({this.name, this.code, this.instanceID, this.associationGUID,
     this.locationTypeID, this.contactFirstName, this.contactLastName,
     this.mailingAddress1, this.mailingCity, this.mailingState,
     this.mailingZip, this.mailingCountry, this.physicalAddress1,
-    this.physicalCity, this.physicalState, this.physicalZip,
+    this.physicalCity, this.physicalState, this.physicalZip, this.distance,
     this.physicalCountry, this.additional, this.isSupplier, this.isDestructor,
     this.isServicer, this.lat, this.long, this.isOffsite, this.ID, this.contactPhone});
 

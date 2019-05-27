@@ -5,6 +5,9 @@ import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:trakref_app/widget/home_cell_widget.dart';
 import 'package:trakref_app/repository/location_service.dart';
 
+typedef LocationCellGetMetersResultDelegate = void Function(int, double);
+
+//class LocationCellResultWidget extends StatefulWidget {
 class LocationCellResultWidget extends StatefulWidget {
   final double locationLatitude;
   final double locationLongitude;
@@ -15,9 +18,11 @@ class LocationCellResultWidget extends StatefulWidget {
 
   double distance;
 
+  LocationCellGetMetersResultDelegate delegate;
+
   LocationCellResultWidget({this.locationLatitude, this.locationLongitude,
     this.locationName, this.physicalAddress1, this.physicalCity,
-    this.physicalState});
+    this.physicalState, this.delegate, this.distance});
 
   @override
   _LocationCellResultWidgetState createState() => _LocationCellResultWidgetState();
@@ -26,12 +31,11 @@ class LocationCellResultWidget extends StatefulWidget {
 class _LocationCellResultWidgetState extends State<LocationCellResultWidget> {
   @override
   void initState() {
-    GeolocationService().calculateDistance(widget.locationLatitude, widget.locationLongitude).then((distance) {
-//      print("calculateDistance = $distance meters");
-      setState((){
-        widget.distance = distance;
-      });
-    });
+//    GeolocationService().calculateDistance(widget.locationLatitude, widget.locationLongitude).then((distance) {
+////      setState((){
+////        widget.distance = distance;
+////      });
+////    });
 
     super.initState();
   }
@@ -91,6 +95,7 @@ class _LocationResultWidgetState extends State<LocationResultWidget> {
               locationName: loc.name,
               physicalAddress1: loc.physicalAddress1,
               physicalCity: loc.physicalCity,
+              distance: loc.distance,
               physicalState: loc.physicalState,
             ),
           );
