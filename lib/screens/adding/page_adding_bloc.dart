@@ -28,11 +28,10 @@ class _PageAddingBloc extends State<PageAddingBloc> {
         _currentWorkOrder = workOrder;
         _isLoadedWorkOrder = true;
         setState(() {
-
         });
       }
     }).catchError((error){
-      print("PageAddingBloc > _currentWorkOrder has an error");
+      print("PageAddingBloc > _currentWorkOrder has an error $error");
       if (mounted) {
         _isLoadedWorkOrder = true;
         setState(() {

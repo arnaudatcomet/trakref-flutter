@@ -86,7 +86,10 @@ class TrakrefAPIService {
 
   Future<WorkOrder> getCurrentWorkOrder() async {
     String workOrderString = await _getValue(TrakrefAPIService.SelectedWorkOrderTRKey);
-    Map workOrderMap = jsonDecode(workOrderString);
+    if (workOrderString == null) {
+      return Future.error("No Work Order found for selected Work Order");
+    }
+      Map workOrderMap = jsonDecode(workOrderString);
     WorkOrder workOrder = WorkOrder.fromJson(workOrderMap);
     return workOrder;
   }
