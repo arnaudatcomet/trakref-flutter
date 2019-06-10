@@ -53,8 +53,9 @@ class _PageMaterialGasInstallBlocState
         category: "Cylinder"
     );
 
-    _allAssets = [Asset.createUnknown()];
+    _allAssets = [];
     _allAssets.addAll(widget.assets);
+    _allAssets.add(Asset.createUnknown());
 
     super.initState();
   }
