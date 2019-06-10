@@ -882,7 +882,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     onChangedValue: (value) {
                       setState(() {
                         this._filteredVerificationLocationLeakFound = [];
-                        if (value.name == "Yes") {
+                        if (value?.name == "Yes") {
                           _wasVerificationLeakFound = true;
                         } else {
                           _wasVerificationLeakFound = false;
@@ -892,7 +892,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
               ],
             ),
             // Note : maybe a better way to do the UI below
-            (_wasVerificationLeakFound != null)
+            (_wasVerificationLeakFound != null && _wasVerificationLeakFound == true)
                 ? Row(
               children: <Widget>[
                 AppCancellableTextField(
@@ -910,7 +910,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
               ],
             )
                 : Container(),
-            (_wasVerificationLeakFound != null)
+            (_wasVerificationLeakFound != null && _wasVerificationLeakFound == true)
                 ? Row(
               children: <Widget>[
                 AppCancellableTextField(
@@ -959,7 +959,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
               ],
             )
                 : Container(),
-            ((_wasVerificationLeakFound != null) &&
+            ((_wasVerificationLeakFound != null && _wasVerificationLeakFound == true) &&
                 this._filteredVerificationLocationLeakFound != null)
                 ? Row(
               children: <Widget>[
