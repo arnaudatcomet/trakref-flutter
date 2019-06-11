@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/routes.dart';
+import 'package:trakref_app/service_locator.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  setupLocator();
+  runApp(
+  MyApp()
+  );
+}
 
 const kPrimaryColor = const Color(0xFF81c784);
 const kPrimaryLight = const Color(0xFFb2fab4);

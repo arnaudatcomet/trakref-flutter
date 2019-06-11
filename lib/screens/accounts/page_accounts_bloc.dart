@@ -1,24 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:trakref_app/bloc/accounts_bloc.dart';
-import 'package:trakref_app/bloc/bloc_provider.dart';
+import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
-import 'package:trakref_app/repository/api_service.dart';
-import 'package:trakref_app/repository/get_service.dart';
-import 'package:trakref_app/screens/settings/account_detail/page_account_detail_bloc.dart';
+import 'package:trakref_app/screens/base_view.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
-import 'package:trakref_app/widget/dropdown_widget.dart';
-
-// Animation Widget
-//class AnimationFade extends StatelessWidget {
-//  final Widget child;
-//  final TickerProvider vsync;
-//  @override
-//  Widget build(BuildContext context) {
-//    return Container();
-//  }
-//}
+import 'package:trakref_app/viewmodel/accounts_model.dart';
 
 enum PageAccountsType {
   Details,
@@ -35,15 +22,11 @@ class PageAccountsBloc extends StatefulWidget {
 }
 
 class _PageAccountsBlocState extends State<PageAccountsBloc> {
-  TrakrefAPIService api = TrakrefAPIService();
-  List<Account> accounts;
+  // List<Account> accounts;
   bool _onLoaded = false;
-  bool _activeState;
+  bool _searchIsActive;
   TextEditingController _controller;
   FocusNode _textFocus;
-
-  // BLoC
-  AccountsBloc accountBloc;
 
   // Properties
   List<ListItem> items = [];
@@ -63,56 +46,22 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
 
   @override
   void dispose() {
-    api.close();
     super.dispose();
   }
 
   @override
   void initState() {
     _onLoaded = false;
-    _activeState = false;
+    _searchIsActive = false;
     _controller = TextEditingController();
     _textFocus = FocusNode();
-
-    _controller.addListener(onChange);
-    _textFocus.addListener(onChange);
-
-    // Link to AccountBloc
-    this.accountBloc = BlocProvider.of<AccountsBloc>(context);
-
-    api.getAccounts().then((results) {
-      if (results == null) {
-        FormBuild.showFlushBarMessage(context, "Error when retrieving all the accounts", (){
-          Navigator.of(context).pop();
-        });
-      }
-      else {
-        // Add accounts retrieved and prepare the list view
-        accounts = results;
-        print("getRetrievingAccount retrieved ${accounts.length} accounts");
-        for (Account acc in accounts) {
-          items.add(AccountItem(account: acc.name, accountID: acc.instanceID));
-        }
-      }
-
-      // Notify to stop loading
-      setState(() {
-        _onLoaded = true;
-      });
-    }).catchError((error){
-      FormBuild.showFlushBarMessage(context, error, (){
-        Navigator.of(context).pop();
-      });
-    });
 
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: (_activeState == true)
-          ? AppBar(
+
+  Widget searchInactiveAppBar() {
+    return AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
               title: TextFormField(
@@ -124,14 +73,17 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
                             color: AppColors.gray),
                         onPressed: () {
                           setState(() {
-                            _activeState = false;
+                            _searchIsActive = false;
                           });
                         }),
                     icon: Icon(Icons.search, color: AppColors.gray),
                     hintText: "Search for an account"),
               ),
-      )
-          : AppBar(
+      );
+  }
+
+  Widget searchActiveAppBar() {
+    return AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
               leading: (widget.type == PageAccountsType.Home) ? Container() : IconButton(
@@ -145,86 +97,71 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
                     icon: new Icon(Icons.search, color: AppColors.gray),
                     onPressed: () {
                       setState(() {
-                        _activeState = true;
+                        _searchIsActive = true;
                       });
                     },
                   ),
-                ]),
-      body: (_onLoaded == false)
-          ? FormBuild.buildLoader()
-          : Container(
-              width: double.infinity,
-              color: Colors.white,
-              child: ListView.builder(
-                  padding: EdgeInsets.all(5),
-                  shrinkWrap: true,
-                  itemCount: (_activeState == true) ? (_searchResult.length) : (items.length + 1),
-                  itemBuilder: (context, index) {
-                    if (index == 0 && (_activeState == false)) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Select an account',
-                            style: Theme.of(context).textTheme.title,
-                          )
-                        ],
-                      );
-                    }
-                    else {
-                      final item = (_activeState == true) ? _searchResult[index] : items[index - 1];
-                      if (item is AccountItem) {
-                        return InkWell(
-                          onTap: () {
-                            Account selectedAccount = accounts.where((Account account) => account.instanceID == item.accountID).first;
-                            // Show the details
-                            print("widget.type ${widget.type}");
-                            // Save the instanceID and selected account
-                            TrakrefAPIService().setSelectedAccount(selectedAccount);
-                            TrakrefAPIService().setInstanceID(selectedAccount.instanceID.toString());
-
-                            if (widget.type == PageAccountsType.Details) {
-//                              Navigator.of(context).push(MaterialPageRoute(
-//                                  builder: (BuildContext context) {
-//                                    return PageAccountDetailBloc(
-//                                        account: selectedAccount);
-//                                  }));
-                            Navigator.of(context).pop();
-                            }
-                            // Show the home page
-                            else if (widget.type == PageAccountsType.Home) {
-                              Navigator.of(context).pushNamed("/home");
-                            }
-                          },
-                          child: Container(
-                            child: this.makeAccountTile(item),
-                          ),
-                        );
-                      }
-                    }
-                  }),
-            ),
-    );
+                ]);
   }
 
-  // Handling the search functions
-  void onChange(){
-    String text = _controller.text;
-    bool hasFocus = _textFocus.hasFocus;
+  @override
+  Widget build(BuildContext context) {
+    return BaseView<AccountsModel>(
+      onModelReady: (model) {
+        model.fetchAccounts().then((results){
+          accounts = model.accounts;
+          model.controller = _controller;
+          model.controller.addListener((){
+            print("model controller is listening to ${_controller.text}");
+            _searchResult = model.fetchFromSearch(accounts, _controller.text).map((item) => AccountItem(account: item.name, accountID: item.ID)).toList();
+            print("_searchResult : ${_searchResult.length}");
+            setState(() {
+            });
+          });
+        });
+      },
+      builder: (context, model, child) => Scaffold(
+        appBar: (!_searchIsActive) ? searchActiveAppBar() : searchInactiveAppBar(),
+        backgroundColor: Colors.white,
+        body: model.state == ViewState.Busy ? Center(child: CircularProgressIndicator())
+        : ListView.builder(
+          itemBuilder: (context, index) {
+              Account item = model.accounts[index];
+              AccountItem tile = AccountItem(
+                account: item.name,
+                accountID: item.ID
+              );
 
-    _searchResult.clear();
+              if (_searchIsActive == true) {
+                tile = _searchResult[index];
+                print("search is active ${tile.account}");
+              }
+              return InkWell(
+                onTap: () {
+                  print("select itemID is ${item.instanceID}");
 
-    print("onSearchTextChanged $text");
+                  Account selectedAccount = model.accounts.where((Account account) => account.instanceID == item.instanceID).first;
+                  // Show the details
+                  print("widget.type ${widget.type}");
+                  // Save the instanceID and selected account
+                  TrakrefAPIService().setSelectedAccount(selectedAccount);
+                  TrakrefAPIService().setInstanceID(selectedAccount.instanceID.toString());
 
-    items.forEach((accountDetail) {
-      if (accountDetail is AccountItem) {
-        if (accountDetail.account.contains(text)) {
-          print("> Found ${accountDetail.account}");
-          _searchResult.add(accountDetail);
-        }
-      }
-    });
-    setState(() {});
+                  if (widget.type == PageAccountsType.Details) {
+                  Navigator.of(context).pop();
+                  }
+                  // Show the home page
+                  else if (widget.type == PageAccountsType.Home) {
+                    Navigator.of(context).pushNamed("/home");
+                  }
+                },
+                child: this.makeAccountTile(tile)
+                );
+          },
+          itemCount: (_searchIsActive == false) ? model.accounts.length : _searchResult.length
+        ),
+      ),
+    );
   }
 }
 
