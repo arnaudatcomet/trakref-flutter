@@ -13,7 +13,7 @@ import 'package:trakref_app/repository/get_service.dart';
 
 class ApiService {
   final JsonDecoder _decoder = new JsonDecoder();
-  static String baseURL = "https://apitest.trakref.com";
+  static String baseURL = "https://api.trakref.com";
   static String baseTestURL = "https://apitest.trakref.com";
   static String getWorkOrdersURL = "$baseURL/v3.21/WorkOrders";
   static String getWorkOrdersByInstanceURL = "$getWorkOrdersURL/GetByInstance";
