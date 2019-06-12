@@ -54,11 +54,9 @@ class _PageAccountDetailBlocState extends State<PageAccountDetailBloc> {
                   if (instanceID.isNotEmpty) {
                     Navigator.of(context).pushReplacement(new MaterialPageRoute(
                         builder: (BuildContext context) {
-                          return BlocProvider(
-                              bloc: AccountsBloc(), child: PageAccountsBloc(
+                          return PageAccountsBloc(
                             type: PageAccountsType.Details,
-                            currentInstanceID: int.parse(instanceID),
-                          ));
+                          );
                         },
                         fullscreenDialog: true));
                   }

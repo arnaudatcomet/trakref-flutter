@@ -13,9 +13,8 @@ enum PageAccountsType {
 }
 
 class PageAccountsBloc extends StatefulWidget {
-  final int currentInstanceID;
   final PageAccountsType type;
-  PageAccountsBloc({this.currentInstanceID, this.type});
+  PageAccountsBloc({this.type});
 
   @override
   _PageAccountsBlocState createState() => _PageAccountsBlocState();

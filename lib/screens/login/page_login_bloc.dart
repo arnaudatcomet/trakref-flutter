@@ -141,12 +141,9 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                         Navigator.of(context).push(
                                             new MaterialPageRoute(builder:
                                                 (BuildContext context) {
-                                          return BlocProvider(
-                                              bloc: AccountsBloc(),
-                                              child: PageAccountsBloc(
-                                                type: PageAccountsType.Home,
-                                                currentInstanceID: 248,
-                                              ));
+                                          return PageAccountsBloc(
+                                                type: PageAccountsType.Home
+                                              );
                                         }));
                                         print("Login was succedeed");
                                       } else {
