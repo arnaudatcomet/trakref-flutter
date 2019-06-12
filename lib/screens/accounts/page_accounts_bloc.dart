@@ -109,11 +109,10 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
     return BaseView<AccountsModel>(
       onModelReady: (model) {
         model.fetchAccounts().then((results){
-          accounts = model.accounts;
           model.controller = _controller;
           model.controller.addListener((){
             print("model controller is listening to ${_controller.text}");
-            _searchResult = model.fetchFromSearch(accounts, _controller.text).map((item) => AccountItem(account: item.name, accountID: item.ID)).toList();
+            _searchResult = model.fetchFromSearch(model.accounts, _controller.text).map((item) => AccountItem(account: item.name, accountID: item.ID)).toList();
             print("_searchResult : ${_searchResult.length}");
             setState(() {
             });

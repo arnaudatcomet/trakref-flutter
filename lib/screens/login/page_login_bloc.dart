@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/bloc/accounts_bloc.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/bloc/login_bloc.dart';
+import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/user.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
+import 'package:trakref_app/screens/base_view.dart';
 import 'package:trakref_app/screens/login/reset/page_reset_password_bloc.dart';
+import 'package:trakref_app/viewmodel/login_model.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/loading_widget.dart';
 
@@ -24,26 +27,11 @@ class _LoginData {
 class _PageLoginBlocState extends State<PageLoginBloc> {
   final _formKey = GlobalKey<FormState>();
   _LoginData _data = new _LoginData();
-  LoginBloc loginBloc;
   bool _showPassword = false;
 
   @override
   void initState() {
     super.initState();
-    this.loginBloc = BlocProvider.of<LoginBloc>(context);
-    this.loginBloc.nextScreen.listen((InfoUser user) {
-      print("Push to a next screen");
-      _formKey.currentState.reset();
-      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
-        return BlocProvider(bloc: AccountsBloc(), child: PageAccountsBloc(
-          type: PageAccountsType.Home,
-          currentInstanceID: 248,
-        ));
-      })).then((value){
-        setState(() {
-        });
-      });
-    });
   }
 
   @override
@@ -56,6 +44,155 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
     super.dispose();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return BaseView<LoginModel>(
+      builder: (context, model, child) {
+        return Scaffold(
+            body: new Container(
+                padding: new EdgeInsets.all(20.0),
+                child: new Center(
+                  child: new Form(
+                      key: _formKey,
+                      child: new ListView(
+                        children: <Widget>[
+                          new Container(
+                            child: new Image.asset("assets/images/logo.png",
+                                height: 50,
+                                alignment: Alignment.centerLeft,
+                                fit: BoxFit.fitHeight),
+                            margin: new EdgeInsets.only(top: 103, bottom: 30),
+                          ),
+                          new Container(
+                            child: new Text("Welcome back.",
+                                style: Theme.of(context).textTheme.title),
+                          ),
+                          new Container(
+                              margin: new EdgeInsets.only(top: 30, bottom: 30),
+                              child: new TextFormField(
+                                key: Key("UsernameKey"),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter an username';
+                                  }
+                                },
+                                onSaved: (String value) {
+                                  this._data.username = value;
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: new InputDecoration(
+                                    hintText: 'Enter your username',
+                                    labelText: 'Username'),
+                              )),
+                          new TextFormField(
+                            key: Key("PasswordKey"),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter a password';
+                              }
+                            },
+                            onSaved: (String value) {
+                              this._data.password = value;
+                            },
+                            obscureText: (_showPassword == false),
+                            textAlign: TextAlign.start,
+                            decoration: new InputDecoration(
+                                labelText: 'Password',
+                                contentPadding: new EdgeInsets.all(0),
+                                suffixIcon: Padding(
+                                    padding: EdgeInsets.only(right: 10),
+                                    //loginBloc
+                                    child: IconButton(
+                                        icon: const Icon(Icons.remove_red_eye),
+                                        onPressed: () {
+                                          setState(() {
+                                            _showPassword = !_showPassword;
+                                          });
+                                        }))),
+                          ),
+                          new Container(
+                              margin: EdgeInsets.only(top: 30),
+                              child: ButtonTheme(
+                                height: 52.0,
+                                child: new RaisedButton(
+                                  key: Key('SubmitButton'),
+                                  color: AppColors.blueTurquoise,
+                                  child: (model.state == ViewState.Idle)
+                                      ? Text("Login",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16))
+                                      : CircularProgressIndicator(
+                                          strokeWidth: 1,
+                                          backgroundColor: Colors.white),
+                                  onPressed: () async {
+                                    if (_formKey.currentState.validate()) {
+                                      _formKey.currentState.save();
+
+                                      String username = _data.username;
+                                      String password = _data.password;
+
+                                      bool succeeded =
+                                          await model.login(username, password);
+                                      if (succeeded != null &&
+                                          succeeded == true) {
+                                        print("Push to a next screen");
+                                        _formKey.currentState.reset();
+                                        Navigator.of(context).push(
+                                            new MaterialPageRoute(builder:
+                                                (BuildContext context) {
+                                          return BlocProvider(
+                                              bloc: AccountsBloc(),
+                                              child: PageAccountsBloc(
+                                                type: PageAccountsType.Home,
+                                                currentInstanceID: 248,
+                                              ));
+                                        }));
+                                        print("Login was succedeed");
+                                      } else {
+                                        print("Login was failed");
+                                      }
+                                    }
+                                  },
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(4),
+                                  ),
+                                ),
+                              )),
+                          (model.errorMessage == null)
+                              ? Text("")
+                              : Text("${model.errorMessage}",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 12,
+                                      fontStyle: FontStyle.italic)),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              LinkAppButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) {
+                                    return PageResetPasswordBloc();
+                                  }));
+                                },
+                                title: "Forgot your password?",
+                                style: TextStyle(
+                                    color: AppColors.gray,
+                                    decoration: TextDecoration.underline),
+                              ),
+                            ],
+                          )
+                        ],
+                      )),
+                )));
+      },
+    );
+  }
+  /*
   @override
   Widget build(BuildContext context) {
       return Scaffold(
@@ -169,9 +306,6 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                       password: password
                                     )
                                   );
-//                                  attemptedUser.user.username = username;
-//                                  attemptedUser.user.password = password;
-
                                   this.loginBloc.submitLogin.add(attemptedUser);
                                 }
                                 },
@@ -219,4 +353,5 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
           )
       );
   }
+  */
 }
