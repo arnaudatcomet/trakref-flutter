@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trakref_app/bloc/accounts_bloc.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/account.dart';
@@ -21,10 +20,6 @@ class _PageAccountDetailBlocState extends State<PageAccountDetailBloc> {
   @override
   void initState() {
     super.initState();
-
-    setState(() {
-
-    });
   }
 
   Widget buildTextfieldRow(String key, String label, String initialValue) {
