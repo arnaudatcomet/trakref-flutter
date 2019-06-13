@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trakref_app/bloc/accounts_bloc.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/bloc/dashboard_bloc.dart';
-import 'package:trakref_app/bloc/login_bloc.dart';
 import 'package:trakref_app/bloc/search_bloc.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
@@ -19,7 +17,7 @@ import 'package:trakref_app/screens/settings/page_settings_bloc.dart';
 import 'package:trakref_app/screens/tab_screen.dart';
 
 final routes = {
-  '/': (BuildContext context) => BlocProvider(bloc: LoginBloc(), child: PageLoginBloc()),
+  '/': (BuildContext context) => PageLoginBloc(),
 //  '/': (BuildContext context) => PageMain(),
 //  '/': (BuildContext context) => TabScreens(),
   '/dashboard': (BuildContext context) => BlocProvider(bloc: DashboardBloc(), child: PageDashboardBloc()),

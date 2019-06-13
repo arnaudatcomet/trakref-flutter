@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trakref_app/bloc/accounts_bloc.dart';
 import 'package:trakref_app/bloc/bloc_provider.dart';
-import 'package:trakref_app/bloc/login_bloc.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/info_user.dart';
