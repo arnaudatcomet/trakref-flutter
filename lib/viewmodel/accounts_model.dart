@@ -16,11 +16,7 @@ class AccountsModel extends BaseModel {
   }
 
   List<Account> fetchAccountFromSearch(String searching) {
-    if (accounts == null) 
-      return [];
-
-    print("accounts $searching in ${accounts.length}");
-    return accounts.where((account) => account.name.contains(searching)).toList();
+    return fetchFromSearch(accounts, searching);
   }
 
   List<Account> fetchFromSearch(List<Account> items, String searching) {
