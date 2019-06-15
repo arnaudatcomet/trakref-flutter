@@ -3,12 +3,18 @@ import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/routes.dart';
 import 'package:trakref_app/service_locator.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   setupLocator();
-  runApp(
-  MyApp()
-  );
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.black, //top bar color
+    statusBarIconBrightness: Brightness.light, //top bar icons
+    statusBarBrightness: Brightness.light, //
+  ));
+
+  runApp(MyApp());
 }
 
 const kPrimaryColor = const Color(0xFF81c784);
