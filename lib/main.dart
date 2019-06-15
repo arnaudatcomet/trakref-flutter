@@ -9,8 +9,7 @@ void main() {
   setupLocator();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.black, //top bar color
-    statusBarIconBrightness: Brightness.light, //top bar icons
+    statusBarIconBrightness: Brightness.dark, //top bar icons
     statusBarBrightness: Brightness.light, //
   ));
 
