@@ -31,12 +31,6 @@ class LocationCellResultWidget extends StatefulWidget {
 class _LocationCellResultWidgetState extends State<LocationCellResultWidget> {
   @override
   void initState() {
-//    GeolocationService().calculateDistance(widget.locationLatitude, widget.locationLongitude).then((distance) {
-////      setState((){
-////        widget.distance = distance;
-////      });
-////    });
-
     super.initState();
   }
 
@@ -70,7 +64,9 @@ class LocationResultWidget extends StatefulWidget {
   _LocationResultWidgetState createState() => _LocationResultWidgetState();
 }
 
-class _LocationResultWidgetState extends State<LocationResultWidget> {
+class _LocationResultWidgetState extends State<LocationResultWidget> with AutomaticKeepAliveClientMixin<LocationResultWidget>{
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
     // List of locations

@@ -2,20 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/widget/home_cell_widget.dart';
 
-class AssetResultWidget extends StatelessWidget {
+class AssetResultWidget extends StatefulWidget {
   final List<Asset> assets;
   Function assetSelectedHandle;
   AssetResultWidget({this.assets, this.assetSelectedHandle});
 
   @override
+  _AssetResultWidgetState createState() => _AssetResultWidgetState();
+}
+
+class _AssetResultWidgetState extends State<AssetResultWidget>  with AutomaticKeepAliveClientMixin<AssetResultWidget>{
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
-    return (assets == null) ? Container() : ListView.builder(
-        itemCount: assets.length,
+    return (widget.assets == null) ? Container() : ListView.builder(
+        itemCount: widget.assets.length,
         itemBuilder: (context, index) {
-          Asset asset = assets[index];
+          Asset asset = widget.assets[index];
           return GestureDetector(
             onTap: () {
-              assetSelectedHandle(asset);
+              widget.assetSelectedHandle(asset);
             },
             child: HomeCellWidget(
                 line1: '${asset.serialNumber ?? ""}',
