@@ -7,6 +7,7 @@ import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/api_service.dart';
 import 'package:trakref_app/screens/base_view.dart';
 import 'package:trakref_app/screens/details/page_work_order_detail_bloc.dart';
+import 'package:trakref_app/service_locator.dart';
 import 'package:trakref_app/viewmodel/workorders_model.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:trakref_app/widget/home_cell_widget.dart';
@@ -64,7 +65,11 @@ class PageDashboardBloc extends StatefulWidget {
   _PageDashboardBlocState createState() => _PageDashboardBlocState();
 }
 
-class _PageDashboardBlocState extends State<PageDashboardBloc> {
+class _PageDashboardBlocState extends State<PageDashboardBloc>
+    with AutomaticKeepAliveClientMixin<PageDashboardBloc> {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void dispose() {
     super.dispose();
@@ -82,40 +87,47 @@ class _PageDashboardBlocState extends State<PageDashboardBloc> {
       onModelReady: (model) => model.fetchWorkOrders(),
       builder: (context, model, child) {
         List<WorkOrder> _serviceEventsResult = model.orders;
+        var ordersAssigned = ListView.builder(
+            padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+            itemCount: ((_serviceEventsResult != null)
+                    ? _serviceEventsResult.length
+                    : 0) +
+                2,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return DashboardTitleTile(title: 'Assigned to you');
+              } else if (index < (_serviceEventsResult.length + 1)) {
+                final item = _serviceEventsResult[index - 1];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (builderContext) {
+                      return PageWorkOrderDetailBloc(order: item);
+                    }));
+                  },
+                  child: ServiceEventCellWidget(
+                    order: item,
+                  ),
+                );
+              } else {
+                return DashboardTitleTile(
+                    title: 'To Synchronize',
+                    onReload: () {
+                      // Do something
+                    });
+              }
+            });
         return Scaffold(
             backgroundColor: Colors.white,
             body: (model.state == ViewState.Busy)
                 ? FormBuild.buildLoader()
-                : ListView.builder(
-                    padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                    itemCount: ((_serviceEventsResult != null)
-                            ? _serviceEventsResult.length
-                            : 0) +
-                        2,
-                    itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return DashboardTitleTile(title: 'Assigned to you');
-                      } else if (index < (_serviceEventsResult.length + 1)) {
-                        final item = _serviceEventsResult[index - 1];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (builderContext) {
-                              return PageWorkOrderDetailBloc(order: item);
-                            }));
-                          },
-                          child: ServiceEventCellWidget(
-                            order: item,
-                          ),
-                        );
-                      } else {
-                        return DashboardTitleTile(
-                            title: 'To Synchronize',
-                            onReload: () {
-                              // Do something
-                            });
-                      }
-                    }));
+                : RefreshIndicator(
+                    color: AppColors.blueTurquoise,
+                    child: ordersAssigned,
+                    onRefresh: () {
+                      model.fetchWorkOrders();
+                    },
+                  ));
       },
     );
   }
