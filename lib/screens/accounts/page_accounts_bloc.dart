@@ -6,6 +6,7 @@ import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/base_view.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/viewmodel/accounts_model.dart';
+import 'package:trakref_app/widget/dropdown_widget.dart';
 
 enum PageAccountsType {
   Details,
@@ -28,9 +29,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
   FocusNode _textFocus;
 
   // Properties
-  List<ListItem> items = [];
   List<ListItem> _searchResult = [];
-
 
   ListTile makeAccountTile(AccountItem item) =>
       ListTile(
@@ -121,7 +120,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
       builder: (context, model, child) => Scaffold(
         appBar: (!_searchIsActive) ? searchActiveAppBar() : searchInactiveAppBar(),
         backgroundColor: Colors.white,
-        body: model.state == ViewState.Busy ? Center(child: CircularProgressIndicator())
+        body: model.state == ViewState.Busy ? FormBuild.buildLoader()
         : ListView.builder(
           itemBuilder: (context, index) {
               Account item = model.accounts[index];

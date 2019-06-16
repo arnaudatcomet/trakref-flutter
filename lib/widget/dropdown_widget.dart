@@ -62,7 +62,8 @@ class FormBuild {
   static Widget buildLoader() {
     return Center(
       child: new CircularProgressIndicator(
-          backgroundColor: Colors.white
+          backgroundColor: Colors.white,
+          valueColor: AlwaysStoppedAnimation<Color>(AppColors.blueTurquoise),
       ),
     );
   }
