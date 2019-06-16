@@ -50,10 +50,6 @@ class LoginModel extends BaseModel {
             ? "248"
             : user.user.instanceID.toString());
         _trakrefApi.setProfile(user);
-
-        // Notify to go to the next screen
-        // _goingNextScreenController.add(user);
-
         return true;
       }
     } catch (error) {
