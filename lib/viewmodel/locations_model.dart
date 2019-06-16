@@ -14,54 +14,40 @@ class LocationsModel extends BaseModel {
     setState(ViewState.Busy);
     locations = await _api.getLocations();
     for (Location loc in locations) {
-      GeolocationService().calculateDistance(loc.lat, loc.long).then((distance) {
+      GeolocationService()
+          .calculateDistance(loc.lat, loc.long)
+          .then((distance) {
         loc.distance = distance;
         locations.sort((loc1, loc2) {
-            if (loc1.distance == null || loc2.distance == null) return 0;
-            if (loc1.distance > loc2.distance) return 1;
-            if (loc1.distance < loc2.distance) return -1;
-            return 0;
-          });
+          if (loc1.distance == null || loc2.distance == null) return 0;
+          if (loc1.distance > loc2.distance) return 1;
+          if (loc1.distance < loc2.distance) return -1;
+          return 0;
+        });
       });
     }
-    /*
-        api.getLocations().then((results) {
-      print("getLocations with count (${results.length})");
-      _isLocationsLoaded = true;
-      for (Location loc in results) {
-        // Calculate the distance and sort the location by distance
-        GeolocationService()
-            .calculateDistance(loc.lat, loc.long)
-            .then((distance) {
-          loc.distance = distance;
-          // Sort the locations by distance
-          results.sort((loc1, loc2) {
-            if (loc1.distance == null || loc2.distance == null) return 0;
-            if (loc1.distance > loc2.distance) return 1;
-            if (loc1.distance < loc2.distance) return -1;
-            return 0;
-          });
-
-          setState(() {});
-        });
-      }
-      setState(() {
-        _locationsResult = results;
-      });
-    }).catchError((error) {
-      _isLocationsLoaded = true;
-      print("TrakrefAPIService catch error on 'getLocations'");
-    });
-    */
-
     setState(ViewState.Idle);
   }
 
-  List<Location> fetchLocationsFromSearch(String searching) {
-    if (locations == null) 
-      return [];
+  List<Location> fetchLocationsFromSearch(String searchedText) {
+    if (locations == null) return [];
 
-    return locations.where((location) => location.name.contains(searching)).toList();
+    List<Location> _filteredLocationsResult = [];
+    
+    locations.forEach((location) {
+      String physicalAddress1 = location.physicalAddress1 ?? "";
+      String physicalCity = location.physicalCity ?? "";
+      String name = location.name ?? "";
+      String physicalState = location.physicalState ?? "";
+
+      if (physicalAddress1.toLowerCase().contains(searchedText) ||
+          physicalCity.toLowerCase().contains(searchedText) ||
+          name.toLowerCase().contains(searchedText) ||
+          physicalState.toLowerCase().contains(searchedText)) {
+        _filteredLocationsResult.add(location);
+      }
+    });
+
+    return _filteredLocationsResult;
   }
-  
 }
