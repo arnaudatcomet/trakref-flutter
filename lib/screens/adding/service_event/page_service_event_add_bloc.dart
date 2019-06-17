@@ -1075,288 +1075,292 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
   @override
   Widget build(BuildContext context) {
     final key = new GlobalKey<ScaffoldState>();
-    return Scaffold(
-      key: key,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.white.withOpacity(0.0),
-          leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.black87,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              })),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: SafeArea(
-            child: (_isDropdownsLoaded == false)
-                ? FormBuild.buildLoader()
-                : Form(
-              key: _formKey,
-              child: ListView(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                children: <Widget>[
-                  _buildTitle(this.typeOfService),
-                  Row(children: <Widget>[
-                    AppCancellableTextField(
-                        initialValue: _pickedEquipmentWorkedOn,
-                        sourcesDropdown: assetsDropdowns,
-                        textLabel: kEquipmentWorkedOn,
-                        textError: "Required",
-                        isRequired: true,
-                        textKey: kEquipmentWorkedOnKey,
-                        onChangedValue: (value) {
-                          _pickedEquipmentWorkedOn = value;
-                          // To show the material transfer part
-                          setState(() {});
-                        }),
-                  ]),
-                  Row(children: <Widget>[
-                    AppCancellableTextField(
-                      initialValue: _pickedTypeOfService,
-                      sourcesDropdown: this.serviceType,
-                      textLabel: kTypeOfService,
-                      textError: "Required",
-                      isRequired: true,
-                      textKey: kTypeOfServiceKey,
-                      onChangedValue: (value) {
-                        setState(() {
-                          print("Selected > Type Of Service : $value");
-
-                          resetLeakWasFoundPickedValues();
-                          if (value == null) {
-                            // Reset the was leak found part to avoid confusion in UI
-                            _wasLeakFound = null;
-                            _wasLeakFound = false;
-                            _pickedTypeOfService = value;
-                          } else {
-                            if (value is DropdownItem) {
-                              print(
-                                  "Selected > Type Of Service (ID) : ${value
-                                      .id}");
-                              this._filteredInitialLocationLeakFound = [];
-                              this._filteredVerificationLocationLeakFound =
-                              [];
-                              _pickedTypeOfService = value;
-                              switch (value.id) {
-                                case 2:
-                                  {
-                                    this.typeOfService =
-                                        ServiceType.LeakInspection;
-                                  }
-                                  break;
-                                case 3:
-                                  {
-                                    this.typeOfService =
-                                        ServiceType.ServiceAndLeakRepair;
-                                  }
-                                  break;
-                                case 5:
-                                  {
-                                    this.typeOfService =
-                                        ServiceType.Shutdown;
-                                  }
-                                  break;
-                                default:
-                                  {
-                                    this.typeOfService = ServiceType.None;
-                                  }
-                                  break;
-                              }
-                            }
-                          }
-                        });
-                      },
-                    ),
-                  ]),
-                  Row(children: <Widget>[
-                    AppCancellableTextField(
-                        initialValue: _pickedLeakDetectionMethod,
-                        sourcesDropdown: this.leakDetectionMethod,
-                        textLabel: kLeakDetectionMethod,
-                        textError: "Required",
-                        isRequired: true,
-                        textKey: kLeakDetectionMethodKey,
-                        onChangedValue: (value) {
-                          _pickedLeakDetectionMethod = value;
-                        }),
-                  ]),
-                  Row(children: <Widget>[
-                    AppCancellableTextField(
-                        initialValue: _wasLeakFound,
-                        sourcesDropdown: this.wasLeakFound,
-                        textLabel: kWasLeakFound,
-                        textError:
-                        "No Was Leak Found value found for service event",
-                        isRequired: true,
-                        textKey: kWasLeakFoundKey,
-                        onChangedValue: (dropdown) {
-                          print("Was leak found selected > $dropdown");
-                          _wasLeakFound = null;
-                          setState(() {
-                            if (dropdown is DropdownItem) {
-                              if (dropdown.name == "Yes") {
-                                _wasLeakFound = true;
-                              } else if (dropdown.name == "No") {
+    var addServiceEventListView = ListView(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    children: <Widget>[
+                      _buildTitle(this.typeOfService),
+                      Row(children: <Widget>[
+                        AppCancellableTextField(
+                            initialValue: _pickedEquipmentWorkedOn,
+                            sourcesDropdown: assetsDropdowns,
+                            textLabel: kEquipmentWorkedOn,
+                            textError: "Required",
+                            isRequired: true,
+                            textKey: kEquipmentWorkedOnKey,
+                            onChangedValue: (value) {
+                              _pickedEquipmentWorkedOn = value;
+                              // To show the material transfer part
+                              setState(() {});
+                            }),
+                      ]),
+                      Row(children: <Widget>[
+                        AppCancellableTextField(
+                          initialValue: _pickedTypeOfService,
+                          sourcesDropdown: this.serviceType,
+                          textLabel: kTypeOfService,
+                          textError: "Required",
+                          isRequired: true,
+                          textKey: kTypeOfServiceKey,
+                          onChangedValue: (value) {
+                            setState(() {
+                              print("Selected > Type Of Service : $value");
+    
+                              resetLeakWasFoundPickedValues();
+                              if (value == null) {
+                                // Reset the was leak found part to avoid confusion in UI
+                                _wasLeakFound = null;
                                 _wasLeakFound = false;
+                                _pickedTypeOfService = value;
+                              } else {
+                                if (value is DropdownItem) {
+                                  print(
+                                      "Selected > Type Of Service (ID) : ${value
+                                          .id}");
+                                  this._filteredInitialLocationLeakFound = [];
+                                  this._filteredVerificationLocationLeakFound =
+                                  [];
+                                  _pickedTypeOfService = value;
+                                  switch (value.id) {
+                                    case 2:
+                                      {
+                                        this.typeOfService =
+                                            ServiceType.LeakInspection;
+                                      }
+                                      break;
+                                    case 3:
+                                      {
+                                        this.typeOfService =
+                                            ServiceType.ServiceAndLeakRepair;
+                                      }
+                                      break;
+                                    case 5:
+                                      {
+                                        this.typeOfService =
+                                            ServiceType.Shutdown;
+                                      }
+                                      break;
+                                    default:
+                                      {
+                                        this.typeOfService = ServiceType.None;
+                                      }
+                                      break;
+                                  }
+                                }
                               }
-                            }
-                          });
-                        })
-                  ]),
-                  Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
-                    FormBuild.buildDatePicker(
-                        onValidated: (value) {
-                          if (_pickedServiceDate == null)
-                            return "No service date found for service event";
-                          if (_pickedServiceDate.isAfter(DateTime.now()))
-                            return "Future service date found for service event";
-                        },
-                        onPressed: (value) {
-                          print(
-                              "$kServiceDateKey buildDatePicker > onPressed is $value");
-                          _pickedServiceDate = value;
-                        },
-                        key: Key(kServiceDateKey),
-                        helper: kServiceDate),
-                  ]),
-                  //  === PART === Second part of the form
-                  _buildInspection(_wasLeakFound, this.typeOfService,
-                      verificationLeakFound: _wasVerificationLeakFound),
-                  (_pickedEquipmentWorkedOn != null)
-                      ? _buildMaterialTransfer(this.typeOfService)
-                      : Container(),
-                  //  === PART === Submit
-                  // This is for giving some space for the bottom button 'SUBMIT'
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 20,
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: TextFormField(
-                            onSaved: (value) {
-                              _pickedObservationNotes = value;
-                            },
-                            validator: (value) {
-                              if (_pickedTypeOfService.id == 3 ||
-                                  _pickedTypeOfService.id == 5) {
-                                if (value.isEmpty)
-                                  return "No repair notes found for service event with asset ID";
-//                                if (_pickedServiceAction.id == 9 &&
-//                                    value.length <= 30) {
-//                                  return "Repair notes must be at least 30 characters if service action Other is selected for service event";
-//                                }
-                              }
-                            },
-                            key: Key(kObservationNotesKey),
-                            maxLength: 50,
-                            maxLines: 5,
-                            decoration: InputDecoration(
-                              helperText: kObservationNotes,
-                              fillColor: Colors.black.withAlpha(6),
-                              border: InputBorder.none,
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(5.0)),
-                                  borderSide:
-                                  BorderSide(color: Colors.blue)),
-                              filled: true,
-                              contentPadding: EdgeInsets.only(
-                                  bottom: 10.0, left: 10.0, right: 10.0),
-                            ),
-                            style: TextStyle(
-                                color: Colors.grey, fontSize: 18)),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 20,
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: AppButton(
-                          keyButton: Key(kSubmitButtonKey),
-                          titleButton: kSubmitButton,
-                          onPressed: () {
-                            print(
-                                "Submit _pickedEquipmentWorkedOn : $_pickedEquipmentWorkedOn");
-                            print(
-                                "Submit _pickedEstimatedLeakAmount : $_pickedEstimatedLeakAmount");
-
-                            print("Submit Button was pressed by Arnaud");
-                            if (_formKey.currentState.validate()) {
-                              print("> validate");
-                              _formKey.currentState.save();
-                              print("> saved");
-                              print("> $typeOfService");
-                              if (typeOfService == ServiceType.Shutdown) {
-                                submitShutdown().then((succeeded) {
-                                  FormBuild.showFlushBarMessage(context,
-                                      kAddServiceEventSuccessfulMessage, () {
-                                        Navigator.of(context).pop();
-                                      });
-                                }).catchError((error) {
-                                  FormBuild.showFlushBarMessage(
-                                      context, error, () {});
-                                });
-                              }
-                              else if (typeOfService ==
-                                  ServiceType.ServiceAndLeakRepair) {
-                                submitServiceAndLeakRepair().then((succeeded) {
-                                  FormBuild.showFlushBarMessage(context,
-                                      kAddServiceEventSuccessfulMessage, () {
-                                        Navigator.of(context).pop();
-                                      });
-                                }).catchError((error) {
-                                  FormBuild.showFlushBarMessage(
-                                      context, error, () {});
-                                });
-                              }
-                              else if (typeOfService ==
-                                  ServiceType.LeakInspection) {
-                                submitLeakInspection().then((succeeded) {
-                                  FormBuild.showFlushBarMessage(context,
-                                      kAddServiceEventSuccessfulMessage, () {
-                                        Navigator.of(context).pop();
-                                      });
-                                }).catchError((error) {
-                                  print("submitLeakInspection > Error $error");
-                                  FormBuild.showFlushBarMessage(
-                                      context, error, () {});
-                                });
-                              }
-                            }
+                            });
                           },
                         ),
+                      ]),
+                      Row(children: <Widget>[
+                        AppCancellableTextField(
+                            initialValue: _pickedLeakDetectionMethod,
+                            sourcesDropdown: this.leakDetectionMethod,
+                            textLabel: kLeakDetectionMethod,
+                            textError: "Required",
+                            isRequired: true,
+                            textKey: kLeakDetectionMethodKey,
+                            onChangedValue: (value) {
+                              _pickedLeakDetectionMethod = value;
+                            }),
+                      ]),
+                      Row(children: <Widget>[
+                        AppCancellableTextField(
+                            initialValue: _wasLeakFound,
+                            sourcesDropdown: this.wasLeakFound,
+                            textLabel: kWasLeakFound,
+                            textError:
+                            "No Was Leak Found value found for service event",
+                            isRequired: true,
+                            textKey: kWasLeakFoundKey,
+                            onChangedValue: (dropdown) {
+                              print("Was leak found selected > $dropdown");
+                              _wasLeakFound = null;
+                              setState(() {
+                                if (dropdown is DropdownItem) {
+                                  if (dropdown.name == "Yes") {
+                                    _wasLeakFound = true;
+                                  } else if (dropdown.name == "No") {
+                                    _wasLeakFound = false;
+                                  }
+                                }
+                              });
+                            })
+                      ]),
+                      Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
+                        FormBuild.buildDatePicker(
+                            onValidated: (value) {
+                              if (_pickedServiceDate == null)
+                                return "No service date found for service event";
+                              if (_pickedServiceDate.isAfter(DateTime.now()))
+                                return "Future service date found for service event";
+                            },
+                            onPressed: (value) {
+                              print(
+                                  "$kServiceDateKey buildDatePicker > onPressed is $value");
+                              _pickedServiceDate = value;
+                            },
+                            key: Key(kServiceDateKey),
+                            helper: kServiceDate),
+                      ]),
+                      //  === PART === Second part of the form
+                      _buildInspection(_wasLeakFound, this.typeOfService,
+                          verificationLeakFound: _wasVerificationLeakFound),
+                      (_pickedEquipmentWorkedOn != null)
+                          ? _buildMaterialTransfer(this.typeOfService)
+                          : Container(),
+                      //  === PART === Submit
+                      // This is for giving some space for the bottom button 'SUBMIT'
+                      Row(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: TextFormField(
+                                onSaved: (value) {
+                                  _pickedObservationNotes = value;
+                                },
+                                validator: (value) {
+                                  if (_pickedTypeOfService.id == 3 ||
+                                      _pickedTypeOfService.id == 5) {
+                                    if (value.isEmpty)
+                                      return "No repair notes found for service event with asset ID";
+    //                                if (_pickedServiceAction.id == 9 &&
+    //                                    value.length <= 30) {
+    //                                  return "Repair notes must be at least 30 characters if service action Other is selected for service event";
+    //                                }
+                                  }
+                                },
+                                key: Key(kObservationNotesKey),
+                                maxLength: 50,
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  helperText: kObservationNotes,
+                                  fillColor: Colors.black.withAlpha(6),
+                                  border: InputBorder.none,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
+                                      borderSide:
+                                      BorderSide(color: Colors.blue)),
+                                  filled: true,
+                                  contentPadding: EdgeInsets.only(
+                                      bottom: 10.0, left: 10.0, right: 10.0),
+                                ),
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 18)),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: AppButton(
+                              keyButton: Key(kSubmitButtonKey),
+                              titleButton: kSubmitButton,
+                              onPressed: () {
+                                print(
+                                    "Submit _pickedEquipmentWorkedOn : $_pickedEquipmentWorkedOn");
+                                print(
+                                    "Submit _pickedEstimatedLeakAmount : $_pickedEstimatedLeakAmount");
+    
+                                print("Submit Button was pressed by Arnaud");
+                                if (_formKey.currentState.validate()) {
+                                  print("> validate");
+                                  _formKey.currentState.save();
+                                  print("> saved");
+                                  print("> $typeOfService");
+                                  if (typeOfService == ServiceType.Shutdown) {
+                                    submitShutdown().then((succeeded) {
+                                      FormBuild.showFlushBarMessage(context,
+                                          kAddServiceEventSuccessfulMessage, () {
+                                            Navigator.of(context).pop();
+                                          });
+                                    }).catchError((error) {
+                                      FormBuild.showFlushBarMessage(
+                                          context, error, () {});
+                                    });
+                                  }
+                                  else if (typeOfService ==
+                                      ServiceType.ServiceAndLeakRepair) {
+                                    submitServiceAndLeakRepair().then((succeeded) {
+                                      FormBuild.showFlushBarMessage(context,
+                                          kAddServiceEventSuccessfulMessage, () {
+                                            Navigator.of(context).pop();
+                                          });
+                                    }).catchError((error) {
+                                      FormBuild.showFlushBarMessage(
+                                          context, error, () {});
+                                    });
+                                  }
+                                  else if (typeOfService ==
+                                      ServiceType.LeakInspection) {
+                                    submitLeakInspection().then((succeeded) {
+                                      FormBuild.showFlushBarMessage(context,
+                                          kAddServiceEventSuccessfulMessage, () {
+                                            Navigator.of(context).pop();
+                                          });
+                                    }).catchError((error) {
+                                      print("submitLeakInspection > Error $error");
+                                      FormBuild.showFlushBarMessage(
+                                          context, error, () {});
+                                    });
+                                  }
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 20,
+                          )
+                        ],
                       ),
                     ],
+                  );
+        return Scaffold(
+          key: key,
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+              elevation: 0.0,
+              backgroundColor: Colors.white.withOpacity(0.0),
+              leading: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black87,
                   ),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 20,
-                      )
-                    ],
-                  ),
-                ],
-              ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })),
+          body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            onPanDown: (_) {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: SafeArea(
+                child: (_isDropdownsLoaded == false)
+                    ? FormBuild.buildLoader()
+                    : Form(
+                  key: _formKey,
+                  child: addServiceEventListView,
             )),
       ),
     );
