@@ -156,12 +156,12 @@ class ApiService {
       "Instance-Id": "$instanceID"
     };
 
-    print("### getResults for DropdownList > URL $url");
-    print("### getResults for DropdownList > Headers $headers");
+    // print("### getResults for DropdownList > URL $url");
+    // print("### getResults for DropdownList > Headers $headers");
 
     return await client.get(url, headers: headers).then((http.Response response) {
       final res = response.body;
-      print("#### response from $url : $res");
+      // print("#### response from $url : $res");
       try
       {
         dynamic resultMap = jsonDecode(res);
@@ -182,12 +182,12 @@ class ApiService {
       "Instance-Id": "$instanceID"
     };
 
-    print("### getResults > URL $url");
-    print("### getResults > Headers $headers");
+    // print("### getResults > URL $url");
+    // print("### getResults > Headers $headers");
 
     return await client.get(url, headers: headers).then((http.Response response) {
       final res = response.body;
-      print("#### response from $url : $res");
+      // print("#### response from $url : $res");
       try
       {
         List<dynamic> resultMap = jsonDecode(res);

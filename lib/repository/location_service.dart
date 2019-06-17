@@ -32,8 +32,8 @@ class GeolocationService {
         if (_permission) {
           location = await locationService.getLocation();
           _locationSubscription = locationService.onLocationChanged().listen((LocationData result) async {
-            print("latitude : ${result.latitude}");
-            print("longitude : ${result.longitude}");
+            // print("latitude : ${result.latitude}");
+            // print("longitude : ${result.longitude}");
             currentLocation = result;
           });
         }
