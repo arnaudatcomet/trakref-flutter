@@ -6,6 +6,7 @@ import 'package:trakref_app/screens/search/page_search_bloc.dart';
 import 'package:trakref_app/screens/home/page_dashboard_bloc.dart';
 import 'package:trakref_app/screens/settings/page_settings_bloc.dart';
 import 'package:trakref_app/viewmodel/dropdown_model.dart';
+import 'package:trakref_app/widget/dropdown_widget.dart';
 
 class TabScreens extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _TabScreensState extends State<TabScreens> {
         return (model.state == ViewState.Busy)
             ? Container(
                 color: Colors.white,
-                child: Center(child: CircularProgressIndicator()))
+                child: FormBuild.buildLoader())
             : DefaultTabController(
                 length: 4,
                 child: new Scaffold(
