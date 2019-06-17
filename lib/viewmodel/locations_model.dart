@@ -7,8 +7,16 @@ import 'package:trakref_app/viewmodel/base_model.dart';
 
 class LocationsModel extends BaseModel {
   TrakrefAPIService _api = TrakrefAPIService();
+  GeolocationService _geolocation = GeolocationService();
   List<Location> locations;
   TextEditingController controller;
+
+  startGeolocation() {
+    print("startGeolocation");
+    _geolocation.initPlatformState();
+    print("${GeolocationService().currentLocation}");
+    
+  }
 
   Future fetchLocations() async {
     setState(ViewState.Busy);
@@ -29,11 +37,25 @@ class LocationsModel extends BaseModel {
     setState(ViewState.Idle);
   }
 
+  Future fetchLocationsAroundMe() async {
+    setState(ViewState.Busy);
+    print("_geolocation.currentLocation is ${_geolocation.currentLocation}");
+    if (_geolocation.currentLocation == null) {
+      setState(ViewState.Error);
+    } else {
+      double currentLatitude = _geolocation.currentLocation?.latitude;
+      double currentLongitude = _geolocation.currentLocation?.longitude;
+      locations = await _api.getLocationAroundMe(
+          currentLatitude, currentLongitude, 100);
+      setState(ViewState.Idle);
+    }
+  }
+
   List<Location> fetchLocationsFromSearch(String searchedText) {
     if (locations == null) return [];
 
     List<Location> _filteredLocationsResult = [];
-    
+
     locations.forEach((location) {
       String physicalAddress1 = location.physicalAddress1 ?? "";
       String physicalCity = location.physicalCity ?? "";

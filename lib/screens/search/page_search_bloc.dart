@@ -68,8 +68,8 @@ class _PageSearchBlocState extends State<PageSearchBloc>
       }
     });
 
-    // Instantiate the current location
-    GeolocationService().initPlatformState();
+    // // Instantiate the current location
+    // GeolocationService().initPlatformState();
 
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(onTabControllerIndexChanged);
@@ -128,26 +128,14 @@ class _PageSearchBlocState extends State<PageSearchBloc>
                       }
                     }
 
-// TODO : need to refactor that
                     if (showAroundMe) {
-                      double currentLatitude =
-                          GeolocationService().currentLocation.latitude;
-                      double currentLongitude =
-                          GeolocationService().currentLocation.longitude;
-                      api
-                          .getLocationAroundMe(
-                              currentLatitude, currentLongitude, 100)
-                          .then((locationResults) {
-                        setState(() {
-                          // _locationsResult = locationResults;
-                        });
-                      });
+                      BaseView<LocationsModel>(
+                        onModelReady: (model) => model.fetchLocationsAroundMe(),
+                      );
                     } else {
-                      api.getLocations().then((locationResults) {
-                        setState(() {
-                          // _locationsResult = locationResults;
-                        });
-                      });
+                      BaseView<LocationsModel>(
+                        onModelReady: (model) => model.fetchLocations(),
+                      );
                     }
 
                     setState(() {
@@ -211,37 +199,38 @@ class _PageSearchBlocState extends State<PageSearchBloc>
                     physics: BouncingScrollPhysics(),
                     controller: _tabController,
                     children: <Widget>[
-                      BaseView<WorkOrdersModel>(
-                          onModelReady: (model) => model.fetchWorkOrders(),
-                          builder: (context, model, child) {
-                            List<WorkOrder> orders = model.orders;
-                            if (_textController.text.isEmpty == false &&
-                                (_tabController.index ==
-                                    PageSearchTab.ServiceEvents.index)) {
-                              orders =
-                                  model.fetchFromSearch(_textController.text);
-                            }
+                      BaseView<WorkOrdersModel>(onModelReady: (model) {
+                        model.fetchWorkOrders();
+                        model.controller = _textController;
+                        model.controller.addListener(() => setState(() {}));
+                      }, builder: (context, model, child) {
+                        List<WorkOrder> orders = model.orders;
+                        if (_textController.text.isEmpty == false &&
+                            (_tabController.index ==
+                                PageSearchTab.ServiceEvents.index)) {
+                          orders = model.fetchFromSearch(_textController.text);
+                        }
 
-                            return (model.state == ViewState.Busy)
-                                ? FormBuild.buildLoader()
-                                : RefreshIndicator(
-                                    color: AppColors.blueTurquoise,
-                                    child: ServiceEventResultWidget(
-                                      orders: orders,
-                                      serviceEventSelectedHandle: (order) {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (builderContext) {
-                                          return PageWorkOrderDetailBloc(
-                                              order: order);
-                                        }));
-                                      },
-                                    ),
-                                    onRefresh: () {
-                                      model.fetchWorkOrders();
-                                    },
-                                  );
-                          }),
+                        return (model.state == ViewState.Busy)
+                            ? FormBuild.buildLoader()
+                            : RefreshIndicator(
+                                color: AppColors.blueTurquoise,
+                                child: ServiceEventResultWidget(
+                                  orders: orders,
+                                  serviceEventSelectedHandle: (order) {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (builderContext) {
+                                      return PageWorkOrderDetailBloc(
+                                          order: order);
+                                    }));
+                                  },
+                                ),
+                                onRefresh: () {
+                                  model.fetchWorkOrders();
+                                },
+                              );
+                      }),
                       BaseView<CylindersModel>(
                           onModelReady: (model) => model.fetchCylinders(),
                           builder: (context, model, child) {
@@ -268,67 +257,70 @@ class _PageSearchBlocState extends State<PageSearchBloc>
                                       },
                                     ),
                                     onRefresh: () {
+                                      _textController.clear();
                                       model.fetchCylinders();
                                     },
                                   );
                           }),
-                      BaseView<LocationsModel>(
-                          onModelReady: (model) => model.fetchLocations(),
-                          builder: (context, model, child) {
-                            List<Location> locations = model.locations;
-                            if (_textController.text.isEmpty == false &&
-                                (_tabController.index ==
-                                    PageSearchTab.Locations.index)) {
-                              locations = model.fetchLocationsFromSearch(
-                                  _textController.text);
-                            }
+                      BaseView<LocationsModel>(onModelReady: (model) {
+                        // Start the geolocation service, will request permission
+                        model.startGeolocation();
 
-                            return (model.state == ViewState.Busy)
-                                ? FormBuild.buildLoader()
-                                : RefreshIndicator(
-                                    color: AppColors.blueTurquoise,
-                                    child: LocationResultWidget(
-                                      locations: locations,
-                                      aroundMeActionHandle: () {
-                                        print("aroundMeActionHandle");
-                                        FilterPreferenceService().setFilter(
-                                            SearchFilterOptions.AroundMe, true);
-                                            // NOTE: Refactor thiat
-                                        double currentLatitude =
-                                            GeolocationService()
-                                                .currentLocation
-                                                .latitude;
-                                        double currentLongitude =
-                                            GeolocationService()
-                                                .currentLocation
-                                                .longitude;
-                                        TrakrefAPIService()
-                                            .getLocationAroundMe(
-                                                currentLatitude,
-                                                currentLongitude,
-                                                100)
-                                            .then((locationResults) {
-                                          setState(() {
-                                            // _locationsResult = locationResults;
-                                          });
-                                        });
-                                      },
-                                      locationSelectedHandle:
-                                          (selectedLocation) {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (builderContext) {
-                                          return PageLocationDetailBloc(
-                                            location: selectedLocation,
-                                          );
-                                        }));
-                                      },
-                                    ),
-                                    onRefresh: () {
-                                      model.fetchLocations();
-                                    },
+                        // Grab all locations, independantly from current location for now
+                        model.fetchLocations();
+                      }, builder: (context, model, child) {
+                        List<Location> locations = model.locations;
+                        if (_textController.text.isEmpty == false &&
+                            (_tabController.index ==
+                                PageSearchTab.Locations.index)) {
+                          locations = model
+                              .fetchLocationsFromSearch(_textController.text);
+                        }
+
+                        if (model.state == ViewState.Busy) {
+                          return FormBuild.buildLoader();
+                        } else if (model.state == ViewState.Idle) {
+                          return RefreshIndicator(
+                            color: AppColors.blueTurquoise,
+                            child: LocationResultWidget(
+                              locations: locations,
+                              aroundMeActionHandle: () {
+                                print("aroundMeActionHandle");
+                                FilterPreferenceService().setFilter(
+                                    SearchFilterOptions.AroundMe, true);
+                                model.fetchLocationsAroundMe();
+                              },
+                              locationSelectedHandle: (selectedLocation) {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (builderContext) {
+                                  return PageLocationDetailBloc(
+                                    location: selectedLocation,
                                   );
-                          })
+                                }));
+                              },
+                            ),
+                            onRefresh: () {
+                              _textController.clear();
+                              model.fetchLocations();
+                            },
+                          );
+                        } else if (model.state == ViewState.Error) {
+                          return RefreshIndicator(
+                            color: AppColors.blueTurquoise,
+                            child: ListView(children: <Widget>[
+                              Text("An error happened. Please try again",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.redAccent,
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                            onRefresh: () {
+                              _textController.clear();
+                              model.fetchLocations();
+                            },
+                          );
+                        }
+                      })
                     ],
                   ),
                 ),

@@ -7,6 +7,11 @@ class BaseModel extends ChangeNotifier {
   
   setState(ViewState state) {
     _state = state;
-    notifyListeners();
+    try {
+      notifyListeners();
+    }
+    catch (error) {
+      print("BaseModel > Trying to setState threw an exception '$error'");
+    }
   }
 }

@@ -16,7 +16,6 @@ class SearchFilter extends StatefulWidget {
 }
 
 class _SearchFilterState extends State<SearchFilter> {
-  bool exampleValue = true;
   bool aroundMeFilterValue = false;
   bool openedFilterValue = false;
   FilterPreferenceService prefs =  FilterPreferenceService();
@@ -113,10 +112,10 @@ class _SearchFilterState extends State<SearchFilter> {
                   onPressed: () {
                     // Prepare the options of the filter
                     List<SearchFilterOptions> options = [];
-                    if (aroundMeFilterValue) {
+                    if (aroundMeFilterValue != null && aroundMeFilterValue == true) {
                       options.add(SearchFilterOptions.AroundMe);
                     }
-                    if (openedFilterValue) {
+                    if (openedFilterValue!= null && openedFilterValue == true) {
                       options.add(SearchFilterOptions.Opened);
                     }
                     widget.delegate(options);
