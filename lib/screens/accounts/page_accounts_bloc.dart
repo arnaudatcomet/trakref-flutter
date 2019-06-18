@@ -132,7 +132,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
                         onTap: () {
                           print("select itemID is ${item.instanceID}");
         
-                          Account selectedAccount = model.accounts.where((Account account) => account.instanceID == item.instanceID).first;
+                          Account selectedAccount = (model.accounts ?? []).where((Account account) => account.instanceID == item.instanceID).first;
                           // Show the details
                           print("widget.type ${widget.type}");
                           // Save the instanceID and selected account
@@ -150,7 +150,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
                         child: this.makeAccountTile(tile)
                         );
                   },
-                  itemCount: (_searchIsActive == false) ? model.accounts.length : _searchResult.length
+                  itemCount: (_searchIsActive == false) ? (model.accounts ?? []).length : _searchResult.length
                 );
                 return Scaffold(
                 appBar: (!_searchIsActive) ? searchActiveAppBar() : searchInactiveAppBar(),
