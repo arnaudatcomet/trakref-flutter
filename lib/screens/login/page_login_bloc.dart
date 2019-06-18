@@ -10,6 +10,7 @@ import 'package:trakref_app/screens/base_view.dart';
 import 'package:trakref_app/screens/login/reset/page_reset_password_bloc.dart';
 import 'package:trakref_app/viewmodel/login_model.dart';
 import 'package:trakref_app/widget/button_widget.dart';
+import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:trakref_app/widget/loading_widget.dart';
 
 class PageLoginBloc extends StatefulWidget {
@@ -134,16 +135,19 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                           await model.login(username, password);
                                       if (succeeded != null &&
                                           succeeded == true) {
+                                        print("Login was succedeed");
+
+                                        // Fetch the dropdowns
+                                        model.fetchDropdowns();
+
                                         print("Push to a next screen");
                                         _formKey.currentState.reset();
                                         Navigator.of(context).push(
                                             new MaterialPageRoute(builder:
                                                 (BuildContext context) {
                                           return PageAccountsBloc(
-                                                type: PageAccountsType.Home
-                                              );
+                                              type: PageAccountsType.Home);
                                         }));
-                                        print("Login was succedeed");
                                       } else {
                                         print("Login was failed");
                                       }
