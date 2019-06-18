@@ -23,7 +23,6 @@ class ApiService {
 
   static String getCylindersURL = "$baseURL/v3.21/cylinders";
 
-
   static String getLoginURL = "$baseURL/v3.21/login";
   static String getDropdownsURL = "$baseURL/v3.21/dropdowns";
   static String getDropdownsTestURL = "$baseTestURL/v3.21/dropdowns";
@@ -39,7 +38,8 @@ class ApiService {
 //  String _instanceID = '6';
   final String token;
   final String instanceID;
-  String apiKey = 'eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0=';
+  String apiKey =
+      'eyJJbnN0YW5jZUlEIjoxMzgsIlRva2VuIjoiTWF4aW1vIiwiR3JhbnREYXRlIiwiMjAxNS0wMS0xNCIsIkV4cGlyZURhdGUiOiIyMDM1LTEyLTMxIn0=';
 
   ApiService({this.token, this.instanceID});
 
@@ -50,9 +50,9 @@ class ApiService {
   Future<dynamic> get(String url) async {
     final headers = {
       "Content-Type": "application/json",
-      "Api-Key":"$apiKey",
-      "Authentication-Token":"$token",
-      "Instance-Id":"$instanceID"
+      "Api-Key": "$apiKey",
+      "Authentication-Token": "$token",
+      "Instance-Id": "$instanceID"
     };
     return client.get(url, headers: headers).then((http.Response response) {
       final res = response.body;
@@ -73,7 +73,9 @@ class ApiService {
     print("### post ### $item");
     print("### headers ### $headers");
 
-    return await client.post(url, headers: headers).then((http.Response response){
+    return await client
+        .post(url, headers: headers)
+        .then((http.Response response) {
       final res = response.body;
       print("post $url, result $res");
     });
@@ -89,8 +91,9 @@ class ApiService {
 
     String jsonString = json.encode([order.toJson()]);
 
-    return await client.post(url, headers: headers, body: jsonString, encoding: utf8).then((http.Response response){
-
+    return await client
+        .post(url, headers: headers, body: jsonString, encoding: utf8)
+        .then((http.Response response) {
       final res = response.body;
       // Catch error
       try {
@@ -99,8 +102,7 @@ class ApiService {
           print("postWorkOrder $url, error ${resMap['Message']}");
           return Future.error(resMap['Message']);
         }
-      }
-      catch (error) {
+      } catch (error) {
         print("postWorkOrder > Didn't find error on expected error:: $error");
       }
 
@@ -110,8 +112,7 @@ class ApiService {
         WorkOrder workOrder = WorkOrder.fromJson(resMap);
         print("postWorkOrder > workOrder:: $workOrder");
         return true;
-      }
-      catch (error) {
+      } catch (error) {
         return Future.error("Not found a work order as a response");
       }
     });
@@ -127,26 +128,31 @@ class ApiService {
 
     String jsonString = json.encode([asset.toJson()]);
 
-    return await client.post(url, headers: headers, body: jsonString, encoding: utf8).then((http.Response response){
+    return await client
+        .post(url, headers: headers, body: jsonString, encoding: utf8)
+        .then((http.Response response) {
       final res = response.body;
       print("post $url, result $res");
     });
   }
 
-  Future<dynamic> getLoginResponse(String url, String username, String password) async {
-    String basicAuth = 'Basic '+ base64Encode(utf8.encode('$username:$password'));
+  Future<dynamic> getLoginResponse(
+      String url, String username, String password) async {
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
     print('basicAuth $basicAuth');
-    final headers = {"API-Key": "$apiKey", "authorization":"$basicAuth"};
+    final headers = {"API-Key": "$apiKey", "authorization": "$basicAuth"};
     print("getLoginResponse $headers");
     return client.get(url, headers: headers);
   }
 
-  Future<List> getLocationAroundMe(double lat, double long, double range) async {
-    String getLocationURL = "${ApiService.baseURL}/v3.21/geolocation?latitude=$lat&longitude=$long&range=$range";
+  Future<List> getLocationAroundMe(
+      double lat, double long, double range) async {
+    String getLocationURL =
+        "${ApiService.baseURL}/v3.21/geolocation?latitude=$lat&longitude=$long&range=$range";
     print("getLocationURL $getLocationURL");
     return await getResults<Location>(getLocationURL);
   }
-
 
   Future<DropdownList> getDropdowns(String url) async {
     final headers = {
@@ -159,16 +165,16 @@ class ApiService {
     // print("### getResults for DropdownList > URL $url");
     // print("### getResults for DropdownList > Headers $headers");
 
-    return await client.get(url, headers: headers).then((http.Response response) {
+    return await client
+        .get(url, headers: headers)
+        .then((http.Response response) {
       final res = response.body;
       // print("#### response from $url : $res");
-      try
-      {
+      try {
         dynamic resultMap = jsonDecode(res);
         DropdownList dropdowns = DropdownList.fromJson(resultMap);
         return dropdowns;
-      }
-      catch(error) {
+      } catch (error) {
         Future.error(error);
       }
     });
@@ -182,14 +188,15 @@ class ApiService {
       "Instance-Id": "$instanceID"
     };
 
-    // print("### getResults > URL $url");
-    // print("### getResults > Headers $headers");
+    print("### getResults > URL $url");
+    print("### getResults > Headers $headers");
 
-    return await client.get(url, headers: headers).then((http.Response response) {
+    return await client
+        .get(url, headers: headers)
+        .then((http.Response response) {
       final res = response.body;
-      // print("#### response from $url : $res");
-      try
-      {
+      print("#### response from $url : $res");
+      try {
         List<dynamic> resultMap = jsonDecode(res);
 
         // For checking type of generic type T
@@ -242,8 +249,7 @@ class ApiService {
 
         // Nothing instead
         return [];
-      }
-      catch(error) {
+      } catch (error) {
         Future.error(error);
       }
     });
@@ -253,10 +259,16 @@ class ApiService {
     final headers = {
       "Content-Type": "application/json",
 //      "Userid":"$_userID",
-      "Api-Key":"$apiKey",
-      "Authentication-Token":"$token",
-      "Instance-Id":"$instanceID"
+      "Api-Key": "$apiKey",
+      "Authentication-Token": "$token",
+      "Instance-Id": "$instanceID"
     };
+    print("#### getStandard url $url ####");
+    print("apiKey $apiKey");
+    print("token $token");
+    print("instanceID $instanceID");
+    print("#####################");
+
     return client.get(url, headers: headers).then((http.Response response) {
       final res = response.body;
       return res;

@@ -1,17 +1,30 @@
 import 'package:flutter/widgets.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/models/account.dart';
+import 'package:trakref_app/repository/api/cached_api_service.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/viewmodel/base_model.dart';
 
 class AccountsModel extends BaseModel {
   TrakrefAPIService _api = TrakrefAPIService();
+  CachingAPIService _cachedApi = CachingAPIService();
   List<Account> accounts;
   TextEditingController controller;
 
-  Future fetchAccounts() async {
+  refreshAccounts() async {
+    _cachedApi.clearCachedAccount();
+    fetchAccounts();
+  }
+
+  fetchAccounts() async {
     setState(ViewState.Busy);
-    accounts = await _api.getAccounts();
+    // accounts = await _api.getAccounts();
+    if (_cachedApi.cachedAccounts == null) {
+      accounts = await _cachedApi.fetchCachedAccount();
+    }
+    else {
+      accounts = _cachedApi.cachedAccounts;
+    }
     setState(ViewState.Idle);
   }
 
@@ -20,8 +33,7 @@ class AccountsModel extends BaseModel {
   }
 
   List<Account> fetchFromSearch(List<Account> items, String searching) {
-    if (items == null) 
-      return [];
+    if (items == null) return [];
 
     return items.where((account) => account.name.contains(searching)).toList();
   }

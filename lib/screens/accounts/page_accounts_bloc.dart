@@ -109,55 +109,62 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
         model.fetchAccounts().then((results){
           model.controller = _controller;
           model.controller.addListener((){
-            print("model controller is listening to ${_controller.text}");
             _searchResult = model.fetchFromSearch(model.accounts, _controller.text).map((item) => AccountItem(account: item.name, accountID: item.ID)).toList();
-            print("_searchResult : ${_searchResult.length}");
             setState(() {
             });
           });
         });
       },
-      builder: (context, model, child) => Scaffold(
-        appBar: (!_searchIsActive) ? searchActiveAppBar() : searchInactiveAppBar(),
-        backgroundColor: Colors.white,
-        body: model.state == ViewState.Busy ? FormBuild.buildLoader()
-        : ListView.builder(
-          itemBuilder: (context, index) {
-              Account item = model.accounts[index];
-              AccountItem tile = AccountItem(
-                account: item.name,
-                accountID: item.ID
-              );
-
-              if (_searchIsActive == true) {
-                tile = _searchResult[index];
-                print("search is active ${tile.account}");
-              }
-              return InkWell(
-                onTap: () {
-                  print("select itemID is ${item.instanceID}");
-
-                  Account selectedAccount = model.accounts.where((Account account) => account.instanceID == item.instanceID).first;
-                  // Show the details
-                  print("widget.type ${widget.type}");
-                  // Save the instanceID and selected account
-                  TrakrefAPIService().setSelectedAccount(selectedAccount);
-                  TrakrefAPIService().setInstanceID(selectedAccount.instanceID.toString());
-
-                  if (widget.type == PageAccountsType.Details) {
-                  Navigator.of(context).pop();
-                  }
-                  // Show the home page
-                  else if (widget.type == PageAccountsType.Home) {
-                    Navigator.of(context).pushNamed("/home");
-                  }
-                },
-                child: this.makeAccountTile(tile)
+      builder: (context, model, child) {
+        var accountListView = ListView.builder(
+                  itemBuilder: (context, index) {
+                      Account item = model.accounts[index];
+                      AccountItem tile = AccountItem(
+                        account: item.name,
+                        accountID: item.ID
+                      );
+        
+                      if (_searchIsActive == true) {
+                        tile = _searchResult[index];
+                        print("search is active ${tile.account}");
+                      }
+                      return InkWell(
+                        onTap: () {
+                          print("select itemID is ${item.instanceID}");
+        
+                          Account selectedAccount = model.accounts.where((Account account) => account.instanceID == item.instanceID).first;
+                          // Show the details
+                          print("widget.type ${widget.type}");
+                          // Save the instanceID and selected account
+                          TrakrefAPIService().setSelectedAccount(selectedAccount);
+                          TrakrefAPIService().setInstanceID(selectedAccount.instanceID.toString());
+        
+                          if (widget.type == PageAccountsType.Details) {
+                          Navigator.of(context).pop();
+                          }
+                          // Show the home page
+                          else if (widget.type == PageAccountsType.Home) {
+                            Navigator.of(context).pushNamed("/home");
+                          }
+                        },
+                        child: this.makeAccountTile(tile)
+                        );
+                  },
+                  itemCount: (_searchIsActive == false) ? model.accounts.length : _searchResult.length
                 );
-          },
-          itemCount: (_searchIsActive == false) ? model.accounts.length : _searchResult.length
-        ),
-      ),
+                return Scaffold(
+                appBar: (!_searchIsActive) ? searchActiveAppBar() : searchInactiveAppBar(),
+                backgroundColor: Colors.white,
+                body: model.state == ViewState.Busy ? FormBuild.buildLoader()
+                : RefreshIndicator(
+                  color: AppColors.blueTurquoise,
+                  child: accountListView,
+                  onRefresh: () {
+                    model.refreshAccounts();
+                  },
+                ),
+      );
+      },
     );
   }
 }

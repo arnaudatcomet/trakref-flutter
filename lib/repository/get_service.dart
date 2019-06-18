@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async' show Future;
 import 'package:flutter/material.dart';
 import 'package:trakref_app/repository/api_service.dart';
+import 'package:meta/meta.dart';
 
 final BASE_URL = "https://api.trakref.com/v3.21";
 
@@ -168,22 +169,24 @@ class LeakLocationDropdown {
 
 class DropdownService {
   final String dropdownsURL = "$BASE_URL/dropdowns";
-  static final DropdownService _shared = new DropdownService._internal();
 
-  factory DropdownService() {
+  DropdownService._privateConstructor();
+  static final DropdownService _shared = DropdownService._privateConstructor();
+
+  factory DropdownService(){
     return _shared;
   }
-
-  DropdownService._internal();
-
+  
   Dropdowns dropdowns;
   VoidCallback onLoaded;
   ApiService api = ApiService();
   final JsonDecoder _decoder = new JsonDecoder();
 
   Future<Dropdowns> loadDropdowns() async {
+    print("DropdownService is loading dropdowns");
     String jsonResponse = await api.getStandard(dropdownsURL);
     dropdowns = Dropdowns.fromJson(_decoder.convert(jsonResponse));
+    print("DropdownService is dropdowns");
     this.onLoaded();
     return dropdowns;
   }

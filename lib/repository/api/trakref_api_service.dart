@@ -20,18 +20,19 @@ class TrakrefAPIService {
   static String SelectedProfileTRKey = "Selected-Profile";
   static String SelectedWorkOrderTRKey = "Selected-WorkOrder";
 
-  static final TrakrefAPIService _shared = new TrakrefAPIService
-      ._internal();
+  // Singleton TrakrefAPI services
+  TrakrefAPIService._privateConstructor();
+  static final TrakrefAPIService _shared = TrakrefAPIService._privateConstructor();
+
+  factory TrakrefAPIService(){
+    return _shared;
+  }
 
   // API to call the endpoint
   ApiService apiService = ApiService();
 
   // Preferences to store the current instanceID for example
   SharedPreferences apiPreference;
-
-  factory TrakrefAPIService() {
-    return _shared;
-  }
 
   // Private method
   Future<bool> _setValues( String key, String val) async{
@@ -89,7 +90,7 @@ class TrakrefAPIService {
     if (workOrderString == null) {
       return Future.error("No Work Order found for selected Work Order");
     }
-      Map workOrderMap = jsonDecode(workOrderString);
+    Map workOrderMap = jsonDecode(workOrderString);
     WorkOrder workOrder = WorkOrder.fromJson(workOrderMap);
     return workOrder;
   }
@@ -144,6 +145,7 @@ class TrakrefAPIService {
     );
     return api;
   }
+  
   // Access to different API services endpoint
   // Showing the GET Dropdowns
   Future<DropdownList> getDropdown() async {
@@ -170,6 +172,9 @@ class TrakrefAPIService {
       instanceID: instanceID,
       token: token
     );
+    print("#### getAccounts ####");
+    print("token $token");
+    print("instanceID $instanceID");
     return await api.getResults<Account>(ApiService.getAccountsURL);
   }
 
