@@ -71,7 +71,11 @@ class _PageAddingBloc extends State<PageAddingBloc> with AutomaticKeepAliveClien
         .push(new MaterialPageRoute(builder: (BuildContext context) {
       return PageSelectCurrentWorkOrderBloc(
         delegate: (WorkOrder selected) {
+          print("pushSelectWorkOrder ${selected.workOrderNumber} with id: ${selected.id}");
           model.setCurrentWorkOrder(selected);
+          setState(() {
+            
+          });
         },
       );
     }));
@@ -82,6 +86,7 @@ class _PageAddingBloc extends State<PageAddingBloc> with AutomaticKeepAliveClien
     return BaseView<AddingNewMenuModel>(
       onModelReady: (model) => model.fetchCurrentWorkOrder(),
       builder: (context, model, child) {
+        print("AddingNewMenuModel > fetchCurrentWorkOrder ${model.currentOrder}");
         List<Widget> rows;
         WorkOrder currentWorkOrder = model.currentOrder;
         if (model.currentOrder == null) {

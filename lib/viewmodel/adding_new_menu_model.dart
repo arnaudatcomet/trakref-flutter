@@ -18,6 +18,7 @@ class AddingNewMenuModel extends BaseModel {
   setCurrentWorkOrder(WorkOrder order) async {
     setState(ViewState.Busy);
     _api.setWorkOrder(order);
+    _currentOrder = order;
     setState(ViewState.Idle);
   }
 }
