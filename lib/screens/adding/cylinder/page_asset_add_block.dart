@@ -7,6 +7,7 @@ import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/dropdown.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
+import 'package:trakref_app/repository/api/cached_api_service.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/adding/app_cancellable_textfield_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
@@ -127,7 +128,8 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
     maxGasWeightController.addListener(onMaxGasWeightChanged);
 
     // GET dropdowns
-    TrakrefAPIService().getDropdown().then((results) {
+    DropdownList results = CachingAPIService().cachedDropdowns ?? [];
+    // TrakrefAPIService().getDropdown().then((results) {
       coolingApplianceStatuses = results.coolingApplianceStatuses;
       //            if (asset.AssetTypeID != 3 && asset.AssetTypeID != 4 && asset.AssetSubtypeID != 83 && asset.AssetSubtypeID != 84)
       //                ThrowException("Error: Can only create cylinders from the mobile app");
@@ -147,7 +149,7 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
 
         setState(() {});
       });
-    });
+    // });
 
     super.initState();
   }
