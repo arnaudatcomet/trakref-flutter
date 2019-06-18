@@ -1,15 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:trakref_app/models/account.dart';
-import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
-import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/settings/support/page_topics_bloc.dart';
 import 'package:trakref_app/screens/settings/account_detail/page_account_detail_bloc.dart';
 import 'package:trakref_app/screens/settings/profile_detail/page_profile_detail_bloc.dart';
-import 'package:trakref_app/service_locator.dart';
-import 'package:trakref_app/viewmodel/workorders_model.dart';
 
 class PageSettingsBloc extends StatefulWidget {
   @override

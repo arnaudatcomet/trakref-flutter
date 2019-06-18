@@ -18,7 +18,6 @@ class AccountsModel extends BaseModel {
 
   fetchAccounts() async {
     setState(ViewState.Busy);
-    // accounts = await _api.getAccounts();
     if (_cachedApi.cachedAccounts == null) {
       accounts = await _cachedApi.fetchCachedAccount();
     }
