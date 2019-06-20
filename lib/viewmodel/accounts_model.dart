@@ -2,11 +2,18 @@ import 'package:flutter/widgets.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/repository/api/cached_api_service.dart';
+import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/viewmodel/base_model.dart';
 
 class AccountsModel extends BaseModel {
   CachingAPIService _cachedApi = CachingAPIService();
-  List<Account> accounts;
+  TrakrefAPIService _api = TrakrefAPIService();
+  List<Account> get accounts => _accounts;
+  List<Account> _accounts;
+
+  String get currentInstanceID => _currentInstanceID;
+  String _currentInstanceID;
+
   TextEditingController controller;
 
   refreshAccounts() async {
@@ -17,11 +24,16 @@ class AccountsModel extends BaseModel {
   fetchAccounts() async {
     setState(ViewState.Busy);
     if (_cachedApi.cachedAccounts == null) {
-      accounts = await _cachedApi.fetchCachedAccount();
+      _accounts = await _cachedApi.fetchCachedAccount();
+    } else {
+      _accounts = _cachedApi.cachedAccounts;
     }
-    else {
-      accounts = _cachedApi.cachedAccounts;
-    }
+    setState(ViewState.Idle);
+  }
+
+  fetchCurrentAccount() async {
+    setState(ViewState.Busy);
+    _currentInstanceID = await _api.getInstanceID();
     setState(ViewState.Idle);
   }
 
@@ -33,5 +45,14 @@ class AccountsModel extends BaseModel {
     if (items == null) return [];
 
     return items.where((account) => account.name.contains(searching)).toList();
+  }
+
+  selectAccount(int instanceID) {
+    Account selectedAccount = (accounts ?? [])
+        .where((Account account) => account.instanceID == instanceID)
+        .first;
+    // Save the instanceID and selected account
+    _api.setSelectedAccount(selectedAccount);
+    _api.setInstanceID(selectedAccount.instanceID.toString());
   }
 }
