@@ -56,19 +56,6 @@ class _PageSearchBlocState extends State<PageSearchBloc>
 
   @override
   void initState() {
-    // Grab default value for the assigned to me
-    FilterPreferenceService()
-        .getValues(SearchFilterOptions.AssignedToMe)
-        .then((assignedToMe) {
-      if (mounted) {
-        _assignedtoMe = assignedToMe;
-        setState(() {});
-      }
-    });
-
-    // // Instantiate the current location
-    // GeolocationService().initPlatformState();
-
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(onTabControllerIndexChanged);
 
@@ -135,11 +122,6 @@ class _PageSearchBlocState extends State<PageSearchBloc>
                         onModelReady: (model) => model.fetchLocations(),
                       );
                     }
-
-                    setState(() {
-                      _assignedtoMe = (listOptions
-                          .contains(SearchFilterOptions.AssignedToMe));
-                    });
 
                     print("listOptions $listOptions");
                   },
