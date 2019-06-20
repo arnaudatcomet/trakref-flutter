@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api/cached_api_service.dart';
-import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/viewmodel/base_model.dart';
 
 class WorkOrderSelectModel extends BaseModel {
@@ -25,7 +24,6 @@ class WorkOrderSelectModel extends BaseModel {
 
     // Sort the work orders
     orders.sort((event1, event2) {
-      print("Compare '${event1.location}' > '${event2.location}'");
       return (event1.location ?? "").compareTo(event2.location ?? "");
     });
 
