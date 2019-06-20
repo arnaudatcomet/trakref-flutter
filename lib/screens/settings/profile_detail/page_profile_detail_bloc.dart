@@ -1,10 +1,8 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:trakref_app/constants.dart';
+import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/main.dart';
-import 'package:trakref_app/repository/api/trakref_api_service.dart';
-import 'package:trakref_app/repository/api_service.dart';
+import 'package:trakref_app/screens/base_view.dart';
+import 'package:trakref_app/viewmodel/profile_model.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:trakref_app/models/info_user.dart';
 
@@ -15,32 +13,9 @@ class PageProfileDetailBloc extends StatefulWidget {
 }
 
 class _PageProfileDetailBloc extends State<PageProfileDetailBloc> {
-  InfoUser user;
-  TrakrefAPIService api = TrakrefAPIService();
-
   @override
   void initState() {
     super.initState();
-
-    // Grab the user from sharedpreferences
-    api.getSelectedProfile().then((infoUser){
-      setState(() {
-        user = infoUser;
-      });
-
-      if (infoUser == null) {
-        print("infoUser is empty!");
-      }
-      else {
-        print("infoUser ${user}");
-        print("infoUser.user ${user.user}");
-        print("FullNameKey ${user.user?.fullName}");
-        print("CompanyKey ${user.user?.company}");
-        print("FavoriteLeakTestMethodKey ${user.user?.preferredLeakDetectionMethod}");
-        print("PhoneNumberKey ${user.user?.phone}");
-      }
-
-    });
   }
 
   Widget buildTextfieldRow(String key, String label, String initialValue) {
@@ -85,13 +60,16 @@ class _PageProfileDetailBloc extends State<PageProfileDetailBloc> {
 
   @override
   void dispose() {
-    api.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BaseView<ProfileModel>(
+      onModelReady: (model) => model.fetchProfile(),
+      builder: (context, model, child) {
+        return (model.state == ViewState.Busy) ? FormBuild.buildLoader():
+        Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
@@ -104,8 +82,10 @@ class _PageProfileDetailBloc extends State<PageProfileDetailBloc> {
           backgroundColor: Colors.white.withOpacity(0.0),
         ),
         body: SafeArea(
-            child: buildInfo(context, user)
+            child: buildInfo(context, model.currentProfile)
         )
+    );
+      },
     );
   }
 }

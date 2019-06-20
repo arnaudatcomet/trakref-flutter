@@ -8,6 +8,7 @@ import 'package:trakref_app/viewmodel/cylinder_model.dart';
 import 'package:trakref_app/viewmodel/dropdown_model.dart';
 import 'package:trakref_app/viewmodel/locations_model.dart';
 import 'package:trakref_app/viewmodel/login_model.dart';
+import 'package:trakref_app/viewmodel/profile_model.dart';
 import 'package:trakref_app/viewmodel/workorder_select_model.dart';
 import 'package:trakref_app/viewmodel/workorders_model.dart';
 
@@ -18,6 +19,7 @@ setupLocator() {
   locator.registerLazySingleton( () => ApiService() );
   locator.registerLazySingleton( () => CachingAPIService() );
   
+  locator.registerFactory(() => ProfileModel());
   locator.registerFactory(() => WorkOrderSelectModel());
   locator.registerFactory(() => DropdownsModel());
   locator.registerFactory(() => AccountsModel());
