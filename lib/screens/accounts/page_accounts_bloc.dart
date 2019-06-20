@@ -8,10 +8,7 @@ import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/viewmodel/accounts_model.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 
-enum PageAccountsType {
-  Details,
-  Home
-}
+enum PageAccountsType { Details, Home }
 
 class PageAccountsBloc extends StatefulWidget {
   final PageAccountsType type;
@@ -29,14 +26,10 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
   // Properties
   List<ListItem> _searchResult = [];
 
-  ListTile makeAccountTile(AccountItem item) =>
-      ListTile(
+  ListTile makeAccountTile(AccountItem item) => ListTile(
         title: Text(
           item.account,
-          style: Theme
-              .of(context)
-              .textTheme
-              .body1,
+          style: Theme.of(context).textTheme.body1,
         ),
       );
 
@@ -47,7 +40,6 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
 
   @override
   void initState() {
-    _onLoaded = false;
     _searchIsActive = false;
     _controller = TextEditingController();
     _textFocus = FocusNode();
@@ -55,113 +47,113 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
     super.initState();
   }
 
-
   Widget searchInactiveAppBar() {
     return AppBar(
-              elevation: 0,
-              backgroundColor: Colors.white,
-              title: TextFormField(
-                focusNode: _textFocus,
-                controller: _controller,
-                decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                        icon: Icon(Icons.clear,
-                            color: AppColors.gray),
-                        onPressed: () {
-                          setState(() {
-                            _searchIsActive = false;
-                          });
-                        }),
-                    icon: Icon(Icons.search, color: AppColors.gray),
-                    hintText: "Search for an account"),
-              ),
-      );
+      elevation: 0,
+      backgroundColor: Colors.white,
+      title: TextFormField(
+        focusNode: _textFocus,
+        controller: _controller,
+        decoration: InputDecoration(
+            suffixIcon: IconButton(
+                icon: Icon(Icons.clear, color: AppColors.gray),
+                onPressed: () {
+                  setState(() {
+                    _searchIsActive = false;
+                  });
+                }),
+            icon: Icon(Icons.search, color: AppColors.gray),
+            hintText: "Search for an account"),
+      ),
+    );
   }
 
   Widget searchActiveAppBar() {
     return AppBar(
-              elevation: 0,
-              backgroundColor: Colors.white,
-              leading: (widget.type == PageAccountsType.Home) ? Container() : IconButton(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: (widget.type == PageAccountsType.Home)
+            ? Container()
+            : IconButton(
                 icon: new Icon(Icons.close, color: AppColors.gray),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
-              actions: <Widget>[
-                  IconButton(
-                    icon: new Icon(Icons.search, color: AppColors.gray),
-                    onPressed: () {
-                      setState(() {
-                        _searchIsActive = true;
-                      });
-                    },
-                  ),
-                ]);
+        actions: <Widget>[
+          IconButton(
+            icon: new Icon(Icons.search, color: AppColors.gray),
+            onPressed: () {
+              setState(() {
+                _searchIsActive = true;
+              });
+            },
+          ),
+        ]);
   }
 
   @override
   Widget build(BuildContext context) {
     return BaseView<AccountsModel>(
       onModelReady: (model) {
-        model.fetchAccounts().then((results){
+        model.fetchAccounts().then((results) {
           model.controller = _controller;
-          model.controller.addListener((){
-            _searchResult = model.fetchFromSearch(model.accounts, _controller.text).map((item) => AccountItem(account: item.name, accountID: item.ID)).toList();
-            setState(() {
-            });
+          model.controller.addListener(() {
+            _searchResult = model
+                .fetchFromSearch(model.accounts, _controller.text)
+                .map((item) =>
+                    AccountItem(account: item.name, accountID: item.ID))
+                .toList();
+            setState(() {});
           });
         });
       },
       builder: (context, model, child) {
         var accountListView = ListView.builder(
-                  itemBuilder: (context, index) {
-                      Account item = model.accounts[index];
-                      AccountItem tile = AccountItem(
-                        account: item.name,
-                        accountID: item.ID
-                      );
-        
-                      if (_searchIsActive == true) {
-                        tile = _searchResult[index];
-                        print("search is active ${tile.account}");
+            itemBuilder: (context, index) {
+              Account item = model.accounts[index];
+              AccountItem tile =
+                  AccountItem(account: item.name, accountID: item.ID);
+
+              if (_searchIsActive == true) {
+                tile = _searchResult[index];
+                print("search is active ${tile.account}");
+              }
+              return InkWell(
+                  onTap: () {
+                    print("select itemID is ${item.instanceID}");
+                    model.selectAccount(item.instanceID);
+                    FormBuild.showFlushBarMessage(context,
+                        "You are now working on '${item.name}' account", () {
+                      if (widget.type == PageAccountsType.Details) {
+                        Navigator.of(context).pop();
                       }
-                      return InkWell(
-                        onTap: () {
-                          print("select itemID is ${item.instanceID}");
-        
-                          Account selectedAccount = (model.accounts ?? []).where((Account account) => account.instanceID == item.instanceID).first;
-                          // Show the details
-                          print("widget.type ${widget.type}");
-                          // Save the instanceID and selected account
-                          TrakrefAPIService().setSelectedAccount(selectedAccount);
-                          TrakrefAPIService().setInstanceID(selectedAccount.instanceID.toString());
-        
-                          if (widget.type == PageAccountsType.Details) {
-                          Navigator.of(context).pop();
-                          }
-                          // Show the home page
-                          else if (widget.type == PageAccountsType.Home) {
-                            Navigator.of(context).pushNamed("/home");
-                          }
-                        },
-                        child: this.makeAccountTile(tile)
-                        );
+                      // Show the home page
+                      else if (widget.type == PageAccountsType.Home) {
+                        Navigator.of(context).pushNamed("/home");
+                      }
+                    }, duration: 2);
                   },
-                  itemCount: (_searchIsActive == false) ? (model.accounts ?? []).length : _searchResult.length
-                );
-                return Scaffold(
-                appBar: (!_searchIsActive) ? searchActiveAppBar() : searchInactiveAppBar(),
-                backgroundColor: Colors.white,
-                body: model.state == ViewState.Busy ? FormBuild.buildLoader()
-                : RefreshIndicator(
+                  child: this.makeAccountTile(tile));
+            },
+            itemCount: (_searchIsActive == false)
+                ? (model.accounts ?? []).length
+                : _searchResult.length);
+        return Scaffold(
+          appBar: (!_searchIsActive)
+              ? searchActiveAppBar()
+              : searchInactiveAppBar(),
+          backgroundColor: Colors.white,
+          body: model.state == ViewState.Busy
+              ? FormBuild.buildLoader()
+              : RefreshIndicator(
                   color: AppColors.blueTurquoise,
                   child: accountListView,
                   onRefresh: () {
                     model.refreshAccounts();
                   },
                 ),
-      );
+        );
       },
     );
   }
