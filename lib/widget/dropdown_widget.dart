@@ -67,9 +67,9 @@ class FormBuild {
     );
   }
 
-  static void showFlushBarMessage(BuildContext context, String msg, Function showCallback) {
+  static void showFlushBarMessage(BuildContext context, String msg, Function showCallback, {int duration}) {
     Flushbar(
-      duration:  Duration(seconds: 3),
+      duration:  Duration(seconds: (duration) ?? 3),
       flushbarPosition: FlushbarPosition.TOP,
       flushbarStyle: FlushbarStyle.GROUNDED,
       backgroundColor: Colors.white,
