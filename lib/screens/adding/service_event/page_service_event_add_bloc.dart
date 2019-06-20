@@ -7,6 +7,7 @@ import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/dropdown.dart';
 import 'package:trakref_app/models/workorder.dart';
+import 'package:trakref_app/repository/api/cached_api_service.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
@@ -126,7 +127,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
 
     // Get the dropdowns
     _isDropdownsLoaded = false;
-    TrakrefAPIService().getDropdown().then((results) {
+    DropdownList results = CachingAPIService().cachedDropdowns ?? [];
+    // TrakrefAPIService().getDropdown().then((results) {
       print("AssetDropdowns ${widget.assets}");
       // Map the list of assets to a dropdown sources
       setState(() {
@@ -170,7 +172,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           setState(() {});
         });
       });
-    });
+    // });
   }
 
   @override
