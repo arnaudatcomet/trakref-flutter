@@ -34,12 +34,12 @@ class ServiceEventCellWidget extends StatelessWidget {
 
 
 class HomeCellWidget extends ListTile {
-  String line1;
-  String line2;
-  String line3;
-  String line4;
+  final String line1;
+  final String line2;
+  final String line3;
+  final String line4;
 
-  HomeCellType cellType;
+  final HomeCellType cellType;
 
   HomeCellWidget({this.line1, this.line2, this.line3, this.line4, this.cellType});
 

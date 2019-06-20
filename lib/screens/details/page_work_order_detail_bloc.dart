@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/helper.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/workorder.dart';
@@ -9,7 +7,7 @@ import 'package:trakref_app/widget/dropdown_widget.dart';
 
 //PageCylinderDetailBloc
 class PageWorkOrderDetailBloc extends StatefulWidget {
-  WorkOrder order;
+  final WorkOrder order;
 
   PageWorkOrderDetailBloc({this.order});
 
@@ -76,7 +74,7 @@ class _PageWorkOrderDetailBlocState extends State<PageWorkOrderDetailBloc> {
 }
 
 class WorkOrderList extends StatelessWidget {
-  WorkOrder order;
+  final WorkOrder order;
   WorkOrderList({this.order});
 
   @override

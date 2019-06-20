@@ -33,11 +33,6 @@ class _MaterialTransfersWidgetState extends State<MaterialTransfersWidget> {
       showModalBottomSheet(
           context: context,
           builder: (builder) {
-            // Prepare the content for material gas
-            Asset selectedAsset = Asset(
-                assetID: equipmentWorkedOn
-            );
-
             int pickedIndex = widget.assets.indexWhere((i) => i.assetID == equipmentWorkedOn);
 
             print("equipmentWorkedOn $equipmentWorkedOn");
@@ -49,8 +44,6 @@ class _MaterialTransfersWidgetState extends State<MaterialTransfersWidget> {
 
             print("pickedIndex : $pickedIndex");
             if (pickedIndex < 0) return Container();
-
-            Asset picketAsset = widget.assets[pickedIndex];
             return new Container(
               color: Color(0xFF737373),
               child: new Container(

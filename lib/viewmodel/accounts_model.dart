@@ -2,11 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/repository/api/cached_api_service.dart';
-import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/viewmodel/base_model.dart';
 
 class AccountsModel extends BaseModel {
-  TrakrefAPIService _api = TrakrefAPIService();
   CachingAPIService _cachedApi = CachingAPIService();
   List<Account> accounts;
   TextEditingController controller;

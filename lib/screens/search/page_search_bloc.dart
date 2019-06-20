@@ -6,7 +6,6 @@ import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/models/search_filter_options.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
-import 'package:trakref_app/repository/location_service.dart';
 import 'package:trakref_app/repository/preferences_service.dart';
 import 'package:trakref_app/screens/base_view.dart';
 import 'package:trakref_app/screens/details/page_cylinder_detail_bloc.dart';
@@ -37,7 +36,6 @@ class _PageSearchBlocState extends State<PageSearchBloc>
   @override
   bool get wantKeepAlive => true;
 
-  bool _assignedtoMe = false;
   TabController _tabController;
   TextEditingController _textController = TextEditingController();
 

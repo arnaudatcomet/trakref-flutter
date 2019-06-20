@@ -6,10 +6,8 @@ import 'package:flutter/services.dart';
 class GeolocationService {
   static final GeolocationService _shared = new GeolocationService._internal();
   Location locationService = new Location();
-  LocationData _startLocation;
   LocationData currentLocation;
   bool _permission = false;
-  StreamSubscription<LocationData> _locationSubscription;
 
   factory GeolocationService() {
     return _shared;

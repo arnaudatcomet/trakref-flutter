@@ -22,8 +22,6 @@ class PageAccountsBloc extends StatefulWidget {
 }
 
 class _PageAccountsBlocState extends State<PageAccountsBloc> {
-  // List<Account> accounts;
-  bool _onLoaded = false;
   bool _searchIsActive;
   TextEditingController _controller;
   FocusNode _textFocus;

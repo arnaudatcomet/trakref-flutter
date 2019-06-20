@@ -2,14 +2,11 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/models/account.dart';
 import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/dropdown.dart';
-import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
-import 'package:trakref_app/repository/get_service.dart';
 
 class ApiService {
   final JsonDecoder _decoder = new JsonDecoder();

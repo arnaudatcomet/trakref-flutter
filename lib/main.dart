@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trakref_app/repository/api/trakref_api_service.dart';
-import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/routes.dart';
 import 'package:trakref_app/service_locator.dart';
 import 'package:flutter/services.dart';

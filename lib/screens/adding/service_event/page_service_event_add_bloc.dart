@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import "package:flutter/material.dart";
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/asset.dart';
@@ -9,12 +6,9 @@ import 'package:trakref_app/models/dropdown.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/repository/api/cached_api_service.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
-import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/screens/adding/app_cancellable_textfield_widget.dart';
 import 'package:trakref_app/screens/adding/material_transfer/material_transfer_widget.dart';
-import 'package:trakref_app/screens/adding/material_transfer/page_material_gas_install_bloc.dart';
-import 'package:trakref_app/screens/adding/page_adding_bloc.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:intl/intl.dart';
@@ -41,10 +35,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
 // List<Dropdown> temperatureClass;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-//  DropdownService service = DropdownService();
   List<Asset> coolingApplianceAssets;
   bool _isDropdownsLoaded = false;
-  DateTime _date = DateTime.now();
   ServiceType typeOfService = ServiceType.None;
 
   List<DropdownItem> serviceType = [
@@ -463,11 +455,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
 
 //      print("> shutdownStatus : $shutdownStatus");
 
-    LeakInspection leakInspection = LeakInspection(
-        leakInspectionType: "initial",
-        wasLeakFound: _wasLeakFound,
-        leakDetectionMethodID: _pickedLeakDetectionMethod.id);
-
     // Create the work item
     WorkItem item = WorkItem(
         assetID: equipmentWorkedOn,
@@ -566,14 +553,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
         ],
       );
     }
-  }
-
-  Widget _buildVerificationChip() {
-    return Chip(
-      backgroundColor: AppColors.lightGreen,
-      label: Text('Verification',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-    );
   }
 
   Widget _buildMaterialTransfer(ServiceType type) {
@@ -908,7 +887,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                       print("kVerificationLeakCauseKey > $value");
                       _pickedVerificationCauseOfLeak = value;
                     }),
-//                      _buildVerificationChip()
               ],
             )
                 : Container(),
@@ -957,7 +935,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                             }
                           });
                     }),
-//                      _buildVerificationChip()
               ],
             )
                 : Container(),

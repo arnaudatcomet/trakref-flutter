@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:trakref_app/bloc/bloc_provider.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/main.dart';
-import 'package:trakref_app/models/info_user.dart';
-import 'package:trakref_app/models/user.dart';
-import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
 import 'package:trakref_app/screens/base_view.dart';
 import 'package:trakref_app/screens/login/reset/page_reset_password_bloc.dart';
 import 'package:trakref_app/viewmodel/login_model.dart';
 import 'package:trakref_app/widget/button_widget.dart';
-import 'package:trakref_app/widget/dropdown_widget.dart';
-import 'package:trakref_app/widget/loading_widget.dart';
 
 class PageLoginBloc extends StatefulWidget {
   @override

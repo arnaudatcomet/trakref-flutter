@@ -1,7 +1,6 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
-import 'package:trakref_app/repository/get_service.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 
 // Dropdowns
@@ -205,7 +204,7 @@ class FormBuild {
         ),
       );
     }
-    int count = source.length;
+    
     if (source.length < 1) {
       return Expanded(
         flex: 1,
@@ -258,10 +257,10 @@ class AppDropdowns<T> extends StatelessWidget {
       key: key,
       value: selectedValue,
       onChanged: (value) {
-        print("onChanged) dropdown ${key}, value $value");
+        print("onChanged) dropdown $key, value $value");
         if (value != null) {
           selectedValue = value;
-          print("widget.onChanged != null ? ${onChanged}");
+          print("widget.onChanged != null ? $onChanged");
           if (onChanged != null) {
             onChanged(value);
           }

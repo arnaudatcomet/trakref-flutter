@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/repository/get_service.dart';
-import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
 
 class PageAssetAddBloc extends StatefulWidget {
@@ -10,8 +9,6 @@ class PageAssetAddBloc extends StatefulWidget {
 }
 
 class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
   DropdownService service = DropdownService();
 
   // controllers for form text controllers

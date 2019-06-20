@@ -218,28 +218,6 @@ class _AppCancellablePickerState extends State<AppCancellablePicker> {
       ),
     );
 
-    Widget toSelectDropdown = FormBuild.buildDropdown(
-        label: widget.textLabel,
-        key: Key(widget.textKey),
-        source: widget.sourcesDropdown,
-        isRequired: isRequired,
-        onChangedValue: (value) {
-          print("onChangedValue $value");
-          if (value is DropdownItem || value is AssetTypeItem) {
-            print("onChangedValue id=${value.id} name=${value.name}");
-            _pickedValue = value;
-            widget.onChangedValue(_pickedValue);
-            setState(() {});
-          }
-        },
-        onValidator: (value) {
-          if (widget.textError != null) {
-            if (value == null) {
-              return widget.textError;
-            }
-          }
-        });
-
     return (_pickedValue != null) ? selectedValue : imageToPick;
   }
 }

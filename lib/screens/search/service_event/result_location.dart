@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/location.dart';
-import 'package:trakref_app/widget/dropdown_widget.dart';
 import 'package:trakref_app/widget/home_cell_widget.dart';
-import 'package:trakref_app/repository/location_service.dart';
 
 typedef LocationCellGetMetersResultDelegate = void Function(int, double);
 

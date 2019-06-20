@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:async' show Future;
 import 'package:flutter/material.dart';
 import 'package:trakref_app/repository/api_service.dart';
-import 'package:meta/meta.dart';
 
 final BASE_URL = "https://api.trakref.com/v3.21";
 

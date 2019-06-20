@@ -38,7 +38,6 @@ class _PageMaterialGasInstallBlocState
   double _pickedAmountLbs;
   DateTime _pickedDateMaterialTransfer;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  final FocusNode _nodeEstimedAmount = FocusNode();
   TextEditingController amountTextController;
 
   @override
