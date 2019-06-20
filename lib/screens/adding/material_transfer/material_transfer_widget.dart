@@ -144,34 +144,6 @@ class _MaterialTransfersWidgetState extends State<MaterialTransfersWidget> {
         Spacer()
       ],
     );
-
-    return Row(
-      children: <Widget>[
-        Spacer(),
-        AppOutlineButton(
-          title: "Add Install",
-          onPressed: () {
-            int pickedEquipmentWorked = widget.equipmentWorkedOnID;
-            if (pickedEquipmentWorked != null) {
-              showAddMaterialModal(pickedEquipmentWorked, MaterialGasInstallType.Install);
-            }
-          },
-        ),
-        SizedBox(
-          width: 20,
-        ),
-        AppOutlineButton(
-          title: "Add Recovery",
-          onPressed: () {
-            int pickedEquipmentWorked = widget.equipmentWorkedOnID;
-            if (pickedEquipmentWorked != null) {
-              showAddMaterialModal(pickedEquipmentWorked, MaterialGasInstallType.Recovery);
-            }
-          },
-        ),
-        Spacer()
-      ],
-    );
   }
 
   String concatenateAsset(String assetName, int maxLength) {
