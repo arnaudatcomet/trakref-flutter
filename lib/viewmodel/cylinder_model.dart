@@ -34,4 +34,8 @@ class CylindersModel extends BaseModel {
 
     return _filteredAssetsResult;
   }
+
+  addCylinder() {
+    
+  }
 }

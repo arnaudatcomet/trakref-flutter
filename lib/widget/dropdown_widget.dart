@@ -39,7 +39,6 @@ class DropdownFormField<T> extends FormField<T> {
                     value: field.value,
                     isDense: true,
                     onChanged: (value) {
-                      print("onChanged) dropdown $key, value $value");
                       if (value != null) {
                         field.didChange(value);
                         if (onChanged != null) {
@@ -305,7 +304,6 @@ class _AppDropdownState<T> extends State<AppDropdown> {
       key: widget.key,
       value: widget.selectedValue,
       onChanged: (value) {
-        print("onChanged) dropdown ${widget.key}, value $value");
         if (value != null) {
           setState(() {
             widget.selectedValue = value;

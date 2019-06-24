@@ -112,8 +112,10 @@ class _AppCancellableTextFieldState extends State<AppCancellableTextField> {
             }
           }
         });
+print("pickedValue is ? $_pickedValue");
 
     return (_pickedValue != null) ? selectedValue : toSelectDropdown;
+    
   }
 }
 

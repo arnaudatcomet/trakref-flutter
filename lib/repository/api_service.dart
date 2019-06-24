@@ -130,6 +130,17 @@ class ApiService {
         .then((http.Response response) {
       final res = response.body;
       print("post $url, result $res");
+      try {
+        Map resMap = json.decode(res);
+        // Look for error first
+        if (resMap['Message'] != null) {
+          return Future.error("${resMap['Message']}");
+        }
+        return resMap;
+      }
+      catch (error) {
+          return Future.error(error);
+      }
     });
   }
 
