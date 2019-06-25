@@ -47,18 +47,18 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     // Need to uncomment below for release builds
-    // signingConfigs {
-    //     release {
-    //         keyAlias keystoreProperties['keyAlias']
-    //         keyPassword keystoreProperties['keyPassword']
-    //         storeFile file(keystoreProperties['storeFile'])
-    //         storePassword keystoreProperties['storePassword']
-    //     }
-    // }
+    signingConfigs {
+        release {
+            storeFile file("../my-release-flutter-key.keystore")
+            keyAlias "trakrefnewflutter"
+            keyPassword "trakref01"
+            storePassword "trakref01"
+        }
+    }
     buildTypes {
         release {
             // Need to change below for release builds from signingConfigs.debug to signingConfig.release
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             useProguard true
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
