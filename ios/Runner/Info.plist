@@ -5,7 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Trakref is trying to access your camera</string>
+	<string>The Trakref app is trying to access your camera</string>
+	<key>NSPhotoLibraryUsageDescription </key>
+	<string>The Trakref app is trying to access your photo library</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>The Trakref app needs access to location when open.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -48,14 +50,14 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>Trakref is trying to access your media</string>
+	<string>The Trakref app is trying to access your media</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Trakref is trying to use the microphone</string>
+	<string>The Trakref app is trying to use the microphone</string>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
 </dict>
