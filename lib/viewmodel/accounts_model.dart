@@ -51,6 +51,9 @@ class AccountsModel extends BaseModel {
     Account selectedAccount = (accounts ?? [])
         .where((Account account) => account.instanceID == instanceID)
         .first;
+    // Clear the current work order
+    _api.setWorkOrder(null);
+    
     // Save the instanceID and selected account
     _api.setSelectedAccount(selectedAccount);
     _api.setInstanceID(selectedAccount.instanceID.toString());
