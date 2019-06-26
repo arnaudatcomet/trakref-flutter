@@ -231,6 +231,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
       // Values from the forms
       int leakCategory = _pickedInitialLeakCategory.id;
       int causeLeak = _pickedCauseOfLeak.id;
+      int leakDetectionMethod = _pickedLeakDetectionMethod.id;
       double estimatedLeakAmount = _pickedEstimatedLeakAmount;
       String followUpDateString;
       if (_pickedFollowUpDate != null) {
@@ -249,6 +250,10 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           leakLocationCategoryID: leakCategory,
           faultCauseTypeID: causeLeak,
           estimatedLeakAmount: estimatedLeakAmount,
+          leakDetectionMethodID: leakDetectionMethod,
+          notes: notes,
+          wasLeakFound: wasLeakFound,
+          leakInspectionType: "Initial",
           inspectionDate: followUpDateString);
 
       leakInspections = [inspection];
@@ -270,8 +275,8 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           workItemStatusID: 1,
           // Repair
           repairNotes: notes,
-          leakInspectionCount: (wasLeakFound == false) ? 0 : 1,
-          leakInspection: (wasLeakFound == false) ? [] : leakInspections)
+          leakInspectionCount: 1,
+          leakInspection: leakInspections)
     ];
 
     // For testing purpose only
