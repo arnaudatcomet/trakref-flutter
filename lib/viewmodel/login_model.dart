@@ -24,7 +24,6 @@ class LoginModel extends BaseModel {
     dynamic response =
         await _api.getLoginResponse(ApiService.getLoginURL, username, password);
 
-    setState(ViewState.Idle);
     print("infoUser ${response}");
     final res = response.body;
     try {
@@ -34,6 +33,9 @@ class LoginModel extends BaseModel {
 
       if (user.errorMessage != null) {
         errorMessage = user.errorMessage;
+      } 
+      else if (user.token.token == null || user.user.instanceID == null) {
+        errorMessage = "Could not find Token or InstanceID associated to user account";
       } else {
         // Save the login keys
         _trakrefApi.setAuthentificationToken(user.token.token);
@@ -42,16 +44,12 @@ class LoginModel extends BaseModel {
             : user.user.instanceID.toString());
         _trakrefApi.setProfile(user);
 
-        // Caching
-        // CachingAPIService _cachingService = CachingAPIService();
-        // _cachingService.getCachedDropdowns();
-        // _cachingService.getCachedAccount();
-
         return true;
       }
     } catch (error) {
       print("LoginModel catch exception error $error");
       return false;
     }
+    setState(ViewState.Idle);
   }
 }
