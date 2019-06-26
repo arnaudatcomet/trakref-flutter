@@ -6,7 +6,7 @@
 	<string>en</string>
 	<key>NSCameraUsageDescription</key>
 	<string>The Trakref app is trying to access your camera</string>
-	<key>NSPhotoLibraryUsageDescription </key>
+	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The Trakref app is trying to access your photo library</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>The Trakref app needs access to location when open.</string>
