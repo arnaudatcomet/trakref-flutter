@@ -100,7 +100,7 @@ class ApiService {
           return Future.error(resMap['Message']);
         }
       } catch (error) {
-        print("postWorkOrder > Didn't find error on expected error:: $error");
+        print("postWorkOrder > Didn't find error on expected error");
       }
 
       // Catch response
