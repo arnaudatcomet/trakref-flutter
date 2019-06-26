@@ -64,7 +64,7 @@ class _PageSelectCurrentWorkOrderBlocState
             padding: EdgeInsets.all(5),
             shrinkWrap: true,
             itemCount: (_searchIsActiveState == false)
-                ? (model.orders ?? []).length
+                ? ((model.orders ?? []).length + 1)
                 : (_searchWorkOrdersResult.length),
             itemBuilder: (context, index) {
               if (index == 0 && (_searchIsActiveState == false)) {
@@ -79,8 +79,8 @@ class _PageSelectCurrentWorkOrderBlocState
                 );
               } else {
                 final item = (_searchIsActiveState == false)
-                    ? model.orders[index]
-                    : _searchWorkOrdersResult[index];
+                    ? model.orders[index-1]
+                    : _searchWorkOrdersResult[index-1];
                 return InkWell(
                   onTap: () {
                     WorkOrder selectedWorkOrder = (model.orders ?? [])
