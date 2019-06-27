@@ -26,10 +26,11 @@ class WorkOrdersModel extends BaseModel {
     if (orders == null) return [];
 
     List<WorkOrder> _filteredServiceEventsResult = [];
+    String searchingFor = searchedText.toLowerCase();
     orders.forEach((workOrder) {
-      if (workOrder.workOrderNumber.toLowerCase().contains(searchedText) ||
-          workOrder.location.toLowerCase().contains(searchedText) ||
-          workOrder.instance.toLowerCase().contains(searchedText)) {
+      if (workOrder.workOrderNumber.toLowerCase().contains(searchingFor) ||
+          workOrder.location.toLowerCase().contains(searchingFor) ||
+          workOrder.instance.toLowerCase().contains(searchingFor)) {
         _filteredServiceEventsResult.add(workOrder);
       }
     });

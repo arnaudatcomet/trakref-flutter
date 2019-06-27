@@ -1,3 +1,5 @@
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/models/asset.dart';
@@ -9,6 +11,24 @@ class CylindersModel extends BaseModel {
   List<Asset> assets;
   TextEditingController controller;
 
+  Future<String> scan() async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      return barcode;
+    }
+    on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        return Future.error("The user did not grant the camera permission");
+      } else {
+        return Future.error("Unknown error happened when trying to scan barcode");
+      }
+    } on FormatException{
+        return Future.error("The user click on back button without scanning anything");
+    } catch (e) {
+        return Future.error("Unknown error happened when trying to scan barcode");
+    }
+  }
+
   Future fetchCylinders() async {
     setState(ViewState.Busy);
     assets = await _api.getCylinders([]);
@@ -19,23 +39,20 @@ class CylindersModel extends BaseModel {
     if (assets == null) return [];
 
     List<Asset> _filteredAssetsResult = [];
+    String searchingFor = searchedText.toLowerCase();
     assets.forEach((asset) {
           String serialNumber = asset.serialNumber ?? "";
           String name = asset.name ?? "";
           String assetCategory = asset.assetCategory ?? "";
           String location = asset.location ?? "";
-          if (serialNumber.toLowerCase().contains(searchedText) ||
-              name.toLowerCase().contains(searchedText) ||
-              assetCategory.toLowerCase().contains(searchedText) ||
-              location.toLowerCase().contains(searchedText)) {
+          if (serialNumber.toLowerCase().contains(searchingFor) ||
+              name.toLowerCase().contains(searchingFor) ||
+              assetCategory.toLowerCase().contains(searchingFor) ||
+              location.toLowerCase().contains(searchingFor)) {
             _filteredAssetsResult.add(asset);
           }
     });
 
     return _filteredAssetsResult;
-  }
-
-  addCylinder() {
-    
   }
 }

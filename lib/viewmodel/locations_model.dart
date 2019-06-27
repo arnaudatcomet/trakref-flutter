@@ -56,16 +56,17 @@ class LocationsModel extends BaseModel {
 
     List<Location> _filteredLocationsResult = [];
 
+    String searchingFor = searchedText.toLowerCase();
     locations.forEach((location) {
       String physicalAddress1 = location.physicalAddress1 ?? "";
       String physicalCity = location.physicalCity ?? "";
       String name = location.name ?? "";
       String physicalState = location.physicalState ?? "";
 
-      if (physicalAddress1.toLowerCase().contains(searchedText) ||
-          physicalCity.toLowerCase().contains(searchedText) ||
-          name.toLowerCase().contains(searchedText) ||
-          physicalState.toLowerCase().contains(searchedText)) {
+      if (physicalAddress1.toLowerCase().contains(searchingFor) ||
+          physicalCity.toLowerCase().contains(searchingFor) ||
+          name.toLowerCase().contains(searchingFor) ||
+          physicalState.toLowerCase().contains(searchingFor)) {
         _filteredLocationsResult.add(location);
       }
     });

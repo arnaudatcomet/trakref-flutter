@@ -5,7 +5,6 @@ import 'package:trakref_app/models/asset.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:trakref_app/models/search_filter_options.dart';
-import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/preferences_service.dart';
 import 'package:trakref_app/screens/base_view.dart';
 import 'package:trakref_app/screens/details/page_cylinder_detail_bloc.dart';
@@ -39,12 +38,8 @@ class _PageSearchBlocState extends State<PageSearchBloc>
   TabController _tabController;
   TextEditingController _textController = TextEditingController();
 
-//  ApiService api = ApiService();
-  TrakrefAPIService api = TrakrefAPIService();
-
   @override
   void dispose() {
-    api.close();
     _textController.dispose();
     super.dispose();
   }
@@ -64,7 +59,6 @@ class _PageSearchBlocState extends State<PageSearchBloc>
 
   @override
   Widget build(BuildContext context) {
-    // Search header
     Widget searchHeader = Row(
       children: <Widget>[
         Expanded(
@@ -81,12 +75,21 @@ class _PageSearchBlocState extends State<PageSearchBloc>
           ),
         ),
         // Need to replace with the camera picture
-        new Container(
-          child: new Image.asset("assets/images/barcode-icon.png",
-              height: 30,
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.fitHeight),
-          margin: new EdgeInsets.only(left: 10, right: 10),
+        IconButton(
+          icon: Image.asset('assets/images/barcode-icon.png',
+              colorBlendMode: BlendMode.color,
+              // color: AppColors.blueTurquoise,
+              fit: BoxFit.fitHeight,
+              height: 30),
+          onPressed: () {
+            CylindersModel().scan().then((barCode) {
+              _textController.text = barCode;
+              _tabController.index = 1;
+            }).catchError((error) {
+              FormBuild.showFlushBarMessage(context, error, null);
+            });
+          },
+          // margin: const EdgeInsets.only(left: 10, right: 10),
         ),
       ],
     );
