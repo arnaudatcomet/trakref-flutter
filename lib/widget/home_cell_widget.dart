@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/workorder.dart';
 
-enum HomeCellType {StickerTODO, StickerCOMPLETE, StickerCYLINDER, Normal}
+enum HomeCellType {
+  StickerTODO,
+  StickerCOMPLETE,
+  StickerCLOSED,
+  StickerCYLINDER,
+  Normal
+}
 
 class ServiceEventCellWidget extends StatelessWidget {
   WorkOrder order;
@@ -16,22 +22,25 @@ class ServiceEventCellWidget extends StatelessWidget {
           line2: '${order.location}',
           line3: '${order.instance}',
           line4: 'TO DO',
-          cellType: HomeCellType.StickerTODO
-      );
-    }
-    else if (order.workOrderStatusID == 2) {
+          cellType: HomeCellType.StickerTODO);
+    } else if (order.workOrderStatusID == 2) {
       return HomeCellWidget(
           line1: '${order.workOrderNumber} (${order.workItemCount})',
           line2: '${order.location}',
           line3: '${order.instance}',
           line4: 'COMPLETE',
-          cellType: HomeCellType.StickerCOMPLETE
-      );
+          cellType: HomeCellType.StickerCOMPLETE);
+    } else if (order.workOrderStatusID == 3) {
+      return HomeCellWidget(
+          line1: '${order.workOrderNumber} (${order.workItemCount})',
+          line2: '${order.location}',
+          line3: '${order.instance}',
+          line4: 'CLOSED',
+          cellType: HomeCellType.StickerCLOSED);
     }
     return Container();
   }
 }
-
 
 class HomeCellWidget extends ListTile {
   final String line1;
@@ -41,7 +50,8 @@ class HomeCellWidget extends ListTile {
 
   final HomeCellType cellType;
 
-  HomeCellWidget({this.line1, this.line2, this.line3, this.line4, this.cellType});
+  HomeCellWidget(
+      {this.line1, this.line2, this.line3, this.line4, this.cellType});
 
   Color getBadgeColor(HomeCellType type) {
     switch (type) {
@@ -53,6 +63,9 @@ class HomeCellWidget extends ListTile {
         return AppColors.lightGreen;
       case HomeCellType.StickerCYLINDER:
         return AppColors.blueTurquoise;
+      case HomeCellType.StickerCLOSED:
+        return Colors.redAccent;
+        break;
     }
   }
 
@@ -66,32 +79,39 @@ class HomeCellWidget extends ListTile {
         return "TO DO";
       case HomeCellType.StickerCYLINDER:
         return "CYLINDER";
+      case HomeCellType.StickerCLOSED:
+        return "CLOSED";
+        break;
     }
   }
 
   Widget buildLine(String text, TextStyle style) {
-    return Row(
-        children: <Widget>[
-          new Text(
-            text ?? "",
-            style: style,
-          )
-        ]
-    );
+    TextStyle styleIfClosed = (this.cellType == HomeCellType.StickerCLOSED)
+                      ? style.copyWith(color: Colors.blueGrey) : style;
+
+    return Row(children: <Widget>[
+      new Text(
+        text ?? "",
+        style: styleIfClosed,
+      )
+    ]);
   }
 
   @override
   Widget build(BuildContext context) {
     // Create the badge if it's necessary
     Widget badgeWidget = Visibility(
-        visible: (this.cellType == HomeCellType.StickerTODO || this.cellType == HomeCellType.StickerCYLINDER || this.cellType == HomeCellType.StickerCOMPLETE),
+        visible: (this.cellType == HomeCellType.StickerTODO ||
+            this.cellType == HomeCellType.StickerCYLINDER ||
+            this.cellType == HomeCellType.StickerCOMPLETE ||
+            this.cellType == HomeCellType.StickerCLOSED),
         child: Container(
-        padding: EdgeInsets.all(5),
+          padding: EdgeInsets.all(5),
           decoration: new BoxDecoration(
               borderRadius: BorderRadius.circular(2),
               color: getBadgeColor(cellType)
-            // UIColor(red:0.55, green:0.86, blue:0.33, alpha:1)
-          ),
+              // UIColor(red:0.55, green:0.86, blue:0.33, alpha:1)
+              ),
           child: Center(
             child: Text(
               getBadgeText(cellType),
@@ -99,12 +119,10 @@ class HomeCellWidget extends ListTile {
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 9,
-                  fontFamily: "SF Pro Text Regular"
-              ),
+                  fontFamily: "SF Pro Text Regular"),
             ),
           ),
-        )
-    );
+        ));
 
     return Container(
       width: 150.0,
@@ -122,17 +140,20 @@ class HomeCellWidget extends ListTile {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Padding(padding: new EdgeInsets.only(
+          Padding(
+              padding: new EdgeInsets.only(
             top: 6,
-          )
-          ),
+          )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                line1,
-                style: Theme.of(context).textTheme.display1,
-              ),
+              Text(line1,
+                  style: (this.cellType == HomeCellType.StickerCLOSED)
+                      ? Theme.of(context)
+                          .textTheme
+                          .display1
+                          .copyWith(color: Colors.blueGrey)
+                      : Theme.of(context).textTheme.display1),
               Spacer(),
               badgeWidget,
             ],

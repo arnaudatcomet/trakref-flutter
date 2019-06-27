@@ -79,13 +79,19 @@ class _PageSelectCurrentWorkOrderBlocState
                 );
               } else {
                 final item = (_searchIsActiveState == false)
-                    ? model.orders[index-1]
-                    : _searchWorkOrdersResult[index-1];
+                    ? model.orders[index - 1]
+                    : _searchWorkOrdersResult[index - 1];
+
+                WorkOrder selectedWorkOrder = (model.orders ?? [])
+                    .where((WorkOrder order) => order.id == item.id)
+                    .first;
+
+                if (selectedWorkOrder.workOrderStatusID == 3) {
+                  return ServiceEventCellWidget(order: item);
+                }
+                
                 return InkWell(
                   onTap: () {
-                    WorkOrder selectedWorkOrder = (model.orders ?? [])
-                        .where((WorkOrder order) => order.id == item.id)
-                        .first;
                     widget.delegate(selectedWorkOrder);
                     Navigator.of(context).pop();
                   },
@@ -98,11 +104,20 @@ class _PageSelectCurrentWorkOrderBlocState
         if (model.state == ViewState.Busy) {
           body = FormBuild.buildLoader();
         } else if (model.orders.length == 0) {
-          body = Container(
-            width: double.infinity,
-            child:Text("No work order available",
-          textAlign: TextAlign.center),
-            );
+          body = RefreshIndicator(
+              child: ListView(
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    child: Text("No work order available",
+                        textAlign: TextAlign.center),
+                  )
+                ],
+              ),
+              color: AppColors.blueTurquoise,
+              onRefresh: () {
+                model.refreshWorkOrders();
+              });
         } else {
           body = RefreshIndicator(
               child: workOrderListView,

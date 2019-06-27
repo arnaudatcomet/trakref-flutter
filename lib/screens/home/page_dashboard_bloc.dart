@@ -95,10 +95,12 @@ class _PageDashboardBlocState extends State<PageDashboardBloc>
                 final item = _serviceEventsResult[index - 1];
                 return GestureDetector(
                   onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (builderContext) {
-                      return PageWorkOrderDetailBloc(order: item);
-                    }));
+                    if (item.workOrderStatusID != 3) {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (builderContext) {
+                        return PageWorkOrderDetailBloc(order: item);
+                      }));
+                    }
                   },
                   child: ServiceEventCellWidget(
                     order: item,
