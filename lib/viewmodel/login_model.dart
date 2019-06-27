@@ -26,6 +26,7 @@ class LoginModel extends BaseModel {
 
     print("infoUser ${response}");
     final res = response.body;
+    setState(ViewState.Idle);
     try {
       dynamic resultMap = jsonDecode(res);
       print("resultMap $resultMap");
@@ -33,9 +34,11 @@ class LoginModel extends BaseModel {
 
       if (user.errorMessage != null) {
         errorMessage = user.errorMessage;
+        return false;
       } 
       else if (user.token.token == null || user.user.instanceID == null) {
         errorMessage = "Could not find Token or InstanceID associated to user account";
+        return false;
       } else {
         // Save the login keys
         _trakrefApi.setAuthentificationToken(user.token.token);
@@ -50,6 +53,5 @@ class LoginModel extends BaseModel {
       print("LoginModel catch exception error $error");
       return false;
     }
-    setState(ViewState.Idle);
   }
 }
