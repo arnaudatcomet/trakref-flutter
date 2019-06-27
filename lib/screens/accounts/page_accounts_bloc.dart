@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/account.dart';
-import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/base_view.dart';
 import 'package:trakref_app/screens/page_dashboard_bloc.dart';
 import 'package:trakref_app/viewmodel/accounts_model.dart';
@@ -123,16 +122,15 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
                   onTap: () {
                     print("select itemID is ${item.instanceID}");
                     model.selectAccount(item.instanceID);
-                    FormBuild.showFlushBarMessage(context,
-                        "You are now working on '${item.name}' account", () {
-                      if (widget.type == PageAccountsType.Details) {
+                    if (widget.type == PageAccountsType.Details) {
+                      FormBuild.showFlushBarMessage(context,
+                          "You are now working on '${item.name}' account", () {
                         Navigator.of(context).pop();
-                      }
+                      }, duration: 2);
+                    } else if (widget.type == PageAccountsType.Home) {
                       // Show the home page
-                      else if (widget.type == PageAccountsType.Home) {
-                        Navigator.of(context).pushNamed("/home");
-                      }
-                    }, duration: 2);
+                      Navigator.of(context).pushNamed("/home");
+                    }
                   },
                   child: this.makeAccountTile(tile));
             },

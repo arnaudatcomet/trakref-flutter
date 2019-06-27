@@ -89,7 +89,11 @@ class TrakrefAPIService {
     if (workOrderString == null) {
       return Future.error("No Work Order found for selected Work Order");
     }
+
     Map workOrderMap = jsonDecode(workOrderString);
+    if (workOrderMap == null) {
+      return Future.error("No Work Order found for selected Work Order");
+    }
     WorkOrder workOrder = WorkOrder.fromJson(workOrderMap);
     return workOrder;
   }

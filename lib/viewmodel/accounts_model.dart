@@ -47,15 +47,19 @@ class AccountsModel extends BaseModel {
     return items.where((account) => account.name.contains(searching)).toList();
   }
 
-  selectAccount(int instanceID) {
+  selectAccount(int instanceID) async {
+    setState(ViewState.Busy);
     Account selectedAccount = (accounts ?? [])
         .where((Account account) => account.instanceID == instanceID)
         .first;
     // Clear the current work order
     _api.setWorkOrder(null);
-    
+    await _cachedApi.fetchCachedServiceEvents();
+
     // Save the instanceID and selected account
     _api.setSelectedAccount(selectedAccount);
     _api.setInstanceID(selectedAccount.instanceID.toString());
+
+    setState(ViewState.Idle);
   }
 }
