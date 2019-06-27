@@ -123,10 +123,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
                     print("select itemID is ${item.instanceID}");
                     model.selectAccount(item.instanceID);
                     if (widget.type == PageAccountsType.Details) {
-                      FormBuild.showFlushBarMessage(context,
-                          "You are now working on '${item.name}' account", () {
                         Navigator.of(context).pop();
-                      }, duration: 2);
                     } else if (widget.type == PageAccountsType.Home) {
                       // Show the home page
                       Navigator.of(context).pushNamed("/home");
