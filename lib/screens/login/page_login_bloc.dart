@@ -40,6 +40,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
   @override
   Widget build(BuildContext context) {
     return BaseView<LoginModel>(
+      onModelReady: (model) => model.clear(),
       builder: (context, model, child) {
         return Scaffold(
             body: new Container(

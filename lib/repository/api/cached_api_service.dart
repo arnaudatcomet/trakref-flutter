@@ -43,4 +43,10 @@ class CachingAPIService {
     _cachedServiceEvents = await _api.getServiceEvents([]);
     return _cachedServiceEvents;
   }
+
+  clear() async{
+    _cachedAccounts = null;
+    _cachedDropdowns = null;
+    _cachedServiceEvents = null;
+  }
 }

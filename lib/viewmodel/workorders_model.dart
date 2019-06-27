@@ -15,7 +15,6 @@ class WorkOrdersModel extends BaseModel {
 
     // Sort the work orders
     orders.sort((event1, event2) {
-      print("Compare '${event1.location}' > '${event2.location}'");
       return (event1.location ?? "").compareTo(event2.location ?? "");
     });
 

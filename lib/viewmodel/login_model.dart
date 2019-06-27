@@ -18,7 +18,11 @@ class LoginModel extends BaseModel {
   fetchDropdowns() {
     _cachingApi.fetchCachedDropdowns();
   }
-
+  
+  clear() {
+    _trakrefApi.logout();
+  }
+  
   Future<bool> login(String username, String password) async {
     setState(ViewState.Busy);
     dynamic response =

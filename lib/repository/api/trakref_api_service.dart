@@ -9,6 +9,7 @@ import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/location.dart';
 import 'package:trakref_app/models/workorder.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:trakref_app/repository/api/cached_api_service.dart';
 import '../api_service.dart';
 
 class TrakrefAPIService {
@@ -266,6 +267,9 @@ class TrakrefAPIService {
     setSelectedAccount(null);
     setProfile(null);
     setWorkOrder(null);
+    
+    // Clear the caching as well
+    CachingAPIService().clear();
   }
 
   close() {
