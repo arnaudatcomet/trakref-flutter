@@ -2,9 +2,9 @@
 #include "GeneratedPluginRegistrant.h"
 
 // Import Zendesk for testing use
-#import <ZendeskSDK/ZendeskSDK.h>
-#include <ZendeskCoreSDK/ZendeskCoreSDK.h>
-#include <ZDCChat/ZDCChat.h>
+//#import <ZendeskSDK/ZendeskSDK.h>
+//#include <ZendeskCoreSDK/ZendeskCoreSDK.h>
+//#include <ZDCChat/ZDCChat.h>
 
 @implementation AppDelegate
 

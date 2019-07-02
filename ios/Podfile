@@ -1,9 +1,6 @@
 # Uncomment this line to define a global platform for your project
 # platform :ios, '9.0'
 
-pod 'ZendeskSDK', '~> 2.3.0'
-pod 'ZDCChat'
-
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
