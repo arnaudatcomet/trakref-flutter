@@ -92,13 +92,11 @@ class _SearchFilterState extends State<SearchFilter> {
             setState(() {
               aroundMeFilterValue = switchValue;
             });
-            print("'Around me = $switchValue'");
           }),
           buildSettings("Opened", openedFilterValue, (switchValue) {
             setState(() {
               openedFilterValue = switchValue;
             });
-            print("'Open me = $switchValue'");
           }),
           Divider(indent: 0,),
           Row(

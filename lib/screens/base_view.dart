@@ -6,10 +6,9 @@ import 'package:trakref_app/viewmodel/base_model.dart';
 class BaseView<T extends BaseModel> extends StatefulWidget {
   final Widget Function(BuildContext context, T model, Widget child) builder;
   final Function(T) onModelReady;
-  final Function(List<T>) onSearched;
   final Function(String) onErrorThrown;
 
-  BaseView({this.builder, this.onModelReady, this.onSearched, this.onErrorThrown});
+  BaseView({this.builder, this.onModelReady, this.onErrorThrown});
 
   @override
   _BaseViewState<T> createState() => _BaseViewState<T>();

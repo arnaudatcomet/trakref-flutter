@@ -12,13 +12,11 @@ class LocationsModel extends BaseModel {
   TextEditingController controller;
 
   startGeolocation() {
-    print("startGeolocation");
     _geolocation.initPlatformState();
     print("${GeolocationService().currentLocation}");
-    
   }
 
-  Future fetchLocations() async {
+ fetchLocations() async {
     setState(ViewState.Busy);
     locations = await _api.getLocations();
     for (Location loc in locations) {
@@ -37,7 +35,7 @@ class LocationsModel extends BaseModel {
     setState(ViewState.Idle);
   }
 
-  Future fetchLocationsAroundMe() async {
+  fetchLocationsAroundMe() async {
     setState(ViewState.Busy);
     print("_geolocation.currentLocation is ${_geolocation.currentLocation}");
     if (_geolocation.currentLocation == null) {

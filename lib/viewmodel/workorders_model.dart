@@ -32,7 +32,7 @@ class WorkOrdersModel extends BaseModel {
           workOrder.instance.toLowerCase().contains(searchingFor)) {
         _filteredServiceEventsResult.add(workOrder);
       }
-    });
+    }); 
 
     return _filteredServiceEventsResult;
   }

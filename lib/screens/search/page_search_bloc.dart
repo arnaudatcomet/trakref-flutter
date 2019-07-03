@@ -16,6 +16,7 @@ import 'package:trakref_app/screens/search/service_event/result_location.dart';
 import 'package:trakref_app/screens/search/service_event/result_service_event.dart';
 import 'package:trakref_app/viewmodel/cylinder_model.dart';
 import 'package:trakref_app/viewmodel/locations_model.dart';
+import 'package:trakref_app/viewmodel/search_filter_model.dart';
 import 'package:trakref_app/viewmodel/workorders_model.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 import 'package:trakref_app/widget/dropdown_widget.dart';
@@ -30,8 +31,9 @@ class PageSearchBloc extends StatefulWidget {
 
 class _PageSearchBlocState extends State<PageSearchBloc>
     with
-        SingleTickerProviderStateMixin,
-        AutomaticKeepAliveClientMixin<PageSearchBloc> {
+        SingleTickerProviderStateMixin ,
+        AutomaticKeepAliveClientMixin<PageSearchBloc> 
+{
   @override
   bool get wantKeepAlive => true;
 
@@ -93,223 +95,244 @@ class _PageSearchBlocState extends State<PageSearchBloc>
         ),
       ],
     );
-    Widget filterHeader = Padding(
-      padding: EdgeInsets.only(left: 10, right: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          AppOutlineButton(
-            title: "Filter",
-            onPressed: () {
-              // Show the filter options
-              Navigator.of(context)
-                  .push(new MaterialPageRoute(builder: (BuildContext context) {
-                return SearchFilter(
-                  delegate: (listOptions) {
-                    FilterPreferenceService().resetAll();
-                    bool showAroundMe = false;
-                    for (SearchFilterOptions option in listOptions) {
-                      FilterPreferenceService().setFilter(option, true);
-                      // If assigned to me then change the switch 'Assigned to me' state
-                      if (option == SearchFilterOptions.AroundMe) {
-                        showAroundMe = true;
-                      }
-                    }
 
-                    if (showAroundMe) {
-                      BaseView<LocationsModel>(
-                        onModelReady: (model) => model.fetchLocationsAroundMe(),
-                      );
-                    } else {
-                      BaseView<LocationsModel>(
-                        onModelReady: (model) => model.fetchLocations(),
-                      );
-                    }
+    return BaseView<SearchFilterModel>(
+      builder: (context, searchModel, child) {
+        print(
+            "SearchFilterModel > builder : shouldShowAroundMe = ${searchModel.shouldShowAroundMe}");
+        return Scaffold(
+            backgroundColor: Colors.white,
+            body: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  SizedBox(
+                    height: 50,
+                  ),
+                  searchHeader,
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        AppOutlineButton(
+                          title: "Filter",
+                          onPressed: () {
+                            // Show the filter options
+                            Navigator.of(context).push(new MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return SearchFilter(
+                                delegate: (listOptions) {
+                                  FilterPreferenceService().resetAll();
+                                  bool showAroundMe = false;
+                                  for (SearchFilterOptions option
+                                      in listOptions) {
+                                    // FilterPreferenceService().setFilter(option, true);
+                                    // If assigned to me then change the switch 'Assigned to me' state
+                                    if (option ==
+                                        SearchFilterOptions.AroundMe) {
+                                      showAroundMe = true;
+                                    }
+                                  }
 
-                    print("listOptions $listOptions");
-                  },
-                );
-              }));
-            },
-          )
-        ],
-      ),
-    );
+                                  if (showAroundMe) {
+                                    searchModel.showAroundMe();
+                                  } else {
+                                    searchModel.dontShowAroundMe();
+                                  }
 
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              SizedBox(
-                height: 50,
-              ),
-              searchHeader,
-              SizedBox(
-                height: 10,
-              ),
-              filterHeader,
-              Container(
-                decoration: BoxDecoration(
-                    border: Border(
-                        top: BorderSide(
-                            color: AppColors.gray.withAlpha(15), width: 1),
-                        bottom: BorderSide(
-                            color: AppColors.gray.withAlpha(15), width: 1))),
-                child: TabBar(
-                  labelColor: AppColors.gray,
-                  controller: _tabController,
-                  indicatorColor: AppColors.gray,
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  tabs: <Widget>[
-                    Tab(
-                      text: 'Service events',
-                    ),
-                    Tab(
-                      text: 'Cylinders',
-                    ),
-                    Tab(
-                      text: 'Locations',
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  child: TabBarView(
-                    physics: BouncingScrollPhysics(),
-                    controller: _tabController,
-                    children: <Widget>[
-                      BaseView<WorkOrdersModel>(onModelReady: (model) {
-                        model.fetchWorkOrders();
-                        model.controller = _textController;
-                        model.controller.addListener(() => setState(() {}));
-                      }, builder: (context, model, child) {
-                        List<WorkOrder> orders = model.orders;
-                        if (_textController.text.isEmpty == false &&
-                            (_tabController.index ==
-                                PageSearchTab.ServiceEvents.index)) {
-                          orders = model.fetchFromSearch(_textController.text);
-                        }
-
-                        return (model.state == ViewState.Busy)
-                            ? FormBuild.buildLoader()
-                            : RefreshIndicator(
-                                color: AppColors.blueTurquoise,
-                                child: ServiceEventResultWidget(
-                                  orders: orders,
-                                  serviceEventSelectedHandle: (order) {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (builderContext) {
-                                      return PageWorkOrderDetailBloc(
-                                          order: order);
-                                    }));
-                                  },
-                                ),
-                                onRefresh: () {
-                                  model.fetchWorkOrders();
+                                  // searchModel.onShowAroundMe();
+                                  // print("listOptions $listOptions");
                                 },
                               );
-                      }),
-                      BaseView<CylindersModel>(
-                          onModelReady: (model) => model.fetchCylinders(),
-                          builder: (context, model, child) {
-                            List<Asset> cylinders = model.assets;
+                            }));
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            top: BorderSide(
+                                color: AppColors.gray.withAlpha(15), width: 1),
+                            bottom: BorderSide(
+                                color: AppColors.gray.withAlpha(15),
+                                width: 1))),
+                    child: TabBar(
+                      labelColor: AppColors.gray,
+                      controller: _tabController,
+                      indicatorColor: AppColors.gray,
+                      labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                      tabs: <Widget>[
+                        Tab(
+                          text: 'Service events',
+                        ),
+                        Tab(
+                          text: 'Cylinders',
+                        ),
+                        Tab(
+                          text: 'Locations',
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: TabBarView(
+                        physics: BouncingScrollPhysics(),
+                        controller: _tabController,
+                        children: <Widget>[
+                          BaseView<WorkOrdersModel>(onModelReady: (model) {
+                            model.fetchWorkOrders();
+                            model.controller = _textController;
+                            model.controller.addListener(() => setState(() {}));
+                          }, builder: (context, model, child) {
+                            List<WorkOrder> orders = model.orders;
                             if (_textController.text.isEmpty == false &&
                                 (_tabController.index ==
-                                    PageSearchTab.Cylinders.index)) {
-                              cylinders =
+                                    PageSearchTab.ServiceEvents.index)) {
+                              orders =
                                   model.fetchFromSearch(_textController.text);
                             }
+
                             return (model.state == ViewState.Busy)
                                 ? FormBuild.buildLoader()
                                 : RefreshIndicator(
                                     color: AppColors.blueTurquoise,
-                                    child: AssetResultWidget(
-                                      assets: cylinders,
-                                      assetSelectedHandle: (assetSelected) {
+                                    child: ServiceEventResultWidget(
+                                      orders: orders,
+                                      serviceEventSelectedHandle: (order) {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (builderContext) {
-                                          return PageCylinderDetailBloc(
-                                              asset: assetSelected);
+                                          return PageWorkOrderDetailBloc(
+                                              order: order);
                                         }));
                                       },
                                     ),
                                     onRefresh: () {
-                                      _textController.clear();
-                                      model.fetchCylinders();
+                                      model.fetchWorkOrders();
                                     },
                                   );
                           }),
-                      BaseView<LocationsModel>(onModelReady: (model) {
-                        // Start the geolocation service, will request permission
-                        model.startGeolocation();
+                          BaseView<CylindersModel>(
+                              onModelReady: (model) => model.fetchCylinders(),
+                              builder: (context, model, child) {
+                                List<Asset> cylinders = model.assets;
+                                if (_textController.text.isEmpty == false &&
+                                    (_tabController.index ==
+                                        PageSearchTab.Cylinders.index)) {
+                                  cylinders = model
+                                      .fetchFromSearch(_textController.text);
+                                }
+                                return (model.state == ViewState.Busy)
+                                    ? FormBuild.buildLoader()
+                                    : RefreshIndicator(
+                                        color: AppColors.blueTurquoise,
+                                        child: AssetResultWidget(
+                                          assets: cylinders,
+                                          assetSelectedHandle: (assetSelected) {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (builderContext) {
+                                              return PageCylinderDetailBloc(
+                                                  asset: assetSelected);
+                                            }));
+                                          },
+                                        ),
+                                        onRefresh: () {
+                                          _textController.clear();
+                                          model.fetchCylinders();
+                                        },
+                                      );
+                              }),
+                          BaseView<LocationsModel>(onModelReady: (model) {
+                            print("BaseView<LocationsModel> is onModelReady()");
+                            // Start the geolocation service, will request permission
+                            model.startGeolocation();
 
-                        // Grab all locations, independantly from current location for now
-                        model.fetchLocations();
-                      }, builder: (context, model, child) {
-                        List<Location> locations = model.locations;
-                        if (_textController.text.isEmpty == false &&
-                            (_tabController.index ==
-                                PageSearchTab.Locations.index)) {
-                          locations = model
-                              .fetchLocationsFromSearch(_textController.text);
-                        }
-
-                        if (model.state == ViewState.Busy) {
-                          return FormBuild.buildLoader();
-                        } else if (model.state == ViewState.Idle) {
-                          return RefreshIndicator(
-                            color: AppColors.blueTurquoise,
-                            child: LocationResultWidget(
-                              locations: locations,
-                              aroundMeActionHandle: () {
-                                print("aroundMeActionHandle");
-                                FilterPreferenceService().setFilter(
-                                    SearchFilterOptions.AroundMe, true);
+                            searchModel.showAroundMeChanged = (showAround) {
+                              print("SearchModel has showAroundMeChanged");
+                              if (showAround) {
                                 model.fetchLocationsAroundMe();
-                              },
-                              locationSelectedHandle: (selectedLocation) {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (builderContext) {
-                                  return PageLocationDetailBloc(
-                                    location: selectedLocation,
-                                  );
-                                }));
-                              },
-                            ),
-                            onRefresh: () {
-                              _textController.clear();
-                              model.fetchLocations();
-                            },
-                          );
-                        } else if (model.state == ViewState.Error) {
-                          return RefreshIndicator(
-                            color: AppColors.blueTurquoise,
-                            child: ListView(children: <Widget>[
-                              Text("An error happened. Please try again",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontWeight: FontWeight.bold))
-                            ]),
-                            onRefresh: () {
-                              _textController.clear();
-                              model.fetchLocations();
-                            },
-                          );
-                        }
-                      })
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ));
+                              }
+                              else {
+                                model.fetchLocations();
+                              }
+                            };
+
+                            // Grab all locations, independantly from current location for now
+                            model.fetchLocations();
+                          }, builder: (context, model, child) {
+                            print(
+                                "LocationsModel > builder : shouldShowAroundMe = ${searchModel.shouldShowAroundMe}");
+                            List<Location> locations = model.locations;
+                            if (_textController.text.isEmpty == false &&
+                                (_tabController.index ==
+                                    PageSearchTab.Locations.index)) {
+                              locations = model.fetchLocationsFromSearch(
+                                  _textController.text);
+                            }
+
+                            if (model.state == ViewState.Busy) {
+                              return FormBuild.buildLoader();
+                            } else if (model.state == ViewState.Idle) {
+                              return RefreshIndicator(
+                                color: AppColors.blueTurquoise,
+                                child: LocationResultWidget(
+                                  locations: locations,
+                                  aroundMeActionHandle: () {
+                                    print("aroundMeActionHandle");
+                                    searchModel.showAroundMe();
+                                    // FilterPreferenceService().setFilter(
+                                    //     SearchFilterOptions.AroundMe, true);
+                                    model.fetchLocationsAroundMe();
+                                  },
+                                  locationSelectedHandle: (selectedLocation) {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (builderContext) {
+                                      return PageLocationDetailBloc(
+                                        location: selectedLocation,
+                                      );
+                                    }));
+                                  },
+                                ),
+                                onRefresh: () {
+                                  _textController.clear();
+                                  model.fetchLocations();
+                                },
+                              );
+                            } else if (model.state == ViewState.Error) {
+                              return RefreshIndicator(
+                                color: AppColors.blueTurquoise,
+                                child: ListView(children: <Widget>[
+                                  Text("An error happened. Please try again",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.redAccent,
+                                          fontWeight: FontWeight.bold))
+                                ]),
+                                onRefresh: () {
+                                  _textController.clear();
+                                  model.fetchLocations();
+                                },
+                              );
+                            }
+                          })
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ));
+      },
+    );
   }
 }
