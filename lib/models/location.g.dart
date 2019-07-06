@@ -24,6 +24,7 @@ Location _$LocationFromJson(Map<String, dynamic> json) {
       physicalCity: json['PhysicalCity'] as String,
       physicalState: json['PhysicalState'] as String,
       physicalZip: json['PhysicalZip'] as String,
+      distance: (json['distance'] as num)?.toDouble(),
       physicalCountry: json['PhysicalCountry'] as String,
       additional: json['Additional'] as String,
       isSupplier: json['IsSupplier'] as bool,
@@ -62,5 +63,6 @@ Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
       'Long': instance.long,
       'IsOffsite': instance.isOffsite,
       'ID': instance.ID,
-      'ContactPhone': instance.contactPhone
+      'ContactPhone': instance.contactPhone,
+      'distance': instance.distance
     };
