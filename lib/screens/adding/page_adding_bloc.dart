@@ -84,7 +84,11 @@ class _PageAddingBloc extends State<PageAddingBloc> with AutomaticKeepAliveClien
   @override
   Widget build(BuildContext context) {
     return BaseView<AddingNewMenuModel>(
-      onModelReady: (model) => model.fetchCurrentWorkOrder(),
+      onModelReady: (model) {
+        if (this.mounted) {
+          model.fetchCurrentWorkOrder();
+        }
+      },
       builder: (context, model, child) {
         print("AddingNewMenuModel > fetchCurrentWorkOrder ${model.currentOrder}");
         List<Widget> rows;

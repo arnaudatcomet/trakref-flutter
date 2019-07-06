@@ -6,6 +6,16 @@ part of 'zdrequest.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+ZDRequestPost _$ZDRequestPostFromJson(Map<String, dynamic> json) {
+  return ZDRequestPost(
+      request: json['request'] == null
+          ? null
+          : ZDRequest.fromJson(json['request'] as Map<String, dynamic>));
+}
+
+Map<String, dynamic> _$ZDRequestPostToJson(ZDRequestPost instance) =>
+    <String, dynamic>{'request': instance.request};
+
 ZDRequest _$ZDRequestFromJson(Map<String, dynamic> json) {
   return ZDRequest(
       requester: json['requester'] == null
@@ -44,7 +54,7 @@ Map<String, dynamic> _$ZDCustomFieldsToJson(ZDCustomFields instance) =>
     <String, dynamic>{'id': instance.id, 'value': instance.value};
 
 ZDRequester _$ZDRequesterFromJson(Map<String, dynamic> json) {
-  return ZDRequester(name: json['name'] as int);
+  return ZDRequester(name: json['name'] as String);
 }
 
 Map<String, dynamic> _$ZDRequesterToJson(ZDRequester instance) {

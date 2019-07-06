@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:trakref_app/main.dart';
+import 'package:trakref_app/models/zdrequest.dart';
+import 'package:trakref_app/screens/settings/support/page_support_new_ticket_bloc.dart';
 
 class TopicItem extends StatelessWidget {
   final String image = "";
@@ -31,12 +33,14 @@ class TopicItem extends StatelessWidget {
             left: 0,
             right: 0,
             child: Container(
-                child: Text(getTitle(this.index),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.display1.copyWith(
-                      color: Colors.black),
-                )
-            ),
+                child: Text(
+              getTitle(this.index),
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .display1
+                  .copyWith(color: Colors.black),
+            )),
           )
         ],
       ),
@@ -78,6 +82,23 @@ class TopicItem extends StatelessWidget {
     }
     return "Feature Request";
   }
+
+  static ZDRequestType getRequestType(int index) {
+    switch (index) {
+      case 0:
+        return ZDRequestType.FeatureSuggestion;
+        break;
+      case 1:
+        return ZDRequestType.OperationsOnBoarding;
+        break;
+      case 2:
+        return ZDRequestType.UsabilityAssistance;
+        break;
+      case 3:
+        return ZDRequestType.SoftwareIssue;
+        break;
+    }
+  }
 }
 
 class PageTopicsBloc extends StatefulWidget {
@@ -89,14 +110,12 @@ class _PageTopicsBlocState extends State<PageTopicsBloc> {
   static const platform = const MethodChannel('flutter.native/zendesk');
 
   // To show the ticket creation
-  showTicketRequest(String subject) async {
-    try {
-      final List<String> result = await platform.invokeListMethod('showZDTicket', {"Subject":"Subject 01", "Message":"Message 01"});
-
-      print("result of 'showZDChat'");
-    } on PlatformException catch (e) {
-      print("Failed to Invoke: '${e.message}'.");
-    }
+  showTicketRequest(ZDRequestType type) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (buildContext) {
+      return PageSupportNewTicketBloc(
+        type: type,
+      );
+    }));
   }
 
   @override
@@ -115,68 +134,42 @@ class _PageTopicsBlocState extends State<PageTopicsBloc> {
         ),
         body: SafeArea(
             child: SingleChildScrollView(
-              child: Container(
-                color: Colors.white,
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                child: Column(
-                  children: <Widget>[
-                    new Container(
-                      width: double.infinity,
-                        child: new Text("What's the topic?",
-                          style: Theme.of(context).textTheme.title,
-                          textAlign: TextAlign.left,
-                        )
-                    ),
-                    SizedBox(
-                      height: 14,
-                    ),
-                    Text("Give us some information to help us to treat your demand quickly.",
-                        style: Theme.of(context).textTheme.body1
-                    ),
-                    SizedBox(
-                      height: 14,
-                    ),
-                    GridView.count(crossAxisCount: 2,
-                      shrinkWrap: true,
-                      children: List.generate(4, (index) {
-                        return TopicItem(index,
-                          onPressed: () {
-                            showTicketRequest(TopicItem.getTitle(index));
-                          },
-                        );
-                      }),
-                    )
-                  ],
+          child: Container(
+            color: Colors.white,
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+            child: Column(
+              children: <Widget>[
+                new Container(
+                    width: double.infinity,
+                    child: new Text(
+                      "What's the topic?",
+                      style: Theme.of(context).textTheme.title,
+                      textAlign: TextAlign.left,
+                    )),
+                SizedBox(
+                  height: 14,
                 ),
-              ),
-            )
-        )
-    );
-    /* Container(
-      color: Colors.white,
-      padding: EdgeInsets.all(20),
-      child: Column(
-        children: <Widget>[
-          new Container(
-            child: new Text("What's the topic?",
-                style: Theme.of(context).textTheme.title,
-              textAlign: TextAlign.left,
-            )
+                Text(
+                    "Give us some information to help us to treat your demand quickly.",
+                    style: Theme.of(context).textTheme.body1),
+                SizedBox(
+                  height: 14,
+                ),
+                GridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  children: List.generate(4, (index) {
+                    return TopicItem(
+                      index,
+                      onPressed: () {
+                        showTicketRequest(TopicItem.getRequestType(index));
+                      },
+                    );
+                  }),
+                )
+              ],
+            ),
           ),
-          SizedBox(
-            height: 50,
-          ),
-          Text("Give us some information to help us to treat your demand quickly.",
-          style: Theme.of(context).textTheme.body1
-          ),
-          GridView.count(crossAxisCount: 2,
-            shrinkWrap: true,
-            children: List.generate(4, (index) {
-              return TopicItem(index);
-            }),
-          )
-        ],
-      ),
-    ); */
+        )));
   }
 }

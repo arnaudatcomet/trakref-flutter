@@ -2,10 +2,41 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'zdrequest.g.dart';
 
+
+@JsonSerializable()
+class ZDRequestPost {
+  @JsonKey(name: 'request')
+  ZDRequest request;
+
+  ZDRequestPost({this.request});
+
+  factory ZDRequestPost.fromJson(Map<String, dynamic> json) =>
+      _$ZDRequestPostFromJson(json);
+  Map<String, dynamic> toJson() => _$ZDRequestPostToJson(this);
+
+
+  static ZDRequestPost createRequestPost(ZDRequestType requestType, {String subject, String comment, String email, String fullName, String description, String refrigerantWeight, String systemName, String serialNumber, String gasType, String phoneNumber}) {
+    ZDRequestPost post = ZDRequestPost();
+    ZDRequest request = ZDRequest.createRequest(requestType, 
+    subject: subject, 
+    comment: comment, 
+    email: email, 
+    fullName: fullName,
+    description: description, 
+    refrigerantWeight: refrigerantWeight, 
+    systemName: systemName,
+    serialNumber: serialNumber, 
+    gasType: gasType, 
+    phoneNumber: phoneNumber);
+    post.request = request;
+    return post;
+  }
+}
+
 @JsonSerializable()
 class ZDRequest {
   @JsonKey(name: 'requester')
-  final ZDRequester requester;
+  ZDRequester requester;
 
   @JsonKey(name: 'custom_fields')
   List<ZDCustomFields> customFields;
@@ -20,19 +51,27 @@ class ZDRequest {
 
   static ZDRequest createRequest(ZDRequestType requestType, {String subject, String comment, String email, String fullName, String description, String refrigerantWeight, String systemName, String serialNumber, String gasType, String phoneNumber}) {
     ZDRequest request = ZDRequest();
+    // Comment and description are the same for now
+    String comment = description ?? "";
+    String standardEmptyString = "_____";
     ZDRequestComment requestComment = ZDRequestComment(body: comment ?? "");
     ZDCustomFields fieldRequestType = ZDCustomFields.createRequestType(requestType);
+    ZDCustomFields fieldUsername = ZDCustomFields.createUser(email ?? "");
     ZDCustomFields fieldFullName = ZDCustomFields.createClientName(fullName ?? "");
     ZDCustomFields fieldDescription = ZDCustomFields.createDescription(description ?? "");
-    ZDCustomFields fieldRefrigerantWeight = ZDCustomFields.createRefrigerantWeight(refrigerantWeight?? "");
-    ZDCustomFields fieldSystemName = ZDCustomFields.createSystemName(systemName?? "");
-    ZDCustomFields fieldSerialNumber = ZDCustomFields.createSerialNumber(serialNumber ?? "");
-    ZDCustomFields fieldGasType = ZDCustomFields.createGasType(gasType ?? "");
+    ZDCustomFields fieldRefrigerantWeight = ZDCustomFields.createRefrigerantWeight(refrigerantWeight ?? standardEmptyString);
+    ZDCustomFields fieldSystemName = ZDCustomFields.createSystemName(systemName?? standardEmptyString);
+    ZDCustomFields fieldSerialNumber = ZDCustomFields.createSerialNumber(serialNumber ?? standardEmptyString);
+    ZDCustomFields fieldGasType = ZDCustomFields.createGasType(gasType ?? standardEmptyString);
     ZDCustomFields fieldPhoneNumber = ZDCustomFields.createPhoneNumber(phoneNumber ?? ""); 
     
+    ZDRequester requester = ZDRequester();
+    requester.name = fullName ?? "";
+
     // Attach to custom fields
     request.customFields = [
       fieldRequestType,
+      fieldUsername,
       fieldFullName,
       fieldDescription,
       fieldRefrigerantWeight,
@@ -41,6 +80,9 @@ class ZDRequest {
       fieldGasType,
       fieldPhoneNumber
     ];
+
+    request.requester = requester;
+
     // Add Subject and Comment
     request.comment = requestComment;
     request.subject = subject ?? "";
@@ -189,7 +231,7 @@ class ZDCustomFields {
 @JsonSerializable(includeIfNull: false)
 class ZDRequester {
   @JsonKey(name: 'name')
-  final int name;
+  String name;
 
   ZDRequester({this.name});
 
