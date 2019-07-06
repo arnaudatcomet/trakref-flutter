@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/main.dart';
-import 'package:trakref_app/models/asset.dart';
-import 'package:trakref_app/models/dropdown.dart';
-import 'package:trakref_app/models/location.dart';
-import 'package:trakref_app/repository/api/cached_api_service.dart';
-import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/adding/app_cancellable_textfield_widget.dart';
 import 'package:trakref_app/screens/base_view.dart';
 import 'package:trakref_app/viewmodel/cylinder_add_model.dart';
@@ -25,122 +19,8 @@ class _PageAssetAddBlocState extends State<PageAssetAddBloc> {
   // Forms information
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  // TextEditingController nameController;
-  // TextEditingController currentGasWeightController;
-  // TextEditingController maxGasWeightController;
-
-  // List<DropdownItem> coolingApplianceStatuses;
-  // DropdownItem _pickedCoolingApplianceStatuses;
-
-  // List<AssetTypeItem> assetTypes;
-  // AssetTypeItem _pickedAssetTypes;
-
-  // List<DropdownItem> assetSubTypes;
-  // DropdownItem _pickedAssetSubTypes;
-
-  // String _pickedSerialNumber;
-  // String _pickedTagNumber;
-
-  // List<DropdownItem> assetCategories = [
-  //   DropdownItem(id: 1, name: "HVAC/R Systems"),
-  //   DropdownItem(id: 7, name: "SF6 Equipment")
-  // ];
-  // DropdownItem _pickedAssetCategories;
-
-  // List<DropdownItem> materialTypes;
-  // DropdownItem _pickedMaterialTypes;
-
-  // List<DropdownItem> systemStatuses;
-  // DropdownItem _pickedSystemStatuses;
-
-  // List<Location> locations;
-  // List<DropdownItem> locationsDropdowns;
-  // DropdownItem _pickedLocations;
-
-  // Future<bool> postCylinder() async {
-  //   double currentGasWeight = 0;
-  //   double maxGasWeight = 0;
-  //   try {
-  //     currentGasWeight = double.parse(currentGasWeightController.text);
-  //   } catch (error) {}
-
-  //   try {
-  //     maxGasWeight = double.parse(maxGasWeightController.text);
-  //   } catch (error) {}
-
-  //   print("Name : ${nameController.text ?? ""}");
-  //   print("Current Gas Weight : ${currentGasWeightController.text ?? ""}");
-  //   print("Max Gas Weight : ${maxGasWeightController?.text ?? ""}");
-  //   print("Appliance Status : ${_pickedCoolingApplianceStatuses?.name ?? ""}");
-  //   print("Appliance Type : ${_pickedAssetTypes?.name ?? ""}");
-  //   print("Appliance SubType : ${_pickedAssetSubTypes?.name ?? ""}");
-  //   print("Appliance Category : ${_pickedAssetCategories?.name ?? ""}");
-  //   print("Tag Number : ${_pickedTagNumber ?? ""}");
-  //   print("Serial Number : ${_pickedSerialNumber ?? ""}");
-  //   print("Location : ${_pickedLocations?.name ?? ""}");
-  //   print("Material type : ${_pickedMaterialTypes?.name ?? ""}");
-  //   print("System Status : ${_pickedSystemStatuses?.name ?? ""}");
-
-  //   Asset cylinder = Asset(
-  //     name: nameController.text,
-  //     currentGasWeightLbs: currentGasWeight,
-  //     maxGasCapacityLbs: maxGasWeight,
-  //     coolingApplianceStatusID: _pickedCoolingApplianceStatuses.id,
-  //     assetTypeID: _pickedAssetTypes.id,
-  //     assetSubtypeID: _pickedAssetSubTypes.id,
-  //     assetCategoryID: _pickedAssetCategories.id,
-  //     locationID: _pickedLocations.id,
-  //     materialTypeID: _pickedMaterialTypes.id,
-  //     assetStatusID: _pickedSystemStatuses.id,
-  //   );
-
-  //   TrakrefAPIService().writeOnDisk<Asset>([cylinder]);
-
-  //   TrakrefAPIService().postCylinder(cylinder).then((result) {
-  //     FormBuild.showFlushBarMessage(context, kAddCylinderSuccessfulMessage, () {
-  //       Navigator.of(context).pop();
-  //     });
-  //   }).catchError((error) {
-  //     FormBuild.showFlushBarMessage(context, error, null);
-  //   });
-  // }
-
   @override
   void initState() {
-    // Listening to textchanges
-    // Notes : we can remove that later
-    // nameController = TextEditingController();
-    // currentGasWeightController = TextEditingController();
-    // maxGasWeightController = TextEditingController();
-
-    // GET dropdowns
-    // DropdownList results = CachingAPIService().cachedDropdowns ?? [];
-    // // TrakrefAPIService().getDropdown().then((results) {
-    // coolingApplianceStatuses = results.coolingApplianceStatuses;
-    // //            if (asset.AssetTypeID != 3 && asset.AssetTypeID != 4 && asset.AssetSubtypeID != 83 && asset.AssetSubtypeID != 84)
-    // //                ThrowException("Error: Can only create cylinders from the mobile app");
-    // assetTypes = results.assetTypes
-    //     .where((i) => (i.id == 3 || i.id == 4 || i.id == 5))
-    //     .toList();
-    // assetSubTypes =
-    //     results.assetSubtypes.where((i) => (i.id == 83 || i.id == 84)).toList();
-
-    // materialTypes = results.materialTypes;
-    // systemStatuses = results.assetStatuses;
-
-    // TrakrefAPIService().getLocations().then((loc) {
-    //   print("getLocations > ${loc.length}");
-    //   locations = loc;
-    //   locationsDropdowns =
-    //       locations.map((i) => DropdownItem(id: i.ID, name: i.name)).toList();
-
-    //   // GET locations
-    //   _isDropdownsLoaded = true;
-
-    //   setState(() {});
-    // });
-    // // });
-
     super.initState();
   }
 

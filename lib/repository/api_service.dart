@@ -29,10 +29,6 @@ class ApiService {
 
   http.Client client = http.Client();
 
-  // By default for our test
-//  String _userID = 'echappell';
-//  String _token = '5d5ac1ae-0213-4e77-9ee7-e3a76e614909';
-//  String _instanceID = '6';
   final String token;
   final String instanceID;
   String apiKey =

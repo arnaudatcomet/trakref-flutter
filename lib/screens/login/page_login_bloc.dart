@@ -104,7 +104,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                           });
                                         }))),
                           ),
-                          new Container(
+                          Container(
                               margin: EdgeInsets.only(top: 30),
                               child: ButtonTheme(
                                 height: 52.0,
