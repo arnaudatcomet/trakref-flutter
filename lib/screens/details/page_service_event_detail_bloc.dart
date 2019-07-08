@@ -56,13 +56,13 @@ class _PageServiceEventDetailBlocState
         children: <Widget>[
           Expanded(
             child: FormBuild.buildTextfieldRow(
-                "", "From Asset", transfer.fromAsset, enabled: false),
+                "", "From Asset", transfer.fromAsset ?? "Unknown", enabled: false),
             flex: 1,
           ),
           Icon(Icons.shuffle, color: AppColors.blueTurquoise),
           Expanded(
             child:
-                FormBuild.buildTextfieldRow("", "To Asset", transfer.toAsset, enabled: false),
+                FormBuild.buildTextfieldRow("", "To Asset", transfer.toAsset ?? "Unknown", enabled: false),
             flex: 1,
           )
         ],

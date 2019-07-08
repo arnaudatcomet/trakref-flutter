@@ -13,9 +13,10 @@ class MaterialTransfersWidget extends StatefulWidget {
   final List<MaterialTransfer> materialTransfers;
   final List<Asset> assets;
   final List<MaterialGasInstallType> allowedTransfers;
+  final String equipementWorkedOnName;
   int equipmentWorkedOnID;
 
-  MaterialTransfersWidget({@required this.serviceType, this.materialTransfers, this.allowedTransfers, this.assets, this.equipmentWorkedOnID});
+  MaterialTransfersWidget({@required this.serviceType, this.materialTransfers, this.allowedTransfers, this.assets, @required this.equipmentWorkedOnID, @required this.equipementWorkedOnName});
 
   @override
   _MaterialTransfersWidgetState createState() => _MaterialTransfersWidgetState();

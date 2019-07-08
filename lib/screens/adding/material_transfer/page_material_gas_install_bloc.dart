@@ -19,12 +19,12 @@ class PageMaterialGasInstallBloc extends StatefulWidget {
   final SelectMaterialGasTransferDelegate delegate;
   final ServiceType serviceType;
 
-  PageMaterialGasInstallBloc({
-    @required this.serviceType,
-    this.assets,
-    this.currentAssetWorkedOn,
-    this.installType,
-    this.delegate});
+  PageMaterialGasInstallBloc(
+      {@required this.serviceType,
+      this.assets,
+      this.currentAssetWorkedOn,
+      this.installType,
+      this.delegate});
 
   @override
   _PageMaterialGasInstallBlocState createState() =>
@@ -46,14 +46,12 @@ class _PageMaterialGasInstallBlocState
     amountTextController.addListener(onAmountChanged);
 
     // Add unknown asset to the available cylinder
-    Asset unknown = Asset(
-        assetID: 0,
-        name: "Unknown",
-        category: "Cylinder"
-    );
-
     _allAssets = [];
     _allAssets.addAll(widget.assets);
+    _allAssets.sort((asset1, asset2) {
+      return (asset1.name ?? "").compareTo(asset2.name ?? "");
+    });
+
     _allAssets.add(Asset.createUnknown());
 
     super.initState();
@@ -69,8 +67,7 @@ class _PageMaterialGasInstallBlocState
     print("onAmountChanged text > ${amountTextController.text}");
     try {
       _pickedAmountLbs = double.parse(amountTextController.text);
-    }
-    catch (error){
+    } catch (error) {
       _pickedAmountLbs = 0;
     }
   }
@@ -123,16 +120,18 @@ class _PageMaterialGasInstallBlocState
                         "Select Cylinder > onChangedValue ${value.name} / ${value.id}");
                   }
                   Asset selectedAsset =
-                  Asset(assetID: (value is Dropdown) ? value.id : 0);
+                      Asset(assetID: (value is Dropdown) ? value.id : 0);
 
 //                  int pickedIndex = widget.assets.indexOf(selectedAsset);
-                  int pickedIndex = _allAssets.indexWhere((i) => i.assetID == selectedAsset.assetID);
+                  int pickedIndex = _allAssets
+                      .indexWhere((i) => i.assetID == selectedAsset.assetID);
 
                   print("pickedIndex ## $pickedIndex");
                   Asset fullSelectedAsset = _allAssets[pickedIndex];
 
                   print("fullSelectedAsset.id ${fullSelectedAsset.id}");
-                  print("fullSelectedAsset.materialTypeID ${fullSelectedAsset.materialTypeID}");
+                  print(
+                      "fullSelectedAsset.materialTypeID ${fullSelectedAsset.materialTypeID}");
 
                   setState(() {
                     _pickedAsset = fullSelectedAsset;
@@ -152,15 +151,11 @@ class _PageMaterialGasInstallBlocState
                 helper: "Date of Material Transfer")
           ],
         ),
-        SizedBox(
-          height:12
-        ),
+        SizedBox(height: 12),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _buildBottom(context)
-          ],
+          children: <Widget>[_buildBottom(context)],
         )
       ],
     );
@@ -170,15 +165,14 @@ class _PageMaterialGasInstallBlocState
     return Row(
       children: <Widget>[
         FormBuild.buildTextField(
-          textController: amountTextController,
+            textController: amountTextController,
             onValidated: (value) {
               if (value.isEmpty || value == null) {
                 return "Required";
               }
               try {
                 double amountEstimatedValue = double.parse(value);
-              }
-              catch (error){
+              } catch (error) {
                 return "Amount input is not valid";
               }
             },
@@ -214,8 +208,10 @@ class _PageMaterialGasInstallBlocState
           print("_pickedAsset.materialTypeID ${_pickedAsset.materialTypeID}");
           print("_dateMaterialTransfer $dateMaterialTransfer");
 
-          int materialTransferTypeID =  MaterialTransfer.getMaterialGasInstallID(widget.installType);
-          String materialTransferType =  MaterialTransfer.getMaterialGasInstall(widget.installType);
+          int materialTransferTypeID =
+              MaterialTransfer.getMaterialGasInstallID(widget.installType);
+          String materialTransferType =
+              MaterialTransfer.getMaterialGasInstall(widget.installType);
 
           print("materialTransferTypeID $materialTransferTypeID");
           print("materialTransferType $materialTransferType");
@@ -224,37 +220,42 @@ class _PageMaterialGasInstallBlocState
           // Add fixes
           // If it's service recover then put the selected cylinder to 'toAsset' and 'toAssetID'
           MaterialTransfer transfer;
-          if (widget.serviceType == ServiceType.Shutdown && materialTransferTypeID == 1) {
+          if (widget.serviceType == ServiceType.Shutdown &&
+              materialTransferTypeID == 1) {
             transfer = MaterialTransfer(
                 transferWeightLbs: _pickedAmountLbs,
                 materialTransferTypeID: materialTransferTypeID,
                 materialTransferType: materialTransferType,
                 toAssetID: _pickedAsset.id,
                 toAsset: _pickedAsset.name,
-                materialTypeID: _pickedAsset.materialTypeID,
+                fromAssetID: widget.currentAssetWorkedOn.id,
+                fromAsset: widget.currentAssetWorkedOn.name,
+                materialTypeID: widget.currentAssetWorkedOn.materialTypeID,
                 transferDate: dateMaterialTransfer);
-          }
-          else if (widget.serviceType == ServiceType.ServiceAndLeakRepair) {
+          } else if (widget.serviceType == ServiceType.ServiceAndLeakRepair) {
             if (materialTransferTypeID == 1) {
               transfer = MaterialTransfer(
                   transferWeightLbs: _pickedAmountLbs,
                   materialTransferTypeID: materialTransferTypeID,
                   materialTransferType: materialTransferType,
-                  fromAssetID: _pickedAsset.id,
+                  toAssetID: _pickedAsset.id,
+                  toAsset: _pickedAsset.name,
+                  fromAssetID: widget.currentAssetWorkedOn.id,
+                  fromAsset: widget.currentAssetWorkedOn.name,
+                materialTypeID: widget.currentAssetWorkedOn?.materialTypeID ?? 0,
+                  transferDate: dateMaterialTransfer);
+            } else if (materialTransferTypeID == 2) {
+              transfer = MaterialTransfer(
+                  transferWeightLbs: _pickedAmountLbs,
+                  materialTransferTypeID: materialTransferTypeID,
+                  materialTransferType: materialTransferType,
                   fromAsset: _pickedAsset.name,
-                  materialTypeID: _pickedAsset.materialTypeID,
+                  fromAssetID: _pickedAsset.id,
+                  toAssetID: widget.currentAssetWorkedOn.id,
+                  toAsset: widget.currentAssetWorkedOn.name,
+                  materialTypeID: widget.currentAssetWorkedOn?.materialTypeID ?? 0,
                   transferDate: dateMaterialTransfer);
             }
-            else if (materialTransferTypeID == 2) {
-                transfer = MaterialTransfer(
-                    transferWeightLbs: _pickedAmountLbs,
-                    materialTransferTypeID: materialTransferTypeID,
-                    materialTransferType: materialTransferType,
-                    toAssetID: _pickedAsset.id,
-                    toAsset: _pickedAsset.name,
-                    materialTypeID: _pickedAsset.materialTypeID,
-                    transferDate: dateMaterialTransfer);
-              }
           }
 
           print("===> MaterialTransfer");

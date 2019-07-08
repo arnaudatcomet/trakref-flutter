@@ -146,14 +146,13 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           coolingApplianceAssets =
               assets.where((i) => (i.coolingApplianceStatusID > 0)).toList();
           coolingApplianceAssets = assets;
-
-          assetsDropdowns = (coolingApplianceAssets ?? []).map((i) {
+          assets.forEach((i) => print("${i.name} / ${i.materialTypeID} / ${i.isCylinder}"));
+          assetsDropdowns = (coolingApplianceAssets ?? []).where((i) => (i.isCylinder == false && i.materialTypeID != 0)).map((i) {
             return DropdownItem(name: i.name, id: i.assetID);
           }).toList();
           assetsDropdowns.sort((item1, item2) => item1.name.compareTo(item2.name));
           _isDropdownsLoaded = true;
           // Show a warning if there's no cooling assets
-          print("coolingApplianceAssets ${coolingApplianceAssets.length}");
           if (coolingApplianceAssets.length < 1) {
             FormBuild.showFlushBarMessage(context,
                 "No equipment/cooling appliance found for that work order",
@@ -253,7 +252,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
           leakDetectionMethodID: leakDetectionMethod,
           notes: notes,
           wasLeakFound: wasLeakFound,
-          leakInspectionType: "Initial",
           inspectionDate: followUpDateString);
 
       leakInspections = [inspection];
@@ -317,9 +315,9 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     String verificationLeakMethod =
         _pickedVerificationLeakDetectionMethod.name;
     bool verificationWasLeakFoundDuringInspection = _wasVerificationLeakFound;
-    String verificationCauseOfLeak = _pickedVerificationCauseOfLeak.name;
-    String verificationLeakCategory = _pickedVerificationLeakCategory.name;
-    String verificationLeakLocation = _pickedVerificationLeakLocation.name;
+    String verificationCauseOfLeak = _pickedVerificationCauseOfLeak?.name;
+    String verificationLeakCategory = _pickedVerificationLeakCategory?.name;
+    String verificationLeakLocation = _pickedVerificationLeakLocation?.name;
 
     String notes = _pickedObservationNotes;
 
@@ -368,13 +366,13 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
         leakDetectionMethodID: _pickedLeakDetectionMethod.id);
 
     LeakInspection verificationLeakInspection = LeakInspection(
-        leakLocationCategoryID: _pickedVerificationLeakCategory.id,
-        leakLocationID: _pickedVerificationLeakLocation.id,
-        faultCauseTypeID: _pickedVerificationCauseOfLeak.id,
+        leakLocationCategoryID: _pickedVerificationLeakCategory?.id ?? 0,
+        leakLocationID: _pickedVerificationLeakLocation?.id ?? 0,
+        faultCauseTypeID: _pickedVerificationCauseOfLeak?.id ?? 0,
         leakInspectionType: "verification",
         // Need to change that
-        wasLeakFound: false,
-        leakDetectionMethodID: _pickedVerificationLeakDetectionMethod.id);
+        wasLeakFound: verificationWasLeakFoundDuringInspection,
+        leakDetectionMethodID: _pickedVerificationLeakDetectionMethod?.id ?? 0);
 
     // You need to grab the locationID to pass it to workItem ID
     WorkOrder order = widget.currentWorkOrder;
@@ -417,8 +415,14 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     // Retrieve the values
     int equipmentWorkedOn = _pickedEquipmentWorkedOn.id;
     String typeOfService = _pickedTypeOfService.name;
-    String leakDetectionMethod = _pickedLeakDetectionMethod.name;
-    bool wasLeakFound = _wasLeakFound;
+    // We don't actually need those values
+    // String leakDetectionMethod = _pickedLeakDetectionMethod.name;
+    // bool wasLeakFound = _wasLeakFound;
+    
+    // By default
+    String leakDetectionMethod = null;
+    bool wasLeakFound = false;
+    
     String serviceDate;
     if (_pickedServiceDate != null) {
       serviceDate = DateFormat(kShortDateFormat).format(_pickedServiceDate);
@@ -584,6 +588,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
       assets: coolingApplianceAssets,
       materialTransfers: _pickedMaterialTransfers,
       equipmentWorkedOnID: _pickedEquipmentWorkedOn.id,
+      equipementWorkedOnName: _pickedEquipmentWorkedOn.name,
     );
   }
 
@@ -1137,6 +1142,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                         ),
                       ]),
                       Row(children: <Widget>[
+                        (this.typeOfService == ServiceType.Shutdown) ? Container() :
                         AppCancellableTextField(
                             initialValue: _pickedLeakDetectionMethod,
                             sourcesDropdown: this.leakDetectionMethod,
