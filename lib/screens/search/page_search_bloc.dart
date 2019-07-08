@@ -40,6 +40,8 @@ class _PageSearchBlocState extends State<PageSearchBloc>
   TabController _tabController;
   TextEditingController _textController = TextEditingController();
 
+  bool get value => null;
+
   @override
   void dispose() {
     _textController.dispose();
@@ -98,8 +100,6 @@ class _PageSearchBlocState extends State<PageSearchBloc>
 
     return BaseView<SearchFilterModel>(
       builder: (context, searchModel, child) {
-        print(
-            "SearchFilterModel > builder : shouldShowAroundMe = ${searchModel.shouldShowAroundMe}");
         return Scaffold(
             backgroundColor: Colors.white,
             body: Container(
@@ -127,26 +127,11 @@ class _PageSearchBlocState extends State<PageSearchBloc>
                                 builder: (BuildContext context) {
                               return SearchFilter(
                                 delegate: (listOptions) {
-                                  FilterPreferenceService().resetAll();
-                                  bool showAroundMe = false;
-                                  for (SearchFilterOptions option
-                                      in listOptions) {
-                                    // FilterPreferenceService().setFilter(option, true);
-                                    // If assigned to me then change the switch 'Assigned to me' state
-                                    if (option ==
-                                        SearchFilterOptions.AroundMe) {
-                                      showAroundMe = true;
-                                    }
-                                  }
-
-                                  if (showAroundMe) {
-                                    searchModel.showAroundMe();
-                                  } else {
-                                    searchModel.dontShowAroundMe();
-                                  }
-
-                                  // searchModel.onShowAroundMe();
-                                  // print("listOptions $listOptions");
+                                  // FilterPreferenceService().resetAll();
+                                  List<SearchFilterOptions> options = [SearchFilterOptions.AroundMe, SearchFilterOptions.AssignedToMe, SearchFilterOptions.Opened];
+                                  options.forEach((i) {
+                                    searchModel.setSearchOption(i, (listOptions.contains(i) == true));
+                                  });
                                 },
                               );
                             }));
@@ -191,8 +176,16 @@ class _PageSearchBlocState extends State<PageSearchBloc>
                             model.fetchWorkOrders();
                             model.controller = _textController;
                             model.controller.addListener(() => setState(() {}));
+
+                            searchModel.showOptionChanged = (option, value) {
+                              if (option == SearchFilterOptions.Opened) {
+                              print("SearchModel has showOptionChanged for 'Opened' to value '$value'");
+                                model.fetchBasedOnStatus(value);
+                              }
+                            };
+
                           }, builder: (context, model, child) {
-                            List<WorkOrder> orders = model.orders;
+                            List<WorkOrder> orders = model.filteredOrders;
                             if (_textController.text.isEmpty == false &&
                                 (_tabController.index ==
                                     PageSearchTab.ServiceEvents.index)) {
@@ -256,21 +249,21 @@ class _PageSearchBlocState extends State<PageSearchBloc>
                             // Start the geolocation service, will request permission
                             model.startGeolocation();
 
-                            searchModel.showAroundMeChanged = (showAround) {
-                              print("SearchModel has showAroundMeChanged");
-                              if (showAround) {
-                                model.fetchLocationsAroundMe();
-                              }
-                              else {
-                                model.fetchLocations();
+                            searchModel.showOptionChanged = (option, value) {
+                              if (option == SearchFilterOptions.AroundMe) {
+                              print("SearchModel has showOptionChanged for 'AroundMe' to value '$value'");
+                                if (value == true) {
+                                  model.fetchLocationsAroundMe();
+                                }
+                                else {
+                                  model.fetchLocations();
+                                }
                               }
                             };
 
                             // Grab all locations, independantly from current location for now
                             model.fetchLocations();
                           }, builder: (context, model, child) {
-                            print(
-                                "LocationsModel > builder : shouldShowAroundMe = ${searchModel.shouldShowAroundMe}");
                             List<Location> locations = model.locations;
                             if (_textController.text.isEmpty == false &&
                                 (_tabController.index ==
@@ -288,7 +281,7 @@ class _PageSearchBlocState extends State<PageSearchBloc>
                                   locations: locations,
                                   aroundMeActionHandle: () {
                                     print("aroundMeActionHandle");
-                                    searchModel.showAroundMe();
+                                    searchModel.setSearchOption(SearchFilterOptions.AroundMe, true);
                                     // FilterPreferenceService().setFilter(
                                     //     SearchFilterOptions.AroundMe, true);
                                     model.fetchLocationsAroundMe();

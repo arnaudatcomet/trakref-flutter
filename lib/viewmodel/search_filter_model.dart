@@ -1,30 +1,24 @@
-import 'package:trakref_app/enums/viewstate.dart';
-import 'package:trakref_app/models/info_user.dart';
 import 'package:trakref_app/models/search_filter_options.dart';
-import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/repository/preferences_service.dart';
 import 'package:trakref_app/viewmodel/base_model.dart';
 
 class SearchFilterModel extends BaseModel {
   bool _shouldShowAroundMe = false;
   bool get shouldShowAroundMe => _shouldShowAroundMe;
-  // Function onShowAroundMe;
+
+  bool _shouldShowOpenedServiceEvent = false;
+  bool get shouldShowOpenedServiceEvent => _shouldShowOpenedServiceEvent;
+
   Function showAroundMeChanged;
+  Function showOptionChanged;
 
-  setAroundMe(bool show) {
-    if (show != _shouldShowAroundMe) {
-      showAroundMeChanged(show);
+  setSearchOption(SearchFilterOptions option, bool value) async {
+    bool oldValue = await FilterPreferenceService().getValues(option);
+    print("=== old value '$oldValue' and new value '$value' for option '$option === ");
+    if (oldValue != value && showOptionChanged != null) {
+      showOptionChanged(option, value); 
     }
-    _shouldShowAroundMe = show;
-    FilterPreferenceService().setFilter(SearchFilterOptions.AroundMe, show);
+    FilterPreferenceService().setFilter(option, value);
     notifyListeners();
-  }
-
-  showAroundMe() {
-    setAroundMe(true);
-  }
-
-  dontShowAroundMe() {
-    setAroundMe(false);
   }
 }

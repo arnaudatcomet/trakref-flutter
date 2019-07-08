@@ -93,7 +93,7 @@ class _SearchFilterState extends State<SearchFilter> {
               aroundMeFilterValue = switchValue;
             });
           }),
-          buildSettings("Opened", openedFilterValue, (switchValue) {
+          buildSettings("Show Only Opened", openedFilterValue, (switchValue) {
             setState(() {
               openedFilterValue = switchValue;
             });
