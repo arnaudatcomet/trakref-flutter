@@ -127,7 +127,8 @@ class ApiService {
       final res = response.body;
       print("post $url, result $res");
       try {
-        Map resMap = json.decode(res);
+        List<Map> resListMap = json.decode(res);
+        Map resMap = resListMap.first;
         // Look for error first
         if (resMap['Message'] != null) {
           return Future.error("${resMap['Message']}");
