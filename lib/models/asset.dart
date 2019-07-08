@@ -17,6 +17,9 @@ class Asset {
   @JsonKey(name: 'AssetStatus')
   final String assetStatus;
 
+  @JsonKey(name: 'CylinderStatusID')
+  final int cylinderStatusID;
+
   @JsonKey(name: 'IsCylinder')
   final bool isCylinder;
 
@@ -122,7 +125,7 @@ class Asset {
   @JsonKey(name: 'WeightUnits')
   final String weightUnits;
 
-  Asset({this.name, this.assetID, this.assetStatusID, this.assetStatus,
+  Asset({this.name, this.assetID, this.assetStatusID, this.assetStatus, this.cylinderStatusID,
     this.isCylinder, this.instanceID, this.instance, this.locationID,
     this.location, this.address1, this.address2, this.city, this.state,
     this.zipcode, this.country, this.serialNumber, this.tagNumber,

@@ -48,11 +48,12 @@ class _PageCylinderDetailBlocState extends State<PageCylinderDetailBloc> {
                 FormBuild.buildTextfieldRow("TagNumberKey", "Tag Number", widget.asset.tagNumber, enabled: false),
                 FormBuild.buildTextfieldRow("CategoryKey", "Category", widget.asset.assetCategory, enabled: false),
                 FormBuild.buildTextfieldRow("SystemTypeKey", "System Type", widget.asset.assetType, enabled: false),
-                FormBuild.buildTextfieldRow("PONumberKey", "PO Number", widget.asset.poNumber, enabled: false),
-                FormBuild.buildTextfieldRow("SystemStatusKey", "System Status", ((widget.asset.assetStatusID == 0) ? "Closed" : "Opened"), enabled: false),
-                FormBuild.buildTextfieldRow("ClientNameKey", "Refrigerant Type", widget.asset.materialType, enabled: false),
-                FormBuild.buildTextfieldRow("ContactNumberKey", "Max Gas Weight", widget.asset.maxGasCapacityLbs.toString(), enabled: false),
-                FormBuild.buildTextfieldRow("ContactEmailKey", "Current Gas Weight", widget.asset.currentGasWeightLbs.toString(), enabled: false)
+                FormBuild.buildTextfieldRow("PONumberKey", "PO Number", widget.asset.zipcode, enabled: false),
+                (widget.asset.assetStatusID == null) ? Container : FormBuild.buildTextfieldRow("SystemStatusKey", "Asset Status", ((widget.asset.assetStatusID == 0) ? "Closed" : "Opened"), enabled: false),
+                (widget.asset.cylinderStatusID == null) ? Container : FormBuild.buildTextfieldRow("SystemStatusKey", "Cylinder Status", ((widget.asset.cylinderStatusID == 0) ? "Inactive" : "Active"), enabled: false),
+                FormBuild.buildTextfieldRow("AssetCategoryKey", "Refrigerant Type", widget.asset.assetCategory, enabled: false),
+                FormBuild.buildTextfieldRow("MaxGasKey", "Max Gas Weight", widget.asset.maxGasCapacityLbs.toString(), enabled: false),
+                FormBuild.buildTextfieldRow("CurrentGasKey", "Current Gas Weight", widget.asset.currentGasWeightLbs.toString(), enabled: false)
               ],
             )
         )
