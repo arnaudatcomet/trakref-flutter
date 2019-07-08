@@ -109,7 +109,7 @@ class _PageSelectCurrentWorkOrderBlocState
                 children: <Widget>[
                   Container(
                     width: double.infinity,
-                    child: Text("No work order available",
+                    child: Text("No work order available. Please pull to refresh again later.",
                         textAlign: TextAlign.center),
                   )
                 ],
