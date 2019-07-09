@@ -12,6 +12,7 @@ import 'package:trakref_app/viewmodel/login_model.dart';
 import 'package:trakref_app/viewmodel/profile_model.dart';
 import 'package:trakref_app/viewmodel/search_filter_model.dart';
 import 'package:trakref_app/viewmodel/workorder_select_model.dart';
+import 'package:trakref_app/viewmodel/workorders_details_model.dart';
 import 'package:trakref_app/viewmodel/workorders_model.dart';
 import 'package:trakref_app/viewmodel/zendesk_support_model.dart';
 
@@ -22,6 +23,8 @@ setupLocator() {
   locator.registerLazySingleton( () => ApiService() );
   locator.registerLazySingleton( () => CachingAPIService() );
   
+  
+  locator.registerFactory(() => WorkOrdersDetailModel());
   locator.registerFactory(() => ZendeskSupportModel());
   locator.registerFactory(() => SearchFilterModel());
   locator.registerFactory(() => CylinderAddModel());

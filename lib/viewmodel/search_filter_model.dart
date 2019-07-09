@@ -14,7 +14,6 @@ class SearchFilterModel extends BaseModel {
 
   setSearchOption(SearchFilterOptions option, bool value) async {
     bool oldValue = await FilterPreferenceService().getValues(option);
-    print("=== old value '$oldValue' and new value '$value' for option '$option === ");
     if (oldValue != value && showOptionChanged != null) {
       showOptionChanged(option, value); 
     }

@@ -8,8 +8,8 @@ import 'package:trakref_app/widget/dropdown_widget.dart';
 typedef PageServiceEventDetailDelegate = Widget Function();
 
 class PageServiceEventDetailBloc extends StatefulWidget {
-  WorkItem serviceEvent;
-  PageServiceEventDetailDelegate delegate;
+  final WorkItem serviceEvent;
+  final PageServiceEventDetailDelegate delegate;
 
   PageServiceEventDetailBloc({this.serviceEvent, this.delegate});
 
