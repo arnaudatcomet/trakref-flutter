@@ -41,6 +41,20 @@ class WorkOrdersDetailModel extends BaseModel {
     notifyListeners();
   }
 
+  getCount(WorkOrderActivityOptions option) {
+    switch (option) {
+      case WorkOrderActivityOptions.LeakInspection:
+        return serviceEvents.where((i) => (i.workItemTypeID == 2)).toList().length;
+        break;
+      case WorkOrderActivityOptions.ServiceAndLeakRepair:
+        return serviceEvents.where((i) => (i.workItemTypeID == 3)).toList().length;
+        break;
+      case WorkOrderActivityOptions.Shutdown:
+        return serviceEvents.where((i) => (i.workItemTypeID == 5)).toList().length;
+        break;
+    }
+    return 0;
+  }
   sort(WorkOrderActivityOptions option) {
     setState(ViewState.Busy);
     switch (option) {

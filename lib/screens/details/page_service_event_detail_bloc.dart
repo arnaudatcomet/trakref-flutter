@@ -263,7 +263,7 @@ class _PageServiceEventDetailBlocState
                 children: <Widget>[
                   Hero(
                     tag: 'service-event-${widget.serviceEvent.workItemID}',
-                    child: widget.delegate() ?? Container(),
+                    child: widget?.delegate() ?? Container(),
                   ),
                 ],
               ),
