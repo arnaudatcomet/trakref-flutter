@@ -323,10 +323,13 @@ class ServiceEventRow extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
+                  Hero(
+                    tag: 'service-event-${serviceEvent.workItemID}',
+                    child: Text(
                     "${serviceEvent.workItemType}",
                     textAlign: TextAlign.center,
                     style: bodyTextStyle,
+                  ),
                   ),
                   TextFormField(
                     enabled: false,

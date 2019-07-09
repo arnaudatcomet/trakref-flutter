@@ -56,6 +56,18 @@ class DropdownFormField<T> extends FormField<T> {
 }
 
 class FormBuild {
+  static Widget buildTinyTextField({String initialValue, String label, Color labelColor, Color textColor}) {
+    return TextFormField(
+      enabled: false,
+      initialValue: "${initialValue ?? ""}",
+      style: TextStyle(color: textColor ?? Colors.black),
+      decoration: InputDecoration(
+          labelStyle: TextStyle(
+              color: labelColor ?? AppColors.blueTurquoise, fontWeight: FontWeight.bold),
+          labelText: "${label ?? ""}",
+          border: InputBorder.none),
+    );
+  }
   // Convenient Loader
   static Widget buildLoader() {
     return Center(
