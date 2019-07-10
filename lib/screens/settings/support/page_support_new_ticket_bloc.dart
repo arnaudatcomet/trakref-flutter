@@ -97,7 +97,7 @@ class _PageSupportNewTicketBlocState extends State<PageSupportNewTicketBloc> {
                                     }
                                   },
                                   key: Key("ObservationKey"),
-                                  maxLength: 50,
+                                  maxLength: 250,
                                   maxLines: 10,
                                   controller: model.descriptionController,
                                   decoration: InputDecoration(
