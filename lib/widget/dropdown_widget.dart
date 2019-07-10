@@ -57,9 +57,10 @@ class DropdownFormField<T> extends FormField<T> {
 
 class FormBuild {
   static Widget buildTinyTextField({String initialValue, String label, Color labelColor, Color textColor}) {
+    String firstValue = initialValue ?? "Not Specified";
     return TextFormField(
       enabled: false,
-      initialValue: "${initialValue ?? ""}",
+      initialValue: "$firstValue",
       style: TextStyle(color: textColor ?? Colors.black),
       decoration: InputDecoration(
           labelStyle: TextStyle(

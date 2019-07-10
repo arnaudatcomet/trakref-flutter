@@ -79,6 +79,96 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
           enabled: false),
     ];
 
+    // All the styles for the form
+    TextStyle bodyTextStyle = TextStyle(
+        color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16);
+
+    return [
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey, width: 2.0),
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(5.0),
+          ),
+          boxShadow: <BoxShadow>[
+            new BoxShadow(
+              color: Colors.grey,
+              blurRadius: 3.0,
+              offset: new Offset(0.0, 4.0),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(10),
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Type : ${transfer.materialTransferType}",
+                      textAlign: TextAlign.center,
+                      style: bodyTextStyle,
+                    ),
+                    SizedBox(width: 10),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                        child: FormBuild.buildTinyTextField(
+                            initialValue: transfer?.fromAsset ?? "Unknown",
+                            label: "From Asset")),
+                    Icon(Icons.chevron_right),
+                    Chip(
+                      label: Text(
+                        "${transfer.transferWeightLbs} lbs",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: AppColors.blueTurquoise,
+                    ),
+                    Icon(Icons.chevron_right),
+                    Expanded(
+                      child: FormBuild.buildTinyTextField(
+                          initialValue: transfer?.toAsset ?? "Unknown",
+                          label: "To Asset:"),
+                    )
+                  ],
+                ),
+                FormBuild.buildTinyTextField(
+                    initialValue: transfer.fromLocation,
+                    label: "From Location:"),
+                FormBuild.buildTinyTextField(
+                    initialValue: transfer.toLocation, label: "To Location:"),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                        child: FormBuild.buildTinyTextField(
+                            initialValue: transfer.technicianName,
+                            label: "Technician Name")),
+                    Expanded(
+                      child: FormBuild.buildTinyTextField(
+                          initialValue:
+                              Helper.getShortDate(transfer.transferDate),
+                          label: "Transfer Date"),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      )
+    ];
     return [
       Container(
         margin: const EdgeInsets.only(left: 0.0, right: 0.0),
@@ -104,128 +194,107 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
   }
 
   List<Widget> buildLeakInspection(LeakInspection leak) {
-    List<Widget> leakInspection = [
-      Row(
-        children: <Widget>[
-          Expanded(
-            child: FormBuild.buildTextfieldRow(
-                "", "Leak Inspection", leak.leakInspectionType,
-                enabled: false),
-            flex: 1,
-          ),
-          Expanded(
-            child: FormBuild.buildTextfieldRow(
-                "", "Detection Method", leak.leakDetectionMethod,
-                enabled: false),
-            flex: 1,
-          )
-        ],
-      ),
-      Row(
-        children: <Widget>[
-          Expanded(
-            child: FormBuild.buildTextfieldRow(
-                "", "Leak Category", leak.leakLocationCategory,
-                enabled: false),
-            flex: 1,
-          ),
-          Expanded(
-            child: FormBuild.buildTextfieldRow(
-                "", "Leak Location", leak.leakLocation,
-                enabled: false),
-            flex: 1,
-          )
-        ],
-      ),
-      FormBuild.buildTextfieldRow("", "Fault Cause Type", leak.faultCauseType,
-          enabled: false),
-    ];
+// All the styles for the form
+    TextStyle bodyTextStyle = TextStyle(
+        color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16);
 
+    // Build the chip for the 'was leak found' and 'no leak found'
+    Widget leakFoundStatusWidget = Container();
+    if (leak.wasLeakFound != null) {
+      if (leak.wasLeakFound == true) {
+        leakFoundStatusWidget = Chip(
+          label: Text(
+            "Leak Found",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.redAccent,
+        );
+      } else {
+        leakFoundStatusWidget = Chip(
+          label: Text(
+            "No Leak Found",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: AppColors.blueTurquoise,
+        );
+      }
+    }
     return [
-      Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: Colors.green,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Expanded(
-                    child: FormBuild.buildTinyTextField(
-                        initialValue: leak.leakInspectionType,
-                        label: "Leak Inspection"),
-                  ),
-                  Expanded(
-                    child: FormBuild.buildTinyTextField(
-                        initialValue: (leak.wasLeakFound) ? "True" : "False",
-                        label: "Was Leak Found?"),
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Expanded(
-                    child: FormBuild.buildTinyTextField(
-                        initialValue: leak.leakLocationCategory,
-                        label: "Leak Location Category"),
-                  ),
-                  Expanded(
-                    child: FormBuild.buildTinyTextField(
-                        initialValue: leak.leakLocation, label: "Leak Location"),
-                  )
-                ],
-              ),
-              FormBuild.buildTinyTextField(
-                  initialValue: leak.faultCauseType, label: "Fault Cause Type"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Expanded(
-                    child: FormBuild.buildTinyTextField(
-                        initialValue: "${leak.estimatedLeakAmount} lbs",
-                        label: "Estimated Leak Amount"),
-                  ),
-                  Expanded(
-                    child: FormBuild.buildTinyTextField(
-                        initialValue: Helper.getShortDate(leak.inspectionDate), label: "Inspection Date"),
-                  )
-                ],
-              ),
-            ],
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey, width: 2.0),
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(5.0),
+          ),
+          boxShadow: <BoxShadow>[
+            new BoxShadow(
+              color: Colors.grey,
+              blurRadius: 3.0,
+              offset: new Offset(0.0, 4.0),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(10),
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Type : ${leak.leakInspectionType}",
+                      textAlign: TextAlign.center,
+                      style: bodyTextStyle,
+                    ),
+                    SizedBox(width: 10),
+                    leakFoundStatusWidget
+                  ],
+                ),
+                FormBuild.buildTinyTextField(
+                    initialValue: leak.leakLocationCategory,
+                    label: "Leak Location Category"),
+                FormBuild.buildTinyTextField(
+                    initialValue: leak.leakLocation, label: "Leak Location"),
+                FormBuild.buildTinyTextField(
+                    initialValue: leak.faultCauseType,
+                    label: "Fault Cause Type"),
+                FormBuild.buildTinyTextField(
+                    initialValue: "${leak.estimatedLeakAmount} lbs",
+                    label: "Estimated Leak Amount"),
+                FormBuild.buildTinyTextField(
+                    initialValue: (leak?.inspectionDate == null) ? "Undefined" : Helper.getShortDate(leak.inspectionDate),
+                    label: "Inspection Date")
+              ],
+            ),
           ),
         ),
       )
     ];
-    //   Container(
-    //     decoration: new BoxDecoration(
-    //       color: Colors.white,
-    //       shape: BoxShape.rectangle,
-    //       borderRadius: new BorderRadius.circular(12.0),
-    //       boxShadow: <BoxShadow>[
-    //         BoxShadow(
-    //             color: Colors.black,
-    //             blurRadius: 3.0,
-    //             offset: const Offset(0.0, 2.0))
-    //       ],
-    //     ),
-    //     child: Padding(
-    //       padding: const EdgeInsets.all(12),
-    //       child: Column(
-    //         children: <Widget>[...leakInspection],
-    //       ),
-    //     ),
-    //   )
-    // ];
   }
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    int tabBarSize = 3;
+    switch (widget.serviceEvent.workItemTypeID) {
+      case 2:
+      tabBarSize = 2;
+      break;
+      case 3:
+      tabBarSize = 3;
+      break;
+      case 5:
+      tabBarSize = 2;
+      break;
+    }
+    _tabController = TabController(length: tabBarSize, vsync: this);
     super.initState();
   }
 
@@ -242,9 +311,9 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
     Widget FollowUpDateWidget = FormBuild.buildTextField(
         label: "Follow Up Date",
         key: Key("FollowUpDateKey"),
-        initialValue:
-            Helper.getShortDate(widget.serviceEvent.dateOfFollowUpService) ??
-                "Non available",
+        initialValue: (widget.serviceEvent?.dateOfFollowUpService != null)
+            ? Helper.getShortDate(widget.serviceEvent?.dateOfFollowUpService)
+            : "Non available",
         enabled: false);
 
     // Build service event header
@@ -283,6 +352,11 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
 
     // Build leak inspections
     List<Widget> leaks = [];
+    List<LeakInspection> leaksInspectionInServiceEvent =
+        widget.serviceEvent.leakInspection;
+    leaksInspectionInServiceEvent
+        .sort((i, j) => i.leakInspectionType.compareTo(j.leakInspectionType));
+    // Sort the leak inspections first
     for (LeakInspection leak in widget.serviceEvent.leakInspection) {
       leaks.addAll(buildLeakInspection(leak));
       leaks.addAll([
@@ -303,6 +377,106 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
     Widget jumpBox = SizedBox(
       height: 14,
     );
+
+    // Prepare tab depending on service event type :
+    // 2 = no material transfer
+    // 3 = show everything
+    // 5 = no leak inspection
+
+    List<Widget> tabBars = [];
+    List<Widget> tabBarViews = [];
+  print("WorkItemID ${widget.serviceEvent.workItemID}");
+    if (widget.serviceEvent.workItemTypeID == 2) {
+      tabBars = [
+        Tab(
+          text: 'Information',
+        ),
+        Tab(
+          text: 'Leak Inspection',
+        )
+      ];
+      tabBarViews = [
+        SingleChildScrollView(
+            child: Column(
+          children: <Widget>[...serviceEventHeader],
+        )),
+        SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              ...leaks
+            ],
+          ),
+        ),
+      ];
+    } 
+  else if (widget.serviceEvent.workItemTypeID == 5) {
+      tabBars = [
+        Tab(
+          text: 'Information',
+        ),
+        Tab(
+          text: 'Gas Transfer(${widget.serviceEvent.materialTransfer.length})',
+        )
+      ];
+      tabBarViews = [
+        SingleChildScrollView(
+            child: Column(
+          children: <Widget>[...serviceEventHeader],
+        )),
+        SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              ...materialTransfers,
+            ],
+          ),
+        ),
+      ];
+    }
+    else  /* if (widget.serviceEvent.workItemTypeID == 3) */ {
+      tabBars = [
+        Tab(
+          text: 'Information',
+        ),
+        Tab(
+          text: 'Leak Inspection',
+        ),
+        Tab(
+          text: 'Gas Transfer(${widget.serviceEvent.materialTransfer.length})',
+        )
+      ];
+      tabBarViews = [
+        SingleChildScrollView(
+            child: Column(
+          children: <Widget>[...serviceEventHeader],
+        )),
+        SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              ...leaks
+            ],
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              ...materialTransfers,
+            ],
+          ),
+        ),
+      ];
+    }
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -343,15 +517,7 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
                 indicatorColor: AppColors.blueTurquoise,
                 labelStyle: TextStyle(fontWeight: FontWeight.bold),
                 tabs: <Widget>[
-                  Tab(
-                    text: 'Information',
-                  ),
-                  Tab(
-                    text: 'Leak Inspection',
-                  ),
-                  Tab(
-                    text: 'Gas Transfer',
-                  )
+                  ...tabBars
                 ],
               ),
               Expanded(
@@ -361,54 +527,11 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
                   physics: BouncingScrollPhysics(),
                   controller: _tabController,
                   children: <Widget>[
-                    SingleChildScrollView(
-                        child: Column(
-                      children: <Widget>[...serviceEventHeader],
-                    )),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[...leaks],
-                      ),
-                    ),
-                    Container(color: Colors.green),
+                    ...tabBarViews
                   ],
                 ),
               ))
-            ] /* SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: <Widget>[
-                  Hero(
-                    tag: 'service-event-${widget.serviceEvent.workItemID}',
-                    child: Text("${widget.serviceEvent.workItemType}",
-                        style: Theme.of(context).textTheme.title),
-                  ),
-                ],
-              ),
-              ...serviceEventHeader,
-              jumpBox,
-              Text("Leak Inspection",
-                  style: Theme.of(context)
-                      .textTheme
-                      .display2
-                      .copyWith(color: AppColors.blueTurquoise)),
-              jumpBox,
-              ...leaks,
-              jumpBox,
-              Text("Material Transfer",
-                  style: Theme.of(context)
-                      .textTheme
-                      .display2
-                      .copyWith(color: AppColors.blueTurquoise)),
-              jumpBox,
-              ...materialTransfers,
-              jumpBox
-            ])) */
-            ,
+            ],
           ),
         ));
   }
