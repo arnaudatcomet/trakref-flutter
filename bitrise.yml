@@ -32,7 +32,8 @@ workflows:
     - flutter:
         inputs:
         - version: 1.5.4
-        - commands: build ios --release --build-name="$BUILD_NAME" --build-number="$BUILD_NUMBER"
+        # - commands: build ios --release --build-name="$BUILD_NAME" --build-number="$BUILD_NUMBER"
+        - commands: build ios --release"
     - xcode-archive@2.4.16:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"

@@ -312,15 +312,14 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
     List<Widget> tabBars = [];
     List<Widget> tabBarViews = [];
     print("WorkItemID ${widget.serviceEvent.workItemID}");
+    List<String> leakInspectionMenu = ['Information', 'Leak Inspection'];
+    List<String> shutdownMenu = ['Information', 'Gas Transfer(${widget.serviceEvent.materialTransfer.length})'];
+    List<String> generalMenu = ['Information', 'Leak Inspection', 'Gas Transfer(${widget.serviceEvent.materialTransfer.length})'];
+    TextStyle menuFontStyle = TextStyle(fontSize: 12);
     if (widget.serviceEvent.workItemTypeID == 2) {
-      tabBars = [
-        Tab(
-          text: 'Information',
-        ),
-        Tab(
-          text: 'Leak Inspection',
-        )
-      ];
+      tabBars = leakInspectionMenu.map((i) => Tab(
+        child: Text("$i", style: menuFontStyle),
+        )).toList();
       tabBarViews = [
         SingleChildScrollView(
             child: Column(
@@ -338,14 +337,9 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
         ),
       ];
     } else if (widget.serviceEvent.workItemTypeID == 5) {
-      tabBars = [
-        Tab(
-          text: 'Information',
-        ),
-        Tab(
-          text: 'Gas Transfer(${widget.serviceEvent.materialTransfer.length})',
-        )
-      ];
+      tabBars = shutdownMenu.map((i) => Tab(
+        child: Text("$i", style: menuFontStyle),
+        )).toList();
       tabBarViews = [
         SingleChildScrollView(
             child: Column(
@@ -363,17 +357,9 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
         ),
       ];
     } else /* if (widget.serviceEvent.workItemTypeID == 3) */ {
-      tabBars = [
-        Tab(
-          text: 'Information',
-        ),
-        Tab(
-          text: 'Leak Inspection',
-        ),
-        Tab(
-          text: 'Gas Transfer(${widget.serviceEvent.materialTransfer.length})',
-        )
-      ];
+      tabBars = generalMenu.map((i) => Tab(
+        child: Text("$i", style: menuFontStyle),
+        )).toList();
       tabBarViews = [
         SingleChildScrollView(
             child: Column(

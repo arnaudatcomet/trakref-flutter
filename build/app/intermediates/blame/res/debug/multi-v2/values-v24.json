@@ -4,7 +4,7 @@
             "outputFile": "/Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.2.aar/1c615c08c09d73b66446ddf825943d7e/res/values-v24/values-v24.xml",
+                    "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.2.aar/61d514503738b90b63f2eb825a3d08bf/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/media-1.0.0.aar/41c8c146192477050df717333804401d/res/values-v24/values-v24.xml",
+                    "source": "/Users/aphommasone/.gradle/caches/transforms-1/files-1.1/media-1.0.0.aar/cf895932967da5ef14e4cfe6feae636e/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
