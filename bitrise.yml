@@ -14,18 +14,35 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@4.0.13: {}
     - cache-pull@2.0.1: {}
-    - script@1.1.5:
-        title: Do anything with Script step
-    - certificate-and-profile-installer@1.10.1: {}
+    - certificate-and-profile-installer@1.10.1:
+        inputs:
+        - provisioning_profile_url: "$IOS_MOB_PROV_PATH"
+        - keychain_password: "$IOS_CERT_PWD"
+        - certificate_url: "$IOS_CERT_PATH"
     - flutter:
         inputs:
-        - commands: build ios --release
+        - version: 1.5.4
+        - commands: clean
+    - script@1.1.5:
+        title: Clean up pods to avoid pod libraries linking issues
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+            rm -rf ios/Podfile.lock ios/Pods/
+    - flutter:
+        inputs:
+        - version: 1.5.4
+        - commands: build ios --release --build-name="$BUILD_NAME" --build-number="$BUILD_NUMBER"
     - xcode-archive@2.4.16:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - scheme: "$BITRISE_SCHEME"
         - export_method: "$BITRISE_EXPORT_METHOD"
-    - deploy-to-bitrise-io@1.3.18: {}
+    - deploy-to-itunesconnect-application-loader@0.9.4:
+        inputs:
+        - password: "$APPSTORE_PWD"
+        - app_password: "$APP_SPECIFIC_PWD"
+        - itunescon_user: "$APPSTORE_ID"
     - cache-push@2.0.5: {}
 app:
   envs:
@@ -37,4 +54,28 @@ app:
     BITRISE_SCHEME: Runner
   - opts:
       is_expand: false
-    BITRISE_EXPORT_METHOD: ad-hoc
+    BITRISE_EXPORT_METHOD: app-store
+  - opts:
+      is_expand: false
+    BUILD_NUMBER: 7
+  - opts:
+      is_expand: false
+    BUILD_NAME: 1.00
+  - opts:
+      is_expand: false
+    IOS_CERT_PATH: ios/Certs/TrakrefINC_Distribution.p12
+  - opts:
+      is_expand: false
+    IOS_CERT_PWD: Welcome1
+  - opts:
+      is_expand: false
+    IOS_MOB_PROV_PATH: ios/Certs/Trakref_INC_Trakref_v3_app_AppStore.mobileprovision
+  - opts:
+      is_expand: false
+    APPSTORE_PWD: M3rz0uga10228
+  - opts:
+      is_expand: false
+    APPSTORE_ID: arnaud.phommasone@gmail.com
+  - opts:
+      is_expand: false
+    APP_SPECIFIC_PWD: dmiw-iicg-kbhf-ikjy
