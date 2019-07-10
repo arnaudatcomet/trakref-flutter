@@ -229,6 +229,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     if (wasLeakFound == true) {
       // Values from the forms
       int leakCategory = _pickedInitialLeakCategory.id;
+      int leakLocation = _pickedInitialLeakLocation.id;
       int causeLeak = _pickedCauseOfLeak.id;
       int leakDetectionMethod = _pickedLeakDetectionMethod.id;
       double estimatedLeakAmount = _pickedEstimatedLeakAmount;
@@ -247,6 +248,7 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
 
       LeakInspection inspection = LeakInspection(
           leakLocationCategoryID: leakCategory,
+          leakLocationID: leakLocation,
           faultCauseTypeID: causeLeak,
           estimatedLeakAmount: estimatedLeakAmount,
           leakDetectionMethodID: leakDetectionMethod,
@@ -613,10 +615,35 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
                     textError: "Required",
                     isRequired: true,
                     onChangedValue: (value) {
+                      // Cancel the subcategories
                       _pickedInitialLeakCategory = value;
                       _pickedInitialLeakLocation = null;
-                      setState(() {});
-                    }),
+                      setState(() {
+                        this._filteredInitialLocationLeakFound = null;
+                      });
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        if (value is DropdownItem) {
+                          // Get the filtered leak location category
+                          List<LeakLocationItem> selectedLeakLocationList = this
+                              .initialLocationLeakFound
+                              .where((i) => i.categoryID == value.id)
+                              .toList();
+                          List<DropdownItem> categoryLeaksLocation =
+                          selectedLeakLocationList
+                              .map((i) =>
+                              DropdownItem(id: i.id, name: i.name))
+                              .toList();
+                          setState(() {
+                            if (categoryLeaksLocation.length == 0) {
+                              this._filteredInitialLocationLeakFound = null;
+                            } else {
+                              this._filteredInitialLocationLeakFound =
+                                  categoryLeaksLocation;
+                            }
+                          });
+                        }
+                      });
+                    })
               ],
             ),
             (this._filteredInitialLocationLeakFound != null)
