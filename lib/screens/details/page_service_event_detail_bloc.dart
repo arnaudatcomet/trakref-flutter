@@ -22,63 +22,6 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
   TabController _tabController;
 
   List<Widget> buildMaterialTransfer(MaterialTransfer transfer) {
-    List<Widget> leakInspection = [
-      Row(
-        children: <Widget>[
-          Expanded(
-            child: FormBuild.buildTextfieldRow(
-                "", "Transfer Type", transfer.materialTransferType,
-                enabled: false),
-            flex: 1,
-          ),
-          Icon(Icons.person, color: AppColors.blueTurquoise),
-          Expanded(
-            child: FormBuild.buildTextfieldRow(
-                "", "Technician Name", transfer.technicianName,
-                enabled: false),
-            flex: 1,
-          )
-        ],
-      ),
-      Row(
-        children: <Widget>[
-          Expanded(
-            child: FormBuild.buildTextfieldRow(
-                "", "From Location", transfer.fromLocation,
-                enabled: false),
-            flex: 1,
-          ),
-          Icon(Icons.shuffle, color: AppColors.blueTurquoise),
-          Expanded(
-            child: FormBuild.buildTextfieldRow(
-                "", "To Location", transfer.toLocation,
-                enabled: false),
-            flex: 1,
-          )
-        ],
-      ),
-      Row(
-        children: <Widget>[
-          Expanded(
-            child: FormBuild.buildTextfieldRow(
-                "", "From Asset", transfer.fromAsset ?? "Unknown",
-                enabled: false),
-            flex: 1,
-          ),
-          Icon(Icons.shuffle, color: AppColors.blueTurquoise),
-          Expanded(
-            child: FormBuild.buildTextfieldRow(
-                "", "To Asset", transfer.toAsset ?? "Unknown",
-                enabled: false),
-            flex: 1,
-          )
-        ],
-      ),
-      FormBuild.buildTextfieldRow(
-          "", "Transfer Weight", transfer.transferWeightLbs.toString(),
-          enabled: false),
-    ];
-
     // All the styles for the form
     TextStyle bodyTextStyle = TextStyle(
         color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16);
@@ -121,27 +64,28 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
                     SizedBox(width: 10),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Expanded(
-                        child: FormBuild.buildTinyTextField(
-                            initialValue: transfer?.fromAsset ?? "Unknown",
-                            label: "From Asset")),
-                    Icon(Icons.chevron_right),
-                    Chip(
-                      label: Text(
-                        "${transfer.transferWeightLbs} lbs",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: AppColors.blueTurquoise,
+                    FormBuild.buildTinyTextField(
+                        initialValue: transfer?.fromAsset ?? "Unknown",
+                        label: "From Asset"),
+                    Row(
+                      children: <Widget>[
+                        RotatedBox(
+                            quarterTurns: 3, child: Icon(Icons.arrow_back)),
+                        Chip(
+                          label: Text(
+                            "${transfer.transferWeightLbs} lbs",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: AppColors.blueTurquoise,
+                        )
+                      ],
                     ),
-                    Icon(Icons.chevron_right),
-                    Expanded(
-                      child: FormBuild.buildTinyTextField(
-                          initialValue: transfer?.toAsset ?? "Unknown",
-                          label: "To Asset:"),
-                    )
+                    FormBuild.buildTinyTextField(
+                        initialValue: transfer?.toAsset ?? "Unknown",
+                        label: "To Asset:")
                   ],
                 ),
                 FormBuild.buildTinyTextField(
@@ -149,6 +93,7 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
                     label: "From Location:"),
                 FormBuild.buildTinyTextField(
                     initialValue: transfer.toLocation, label: "To Location:"),
+                Divider(),
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -165,28 +110,6 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
                 ),
               ],
             ),
-          ),
-        ),
-      )
-    ];
-    return [
-      Container(
-        margin: const EdgeInsets.only(left: 0.0, right: 0.0),
-        decoration: new BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.rectangle,
-          borderRadius: new BorderRadius.circular(12.0),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.black,
-                blurRadius: 3.0,
-                offset: const Offset(0.0, 2.0))
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            children: <Widget>[...leakInspection],
           ),
         ),
       )
@@ -269,8 +192,11 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
                 FormBuild.buildTinyTextField(
                     initialValue: "${leak.estimatedLeakAmount} lbs",
                     label: "Estimated Leak Amount"),
+                Divider(),
                 FormBuild.buildTinyTextField(
-                    initialValue: (leak?.inspectionDate == null) ? "Undefined" : Helper.getShortDate(leak.inspectionDate),
+                    initialValue: (leak?.inspectionDate == null)
+                        ? "Undefined"
+                        : Helper.getShortDate(leak.inspectionDate),
                     label: "Inspection Date")
               ],
             ),
@@ -285,14 +211,14 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
     int tabBarSize = 3;
     switch (widget.serviceEvent.workItemTypeID) {
       case 2:
-      tabBarSize = 2;
-      break;
+        tabBarSize = 2;
+        break;
       case 3:
-      tabBarSize = 3;
-      break;
+        tabBarSize = 3;
+        break;
       case 5:
-      tabBarSize = 2;
-      break;
+        tabBarSize = 2;
+        break;
     }
     _tabController = TabController(length: tabBarSize, vsync: this);
     super.initState();
@@ -385,7 +311,7 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
 
     List<Widget> tabBars = [];
     List<Widget> tabBarViews = [];
-  print("WorkItemID ${widget.serviceEvent.workItemID}");
+    print("WorkItemID ${widget.serviceEvent.workItemID}");
     if (widget.serviceEvent.workItemTypeID == 2) {
       tabBars = [
         Tab(
@@ -411,8 +337,7 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
           ),
         ),
       ];
-    } 
-  else if (widget.serviceEvent.workItemTypeID == 5) {
+    } else if (widget.serviceEvent.workItemTypeID == 5) {
       tabBars = [
         Tab(
           text: 'Information',
@@ -437,8 +362,7 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
           ),
         ),
       ];
-    }
-    else  /* if (widget.serviceEvent.workItemTypeID == 3) */ {
+    } else /* if (widget.serviceEvent.workItemTypeID == 3) */ {
       tabBars = [
         Tab(
           text: 'Information',
@@ -516,9 +440,7 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
                 controller: _tabController,
                 indicatorColor: AppColors.blueTurquoise,
                 labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                tabs: <Widget>[
-                  ...tabBars
-                ],
+                tabs: <Widget>[...tabBars],
               ),
               Expanded(
                   child: Container(
@@ -526,9 +448,7 @@ class _PageServiceEventDetailBlocState extends State<PageServiceEventDetailBloc>
                 child: TabBarView(
                   physics: BouncingScrollPhysics(),
                   controller: _tabController,
-                  children: <Widget>[
-                    ...tabBarViews
-                  ],
+                  children: <Widget>[...tabBarViews],
                 ),
               ))
             ],
