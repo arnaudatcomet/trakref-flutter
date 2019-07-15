@@ -7,7 +7,7 @@ description: Trakref new application using Flutter
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+9
+version: 1.0.0+10
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -39,12 +39,15 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  test: ^1.5.1
+  flutter_driver:
+    sdk: flutter
   build_runner:
   json_serializable:
 
 
 # For information on the generic Dart part of this file, see the
-# following page: https://www.dartlang.org/tools/pub/pubspec
+# following p age: https://www.dartlang.org/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
