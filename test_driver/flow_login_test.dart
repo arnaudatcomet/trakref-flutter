@@ -2,11 +2,12 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 import 'package:trakref_app/constants.dart';
 
-isPresent(SerializableFinder byValueKey, FlutterDriver driver, {Duration timeout = const Duration(seconds: 1)}) async {
+isPresent(SerializableFinder byValueKey, FlutterDriver driver,
+    {Duration timeout = const Duration(seconds: 1)}) async {
   try {
-    await driver.waitFor(byValueKey,timeout: timeout);
+    await driver.waitFor(byValueKey, timeout: timeout);
     return true;
-  } catch(exception) {
+  } catch (exception) {
     return false;
   }
 }
@@ -58,6 +59,12 @@ void main() {
       print("Select the account 248 'Cloud Compliance Real Estate");
       await driver.waitFor(find.byValueKey(kMainTabKey));
 
+      final isExists = await isPresent(find.byValueKey(kMainTabKey), driver);
+      expect(isExists, true);
+
+    }, timeout: Timeout(const Duration(minutes: 2)));
+
+    test('tap on logout', () async {
       print("Home page loaded, now select settings");
       await driver.tap(find.byValueKey(kSettingsItemMainTabKey));
 
@@ -68,16 +75,14 @@ void main() {
       await driver.tap(logoutTile);
 
       // TODO : We have to add checking that username and password are empty
-
       // We check if not error is displayed
       final errorLabel = find.byValueKey(kErrorMessageKey);
       final error = await driver.getText(errorLabel);
       expect(error, isEmpty);
-      
+
       final loginProgressCircular = find.byValueKey(kLoginProgressCircularKey);
       final isExists = await isPresent(loginProgressCircular, driver);
       expect(isExists, false);
-
-    }, timeout: Timeout(const Duration(minutes: 2)));
+    });
   });
 }
