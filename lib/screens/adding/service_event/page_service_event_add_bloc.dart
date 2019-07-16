@@ -262,7 +262,6 @@ class _PageServiceEventAddBlocState extends State<PageServiceEventAddBloc> {
     // Create the WorkOrder and Submit it
     // For the sake of purpose we don't touch the Work Order part, only the service event part
 
-
     WorkOrder order = widget.currentWorkOrder;
     order.workItemCount = 1;
     order.workItem = [

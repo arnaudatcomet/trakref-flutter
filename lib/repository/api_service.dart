@@ -198,6 +198,7 @@ class ApiService {
 
     return await client
         .get(url, headers: headers)
+        .timeout(const Duration(seconds: 120))
         .then((http.Response response) {
       final res = response.body;
       print("#### response from $url : $res");

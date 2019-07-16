@@ -1,5 +1,6 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/widget/button_widget.dart';
 
@@ -73,6 +74,7 @@ class FormBuild {
   static Widget buildLoader() {
     return Center(
       child: new CircularProgressIndicator(
+        key: Key(kNetworkCircularProgressLoading),
           backgroundColor: Colors.white,
           valueColor: AlwaysStoppedAnimation<Color>(AppColors.blueTurquoise),
       ),

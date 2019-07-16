@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:trakref_app/routes.dart';
 import 'package:trakref_app/service_locator.dart';
 import 'package:flutter/services.dart';
+// import 'package:flutter_driver/driver_extension.dart';
 
 void main() {
+  // enableFlutterDriverExtension();
+
   setupLocator();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

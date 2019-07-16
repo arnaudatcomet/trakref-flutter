@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/models/account.dart';
@@ -25,12 +26,16 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
   // Properties
   List<ListItem> _searchResult = [];
 
-  ListTile makeAccountTile(AccountItem item) => ListTile(
-        title: Text(
-          item.account,
-          style: Theme.of(context).textTheme.body1,
-        ),
-      );
+  ListTile makeAccountTile(AccountItem item) {
+    print("#ID ${kAccountPrefixTiles}_${item.accountID} #NAME ${item.account} ");
+    return ListTile(
+      key: Key("${kAccountPrefixTiles}_${item.accountID}"),
+      title: Text(
+        item.account,
+        style: Theme.of(context).textTheme.body1,
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -109,10 +114,11 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
       },
       builder: (context, model, child) {
         var accountListView = ListView.builder(
+            key: Key(kAccountListViewKey),
             itemBuilder: (context, index) {
               Account item = model.accounts[index];
               AccountItem tile =
-                  AccountItem(account: item.name, accountID: item.ID);
+                  AccountItem(account: item.name, accountID: item.instanceID);
 
               if (_searchIsActive == true) {
                 tile = _searchResult[index];
@@ -123,7 +129,7 @@ class _PageAccountsBlocState extends State<PageAccountsBloc> {
                     print("select itemID is ${item.instanceID}");
                     model.selectAccount(item.instanceID);
                     if (widget.type == PageAccountsType.Details) {
-                        Navigator.of(context).pop();
+                      Navigator.of(context).pop();
                     } else if (widget.type == PageAccountsType.Home) {
                       // Show the home page
                       Navigator.of(context).pushNamed("/home");

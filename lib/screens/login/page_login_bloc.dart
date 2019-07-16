@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/enums/viewstate.dart';
 import 'package:trakref_app/main.dart';
 import 'package:trakref_app/screens/accounts/page_accounts_bloc.dart';
@@ -62,9 +63,10 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                 style: Theme.of(context).textTheme.title),
                           ),
                           Container(
-                              margin: const EdgeInsets.only(top: 30, bottom: 30),
+                              margin:
+                                  const EdgeInsets.only(top: 30, bottom: 30),
                               child: TextFormField(
-                                key: Key("UsernameKey"),
+                                key: Key(kUsernameKey),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter an username';
@@ -79,7 +81,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                     labelText: 'Username'),
                               )),
                           TextFormField(
-                            key: Key("PasswordKey"),
+                            key: Key(kPasswordKey),
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please enter a password';
@@ -109,7 +111,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                               child: ButtonTheme(
                                 height: 52.0,
                                 child: RaisedButton(
-                                  key: Key('SubmitButton'),
+                                  key: Key(kSubmitButtonKey),
                                   color: AppColors.blueTurquoise,
                                   child: (model.state == ViewState.Idle)
                                       ? Text("Login",
@@ -117,6 +119,7 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                               color: Colors.white,
                                               fontSize: 16))
                                       : CircularProgressIndicator(
+                                          key: Key(kLoginProgressCircularKey),
                                           strokeWidth: 1,
                                           backgroundColor: Colors.white),
                                   onPressed: () async {
@@ -154,8 +157,9 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                                 ),
                               )),
                           (model.errorMessage == null)
-                              ? Text("")
+                              ? Text("", key: Key(kErrorMessageKey))
                               : Text("${model.errorMessage}",
+                                  key: Key(kErrorMessageKey),
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontSize: 12,
@@ -167,9 +171,8 @@ class _PageLoginBlocState extends State<PageLoginBloc> {
                             children: <Widget>[
                               LinkAppButton(
                                 onPressed: () {
-                                  Navigator.of(context).push(
-                                       MaterialPageRoute(
-                                          builder: (BuildContext context) {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (BuildContext context) {
                                     return PageResetPasswordBloc();
                                   }));
                                 },

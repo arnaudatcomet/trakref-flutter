@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:trakref_app/constants.dart';
 import 'package:trakref_app/repository/api/trakref_api_service.dart';
 import 'package:trakref_app/screens/settings/support/page_topics_bloc.dart';
 import 'package:trakref_app/screens/settings/account_detail/page_account_detail_bloc.dart';
@@ -27,7 +28,8 @@ class _PageSettingsBlocState extends State<PageSettingsBloc> {
   }
 
   // List items
-  Widget buildItem(String title, bool isPushing, Function onTapped) {
+  Widget buildItem(String title, bool isPushing, Function onTapped, {Key key}) {
+    print("buildItem with Key ${key.toString()}");
     return GestureDetector(
       onTap: onTapped,
       child: Row(
@@ -35,6 +37,7 @@ class _PageSettingsBlocState extends State<PageSettingsBloc> {
           SizedBox(height: 50),
           Text(
             title,
+            key: key,
             style: Theme.of(context).textTheme.headline,
           ),
           Spacer(),
@@ -55,6 +58,7 @@ class _PageSettingsBlocState extends State<PageSettingsBloc> {
       backgroundColor: Colors.white,
       body: SafeArea(
           child: SingleChildScrollView(
+        key: Key(kSettingsListViewKey),
         padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
         child: Column(
           children: <Widget>[
@@ -96,7 +100,7 @@ class _PageSettingsBlocState extends State<PageSettingsBloc> {
               // Properly logout of the service
               TrakrefAPIService().logout();
               Navigator.popUntil(context, ModalRoute.withName("/"));
-            }),
+            }, key: Key(kLogoutSettingsTile)),
             Divider(),
           ],
         ),

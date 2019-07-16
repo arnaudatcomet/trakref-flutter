@@ -9,7 +9,33 @@ const String kAddCylinderSuccessfulMessage = "A cylinder has been successfully a
 const String kAddServiceEventSuccessfulMessage = "A service event has been successfully added.";
 const String kAddServiceEventErrorMessage = "Something wrong happened, please retry a bit later.";
 
+// LABEL Keys Constants
+const String kErrorMessageKey = "ErrorMessageKey";
+
+// TEXTFIELDS Keys Constants
+const String kUsernameKey = "UsernameKey";
+const String kPasswordKey = "PasswordKey";
+
+// BUTTONS Keys Constants
+const String kSubmitButton = "SubmitButton";
+
+// LIST Keys Constants
+const String kAccountListViewKey = "AccountListViewKey";
+const String kSettingsListViewKey = "SettingsListViewKey";
+
+// TILES Keys Constants
+const String kAccountPrefixTiles = "account_tile";
+const String kLogoutSettingsTile = "LogoutSettingsTile";
+
+// TABS Keys Constants
+const String kMainTabKey = "MainTabKey";
+const String kHomeItemMainTabKey = "HomeItemMainTabKey";
+const String kSearchItemMainTabKey = "SearchItemMainTabKey";
+const String kAddItemMainTabKey = "AddItemMainTabKey";
+const String kSettingsItemMainTabKey = "SettingsItemMainTabKey";
+
 // FORMS Keys Constants
+const String kNetworkCircularProgressLoading = "NetworkCircularProgressLoading";
 const String kEquipmentWorkedOnKey = "EquipmentWorkedOnKey";
 const String kEquipmentWorkedOn = "Equipment worked on";
 const String kTypeOfServiceKey = "TypeOfServiceKey";
@@ -58,7 +84,7 @@ const String kLeakRepairStatus = "Leak repair status";
 const String kObservationNotesKey = "ObservationNotesKey";
 const String kObservationNotes = "Notes: ";
 const String kSubmitButtonKey = "SubmitButtonKey";
-const String kSubmitButton = "SUBMIT";
+const String kLoginProgressCircularKey = "LoginProgressCircularKey";
 
 // Constante for datetime
 const String kShortReadableDateFormat = "EEEE d MMMM, yyyy";
