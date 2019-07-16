@@ -5,13 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>NSCameraUsageDescription</key>
-	<string>The Trakref app is trying to access your camera</string>
+	<string>The Trakref app needs your camera to take picture of your barcode in order to scan it</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>The Trakref app is trying to access your photo library</string>
+	<string>The Trakref app needs your camera to store picture of your barcode in order to reuse it later</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The Trakref app needs access to location when open.</string>
+	<string>The Trakref app needs your current location to retrieve locations available around you</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This Trakref app needs access to location when in the background.</string>
+	<string>The Trakref app needs your current location to retrieve locations available around you</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
