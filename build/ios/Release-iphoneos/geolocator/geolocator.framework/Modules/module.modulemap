@@ -4,8 +4,3 @@ framework module geolocator {
   export *
   module * { export * }
 }
-
-module geolocator.Swift {
-    header "geolocator-Swift.h"
-    requires objc
-}

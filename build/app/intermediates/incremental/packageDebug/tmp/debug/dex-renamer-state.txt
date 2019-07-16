@@ -1,4 +1,0 @@
-#Wed Jul 10 17:58:52 CDT 2019
-base.0=/Users/aphommasone/Documents/freelance/bitbucket/flutter-trakref/trakref-flutter/build/app/intermediates/transforms/dexMerger/debug/0
-path.0=classes.dex
-renamed.0=classes.dex
