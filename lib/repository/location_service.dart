@@ -27,7 +27,7 @@ class GeolocationService {
       bool serviceStatus = await locationService.serviceEnabled();
       print("Service status: $serviceStatus");
       if (serviceStatus) {
-        _permission = await locationService.requestPermission();
+        _permission = (await locationService.requestPermission()) as bool;
         print("Permission: $_permission");
         if (_permission) {
           location = await locationService.getLocation();
