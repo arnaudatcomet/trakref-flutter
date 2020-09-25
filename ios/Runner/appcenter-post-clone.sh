@@ -14,5 +14,5 @@ flutter channel stable
 flutter doctor
 
 echo "Installed flutter to `pwd`/flutter"
-cd ios && pod update
+cd /Users/runner/work/1/s/ios/ && pod update
 flutter build ios --release --no-codesign
